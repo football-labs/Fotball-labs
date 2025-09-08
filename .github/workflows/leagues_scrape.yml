@@ -26,7 +26,7 @@ jobs:
 
       - name: Run leagues_scrape
         run: |
-          python leagues_scrape.py
+          python scripts/leagues_scrape.py
 
       - name: Upload CSV artifact
         if: always()
