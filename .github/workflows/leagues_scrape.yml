@@ -1,0 +1,37 @@
+name: leagues_scrape
+
+on:
+  schedule:
+    # Ejecuta los martes y viernes a las 06:00 UTC
+    - cron: "0 6 * * 2,5"
+  workflow_dispatch:
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install beautifulsoup4 pandas cloudscraper requests
+
+      - name: Run leagues_scrape
+        run: |
+          python leagues_scrape.py
+
+      - name: Upload CSV artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: grouped_stats
+          path: data/grouped_stats.csv
+          if-no-files-found: warn
