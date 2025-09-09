@@ -37,7 +37,7 @@ if dfs:
     df_final = pd.concat(dfs, ignore_index=True)
 
     # Guardar en carpeta data/
-    data_dir = Path(__file__).resolve().parent / "data"
+    data_dir = Path(__file__).resolve().parent.parent / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
     out_path = data_dir / "teams_salaries.csv"
 
