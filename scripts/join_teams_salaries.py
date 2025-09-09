@@ -1,4 +1,5 @@
 import pandas as pd
+from pathlib import Path
 
 df_salaries = pd.read_csv('https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/teams_salaries.csv')
 df_all_teams_stats = pd.read_csv('https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/grouped_stats.csv')
