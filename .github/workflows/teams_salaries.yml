@@ -1,0 +1,40 @@
+name: Ejecutar script Teams Salaries
+
+on:
+  schedule:
+    # Se ejecuta cada miércoles a las 08:00 UTC
+    - cron: '0 8 * * 3'
+  workflow_dispatch: # Permite ejecutar manualmente el workflow
+
+jobs:
+  scrape_and_commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Necesario para hacer commit en el repo
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas unidecode lxml html5lib
+
+      - name: Ejecutar script de salarios
+        run: python scripts/teams_salaries.py
+
+      - name: Commit y Push del archivo CSV generado
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: Actualizar teams_salaries.csv [skip ci]"
+          branch: main   # Cambia si tu rama principal no se llama 'main'
+          file_pattern: ./data/teams_salaries.csv
+          commit_user_name: GitHub Actions Bot
+          commit_user_email: actions@github.com
+          commit_author: GitHub Actions Bot <actions@github.com>
