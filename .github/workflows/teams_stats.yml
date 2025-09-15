@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas lxml html5lib unidecode
+          pip install -r requirements.txt || echo "⚠️ Error in requirements.txt"
 
       - name: Run the script
         run: python scripts/teams_stats.py
