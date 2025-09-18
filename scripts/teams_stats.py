@@ -685,7 +685,7 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
 SEASON_CSV = DATA_DIR / "season.csv"
-SEASON_COLS = ["country", "championship_name", "season_name", "id_season", "link_url"]
+SEASON_COLS = ["country", "championship_name", "season_name", "id_season", "link_url_opta", "link_url_whoscored"]
 
 
 # Récupération des indices de son choix / Retrieval of the indices of son choice / Recuperación de los índices de son choice
@@ -741,7 +741,7 @@ def choose_all_seasons() -> List[Tuple[int, str, pd.Series]]:
         except Exception:
             print(f"[SKIP] id_season invalide à la ligne {idx+1}: {row['id_season']}")
             continue
-        link_url = str(row["link_url"]).strip()
+        link_url = str(row["link_url_opta"]).strip()
         if not link_url:
             print(f"[SKIP] link_url manquant à la ligne {idx+1}")
             continue

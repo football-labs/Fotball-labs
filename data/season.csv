@@ -1,6 +1,6 @@
-country,championship_name,season_name,id_season,link_url
-France,Ligue 1,2024/25,1,https://theanalyst.com/competition/ligue-1/stats
-Allemagne,Bundesliga,2024/25,2,https://theanalyst.com/competition/bundesliga/stats
-Espagne,LaLiga,2024/25,3,https://theanalyst.com/competition/la-liga/stats
-Angleterre,Premier League,2024/25,4,https://theanalyst.com/competition/premier-league/stats
-Italie,Serie A,2024/25,5,https://theanalyst.com/competition/serie-a/stats
+country,championship_name,season_name,id_season,link_url_opta,link_url_whoscored
+France,Ligue 1,2024/25,1,https://theanalyst.com/competition/ligue-1/stats,https://fr.whoscored.com/regions/74/tournaments/22/seasons/10792/stages/24609/show/france-ligue-1-2025-2026
+Allemagne,Bundesliga,2024/25,2,https://theanalyst.com/competition/bundesliga/stats,https://fr.whoscored.com/regions/81/tournaments/3/seasons/10720/stages/24478/show/allemagne-bundesliga-2025-2026
+Espagne,LaLiga,2024/25,3,https://theanalyst.com/competition/la-liga/stats, https://fr.whoscored.com/regions/206/tournaments/4/seasons/10803/stages/24622/show/espagne-laliga-2025-2026
+Angleterre,Premier League,2024/25,4,https://theanalyst.com/competition/premier-league/stats, https://fr.whoscored.com/regions/252/tournaments/2/seasons/10743/stages/24533/show/angleterre-premier-league-2025-2026
+Italie,Serie A,2024/25,5,https://theanalyst.com/competition/serie-a/stats,https://fr.whoscored.com/regions/108/tournaments/5/seasons/10732/stages/24500/show/italie-serie-a-2025-2026
