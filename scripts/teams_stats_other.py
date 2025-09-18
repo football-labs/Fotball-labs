@@ -141,7 +141,7 @@ def handle_cookies(driver, accept: bool = True, timeout: int = 2) -> bool:
     return not banner_visible(driver) or clicked
 
 # Fonction pour cliquer sur l'onglet Statistiques des Équipes / Function to click on the Team Statistics tab / Función para hacer clic en la pestaña
-def click_team_statistics(driver, timeout: int = 2) -> None:
+def click_team_statistics(driver, timeout: int = 6) -> None:
     # Attente du driver / Waiting for driver / Esperando el controlador
     wait = WebDriverWait(driver, timeout)
 
@@ -238,7 +238,7 @@ def _name_from_href_fallback(href: str) -> str:
         return ""
 
 # On extrait les informations de chaque équipe afin d'accéder dans un second temps leurs informations associées / Information is extracted from each team so that their associated information can be accessed at a later stage / Se extrae la información de cada equipo para acceder posteriormente a su información asociada 
-def extract_team_basic_info_from_summary(driver, timeout: int = 2, min_rows: int = 8):
+def extract_team_basic_info_from_summary(driver, timeout: int = 6, min_rows: int = 8):
     # Attente du driver / Waiting for the driver / Esperando el controlador
     wait = WebDriverWait(driver, timeout)
 
@@ -344,7 +344,7 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 2, min_rows: int
     return uniq
 
 # Extraire les 5 meilleurs joueurs de chaque équipe / Pick the top 5 players from each team / Seleccionar a los 5 mejores jugadores de cada equipo
-def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 4) -> dict:
+def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 8) -> dict:
     # On normalise le nom d'équipe / We standardise the team name / Se normaliza el nombre del equipo
     def _clean_name(txt: str) -> str:
         if not txt: return ""
@@ -415,7 +415,7 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 4) -> d
 def extract_formation_and_xi_from_team(
     driver,
     team_url: str,
-    timeout: int = 6,
+    timeout: int = 12,
     reuse_current: bool = True
 ) -> dict:
     
@@ -741,13 +741,13 @@ def run_scrape_whoscored(headed: bool = True):
                 # Cookies / Cookies / Galletas
                 try:
                     handle_cookies(driver, accept=False, timeout=2)
-                    #print("Page des cookies fermée")
+                    print("Page des cookies fermée")
                 except Exception:
                     pass
 
                 # Aller sur "Statistiques des Équipes" / Go to ‘Team Statistics’ / Ir a «Estadísticas de los equipos»
-                click_team_statistics(driver, timeout=5)
-                #print("Onglet 'Statistiques des Équipes' ouvert")
+                click_team_statistics(driver, timeout=6)
+                print("Onglet 'Statistiques des Équipes' ouvert")
 
                 # Récupération (ou chargement) des équipes pour la saison / Recovery (or loading) of teams for the season / Recuperación (o carga) de los equipos para la temporada
                 df_teams = ensure_df_teams_for_season(
@@ -764,14 +764,14 @@ def run_scrape_whoscored(headed: bool = True):
 
                     # TOP 5 / TOP 5 / TOP 5
                     try:
-                        top5 = extract_top5_ratings_from_team(driver, team_url, timeout=8)
+                        top5 = extract_top5_ratings_from_team(driver, team_url, timeout=12)
                     except Exception as e:
                         print(f"[WARN] top5: {r.get('team_name','?')}: {type(e).__name__}: {e}")
                         top5 = {k: "" for k in top5_keys}
 
                     # FORMATION + XI / Line-up + XI / Formación/XI
                     try:
-                        xi = extract_formation_and_xi_from_team(driver, team_url, timeout=8, reuse_current=True)
+                        xi = extract_formation_and_xi_from_team(driver, team_url, timeout=12, reuse_current=True)
                     except Exception as e:
                         print(f"[WARN] formation/XI: {r.get('team_name','?')}: {type(e).__name__}: {e}")
                         xi = {"formation_type": ""}
