@@ -16,6 +16,7 @@ from pprint import pprint
 from pathlib import Path
 from selenium.webdriver.chrome.service import Service
 from urllib.parse import urlparse
+import os
 
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
 
