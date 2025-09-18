@@ -786,7 +786,7 @@ def upsert_csv_by_keys(path: Path, df_new: pd.DataFrame, keys: list[str]) -> pd.
 # Fonction main pour le web scraping de the analyst / Function main for the web scraping of the analyst / Función main para el web scraping de the analyst
 def run_scrape_the_analyst(headed: bool = True, all_seasons: bool = True):
     # Récupérer la liste de saisons / Retrieve the list of seasons / Recuperar la lista de saisons
-    selections = choose_all_seasons() if all_seasons else choose_seasons_interactively()
+    selections = choose_all_seasons()
     if not selections:
         print("Aucune saison sélectionnée/trouvée, arrêt.")
         return
