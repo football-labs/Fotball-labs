@@ -54,7 +54,7 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
     return drv
 
 # Fermeture de la page des cookies / Closing the cookies page / Cierre de la página de cookies
-def handle_cookies(driver, accept: bool = True, timeout: int = 2) -> bool:
+def handle_cookies(driver, accept: bool = True, timeout: int = 20) -> bool:
     # Récupération du driver en laissant du Timeout pour laisser le temps de raffraichir la page / Retrieving the driver by leaving a timeout to allow time to refresh the page / Recuperación del controlador dejando un tiempo de espera para que se actualice la página
     wait = WebDriverWait(driver, timeout)
     btn_id = "onetrust-accept-btn-handler" if accept else "onetrust-reject-all-handler"
@@ -104,7 +104,7 @@ def handle_cookies(driver, accept: bool = True, timeout: int = 2) -> bool:
     return not banner_visible(driver) or clicked
 
 # Fonction pour cliquer sur l'onglet Statistiques des Équipes / Function to click on the Team Statistics tab / Función para hacer clic en la pestaña
-def click_team_statistics(driver, timeout: int = 2) -> None:
+def click_team_statistics(driver, timeout: int = 40) -> None:
     # Attente du driver / Waiting for driver / Esperando el controlador
     wait = WebDriverWait(driver, timeout)
 
@@ -201,7 +201,7 @@ def _name_from_href_fallback(href: str) -> str:
         return ""
 
 # On extrait les informations de chaque équipe afin d'accéder dans un second temps leurs informations associées / Information is extracted from each team so that their associated information can be accessed at a later stage / Se extrae la información de cada equipo para acceder posteriormente a su información asociada 
-def extract_team_basic_info_from_summary(driver, timeout: int = 2, min_rows: int = 8):
+def extract_team_basic_info_from_summary(driver, timeout: int = 40, min_rows: int = 8):
     # Attente du driver / Waiting for the driver / Esperando el controlador
     wait = WebDriverWait(driver, timeout)
 
@@ -307,7 +307,7 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 2, min_rows: int
     return uniq
 
 # Extraire les 5 meilleurs joueurs de chaque équipe / Pick the top 5 players from each team / Seleccionar a los 5 mejores jugadores de cada equipo
-def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 4) -> dict:
+def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 40) -> dict:
     # On normalise le nom d'équipe / We standardise the team name / Se normaliza el nombre del equipo
     def _clean_name(txt: str) -> str:
         if not txt: return ""
@@ -319,7 +319,7 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 4) -> d
     # On récupère l'url de l'équipe / We retrieve the team's URL / Recuperamos la URL del equipo.
     driver.get(team_url)
     try:
-        handle_cookies(driver, accept=False, timeout=2)
+        handle_cookies(driver, accept=False, timeout=5)
     except Exception:
         pass
 
@@ -378,7 +378,7 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 4) -> d
 def extract_formation_and_xi_from_team(
     driver,
     team_url: str,
-    timeout: int = 6,
+    timeout: int = 60,
     reuse_current: bool = True
 ) -> dict:
     
@@ -408,7 +408,7 @@ def extract_formation_and_xi_from_team(
     if (not reuse_current) or (not _same_page(cur, team_url)):
         driver.get(team_url)
         try:
-            handle_cookies(driver, accept=False, timeout=2)
+            handle_cookies(driver, accept=False, timeout=5)
         except Exception:
             pass
 
@@ -635,7 +635,7 @@ def ensure_df_teams_for_season(driver, id_season: int, _row: pd.Series,
             return df_season.reset_index(drop=True)
 
     # Sinon on scrape les données / Si no, recopilamos los datos
-    teams_info = extract_team_basic_info_from_summary(driver, timeout=2)
+    teams_info = extract_team_basic_info_from_summary(driver, timeout=40)
 
     df_season = pd.DataFrame(teams_info)
     # On spécifie la recherche sur les informations sur l'identifiant, le nom et l'url de l'équipe / We specify the search for information on the team's ID, name and URL / Se especifica la búsqueda de información sobre el identificador, el nombre y la URL del equipo
@@ -703,13 +703,13 @@ def run_scrape_whoscored(headed: bool = True):
 
                 # Cookies / Cookies / Galletas
                 try:
-                    handle_cookies(driver, accept=False, timeout=2)
+                    handle_cookies(driver, accept=False, timeout=10)
                     #print("Page des cookies fermée")
                 except Exception:
                     pass
 
                 # Aller sur "Statistiques des Équipes" / Go to ‘Team Statistics’ / Ir a «Estadísticas de los equipos»
-                click_team_statistics(driver, timeout=5)
+                click_team_statistics(driver, timeout=40)
                 #print("Onglet 'Statistiques des Équipes' ouvert")
 
                 # Récupération (ou chargement) des équipes pour la saison / Recovery (or loading) of teams for the season / Recuperación (o carga) de los equipos para la temporada
@@ -727,14 +727,14 @@ def run_scrape_whoscored(headed: bool = True):
 
                     # TOP 5 / TOP 5 / TOP 5
                     try:
-                        top5 = extract_top5_ratings_from_team(driver, team_url, timeout=8)
+                        top5 = extract_top5_ratings_from_team(driver, team_url, timeout=40)
                     except Exception as e:
                         print(f"[WARN] top5: {r.get('team_name','?')}: {type(e).__name__}: {e}")
                         top5 = {k: "" for k in top5_keys}
 
                     # FORMATION + XI / Line-up + XI / Formación/XI
                     try:
-                        xi = extract_formation_and_xi_from_team(driver, team_url, timeout=8, reuse_current=True)
+                        xi = extract_formation_and_xi_from_team(driver, team_url, timeout=60, reuse_current=True)
                     except Exception as e:
                         print(f"[WARN] formation/XI: {r.get('team_name','?')}: {type(e).__name__}: {e}")
                         xi = {"formation_type": ""}
