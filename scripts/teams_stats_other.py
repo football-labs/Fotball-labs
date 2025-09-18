@@ -20,27 +20,36 @@ from urllib.parse import urlparse
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
 
 # Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
+def in_ci() -> bool:
+    return os.environ.get("CI", "").lower() in {"1", "true", "yes"}
+
 def make_driver(headed: bool = True) -> webdriver.Chrome:
     chrome_options = Options()
-    if not headed:
+
+    if in_ci() or not headed:
         chrome_options.add_argument("--headless=new")
         chrome_options.add_argument("--disable-gpu")
-        chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--hide-scrollbars")
-        chrome_options.add_argument("--force-device-scale-factor=1")
+        chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--window-size=1366,900")
         chrome_options.add_argument("--lang=fr-FR")
         chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+        chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+        chrome_options.add_argument("--remote-debugging-port=9222")
+        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        chrome_options.add_experimental_option("useAutomationExtension", False)
     else:
         chrome_options.add_argument("--window-size=1366,900")
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    chrome_options.add_experimental_option("useAutomationExtension", False)
+
     chrome_options.page_load_strategy = "eager"
 
-    drv = webdriver.Chrome(options=chrome_options)
-    drv.set_page_load_timeout(40)
-    drv.set_script_timeout(40)
+    proxy_url = os.environ.get("PROXY_URL", "").strip()
+    if proxy_url:
+        chrome_options.add_argument(f"--proxy-server={proxy_url}")
+
+    drv = webdriver.Chrome(options=chrome_options)  # Selenium Manager trouve chrome
+    drv.set_page_load_timeout(60)
+    drv.set_script_timeout(60)
     return drv
 
 # Fermeture de la page des cookies / Closing the cookies page / Cierre de la página de cookies
@@ -778,4 +787,4 @@ def run_scrape_whoscored(headed: bool = True):
 
 # Execution du web scraping pour la saison de son choix / Execution of web scraping for the season of your choice / Ejecución del web scraping para la temporada que elija
 if __name__ == "__main__":
-    run_scrape_whoscored(headed=False)
+    run_scrape_whoscored(headed=not in_ci())
