@@ -21,27 +21,29 @@ from urllib.parse import urlparse
 
 # Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
 def make_driver(headed: bool = True) -> webdriver.Chrome:
-    chrome_options = Options()
+    opts = Options()
     if not headed:
-        chrome_options.add_argument("--headless=new")
-        chrome_options.add_argument("--disable-gpu")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--hide-scrollbars")
-        chrome_options.add_argument("--force-device-scale-factor=1")
-        chrome_options.add_argument("--window-size=1366,900")
-        chrome_options.add_argument("--lang=fr-FR")
-        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
-    else:
-        chrome_options.add_argument("--window-size=1366,900")
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    chrome_options.add_experimental_option("useAutomationExtension", False)
-    chrome_options.page_load_strategy = "eager"
+        opts.add_argument("--headless=new")
+        opts.add_argument("--no-sandbox")
+        opts.add_argument("--disable-dev-shm-usage")
+    opts.add_argument("--window-size=1366,900")
+    # évite "eager" ici
+    # opts.page_load_strategy = "normal"  # (par défaut)
+    opts.add_experimental_option("excludeSwitches", ["enable-automation"])
+    opts.add_experimental_option("useAutomationExtension", False)
 
-    drv = webdriver.Chrome(options=chrome_options)
-    drv.set_page_load_timeout(40)
-    drv.set_script_timeout(40)
+    drv = webdriver.Chrome(options=opts)
+    drv.set_page_load_timeout(60)   # CI = réseau lent
+    drv.set_script_timeout(60)
     return drv
+
+# Capture l'état de la page au cas où cela plante
+def dump_debug(driver, label: str):
+    Path("debug").mkdir(exist_ok=True)
+    try: driver.save_screenshot(f"debug/{label}.png")
+    except: pass
+    try: Path(f"debug/{label}.html").write_text(driver.page_source, encoding="utf-8")
+    except: pass
 
 # Fermeture de la page des cookies / Closing the cookies page / Cierre de la página de cookies
 def handle_cookies(driver, accept: bool = True, timeout: int = 2) -> bool:
@@ -433,10 +435,14 @@ def extract_formation_and_xi_from_team(
         wait.until(EC.presence_of_element_located((By.ID, "team-formations")))
     except TimeoutException:
         # Dernier recours : re-scroll / Last resort: re-scroll / Último recurso: volver a desplazarse
+        dump_debug(driver, f"team_formations_timeout_{int(time.time())}")
         try:
             driver.execute_script("document.querySelector('#team-formations')?.scrollIntoView({block:'center'});")
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "#team-formations-content .team-pitch-formation ul.player-wrapper"))
+            )
         except Exception:
-            pass
+            raise
 
     # On s'assure qu'on a bien le XI type de la saison / We make sure we have the right starting XI for the season / Nos aseguramos de tener el XI tipo de la temporada
     try:
@@ -681,7 +687,7 @@ def run_scrape_whoscored(headed: bool = True):
 
         chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_experimental_option("useAutomationExtension", False)
-        
+
         driver = webdriver.Chrome(options=chrome_options)
 
     try:
@@ -777,7 +783,6 @@ def run_scrape_whoscored(headed: bool = True):
             driver.quit()
         except Exception:
             pass
-
 
 
 # Execution du web scraping pour la saison de son choix / Execution of web scraping for the season of your choice / Ejecución del web scraping para la temporada que elija
