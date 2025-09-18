@@ -19,76 +19,29 @@ from urllib.parse import urlparse
 
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
 
-# Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas
+# Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
 def make_driver(headed: bool = True) -> webdriver.Chrome:
-    is_ci = os.getenv("GITHUB_ACTIONS") == "true"
-
     chrome_options = Options()
-    # Fenêtre raisonnable
-    chrome_options.add_argument("--window-size=1366,900")
-
-    # 👉 en CI, forcer headless + flags robustes
-    if is_ci or not headed:
+    if not headed:
         chrome_options.add_argument("--headless=new")
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--no-sandbox")   
+        chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--hide-scrollbars")
         chrome_options.add_argument("--force-device-scale-factor=1")
+        chrome_options.add_argument("--window-size=1366,900")
         chrome_options.add_argument("--lang=fr-FR")
-        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) "
-                                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
-        chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
     else:
-        chrome_options.add_argument("--lang=fr-FR")
-
-    chrome_options.page_load_strategy = "eager"
-
-    # Moins de traces d’automation
+        chrome_options.add_argument("--window-size=1366,900")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
+    chrome_options.page_load_strategy = "eager"
 
     drv = webdriver.Chrome(options=chrome_options)
-
-    drv.set_page_load_timeout(60 if is_ci else 40)
-    drv.set_script_timeout(60 if is_ci else 40)
-    drv.implicitly_wait(0) 
-
-    # Petites contres-mesures d’automatisation
-    try:
-        drv.execute_cdp_cmd(
-            "Page.addScriptToEvaluateOnNewDocument",
-            {"source": """
-                Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
-                Object.defineProperty(navigator, 'languages', {get: () => ['fr-FR','fr','en-US','en']});
-                Object.defineProperty(navigator, 'platform', {get: () => 'MacIntel'});
-                Object.defineProperty(navigator, 'vendor', {get: () => 'Google Inc.'});
-            """}
-        )
-    except Exception:
-        pass
-
+    drv.set_page_load_timeout(40)
+    drv.set_script_timeout(40)
     return drv
-
-
-# Helpers sur les essais
-def get_with_retries(driver, url: str, tries: int = 3, sleep_s: float = 1.0):
-    last_err = None
-    for i in range(tries):
-        try:
-            driver.get(url)
-            return
-        except TimeoutException as e:
-            last_err = e
-            try:
-                # tenter un stop de chargement si bloqué
-                driver.execute_script("window.stop();")
-            except Exception:
-                pass
-            time.sleep(sleep_s)
-    if last_err:
-        raise last_err
-
 
 # Fermeture de la page des cookies / Closing the cookies page / Cierre de la página de cookies
 def handle_cookies(driver, accept: bool = True, timeout: int = 2) -> bool:
@@ -140,63 +93,41 @@ def handle_cookies(driver, accept: bool = True, timeout: int = 2) -> bool:
 
     return not banner_visible(driver) or clicked
 
-# Fonction pour cliquer sur l'onglet Statistiques des Équipes / Function to click on the Team Statistics tab / Función para hacer clic en la pestaña
-def click_team_statistics(driver, timeout: int = 6) -> None:
-    # Attente du driver / Waiting for driver / Esperando el controlador
+# Ouvre une URL avec quelques retries pour éviter les blocages de chargement / Open a URL with a few retries to avoid load stalls / Abre una URL con algunos reintentos para evitar bloqueos de carga.
+def get_with_retries(driver, url: str, tries: int = 3, sleep_s: float = 1.0):
+    last_err = None
+    for _ in range(tries):
+        try:
+            driver.get(url)
+            return
+        except TimeoutException as e:
+            last_err = e
+            # Si la page reste bloquée, on stoppe le chargement et on réessaie. / If the page hangs, stop loading and retry. / Si la página se cuelga, se detiene la carga y se reintenta.
+            try:
+                driver.execute_script("window.stop();")
+            except Exception:
+                pass
+            time.sleep(sleep_s)
+    if last_err:
+        raise last_err
+
+
+# Ouvre l'onglet 'Statistiques des Équipes' / Opens the 'Team Statistics' / Abre la pestaña 'Estadísticas de los Equipos'
+def click_team_statistics(driver, timeout: int = 20) -> None:
     wait = WebDriverWait(driver, timeout)
 
-    def _click_in_current_context():
-        # Attendre la barre de navigation / Waiting for sub navigation / Esperar la barra de navegación
-        nav = wait.until(EC.presence_of_element_located((By.ID, "sub-navigation")))
-        links = nav.find_elements(By.CSS_SELECTOR, "a[href*='/teamstatistics/']")
-        if not links:
-            links = nav.find_elements(
-                By.XPATH,
-                ".//a[normalize-space()='Statistiques des Équipes' or contains(., 'Statistiques des Équipes')]"
-            )
-        if not links:
-            raise TimeoutException("Lien 'teamstatistics' introuvable dans #sub-navigation.")
-
-        link = links[0]
-        # S'assurer qu'il est cliquable / Ensure that it is clickable / Asegúrate de que se pueda hacer clic en él.
-        driver.execute_script("arguments[0].scrollIntoView({block:'center'});", link)
+    # Le cookie wall peut masquer les éléments cliquables. / Cookie wall may hide clickable elements. / El muro de cookies puede ocultar elementos clicables.
+    def _banner_gone():
         try:
-            wait.until(EC.element_to_be_clickable(link)).click()
-        except ElementClickInterceptedException:
-            # Tentative via JS si un overlay gêne / Attempt via JS if an overlay is interfering / Intento mediante JS si una superposición interfiere
-            driver.execute_script("arguments[0].click();", link)
+            els = driver.find_elements(By.CSS_SELECTOR,
+                "div#onetrust-banner-sdk, #onetrust-consent-sdk, .ot-sdk-container[role='dialog']")
+            return not any(e.is_displayed() for e in els)
         except Exception:
-            ActionChains(driver).move_to_element(link).pause(0.2).click(link).perform()
-    try:
-        driver.switch_to.default_content()
-    except Exception:
-        pass
+            return True
 
-    try:
-        _click_in_current_context()
-    except Exception as e:
-        # Fallback : tester dans d'éventuels iframes / Fallback: test in any iframes / Fallback: probar en posibles iframes
-        frames = driver.find_elements(By.CSS_SELECTOR, "iframe,frame")
-        clicked = False
-        for fr in frames:
-            try:
-                driver.switch_to.frame(fr)
-                _click_in_current_context()
-                clicked = True
-                break
-            except Exception:
-                continue
-            finally:
-                try:
-                    driver.switch_to.default_content()
-                except Exception:
-                    pass
-        if not clicked:
-            raise e
-
-    # Vérifier que l'onglet est bien ouvert / Check that the tab is open / Comprueba que la pestaña esté bien abierta
-    def on_team_stats(drv):
-        if "/teamstatistics/" in (drv.current_url or ""):
+    def _on_team_stats(drv):
+        url = (drv.current_url or "").lower()
+        if "/teamstatistics/" in url:
             return True
         try:
             sel = drv.find_elements(By.CSS_SELECTOR, "#sub-navigation a[href*='/teamstatistics/'].selected")
@@ -204,7 +135,99 @@ def click_team_statistics(driver, timeout: int = 6) -> None:
         except Exception:
             return False
 
-    wait.until(on_team_stats)
+    # Essaie de trouver et cliquer le lien / Try to find and click the link / Intenta encontrar y hacer clic en el enlace
+    def _click_link_in(drv) -> bool:
+        try:
+            nav = WebDriverWait(drv, max(2, timeout // 2)).until(
+                EC.presence_of_element_located((By.ID, "sub-navigation"))
+            )
+            links = nav.find_elements(By.CSS_SELECTOR, "a[href*='/teamstatistics/']")
+            if not links:
+                links = nav.find_elements(
+                    By.XPATH,
+                    ".//a[contains(., 'Statistiques des Équipes') or contains(., 'Team Statistics') or contains(., 'Estadísticas de los equipos')]"
+                )
+            if links:
+                link = links[0]
+                drv.execute_script("arguments[0].scrollIntoView({block:'center'});", link)
+                try:
+                    WebDriverWait(drv, 4).until(EC.element_to_be_clickable(link)).click()
+                except ElementClickInterceptedException:
+                    drv.execute_script("arguments[0].click();", link)
+                except Exception:
+                    ActionChains(drv).move_to_element(link).pause(0.2).click(link).perform()
+                return True
+        except Exception:
+            pass
+
+        # fallback global / global fallback / alternativa global
+        try:
+            any_links = drv.find_elements(By.CSS_SELECTOR, "a[href*='/teamstatistics/']")
+            if any_links:
+                a = any_links[0]
+                drv.execute_script("arguments[0].scrollIntoView({block:'center'});", a)
+                try:
+                    a.click()
+                except Exception:
+                    drv.execute_script("arguments[0].click();", a)
+                return True
+        except Exception:
+            pass
+
+        # dernier recours: parser le HTML pour extraire l'URL / last resort: parse HTML to extract URL / último recurso: analizar el HTML para extraer la URL
+        try:
+            html = drv.page_source or ""
+            m = re.search(r'href="([^"]*/teamstatistics/[^"]*)"', html, flags=re.I)
+            if not m:
+                m = re.search(r'href="([^"]*/teamstatistics/)"', html, flags=re.I)
+            if m:
+                href = m.group(1)
+                from urllib.parse import urljoin
+                abs_url = urljoin(drv.current_url, href)
+                get_with_retries(drv, abs_url, tries=2, sleep_s=1.0)
+                return True
+        except Exception:
+            pass
+
+        return False
+
+    try:
+        wait.until(lambda d: _banner_gone())
+    except Exception:
+        pass
+
+    try:
+        driver.switch_to.default_content()
+    except Exception:
+        pass
+
+    if _click_link_in(driver):
+        wait.until(_on_team_stats)
+        return
+
+    frames = driver.find_elements(By.CSS_SELECTOR, "iframe, frame")
+    for fr in frames:
+        try:
+            driver.switch_to.frame(fr)
+            if _click_link_in(driver):
+                driver.switch_to.default_content()
+                wait.until(_on_team_stats)
+                return
+        except Exception:
+            pass
+        finally:
+            try:
+                driver.switch_to.default_content()
+            except Exception:
+                pass
+
+    if _click_link_in(driver):
+        wait.until(_on_team_stats)
+        return
+
+    # Si on arrive ici, on a échoué. / If we reach here, we failed. / Si llegamos aquí, fallamos.
+    cur = driver.current_url
+    raise TimeoutException(f"Impossible d'ouvrir l'onglet Team Statistics depuis {cur}")
 
 # Récupérer la liste des équipes à partir de l'url du championnat / Retrieve the list of teams from the championship URL / Recuperar la lista de equipos a partir de la URL del campeonato
 def _clean_team_text(txt: str) -> str:
@@ -238,7 +261,7 @@ def _name_from_href_fallback(href: str) -> str:
         return ""
 
 # On extrait les informations de chaque équipe afin d'accéder dans un second temps leurs informations associées / Information is extracted from each team so that their associated information can be accessed at a later stage / Se extrae la información de cada equipo para acceder posteriormente a su información asociada 
-def extract_team_basic_info_from_summary(driver, timeout: int = 6, min_rows: int = 8):
+def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: int = 8):
     # Attente du driver / Waiting for the driver / Esperando el controlador
     wait = WebDriverWait(driver, timeout)
 
@@ -344,7 +367,7 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 6, min_rows: int
     return uniq
 
 # Extraire les 5 meilleurs joueurs de chaque équipe / Pick the top 5 players from each team / Seleccionar a los 5 mejores jugadores de cada equipo
-def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 8) -> dict:
+def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> dict:
     # On normalise le nom d'équipe / We standardise the team name / Se normaliza el nombre del equipo
     def _clean_name(txt: str) -> str:
         if not txt: return ""
@@ -415,7 +438,7 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 8) -> d
 def extract_formation_and_xi_from_team(
     driver,
     team_url: str,
-    timeout: int = 12,
+    timeout: int = 20,
     reuse_current: bool = True
 ) -> dict:
     
@@ -672,7 +695,7 @@ def ensure_df_teams_for_season(driver, id_season: int, _row: pd.Series,
             return df_season.reset_index(drop=True)
 
     # Sinon on scrape les données / Si no, recopilamos los datos
-    teams_info = extract_team_basic_info_from_summary(driver, timeout=2)
+    teams_info = extract_team_basic_info_from_summary(driver, timeout=10)
 
     df_season = pd.DataFrame(teams_info)
     # On spécifie la recherche sur les informations sur l'identifiant, le nom et l'url de l'équipe / We specify the search for information on the team's ID, name and URL / Se especifica la búsqueda de información sobre el identificador, el nombre y la URL del equipo
@@ -734,19 +757,17 @@ def run_scrape_whoscored(headed: bool = True):
             print("=" * 70)
 
             try:
-                # Ouvrir la page saison / Open the page season / Abrir la página de temporada
+
+                # Ouvrir la page de saison / Open season page / Abrir la página de la temporada de forma robusta
                 get_with_retries(driver, season_url, tries=3, sleep_s=2.0)
-                time.sleep(1.0)
+                time.sleep(0.5)
 
-                # Cookies / Cookies / Galletas
-                try:
-                    handle_cookies(driver, accept=False, timeout=2)
-                    print("Page des cookies fermée")
-                except Exception:
-                    pass
+                # Gérer les cookies / Handle cookies / Gestionar cookies
+                handle_cookies(driver, accept=False, timeout=10)
+                print("Page des Cookies fermée")
 
-                # Aller sur "Statistiques des Équipes" / Go to ‘Team Statistics’ / Ir a «Estadísticas de los equipos»
-                click_team_statistics(driver, timeout=6)
+                # Cliquer l’onglet / Click the tab / Hacer clic en la pestaña
+                click_team_statistics(driver, timeout=20)
                 print("Onglet 'Statistiques des Équipes' ouvert")
 
                 # Récupération (ou chargement) des équipes pour la saison / Recovery (or loading) of teams for the season / Recuperación (o carga) de los equipos para la temporada
@@ -764,14 +785,14 @@ def run_scrape_whoscored(headed: bool = True):
 
                     # TOP 5 / TOP 5 / TOP 5
                     try:
-                        top5 = extract_top5_ratings_from_team(driver, team_url, timeout=12)
+                        top5 = extract_top5_ratings_from_team(driver, team_url, timeout=8)
                     except Exception as e:
                         print(f"[WARN] top5: {r.get('team_name','?')}: {type(e).__name__}: {e}")
                         top5 = {k: "" for k in top5_keys}
 
                     # FORMATION + XI / Line-up + XI / Formación/XI
                     try:
-                        xi = extract_formation_and_xi_from_team(driver, team_url, timeout=12, reuse_current=True)
+                        xi = extract_formation_and_xi_from_team(driver, team_url, timeout=8, reuse_current=True)
                     except Exception as e:
                         print(f"[WARN] formation/XI: {r.get('team_name','?')}: {type(e).__name__}: {e}")
                         xi = {"formation_type": ""}
