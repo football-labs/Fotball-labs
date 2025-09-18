@@ -116,15 +116,7 @@ def get_with_retries(driver, url: str, tries: int = 3, sleep_s: float = 1.0):
 def click_team_statistics(driver, timeout: int = 20) -> None:
     wait = WebDriverWait(driver, timeout)
 
-    # Le cookie wall peut masquer les éléments cliquables. / Cookie wall may hide clickable elements. / El muro de cookies puede ocultar elementos clicables.
-    def _banner_gone():
-        try:
-            els = driver.find_elements(By.CSS_SELECTOR,
-                "div#onetrust-banner-sdk, #onetrust-consent-sdk, .ot-sdk-container[role='dialog']")
-            return not any(e.is_displayed() for e in els)
-        except Exception:
-            return True
-
+    # Vérifie si l'onglet est déjà ouvert / Check if tab is already open / Verifica si la pestaña ya está abierta
     def _on_team_stats(drv):
         url = (drv.current_url or "").lower()
         if "/teamstatistics/" in url:
@@ -135,7 +127,7 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
         except Exception:
             return False
 
-    # Essaie de trouver et cliquer le lien / Try to find and click the link / Intenta encontrar y hacer clic en el enlace
+    # Essaie de cliquer sur le lien dans la navigation / Try to click link in navigation / Intenta hacer clic en el enlace en la navegación
     def _click_link_in(drv) -> bool:
         try:
             nav = WebDriverWait(drv, max(2, timeout // 2)).until(
@@ -145,7 +137,7 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
             if not links:
                 links = nav.find_elements(
                     By.XPATH,
-                    ".//a[contains(., 'Statistiques des Équipes') or contains(., 'Team Statistics') or contains(., 'Estadísticas de los equipos')]"
+                    ".//a[normalize-space()='Statistiques des Équipes' or contains(., 'Team Statistics') or contains(., 'Estadísticas de los equipos')]"
                 )
             if links:
                 link = links[0]
@@ -159,52 +151,19 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
                 return True
         except Exception:
             pass
-
-        # fallback global / global fallback / alternativa global
-        try:
-            any_links = drv.find_elements(By.CSS_SELECTOR, "a[href*='/teamstatistics/']")
-            if any_links:
-                a = any_links[0]
-                drv.execute_script("arguments[0].scrollIntoView({block:'center'});", a)
-                try:
-                    a.click()
-                except Exception:
-                    drv.execute_script("arguments[0].click();", a)
-                return True
-        except Exception:
-            pass
-
-        # dernier recours: parser le HTML pour extraire l'URL / last resort: parse HTML to extract URL / último recurso: analizar el HTML para extraer la URL
-        try:
-            html = drv.page_source or ""
-            m = re.search(r'href="([^"]*/teamstatistics/[^"]*)"', html, flags=re.I)
-            if not m:
-                m = re.search(r'href="([^"]*/teamstatistics/)"', html, flags=re.I)
-            if m:
-                href = m.group(1)
-                from urllib.parse import urljoin
-                abs_url = urljoin(drv.current_url, href)
-                get_with_retries(drv, abs_url, tries=2, sleep_s=1.0)
-                return True
-        except Exception:
-            pass
-
         return False
-
-    try:
-        wait.until(lambda d: _banner_gone())
-    except Exception:
-        pass
 
     try:
         driver.switch_to.default_content()
     except Exception:
         pass
 
+    # Premier essai direct / First direct attempt / Primer intento directo
     if _click_link_in(driver):
         wait.until(_on_team_stats)
         return
 
+    # Essai dans les iframes / Try inside iframes / Intentar dentro de iframes
     frames = driver.find_elements(By.CSS_SELECTOR, "iframe, frame")
     for fr in frames:
         try:
@@ -221,9 +180,36 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
             except Exception:
                 pass
 
-    if _click_link_in(driver):
-        wait.until(_on_team_stats)
-        return
+    # Dernier fallback : navigation directe via URL / Last fallback: direct navigation via URL / Último recurso: navegación directa por URL
+    cur = driver.current_url
+    try:
+        from urllib.parse import urlparse, urlunparse
+        p = urlparse(cur)
+        parts = [seg for seg in p.path.split("/") if seg]
+        if "stages" in [s.lower() for s in parts]:
+            i = [s.lower() for s in parts].index("stages")
+            if i + 1 < len(parts):
+                stage_id = parts[i+1]
+                base_parts = parts[:i+2]
+                candidates = [
+                    "/" + "/".join(base_parts + ["TeamStatistics"]) + "/",
+                    "/" + "/".join(base_parts + ["teamstatistics"]) + "/",
+                ]
+                for cand in candidates:
+                    cand_url = urlunparse((p.scheme, p.netloc, cand, "", "", ""))
+                    try:
+                        get_with_retries(driver, cand_url, tries=2, sleep_s=1.0)
+                        if "/teamstatistics" in (driver.current_url or "").lower():
+                            print("⚡ Navigation directe vers TeamStatistics / Direct navigation to TeamStatistics / Navegación directa a TeamStatistics")
+                            return
+                    except Exception:
+                        continue
+    except Exception:
+        pass
+
+    raise TimeoutException(f"Impossible d'ouvrir l'onglet Statistiques des Équipes depuis {cur}")
+
+
 
     # Si on arrive ici, on a échoué. / If we reach here, we failed. / Si llegamos aquí, fallamos.
     cur = driver.current_url
