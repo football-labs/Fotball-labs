@@ -679,43 +679,62 @@ def ensure_df_teams_for_season(driver, id_season: int, _row: pd.Series,
             df_season = df_all[df_all["id_season"] == id_season_str].copy()
             if "team_id" in df_season.columns:
                 df_season["team_id"] = pd.to_numeric(df_season["team_id"], errors="coerce").astype("Int64")
+            print(f"[INFO] Saison {id_season_str} déjà présente dans le fichier ({len(df_season)} équipes) → pas de scraping.")  # Saison déjà prise / Season already handled / Temporada ya registrada
             return df_season.reset_index(drop=True)
+    else:
+        df_all = pd.DataFrame(columns=["id_season","season_name","country","championship_name","team_id","team_name","team_url"])  # Fichier absent → DF vide / File missing → empty DF / Archivo ausente → DF vacío
 
-    # Sinon on scrape les données / Si no, recopilamos los datos
+    # Sinon on scrape les données / Otherwise we scrape the data / Si no, recopilamos los datos
     teams_info = extract_team_basic_info_from_summary(driver, timeout=10)
 
     df_season = pd.DataFrame(teams_info)
-    # On spécifie la recherche sur les informations sur l'identifiant, le nom et l'url de l'équipe / We specify the search for information on the team's ID, name and URL / Se especifica la búsqueda de información sobre el identificador, el nombre y la URL del equipo
+    # On spécifie la recherche sur l'identifiant, le nom et l'url de l'équipe / We ensure id, name and url columns exist / Nos aseguramos de que existan id, nombre y url
     for c in ["team_id", "team_name", "team_url"]:
         if c not in df_season.columns:
             df_season[c] = ""
     df_season["team_id"] = pd.to_numeric(df_season["team_id"], errors="coerce").astype("Int64")
 
-    # On ajoute les informations de la saison et du championnat / Add the season and championship information / Se añade la información sobre la temporada y el campeonato
+    # On ajoute les informations de la saison et du championnat / Add season and competition info / Añadimos la temporada y la competición
     df_season.insert(0, "id_season", id_season_str)
     df_season.insert(1, "season_name", _row.get("season_name"))
     df_season.insert(2, "country", _row.get("country"))
     df_season.insert(3, "championship_name", _row.get("championship_name"))
 
-    # On ajoute cela dans le fichier / Add this to the file / Añadimos esto al archivo
+    if "team_id" in df_all.columns:
+        existing_global_ids = set(pd.to_numeric(df_all["team_id"], errors="coerce").astype("Int64").dropna().astype(int).tolist())
+    else:
+        existing_global_ids = set()
+
+    for _, r in df_season.iterrows():
+        tid = r.get("team_id")
+        tname = r.get("team_name", "")
+        if pd.notna(tid) and int(tid) in existing_global_ids:
+            print(f"[INFO] Équipe déjà dans le fichier (toutes saisons) : {tname} (id={tid})")  # Déjà présente / Already present / Ya presente
+        else:
+            print(f"[INFO] Nouvelle équipe à ajouter : {tname} (id={tid})")  # Nouvelle entrée / New entry / Nueva entrada
+
+    # On ajoute cela dans le fichier / Append to CSV / Añadir al CSV
     if path.exists():
         df_all = pd.read_csv(path, dtype=str, keep_default_na=False)
     else:
         df_all = pd.DataFrame(columns=df_season.columns)
 
-    # On harmonise les colonnes / We harmonise the columns / Se armonizan las columnas
+    # On harmonise les colonnes / Harmonize columns / Armonizar columnas
     for c in df_season.columns:
         if c not in df_all.columns: df_all[c] = ""
     for c in df_all.columns:
         if c not in df_season.columns: df_season[c] = ""
 
+    before = len(df_all)  # Lignes avant concat / Rows before concat / Filas antes de concatenar
     df_all = pd.concat([df_all, df_season], ignore_index=True)
     df_all["id_season"] = df_all["id_season"].astype(str)
     df_all["team_id"] = pd.to_numeric(df_all["team_id"], errors="coerce").astype("Int64")
     df_all = df_all.drop_duplicates(subset=["id_season","team_id"], keep="last").reset_index(drop=True)
     df_all.to_csv(path, index=False)
+    print(f"[INFO] CSV mis à jour : {path} (lignes avant={before}, après dédup={len(df_all)})")  # Récap écriture / Write recap / Resumen de escritura
 
     return df_season.reset_index(drop=True)
+
 
 # Fonction main / Function main / Función main
 def run_scrape_whoscored(headed: bool = True):
