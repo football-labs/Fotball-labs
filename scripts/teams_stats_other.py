@@ -138,7 +138,9 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
             if not links:
                 links = nav.find_elements(
                     By.XPATH,
-                    ".//a[normalize-space()='Statistiques des Équipes' or contains(., 'Team Statistics') or contains(., 'Estadísticas de los equipos')]"
+                    ".//a[normalize-space()='Statistiques des Équipes' "
+                    "or contains(., 'Team Statistics') "
+                    "or contains(., 'Estadísticas de los equipos')]"
                 )
             if links:
                 link = links[0]
@@ -185,13 +187,14 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
     cur = driver.current_url
     try:
         from urllib.parse import urlparse, urlunparse
+
         p = urlparse(cur)
         parts = [seg for seg in p.path.split("/") if seg]
         if "stages" in [s.lower() for s in parts]:
             i = [s.lower() for s in parts].index("stages")
             if i + 1 < len(parts):
-                stage_id = parts[i+1]
-                base_parts = parts[:i+2]
+                stage_id = parts[i + 1]
+                base_parts = parts[: i + 2]
                 candidates = [
                     "/" + "/".join(base_parts + ["TeamStatistics"]) + "/",
                     "/" + "/".join(base_parts + ["teamstatistics"]) + "/",
@@ -208,13 +211,10 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
     except Exception:
         pass
 
-    raise TimeoutException(f"Impossible d'ouvrir l'onglet Statistiques des Équipes depuis {cur}")
-
-
-
     # Si on arrive ici, on a échoué. / If we reach here, we failed. / Si llegamos aquí, fallamos.
     cur = driver.current_url
     raise TimeoutException(f"Impossible d'ouvrir l'onglet Team Statistics depuis {cur}")
+
 
 # Récupérer la liste des équipes à partir de l'url du championnat / Retrieve the list of teams from the championship URL / Recuperar la lista de equipos a partir de la URL del campeonato
 def _clean_team_text(txt: str) -> str:
