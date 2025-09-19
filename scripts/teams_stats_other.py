@@ -139,8 +139,6 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
                 links = nav.find_elements(
                     By.XPATH,
                     ".//a[normalize-space()='Statistiques des Équipes' "
-                    "or contains(., 'Team Statistics') "
-                    "or contains(., 'Estadísticas de los equipos')]"
                 )
             if links:
                 link = links[0]
@@ -164,6 +162,7 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
     # Premier essai direct / First direct attempt / Primer intento directo
     if _click_link_in(driver):
         wait.until(_on_team_stats)
+        print("Fonctionne au 1er essai")
         return
 
     # Essai dans les iframes / Try inside iframes / Intentar dentro de iframes
@@ -174,6 +173,7 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
             if _click_link_in(driver):
                 driver.switch_to.default_content()
                 wait.until(_on_team_stats)
+                print("Fonctionne via les iframes")
                 return
         except Exception:
             pass
@@ -248,67 +248,189 @@ def _name_from_href_fallback(href: str) -> str:
         return ""
 
 # On extrait les informations de chaque équipe afin d'accéder dans un second temps leurs informations associées / Information is extracted from each team so that their associated information can be accessed at a later stage / Se extrae la información de cada equipo para acceder posteriormente a su información asociada 
+# Extraire la liste des équipes depuis l’onglet "Général" de "Statistiques des Équipes" / Extract team list from "General" tab of "Team Statistics" / Extraer la lista de equipos desde la pestaña "General" de "Estadísticas de los Equipos"
 def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: int = 8):
-    # Attente du driver / Waiting for the driver / Esperando el controlador
+    # Attente du driver / Wait for driver / Espera del driver
     wait = WebDriverWait(driver, timeout)
+    print(f"[INFO] Début extract_team_basic_info_from_summary — url={driver.current_url!r} / timeout={timeout} / min_rows={min_rows}")  # Début / Start / Inicio
 
-    # S'assurer que l’onglet "Général" est actif / Ensure that the ‘General’ tab is active / Asegúrese de que la pestaña «General» esté activa
-    wait.until(EC.presence_of_element_located((By.ID, "stage-team-stats")))
+    # Vérifier que l’onglet 'Statistiques des Équipes' est bien actif (sécurité) / Ensure 'Team Statistics' tab is active (safety) / Comprobar que la pestaña 'Estadísticas de los Equipos' está activa (seguridad)
     try:
+        # On tente de détecter que l’on est déjà sur /teamstatistics/ / Try to detect we are already on /teamstatistics/ / Intentar detectar que ya estamos en /teamstatistics/
+        cur = (driver.current_url or "").lower()
+        if "/teamstatistics/" not in cur:
+            print("[INFO] Pas sur /teamstatistics/ → on tente de forcer l’onglet via click_team_statistics()")  # Info / Info / Info
+            try:
+                click_team_statistics(driver, timeout=max(10, timeout // 2))
+            except Exception as e:
+                print(f"[WARN] Échec click_team_statistics: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
+        else:
+            print("[INFO] Déjà sur /teamstatistics/")  # OK / OK / OK
+    except Exception as e:
+        print(f"[WARN] Vérification d’onglet échouée: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
+
+    # Sélectionner l’onglet "Général" si besoin / Select "General" tab if needed / Seleccionar la pestaña "General" si es necesario
+    try:
+        wait.until(EC.presence_of_element_located((By.ID, "stage-team-stats")))
         summary_tab = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-options a[href="#stage-team-stats-summary"]')
         if "selected" not in (summary_tab.get_attribute("class") or ""):
-            summary_tab.click()
+            print("[INFO] Onglet 'Général' non sélectionné → clic()")  # Info / Info / Info
+            try:
+                summary_tab.click()
+            except ElementClickInterceptedException:
+                driver.execute_script("arguments[0].click();", summary_tab)
+            except Exception:
+                ActionChains(driver).move_to_element(summary_tab).pause(0.2).click(summary_tab).perform()
+        else:
+            print("[INFO] Onglet 'Général' déjà actif")  # OK / OK / OK
+    except Exception as e:
+        print(f"[WARN] Impossible d’activer l’onglet 'Général': {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
+
+    # Petite aide visuelle pour déclencher le lazy-load / Small visual nudge to trigger lazy-load / Pequeño impulso visual para activar lazy-load
+    try:
+        driver.execute_script("window.scrollTo(0,0);")
+        driver.execute_script("document.querySelector('#top-team-stats-summary-content')?.scrollIntoView({block:'center'});")
+        driver.execute_script("window.dispatchEvent(new Event('scroll'));")
     except Exception:
         pass
 
-    # Attendre que des lignes soient présentes / Wait until lines are present / Esperar a que haya líneas
-    def _anchors():
+    # Helper pour chercher les liens d’équipes dans le DOM courant / Helper to find team anchors in current DOM / Helper para buscar enlaces de equipos en el DOM actual
+    def _anchors_in_current_context():
         return driver.find_elements(By.CSS_SELECTOR, "#top-team-stats-summary-content a.team-link")
 
-    wait.until(lambda d: len(_anchors()) >= 1)
-    for _ in range(10):
-        n1 = len(_anchors())
+    # Essayer d’abord dans le document principal, sinon regarder dans les iframes / Try main doc first, else check iframes / Probar primero el documento principal, luego iframes
+    anchors = []
+    frame_found = None
+    try:
+        anchors = _anchors_in_current_context()
+    except Exception:
+        anchors = []
+
+    if not anchors:
+        print("[INFO] 0 lien d’équipe dans le document principal → on tente dans les iframes")  # Info / Info / Info
+        frames = driver.find_elements(By.CSS_SELECTOR, "iframe, frame")
+        for fr in frames:
+            try:
+                driver.switch_to.frame(fr)
+                anchors = _anchors_in_current_context()
+                if anchors:
+                    frame_found = fr
+                    print("[INFO] Liens d’équipes trouvés dans une iframe")  # OK / OK / OK
+                    break
+            except Exception:
+                pass
+            finally:
+                try:
+                    driver.switch_to.default_content()
+                except Exception:
+                    pass
+        # Se replacer dans le bon contexte si trouvé / Return to proper context if found / Volver al contexto adecuado si se encontró
+        if frame_found:
+            try:
+                driver.switch_to.frame(frame_found)
+            except Exception as e:
+                print(f"[WARN] Impossible de rebasculer vers l’iframe trouvée: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
+
+    # Attendre au moins 1 lien, avec ré-essais et micro-sleeps (en CI c’est plus lent) / Wait for >=1 link, with retries and micro-sleeps (CI is slower) / Esperar ≥1 enlace, con reintentos y micro-pausas (CI es más lento)
+    try:
+        wait.until(lambda d: len(_anchors_in_current_context()) >= 1)
+    except TimeoutException:
+        print("[WARN] Toujours 0 lien après wait.until → on ré-essaie avec scroll/refresh d’événements")  # Avertissement / Warning / Advertencia
+        try:
+            driver.execute_script("document.querySelector('#stage-team-stats')?.scrollIntoView({block:'center'});")
+            driver.execute_script("window.dispatchEvent(new Event('scroll'));")
+            time.sleep(0.5)
+        except Exception:
+            pass
+
+    # Stabiliser le nombre d’anchors (éviter StaleElement en CI) / Stabilize anchors count (avoid StaleElement in CI) / Estabilizar el número de anchors (evitar StaleElement en CI)
+    def _safe_count():
+        try:
+            return len(_anchors_in_current_context())
+        except Exception:
+            return 0
+
+    for attempt in range(12):  # ~2.4s max
+        n1 = _safe_count()
         time.sleep(0.2)
-        n2 = len(_anchors())
+        n2 = _safe_count()
+        print(f"[DEBUG] Stabilisation anchors — essai={attempt+1} / n1={n1} / n2={n2}")  # Debug / Debug / Depuración
         if n2 == n1 and n2 >= min_rows:
             break
+        # petit scroll ping / small scroll ping / pequeño ping de scroll
+        try:
+            driver.execute_script("window.dispatchEvent(new Event('scroll'));")
+        except Exception:
+            pass
 
-    anchors = _anchors()
+    anchors = _anchors_in_current_context()
+    print(f"[INFO] Nombre de liens d’équipes détectés: {len(anchors)}")  # Info / Info / Info
     if not anchors:
-        raise TimeoutException("Aucun lien d'équipe trouvé.")
+        # Sortir proprement du contexte iframe si on y était / Leave iframe context if we were in / Salir del contexto de iframe si estábamos allí
+        try:
+            driver.switch_to.default_content()
+        except Exception:
+            pass
+        raise TimeoutException("Aucun lien d'équipe trouvé.")  # Erreur / Error / Error
 
+    # Préparer l’origine pour les URLs complètes / Prepare origin for absolute URLs / Preparar el origen para URLs absolutas
+    try:
+        # Revenir au contexte principal pour lire l’URL, puis revenir si nécessaire / Back to main to read URL, then back if needed / Volver al principal para leer URL y luego volver si es necesario
+        driver.switch_to.default_content()
+    except Exception:
+        pass
     parsed = urlparse(driver.current_url)
     origin = f"{parsed.scheme}://{parsed.netloc}"
+    # Si on avait basculé dans une iframe, on y retourne pour lire les éléments / If we had switched into an iframe, go back / Si habíamos cambiado a un iframe, volvemos
+    if frame_found:
+        try:
+            driver.switch_to.frame(frame_found)
+        except Exception:
+            pass
 
     results = []
-    for i in range(len(anchors)):
-        # Re-récupérer l'élément à chaque itération / Retrieve the element again at each iteration / Recuperar el elemento en cada iteración
+    total = len(anchors)
+    for i in range(total):
+        # Re-récupérer l’élément à chaque itération (évite StaleElement) / Re-grab element each loop (avoid StaleElement) / Re-obtener el elemento cada iteración (evitar StaleElement)
         try:
-            a = _anchors()[i]
+            a = _anchors_in_current_context()[i]
         except Exception:
-            # Si l’index a changé, reprendre depuis le début / If the index has changed, start again from the beginning / Si el índice ha cambiado, volver a empezar desde el principio
-            anchors = _anchors()
-            if i >= len(anchors):
+            # Si l’index a changé, reprendre depuis le début / If index changed, refresh list / Si el índice cambió, refrescar lista
+            try:
+                anchors = _anchors_in_current_context()
+                if i >= len(anchors):
+                    print(f"[INFO] Index {i} hors bornes après refresh — on continue")  # Info / Info / Info
+                    continue
+                a = anchors[i]
+            except Exception:
                 continue
-            a = anchors[i]
+
+        # Scroll vers l’élément (certains tests headless en ont besoin) / Scroll to element (headless often needs it) / Desplazar al elemento (headless a menudo lo necesita)
         try:
             driver.execute_script("arguments[0].scrollIntoView({block:'center'});", a)
             time.sleep(0.05)
         except Exception:
             pass
 
-        # Récupèration de l'URL / URL retrieval / Recuperación de la URL
-        href_raw = (a.get_attribute("href") or a.get_attribute("data-href") or "").strip()
-        href = urljoin(origin, href_raw)
+        # URL de l’équipe / Team URL / URL del equipo
+        try:
+            href_raw = (a.get_attribute("href") or a.get_attribute("data-href") or "").strip()
+        except Exception:
+            href_raw = ""
+        href = urljoin(origin, href_raw) if href_raw else ""
 
-        # ID d'équipe / Team ID / ID del equipo
+        # ID d’équipe / Team ID / ID de equipo
         m = re.search(r"/teams/(\d+)/", href)
         if not m:
-            # Si pas d'ID, ignorer la ligne / If no ID, skip the line / Si no hay ID, ignorar la línea
+            print(f"[SKIP] Anchor #{i+1}/{total}: pas d’ID détecté → href={href!r}")  # Saut / Skip / Omitir
             continue
-        team_id = int(m.group(1))
+        try:
+            team_id = int(m.group(1))
+        except Exception:
+            print(f"[SKIP] Anchor #{i+1}/{total}: ID non convertible → href={href!r}")  # Saut / Skip / Omitir
+            continue
 
-        # Récupération du Nom d'équipe / Recovering the Team Name / Recuperación del nombre del equipo
+        # Nom d’équipe (avec fallback) / Team name (with fallback) / Nombre del equipo (con fallback)
         team_name = ""
         for getter in ("text", "innerText", "textContent"):
             try:
@@ -321,11 +443,8 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: in
                     break
             except StaleElementReferenceException:
                 try:
-                    a = _anchors()[i]
-                    if getter == "text":
-                        txt = a.text
-                    else:
-                        txt = a.get_attribute(getter)
+                    a = _anchors_in_current_context()[i]
+                    txt = a.text if getter == "text" else a.get_attribute(getter)
                     team_name = _clean_team_text(txt or "")
                     if team_name:
                         break
@@ -335,8 +454,14 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: in
                 continue
 
         if not team_name:
-            # Récupèrer le nom d'équipe depuis l'url si cela n'a pas été fait auparavant / Retrieve the team name from the URL if this has not been done previously / Recuperar el nombre del equipo desde la URL si no se ha hecho anteriormente
             team_name = _name_from_href_fallback(href)
+            if team_name:
+                print(f"[FALLBACK] Nom dérivé de l’URL pour team_id={team_id}: {team_name!r}")  # Secours / Fallback / Recurso
+            else:
+                print(f"[WARN] Nom introuvable pour team_id={team_id} / href={href!r}")  # Avertissement / Warning / Advertencia
+
+        # Log de l’équipe collectée / Collected team log / Registro de equipo recolectado
+        print(f"[OK] Équipe #{i+1}/{total}: id={team_id} | name={team_name!r} | url={href}")  # OK / OK / OK
 
         results.append({
             "team_id": team_id,
@@ -344,16 +469,25 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: in
             "team_url": href,
         })
 
-    # Enlever doublons si besoin / Remove duplicates if necessary / Eliminar duplicados si es necesario
+    # Déduplication par team_id / Deduplicate by team_id / Deduplciar por team_id
     uniq, seen = [], set()
     for row in results:
         if row["team_id"] not in seen:
             uniq.append(row)
             seen.add(row["team_id"])
 
+    # Sortir proprement d’une iframe si utilisée / Leave iframe cleanly if used / Salir limpiamente del iframe si se usó
+    try:
+        driver.switch_to.default_content()
+    except Exception:
+        pass
+
+    print(f"[INFO] Total équipes collectées={len(results)} / uniques={len(uniq)}")  # Récap / Recap / Resumen
     return uniq
 
+
 # Extraire les 5 meilleurs joueurs de chaque équipe / Pick the top 5 players from each team / Seleccionar a los 5 mejores jugadores de cada equipo
+# Extraire les 5 meilleurs joueurs d'une équipe / Extract the team's top 5 players / Extraer los 5 mejores jugadores del equipo
 def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> dict:
     # On normalise le nom d'équipe / We standardise the team name / Se normaliza el nombre del equipo
     def _clean_name(txt: str) -> str:
@@ -363,56 +497,134 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> 
         txt = re.sub(r"\s{2,}", " ", txt)
         return txt.strip()
 
-    # On récupère l'url de l'équipe / We retrieve the team's URL / Recuperamos la URL del equipo.
-    driver.get(team_url)
+    print(f"[INFO] TOP5 — navigation vers team_url={team_url!r}")  # Début / Start / Inicio
+    # On récupère l'url de l'équipe / We retrieve the team's URL / Recuperamos la URL del equipo
     try:
-        handle_cookies(driver, accept=False, timeout=2)
-    except Exception:
-        pass
+        try:
+            get_with_retries(driver, team_url, tries=2, sleep_s=1.0)  # Navigation robuste / Robust nav / Navegación robusta
+            print("[INFO] Navigation OK via get_with_retries")  # Info / Info / Info
+        except NameError:
+            driver.get(team_url)
+            print("[INFO] Navigation OK via driver.get")  # Info / Info / Info
+    except Exception as e:
+        print(f"[WARN] Échec navigation vers l'équipe: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
 
-    # On attend le driver et on cherche le tableau des joueurs / We wait for the driver and look for the players' table / Esperamos al conductor y buscamos la tabla de jugadores
+    # Cookies / Cookies / Cookies
+    try:
+        ok = handle_cookies(driver, accept=False, timeout=2)
+        print(f"[INFO] Cookies gérés: {ok}")  # Info / Info / Info
+    except Exception as e:
+        print(f"[WARN] handle_cookies a échoué: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
+
+    # On attend le driver et on cherche le tableau des joueurs / We wait for the driver and look for the players' table / Esperamos al driver y buscamos la tabla de jugadores
     wait = WebDriverWait(driver, timeout)
+
+    # Activer l’onglet "Général" si besoin / Activate "General" tab if needed / Activar la pestaña "General" si es necesario
     try:
         wait.until(EC.presence_of_element_located((By.ID, "stage-team-stats")))
         tab = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-options a[href="#stage-team-stats-summary"]')
         if "selected" not in (tab.get_attribute("class") or ""):
-            try: tab.click()
-            except Exception: driver.execute_script("arguments[0].click();", tab)
-    except Exception:
-        pass
+            print("[INFO] Onglet 'Général' non sélectionné → clic()")  # Info / Info / Info
+            try:
+                tab.click()
+            except ElementClickInterceptedException:
+                driver.execute_script("arguments[0].click();", tab)
+            except Exception:
+                ActionChains(driver).move_to_element(tab).pause(0.2).click(tab).perform()
+        else:
+            print("[INFO] Onglet 'Général' déjà actif")  # OK / OK / OK
+    except Exception as e:
+        print(f"[WARN] Activation onglet 'Général' impossible: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
 
+    # Scroll pour déclencher le lazy-load / Scroll to trigger lazy-load / Scroll para activar lazy-load
     try:
         driver.execute_script("document.querySelector('#statistics-table-summary')?.scrollIntoView({block:'center'});")
+        driver.execute_script("window.dispatchEvent(new Event('scroll'));")
     except Exception:
         pass
 
-    wait.until(EC.presence_of_element_located(
-        (By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body"))
-    )
+    # Helper: présence du corps de table joueurs / Helper: presence of player table body / Helper: presencia del cuerpo de la tabla
+    def _player_body():
+        try:
+            return driver.find_element(By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body")
+        except Exception:
+            return None
 
-    rows = driver.find_elements(
-        By.CSS_SELECTOR,
-        "#top-player-stats-summary-grid #player-table-statistics-body > tr:not(.not-current-player)"
-    )
+    frame_found = None
+    # Tentative dans le document principal / Try in main document / Intento en el documento principal
+    try:
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body")))
+        print("[INFO] Table joueurs trouvée dans le document principal")  # OK / OK / OK
+    except TimeoutException:
+        print("[INFO] Pas de table joueurs en document principal → on tente les iframes")  # Info / Info / Info
+        # Recherche dans les iframes / Search in iframes / Búsqueda en iframes
+        frames = driver.find_elements(By.CSS_SELECTOR, "iframe, frame")
+        for fr in frames:
+            try:
+                driver.switch_to.frame(fr)
+                WebDriverWait(driver, max(4, timeout // 2)).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body"))
+                )
+                frame_found = fr
+                print("[INFO] Table joueurs trouvée dans une iframe")  # OK / OK / OK
+                break
+            except Exception:
+                try:
+                    driver.switch_to.default_content()
+                except Exception:
+                    pass
+                continue
+        # Si trouvée en iframe, se replacer dedans / If found in iframe, switch back / Si se encontró en iframe, volver a entrar
+        if frame_found:
+            try:
+                driver.switch_to.frame(frame_found)
+            except Exception as e:
+                print(f"[WARN] Re-bascule vers l’iframe impossible: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
+        else:
+            raise TimeoutException("Impossible de localiser la table des joueurs (#player-table-statistics-body)")  # Erreur / Error / Error
 
-    # Recherche du nom des 5 meilleurs joueurs par équipe en omettant les joueurs plus au club / Search for the names of the top 5 players per team, excluding players who are no longer with the club / Buscar los nombres de los 5 mejores jugadores por equipo, omitiendo a los jugadores que ya no están en el club
+    # Récupération des lignes / Fetch rows / Recuperación de filas
+    rows = driver.find_elements(By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body > tr:not(.not-current-player)")
+    print(f"[INFO] Lignes joueurs éligibles trouvées: {len(rows)}")  # Info / Info / Info
+
+    if not rows:
+        # Sélecteur de secours sans filtre :not(.not-current-player) / Fallback selector without :not(.not-current-player) / Selector de respaldo sin :not(.not-current-player)
+        rows = driver.find_elements(By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body > tr")
+        print(f"[INFO] Tentative sans filtre not-current-player → {len(rows)} lignes")  # Info / Info / Info
+
+    # Recherche du nom des 5 meilleurs joueurs par équipe (en omettant les joueurs plus au club) / Get top 5 player names per team (skipping non-current) / Buscar los 5 mejores por equipo (omitiendo no actuales)
     names = []
-    for tr in rows:
+    for idx, tr in enumerate(rows, start=1):
         name = ""
         for sel in ["td.grid-abs a.player-link span.iconize",
                     "td.grid-ghost-cell a.player-link span.iconize",
                     "a.player-link"]:
             try:
-                name = tr.find_element(By.CSS_SELECTOR, sel).text
-                break
+                el = tr.find_element(By.CSS_SELECTOR, sel)
+                name = _clean_name(el.text or el.get_attribute("textContent") or "")
+                if name:
+                    break
             except Exception:
                 continue
-        name = _clean_name(name)
         if name:
+            print(f"[OK] Joueur #{idx}: {name}")  # OK / OK / OK
             names.append(name)
             if len(names) == 5:
                 break
-    while len(names) < 5: names.append("")
+        else:
+            print(f"[SKIP] Ligne #{idx}: nom introuvable")  # Saut / Skip / Omitir
+
+    while len(names) < 5:
+        names.append("")
+
+    # Sortie propre d’iframe si utilisée / Cleanly leave iframe if used / Salir limpiamente del iframe si se usó
+    if frame_found is not None:
+        try:
+            driver.switch_to.default_content()
+        except Exception:
+            pass
+
+    print(f"[INFO] TOP5 final = {names}")  # Récap / Recap / Resumen
     return {
         "1st_best_player": names[0],
         "2nd_best_player": names[1],
