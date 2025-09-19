@@ -34,6 +34,8 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
         chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
     else:
         chrome_options.add_argument("--window-size=1366,900")
+
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")  # Réduire l’empreinte automation / Reduce automation fingerprint / Reducir huella de automatización
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
     chrome_options.page_load_strategy = "eager"
@@ -41,7 +43,39 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
     drv = webdriver.Chrome(options=chrome_options)
     drv.set_page_load_timeout(40)
     drv.set_script_timeout(40)
+
+    # Patches anti-bot via CDP / Anti-bot patches via CDP / Parches anti-bot vía CDP
+    try:
+        # Masquer navigator.webdriver, injecter languages/plugins, chrome.runtime, WebGL vendor / Hide webdriver, inject languages/plugins, chrome.runtime, WebGL vendor / Ocultar webdriver, inyectar languages/plugins, chrome.runtime, WebGL vendor
+        drv.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": r"""
+Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+Object.defineProperty(navigator, 'languages', { get: () => ['fr-FR','fr'] });
+Object.defineProperty(navigator, 'plugins',   { get: () => [1,2,3,4,5] });
+window.chrome = { runtime: {} };
+const _query = navigator.permissions && navigator.permissions.query;
+if (_query) {
+  navigator.permissions.query = (p) => p.name === 'notifications'
+    ? Promise.resolve({ state: Notification.permission })
+    : _query(p);
+}
+const getParameter = WebGLRenderingContext.prototype.getParameter;
+WebGLRenderingContext.prototype.getParameter = function(param){
+  if (param === 37445) return 'Intel Inc.';                // UNMASK_VENDOR_WEBGL
+  if (param === 37446) return 'Intel Iris OpenGL Engine';  // UNMASK_RENDERER_WEBGL
+  return getParameter.call(this, param);
+};
+        """})
+        # Harmoniser UA + langue / Harmonize UA + language / Armonizar UA + idioma
+        drv.execute_cdp_cmd("Emulation.setUserAgentOverride", {
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+            "platform": "MacIntel",
+            "acceptLanguage": "fr-FR,fr;q=0.9"
+        })
+    except Exception as e:
+        print(f"[WARN] Patch CDP anti-bot échoué: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
+
     return drv
+
 
 
 # Fermeture de la page des cookies / Closing the cookies page / Cierre de la página de cookies
@@ -487,7 +521,7 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: in
 
 
 # Extraire les 5 meilleurs joueurs de chaque équipe / Pick the top 5 players from each team / Seleccionar a los 5 mejores jugadores de cada equipo
-def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 30) -> dict:
+def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> dict:
     # On normalise le nom d'équipe / We standardise the team name / Se normaliza el nombre del equipo
     def _clean_name(txt: str) -> str:
         if not txt: return ""
@@ -500,7 +534,7 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 30) -> 
     # Navigation robuste / Robust navigation / Navegación robusta
     try:
         try:
-            get_with_retries(driver, team_url, tries=3, sleep_s=1.5)
+            get_with_retries(driver, team_url, tries=2, sleep_s=1.0)
             print("[INFO] Navigation OK via get_with_retries")
         except NameError:
             driver.get(team_url)
@@ -510,124 +544,66 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 30) -> 
 
     # Cookies / Cookies / Cookies
     try:
-        ok = handle_cookies(driver, accept=False, timeout=3)
+        ok = handle_cookies(driver, accept=False, timeout=2)
         print(f"[INFO] Cookies gérés: {ok}")
     except Exception as e:
         print(f"[WARN] handle_cookies a échoué: {type(e).__name__}: {e}")
 
     wait = WebDriverWait(driver, timeout)
 
-    # ==== Activer l’onglet pertinent côté page ÉQUIPE / Activate proper TEAM-page tab / Activar pestaña adecuada en página de EQUIPO
-    # CSS candidats (WhoScored varie selon layout) / CSS candidates / Candidatos CSS
-    tab_candidates_css = [
-        '#team-squad-options a[href="#team-squad-summary"]',
-        '#team-squad-options a[href="#team-squad-stats"]',
-        'a[href="#team-squad-summary"]',
-        'a[href="#team-squad-stats"]',
-        # parfois l’ID stage fuite dans ce bloc, on tente quand même / sometimes stage ID appears, try anyway / a veces el ID "stage" aparece, probamos igual
-        '#stage-team-stats-options a[href="#stage-team-stats-summary"]',
-    ]
-    # XPath multilingue (texte visible) / Multilingual XPath (visible text) / XPath multilingüe (texto visible)
-    tab_candidates_xpath = [
-        # fr
-        "//a[normalize-space()='Résumé' or normalize-space()='Statistiques' or contains(., 'Joueurs')]",
-        # en
-        "//a[normalize-space()='Summary' or normalize-space()='Statistics' or contains(., 'Players')]",
-        # es
-        "//a[normalize-space()='Resumen' or normalize-space()='Estadísticas' or contains(., 'Jugadores')]",
-    ]
-
-    def _try_click_candidates():
-        # CSS
-        for css in tab_candidates_css:
-            try:
-                el = driver.find_element(By.CSS_SELECTOR, css)
-                cls = (el.get_attribute("class") or "")
-                if "selected" in cls:
-                    print(f"[INFO] Onglet déjà actif (CSS): {css}")
-                    return True
-                print(f"[INFO] Activer onglet (CSS): {css}")
-                try:
-                    el.click()
-                except ElementClickInterceptedException:
-                    driver.execute_script("arguments[0].click();", el)
-                except Exception:
-                    ActionChains(driver).move_to_element(el).pause(0.2).click(el).perform()
-                time.sleep(0.3)
-                return True
-            except Exception:
-                continue
-        # XPath
-        for xp in tab_candidates_xpath:
-            try:
-                el = driver.find_element(By.XPATH, xp)
-                print(f"[INFO] Activer onglet (XPath): {xp}")
-                try:
-                    el.click()
-                except ElementClickInterceptedException:
-                    driver.execute_script("arguments[0].click();", el)
-                except Exception:
-                    ActionChains(driver).move_to_element(el).pause(0.2).click(el).perform()
-                time.sleep(0.3)
-                return True
-            except Exception:
-                continue
-        return False
-
-    # Scroll-pings pour CI / Scroll pings for CI / Scroll pings para CI
-    try:
-        driver.execute_script("window.scrollTo(0,0);")
-        driver.execute_script("window.dispatchEvent(new Event('scroll'));")
-    except Exception:
-        pass
-
-    if _try_click_candidates():
-        print("[INFO] Onglet résumé/stats activé (page équipe)")
-    else:
-        print("[INFO] Aucun onglet explicitement activé — on poursuit")
-
-    # ==== Chercher la table joueurs confirmée par ton HTML / Find the players table confirmed by your HTML / Buscar la tabla de jugadores confirmada por tu HTML
-    TABLE_SEL = "table#top-player-stats-summary-grid"         # table
-    TBODY_SEL = "tbody#player-table-statistics-body"          # tbody
-    ROWS_SEL  = "tbody#player-table-statistics-body > tr"     # lignes
-
-    # Scroll vers la table pour lazy-load / Scroll to table for lazy-load / Desplazar a la tabla para lazy-load
+    # Scroll jusqu’à la table pour déclencher le lazy-load / Scroll to the table to trigger lazy-load / Desplazar hasta la tabla para activar lazy-load
     try:
         driver.execute_script("document.querySelector('.semi-attached-table')?.scrollIntoView({block:'center'});")
         driver.execute_script("window.dispatchEvent(new Event('scroll'));")
     except Exception:
         pass
 
-    def _find_in_context():
-        t = driver.find_elements(By.CSS_SELECTOR, TABLE_SEL)
-        b = driver.find_elements(By.CSS_SELECTOR, TBODY_SEL)
-        return (t[0] if t else None), (b[0] if b else None)
+    # Sélecteurs spécifiques confirmés par ton HTML / Selectors confirmed by your HTML / Selectores confirmados por tu HTML
+    TABLE_SEL = "table#top-player-stats-summary-grid"
+    TBODY_SEL = "#player-table-statistics-body"
+    ROWS_SEL_PRIMARY = "#player-table-statistics-body > tr"
+    NAME_SELECTORS = [
+        "td.grid-abs a.player-link span.iconize",
+        "td.grid-ghost-cell a.player-link span.iconize",
+        "a.player-link",
+    ]
 
-    table_el, body_el = _find_in_context()
+    # 1) Chercher le tbody dans le document principal / Look for tbody in main document / Buscar tbody en documento principal
+    frame_found = None
+    body_el = None
+    try:
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, TABLE_SEL)))
+        print("[INFO] Table détectée (TABLE_SEL présent)")  # Info / Info / Info
+    except TimeoutException:
+        print("[WARN] Table non détectée via TABLE_SEL — on continue avec TBODY_SEL")  # Avertissement / Warning / Advertencia
+
+    # Attente souple du TBODY / Soft wait for TBODY / Espera suave para TBODY
     end_time = time.time() + timeout
     while time.time() < end_time and body_el is None:
-        # micro-scroll ping / micro scroll ping / micro desplazamiento
+        els = driver.find_elements(By.CSS_SELECTOR, TBODY_SEL)
+        if els:
+            body_el = els[0]
+            print("[INFO] TBODY détecté dans le document principal")  # OK / OK / OK
+            break
+        # petit ping de scroll pour CI / small scroll ping for CI / pequeño scroll ping para CI
         try:
             driver.execute_script("window.dispatchEvent(new Event('scroll'));")
         except Exception:
             pass
         time.sleep(0.25)
-        table_el, body_el = _find_in_context()
 
-    if table_el is None:
-        print("[WARN] Table non détectée via TABLE_SEL — on continue avec TBODY_SEL")
+    # 2) Fallback: chercher dans les iframes / Fallback: search inside iframes / Respaldo: buscar en iframes
     if body_el is None:
         print("[INFO] Pas de TBODY en document principal → on tente les iframes")
         frames = driver.find_elements(By.CSS_SELECTOR, "iframe, frame")
-        frame_found = None
         for fr in frames:
             try:
                 driver.switch_to.frame(fr)
-                _, b = _find_in_context()
-                if b is not None:
-                    body_el = b
+                els = driver.find_elements(By.CSS_SELECTOR, TBODY_SEL)
+                if els:
+                    body_el = els[0]
                     frame_found = fr
-                    print("[INFO] TBODY trouvé dans une iframe")
+                    print("[INFO] TBODY trouvé dans une iframe")  # OK / OK / OK
                     break
             except Exception:
                 pass
@@ -637,65 +613,38 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 30) -> 
                         driver.switch_to.default_content()
                     except Exception:
                         pass
-        if body_el is not None and frame_found is not None:
+        if frame_found:
             try:
                 driver.switch_to.frame(frame_found)
             except Exception as e:
                 print(f"[WARN] Re-bascule vers l’iframe impossible: {type(e).__name__}: {e}")
-    else:
-        frame_found = None
 
     if body_el is None:
-        # === DEBUG: dump HTML + screenshot pour GHA / DEBUG: dump HTML + screenshot for GHA / DEBUG: volcado HTML + captura
-        try:
-            from pathlib import Path
-            dump_dir = Path("data"); dump_dir.mkdir(exist_ok=True, parents=True)
-            html_path = dump_dir / "debug_last_team_page.html"
-            png_path  = dump_dir / "debug_last_team_page.png"
-            with open(html_path, "w", encoding="utf-8") as f:
-                f.write(driver.page_source)
-            try:
-                driver.save_screenshot(str(png_path))
-            except Exception:
-                pass
-            print(f"[DEBUG] Dump écrit: {html_path} / Screenshot: {png_path}")
-        except Exception as e:
-            print(f"[DEBUG] Échec du dump debug: {type(e).__name__}: {e}")
-        # Essayer de détecter un blocage anti-bot / Try to detect anti-bot block / Intentar detectar bloqueo anti-bot
-        try:
-            body_text = (driver.find_element(By.TAG_NAME, "body").text or "").lower()
-            if any(k in body_text for k in ["enable javascript", "blocked", "verify you are human", "captcha"]):
-                print("[WARN] Indices de blocage/captcha détectés sur la page (headless/CI).")
-        except Exception:
-            pass
         raise TimeoutException("Impossible de localiser la table des joueurs (#player-table-statistics-body)")
 
-    # Attendre au moins 1 ligne / Wait at least 1 row / Esperar al menos 1 fila
+    # 3) Attendre qu’au moins une ligne soit présente / Wait for at least one row / Esperar al menos una fila
     def _rows():
-        return driver.find_elements(By.CSS_SELECTOR, ROWS_SEL)
+        return driver.find_elements(By.CSS_SELECTOR, ROWS_SEL_PRIMARY)
 
     try:
         wait.until(lambda d: len(_rows()) >= 1)
+        rows = _rows()
+        print(f"[INFO] Lignes joueurs détectées: {len(rows)}")  # Info / Info / Info
     except TimeoutException:
-        pass
+        rows = _rows()
+        print(f"[WARN] Aucune ligne détectée après attente — rows={len(rows)}")  # Avertissement / Warning / Advertencia
 
-    rows = _rows()
-    print(f"[INFO] Lignes joueurs détectées: {len(rows)}")
     if not rows:
-        # Sortie propre d’iframe si utilisée / Clean leave iframe if used / Salida limpia del iframe si se usó
-        try:
-            driver.switch_to.default_content()
-        except Exception:
-            pass
+        # Sortie propre d’iframe si utilisée / Cleanly leave iframe if used / Salir limpiamente del iframe si se usó
+        if frame_found is not None:
+            try:
+                driver.switch_to.default_content()
+            except Exception:
+                pass
         print("[WARN] Pas de lignes — TOP5 vide")
         return {"1st_best_player": "", "2nd_best_player": "", "3rd_best_player": "", "4th_best_player": "", "5th_best_player": ""}
 
-    # Extraire les 5 noms / Extract 5 names / Extraer 5 nombres
-    NAME_SELECTORS = [
-        "td.grid-abs a.player-link span.iconize",
-        "td.grid-ghost-cell a.player-link span.iconize",
-        "a.player-link",
-    ]
+    # 4) Extraire les 5 noms / Extract the 5 names / Extraer los 5 nombres
     names = []
     for idx, tr in enumerate(rows, start=1):
         name = ""
@@ -708,21 +657,22 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 30) -> 
             except Exception:
                 continue
         if name:
-            print(f"[OK] Joueur #{idx}: {name}")
+            print(f"[OK] Joueur #{idx}: {name}")  # OK / OK / OK
             names.append(name)
             if len(names) == 5:
                 break
         else:
-            print(f"[SKIP] Ligne #{idx}: nom introuvable")
+            print(f"[SKIP] Ligne #{idx}: nom introuvable")  # Saut / Skip / Omitir
 
     while len(names) < 5:
         names.append("")
 
-    # Sortie propre d’iframe / Cleanly leave iframe / Salida limpia del iframe
-    try:
-        driver.switch_to.default_content()
-    except Exception:
-        pass
+    # Sortie propre d’iframe si utilisée / Cleanly leave iframe if used / Salir limpiamente del iframe si se usó
+    if frame_found is not None:
+        try:
+            driver.switch_to.default_content()
+        except Exception:
+            pass
 
     print(f"[INFO] TOP5 final = {names}")  # Récap / Recap / Resumen
     return {
@@ -732,7 +682,6 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 30) -> 
         "4th_best_player": names[3],
         "5th_best_player": names[4],
     }
-
 
 
 # On extrait le nom de la formation type ainsi que les XI type / We extract the name of the typical formation and the typical starting XI / Se extrae el nombre de la formación tipo y el XI tipo
