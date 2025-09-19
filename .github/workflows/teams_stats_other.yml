@@ -21,13 +21,41 @@ jobs:
         with:
           python-version: '3.10'
 
+      # Installer Xvfb (server X virtuel) / Install Xvfb (virtual X server) / Instalar Xvfb (servidor X virtual)
+      - name: Install Xvfb
+        run: sudo apt-get update && sudo apt-get install -y xvfb
+
+      # Installer Chrome stable / Install stable Chrome / Instalar Chrome estable
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      # Installer chromedriver compatible / Install matching chromedriver / Instalar chromedriver compatible
+      - name: Setup chromedriver
+        uses: nanasess/setup-chromedriver@v2
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt || echo "⚠️ Error in requirements.txt"
 
-      - name: Run the script
-        run: python scripts/teams_stats_other.py
+      # Lancer le scraper en mode "headed" sous Xvfb / Run scraper in "headed" mode under Xvfb / Ejecutar el scraper en modo "headed" con Xvfb
+      - name: Run the script (headed via Xvfb)
+        env:
+          SCRAPER_HEADED: "1"  # ton script lit cette var pour forcer headed / your script reads this var to force headed / tu script usa esta variable para forzar headed
+        run: |
+          xvfb-run -a python scripts/teams_stats_other.py
+          ls -la data || true
+
+      # (Optionnel) Uploader les artefacts debug (HTML + screenshot) / (Optional) Upload debug artifacts / (Opcional) Subir artefactos de depuración
+      - name: Upload debug artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-pages
+          path: |
+            data/debug_last_team_page.html
+            data/debug_last_team_page.png
+          if-no-files-found: ignore
 
       - name: Commit and Push the generated CSV file
         uses: stefanzweifel/git-auto-commit-action@v5
