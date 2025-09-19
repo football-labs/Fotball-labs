@@ -487,7 +487,6 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: in
 
 
 # Extraire les 5 meilleurs joueurs de chaque équipe / Pick the top 5 players from each team / Seleccionar a los 5 mejores jugadores de cada equipo
-# Extraire les 5 meilleurs joueurs d'une équipe / Extract the team's top 5 players / Extraer los 5 mejores jugadores del equipo
 def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> dict:
     # On normalise le nom d'équipe / We standardise the team name / Se normaliza el nombre del equipo
     def _clean_name(txt: str) -> str:
@@ -498,107 +497,124 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> 
         return txt.strip()
 
     print(f"[INFO] TOP5 — navigation vers team_url={team_url!r}")  # Début / Start / Inicio
-    # On récupère l'url de l'équipe / We retrieve the team's URL / Recuperamos la URL del equipo
+    # Navigation robuste / Robust navigation / Navegación robusta
     try:
         try:
-            get_with_retries(driver, team_url, tries=2, sleep_s=1.0)  # Navigation robuste / Robust nav / Navegación robusta
-            print("[INFO] Navigation OK via get_with_retries")  # Info / Info / Info
+            get_with_retries(driver, team_url, tries=2, sleep_s=1.0)
+            print("[INFO] Navigation OK via get_with_retries")
         except NameError:
             driver.get(team_url)
-            print("[INFO] Navigation OK via driver.get")  # Info / Info / Info
+            print("[INFO] Navigation OK via driver.get")
     except Exception as e:
-        print(f"[WARN] Échec navigation vers l'équipe: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
+        print(f"[WARN] Échec navigation vers l'équipe: {type(e).__name__}: {e}")
 
     # Cookies / Cookies / Cookies
     try:
         ok = handle_cookies(driver, accept=False, timeout=2)
-        print(f"[INFO] Cookies gérés: {ok}")  # Info / Info / Info
+        print(f"[INFO] Cookies gérés: {ok}")
     except Exception as e:
-        print(f"[WARN] handle_cookies a échoué: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
+        print(f"[WARN] handle_cookies a échoué: {type(e).__name__}: {e}")
 
-    # On attend le driver et on cherche le tableau des joueurs / We wait for the driver and look for the players' table / Esperamos al driver y buscamos la tabla de jugadores
     wait = WebDriverWait(driver, timeout)
 
-    # Activer l’onglet "Général" si besoin / Activate "General" tab if needed / Activar la pestaña "General" si es necesario
+    # Scroll jusqu’à la table pour déclencher le lazy-load / Scroll to the table to trigger lazy-load / Desplazar hasta la tabla para activar lazy-load
     try:
-        wait.until(EC.presence_of_element_located((By.ID, "stage-team-stats")))
-        tab = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-options a[href="#stage-team-stats-summary"]')
-        if "selected" not in (tab.get_attribute("class") or ""):
-            print("[INFO] Onglet 'Général' non sélectionné → clic()")  # Info / Info / Info
-            try:
-                tab.click()
-            except ElementClickInterceptedException:
-                driver.execute_script("arguments[0].click();", tab)
-            except Exception:
-                ActionChains(driver).move_to_element(tab).pause(0.2).click(tab).perform()
-        else:
-            print("[INFO] Onglet 'Général' déjà actif")  # OK / OK / OK
-    except Exception as e:
-        print(f"[WARN] Activation onglet 'Général' impossible: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
-
-    # Scroll pour déclencher le lazy-load / Scroll to trigger lazy-load / Scroll para activar lazy-load
-    try:
-        driver.execute_script("document.querySelector('#statistics-table-summary')?.scrollIntoView({block:'center'});")
+        driver.execute_script("document.querySelector('.semi-attached-table')?.scrollIntoView({block:'center'});")
         driver.execute_script("window.dispatchEvent(new Event('scroll'));")
     except Exception:
         pass
 
-    # Helper: présence du corps de table joueurs / Helper: presence of player table body / Helper: presencia del cuerpo de la tabla
-    def _player_body():
-        try:
-            return driver.find_element(By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body")
-        except Exception:
-            return None
+    # Sélecteurs spécifiques confirmés par ton HTML / Selectors confirmed by your HTML / Selectores confirmados por tu HTML
+    TABLE_SEL = "table#top-player-stats-summary-grid"
+    TBODY_SEL = "#player-table-statistics-body"
+    ROWS_SEL_PRIMARY = "#player-table-statistics-body > tr"
+    NAME_SELECTORS = [
+        "td.grid-abs a.player-link span.iconize",
+        "td.grid-ghost-cell a.player-link span.iconize",
+        "a.player-link",
+    ]
 
+    # 1) Chercher le tbody dans le document principal / Look for tbody in main document / Buscar tbody en documento principal
     frame_found = None
-    # Tentative dans le document principal / Try in main document / Intento en el documento principal
+    body_el = None
     try:
-        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body")))
-        print("[INFO] Table joueurs trouvée dans le document principal")  # OK / OK / OK
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, TABLE_SEL)))
+        print("[INFO] Table détectée (TABLE_SEL présent)")  # Info / Info / Info
     except TimeoutException:
-        print("[INFO] Pas de table joueurs en document principal → on tente les iframes")  # Info / Info / Info
-        # Recherche dans les iframes / Search in iframes / Búsqueda en iframes
+        print("[WARN] Table non détectée via TABLE_SEL — on continue avec TBODY_SEL")  # Avertissement / Warning / Advertencia
+
+    # Attente souple du TBODY / Soft wait for TBODY / Espera suave para TBODY
+    end_time = time.time() + timeout
+    while time.time() < end_time and body_el is None:
+        els = driver.find_elements(By.CSS_SELECTOR, TBODY_SEL)
+        if els:
+            body_el = els[0]
+            print("[INFO] TBODY détecté dans le document principal")  # OK / OK / OK
+            break
+        # petit ping de scroll pour CI / small scroll ping for CI / pequeño scroll ping para CI
+        try:
+            driver.execute_script("window.dispatchEvent(new Event('scroll'));")
+        except Exception:
+            pass
+        time.sleep(0.25)
+
+    # 2) Fallback: chercher dans les iframes / Fallback: search inside iframes / Respaldo: buscar en iframes
+    if body_el is None:
+        print("[INFO] Pas de TBODY en document principal → on tente les iframes")
         frames = driver.find_elements(By.CSS_SELECTOR, "iframe, frame")
         for fr in frames:
             try:
                 driver.switch_to.frame(fr)
-                WebDriverWait(driver, max(4, timeout // 2)).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body"))
-                )
-                frame_found = fr
-                print("[INFO] Table joueurs trouvée dans une iframe")  # OK / OK / OK
-                break
+                els = driver.find_elements(By.CSS_SELECTOR, TBODY_SEL)
+                if els:
+                    body_el = els[0]
+                    frame_found = fr
+                    print("[INFO] TBODY trouvé dans une iframe")  # OK / OK / OK
+                    break
             except Exception:
-                try:
-                    driver.switch_to.default_content()
-                except Exception:
-                    pass
-                continue
-        # Si trouvée en iframe, se replacer dedans / If found in iframe, switch back / Si se encontró en iframe, volver a entrar
+                pass
+            finally:
+                if body_el is None:
+                    try:
+                        driver.switch_to.default_content()
+                    except Exception:
+                        pass
         if frame_found:
             try:
                 driver.switch_to.frame(frame_found)
             except Exception as e:
-                print(f"[WARN] Re-bascule vers l’iframe impossible: {type(e).__name__}: {e}")  # Avertissement / Warning / Advertencia
-        else:
-            raise TimeoutException("Impossible de localiser la table des joueurs (#player-table-statistics-body)")  # Erreur / Error / Error
+                print(f"[WARN] Re-bascule vers l’iframe impossible: {type(e).__name__}: {e}")
 
-    # Récupération des lignes / Fetch rows / Recuperación de filas
-    rows = driver.find_elements(By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body > tr:not(.not-current-player)")
-    print(f"[INFO] Lignes joueurs éligibles trouvées: {len(rows)}")  # Info / Info / Info
+    if body_el is None:
+        raise TimeoutException("Impossible de localiser la table des joueurs (#player-table-statistics-body)")
+
+    # 3) Attendre qu’au moins une ligne soit présente / Wait for at least one row / Esperar al menos una fila
+    def _rows():
+        return driver.find_elements(By.CSS_SELECTOR, ROWS_SEL_PRIMARY)
+
+    try:
+        wait.until(lambda d: len(_rows()) >= 1)
+        rows = _rows()
+        print(f"[INFO] Lignes joueurs détectées: {len(rows)}")  # Info / Info / Info
+    except TimeoutException:
+        rows = _rows()
+        print(f"[WARN] Aucune ligne détectée après attente — rows={len(rows)}")  # Avertissement / Warning / Advertencia
 
     if not rows:
-        # Sélecteur de secours sans filtre :not(.not-current-player) / Fallback selector without :not(.not-current-player) / Selector de respaldo sin :not(.not-current-player)
-        rows = driver.find_elements(By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body > tr")
-        print(f"[INFO] Tentative sans filtre not-current-player → {len(rows)} lignes")  # Info / Info / Info
+        # Sortie propre d’iframe si utilisée / Cleanly leave iframe if used / Salir limpiamente del iframe si se usó
+        if frame_found is not None:
+            try:
+                driver.switch_to.default_content()
+            except Exception:
+                pass
+        print("[WARN] Pas de lignes — TOP5 vide")
+        return {"1st_best_player": "", "2nd_best_player": "", "3rd_best_player": "", "4th_best_player": "", "5th_best_player": ""}
 
-    # Recherche du nom des 5 meilleurs joueurs par équipe (en omettant les joueurs plus au club) / Get top 5 player names per team (skipping non-current) / Buscar los 5 mejores por equipo (omitiendo no actuales)
+    # 4) Extraire les 5 noms / Extract the 5 names / Extraer los 5 nombres
     names = []
     for idx, tr in enumerate(rows, start=1):
         name = ""
-        for sel in ["td.grid-abs a.player-link span.iconize",
-                    "td.grid-ghost-cell a.player-link span.iconize",
-                    "a.player-link"]:
+        for sel in NAME_SELECTORS:
             try:
                 el = tr.find_element(By.CSS_SELECTOR, sel)
                 name = _clean_name(el.text or el.get_attribute("textContent") or "")
@@ -632,6 +648,7 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> 
         "4th_best_player": names[3],
         "5th_best_player": names[4],
     }
+
 
 # On extrait le nom de la formation type ainsi que les XI type / We extract the name of the typical formation and the typical starting XI / Se extrae el nombre de la formación tipo y el XI tipo
 def extract_formation_and_xi_from_team(
