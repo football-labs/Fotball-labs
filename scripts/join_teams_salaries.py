@@ -31,7 +31,14 @@ cols_keep = [c for c in merge_keys + [weekly_col, annual_col, estimated_col] if 
 sal = df_salaries[cols_keep].drop_duplicates(subset=merge_keys, keep='first')
 
 # Merge LEFT: conservar todo de df_all_teams_stats y añadir salarios | Jointure LEFT: conserver tout de df_all_teams_stats et ajouter les salaires | LEFT Merge: keep all from df_all_teams_stats and add salaries
-df_all_teams_stats = df_all_teams_stats.merge(sal, on=merge_keys, how='left')
+df_all_teams_stats = df_all_teams_stats.merge(
+    sal,
+    left_on=merge_keys,
+    right_on=merge_keys,
+    how='left',
+    suffixes=('', '_sal')  # las columnas duplicadas de df_salaries tendrán '_sal'
+)
+
 
 # Guardar CSV | Enregistrer CSV | Save CSV
 script_dir = Path(__file__).resolve().parent
