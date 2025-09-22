@@ -15,10 +15,20 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Setup Google Chrome
         uses: browser-actions/setup-chrome@v1
 
-      - name: Install Xvfb + libs Chrome
+      - name: Install Xvfb + Chrome libs
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb libnss3 libxss1 libgbm1 libu2f-udev fonts-liberation || true
@@ -27,22 +37,6 @@ jobs:
       - name: Run scraper under Xvfb (headed)
         run: |
           xvfb-run -a -s "-screen 0 1366x900x24" python scripts/teams_stats_other.py
-
-
-
-      - name: Configure Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt || echo "⚠️ Error in requirements.txt"
-
-      - name: Run the script
-        run: |
-          python scripts/teams_stats_other.py
 
       - name: Commit and Push the generated CSV file
         uses: stefanzweifel/git-auto-commit-action@v5
