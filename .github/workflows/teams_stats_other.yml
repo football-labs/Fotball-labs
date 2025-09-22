@@ -22,8 +22,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            libnss3 libxss1 libasound2 libgbm1 libu2f-udev \
-            fonts-liberation xvfb
+            libnss3 libxss1 libgbm1 libu2f-udev fonts-liberation xvfb || true
+          sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2 || true
+
 
       - name: Configure Python
         uses: actions/setup-python@v5
