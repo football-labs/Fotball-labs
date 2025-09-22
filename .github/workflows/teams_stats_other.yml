@@ -38,9 +38,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install "selenium==4.23.*" "webdriver-manager==4.*" \
-                      beautifulsoup4 pandas
-          # pip install -r requirements.txt  # si tu préfères, verrouille selenium dedans
+          pip install -r requirements.txt || echo "⚠️ Error in requirements.txt"
 
       - name: Run the script
         run: |
