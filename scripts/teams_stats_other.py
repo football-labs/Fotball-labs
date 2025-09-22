@@ -20,7 +20,7 @@ from urllib.parse import urlparse
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
 
 # Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
-def make_driver(headed: bool = True) -> webdriver.Chrome:
+def make_driver(headed: bool = False) -> webdriver.Chrome:
     chrome_options = Options()
     if not headed:
         chrome_options.add_argument("--headless=new")
@@ -31,21 +31,27 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
         chrome_options.add_argument("--force-device-scale-factor=1")
         chrome_options.add_argument("--window-size=1366,900")
         chrome_options.add_argument("--lang=fr-FR")
-        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+        chrome_options.add_argument("--remote-debugging-port=9222")
+        chrome_options.add_argument(
+            "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+        )
     else:
         chrome_options.add_argument("--window-size=1366,900")
+
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
     chrome_options.page_load_strategy = "eager"
 
     drv = webdriver.Chrome(options=chrome_options)
-    drv.set_page_load_timeout(40)
-    drv.set_script_timeout(40)
+    drv.set_page_load_timeout(60)
+    drv.set_script_timeout(60)
     return drv
 
 
+
 # Fermeture de la page des cookies / Closing the cookies page / Cierre de la página de cookies
-def handle_cookies(driver, accept: bool = True, timeout: int = 2) -> bool:
+def handle_cookies(driver, accept: bool = True, timeout: int = 10) -> bool:
     # Récupération du driver en laissant du Timeout pour laisser le temps de raffraichir la page / Retrieving the driver by leaving a timeout to allow time to refresh the page / Recuperación del controlador dejando un tiempo de espera para que se actualice la página
     wait = WebDriverWait(driver, timeout)
     btn_id = "onetrust-accept-btn-handler" if accept else "onetrust-reject-all-handler"
@@ -131,7 +137,7 @@ def click_team_statistics(driver, timeout: int = 20) -> None:
     # Essaie de cliquer sur le lien dans la navigation / Try to click link in navigation / Intenta hacer clic en el enlace en la navegación
     def _click_link_in(drv) -> bool:
         try:
-            nav = WebDriverWait(drv, max(2, timeout // 2)).until(
+            nav = WebDriverWait(drv, max(10, timeout // 2)).until(
                 EC.presence_of_element_located((By.ID, "sub-navigation"))
             )
             links = nav.find_elements(By.CSS_SELECTOR, "a[href*='/teamstatistics/']")
@@ -248,7 +254,7 @@ def _name_from_href_fallback(href: str) -> str:
         return ""
 
 # On extrait les informations de chaque équipe afin d'accéder dans un second temps leurs informations associées / Information is extracted from each team so that their associated information can be accessed at a later stage / Se extrae la información de cada equipo para acceder posteriormente a su información asociada 
-def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: int = 8):
+def extract_team_basic_info_from_summary(driver, timeout: int = 30, min_rows: int = 8):
     # Attente du driver / Waiting for the driver / Esperando el controlador
     wait = WebDriverWait(driver, timeout)
 
@@ -268,7 +274,7 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: in
     wait.until(lambda d: len(_anchors()) >= 1)
     for _ in range(10):
         n1 = len(_anchors())
-        time.sleep(0.2)
+        time.sleep(3)
         n2 = len(_anchors())
         if n2 == n1 and n2 >= min_rows:
             break
@@ -293,7 +299,7 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: in
             a = anchors[i]
         try:
             driver.execute_script("arguments[0].scrollIntoView({block:'center'});", a)
-            time.sleep(0.05)
+            time.sleep(3)
         except Exception:
             pass
 
@@ -354,7 +360,7 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: in
     return uniq
 
 # Extraire les 5 meilleurs joueurs de chaque équipe / Pick the top 5 players from each team / Seleccionar a los 5 mejores jugadores de cada equipo
-def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> dict:
+def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 30) -> dict:
     # On normalise le nom d'équipe / We standardise the team name / Se normaliza el nombre del equipo
     def _clean_name(txt: str) -> str:
         if not txt: return ""
@@ -366,7 +372,7 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> 
     # On récupère l'url de l'équipe / We retrieve the team's URL / Recuperamos la URL del equipo.
     driver.get(team_url)
     try:
-        handle_cookies(driver, accept=False, timeout=2)
+        handle_cookies(driver, accept=False, timeout=10)
     except Exception:
         pass
 
@@ -425,7 +431,7 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> 
 def extract_formation_and_xi_from_team(
     driver,
     team_url: str,
-    timeout: int = 20,
+    timeout: int = 30,
     reuse_current: bool = True
 ) -> dict:
     
@@ -455,7 +461,7 @@ def extract_formation_and_xi_from_team(
     if (not reuse_current) or (not _same_page(cur, team_url)):
         driver.get(team_url)
         try:
-            handle_cookies(driver, accept=False, timeout=2)
+            handle_cookies(driver, accept=False, timeout=10)
         except Exception:
             pass
 
@@ -503,7 +509,7 @@ def extract_formation_and_xi_from_team(
         )
         if "selected" not in (saison_btn.get_attribute("class") or ""):
             saison_btn.click()
-            time.sleep(0.05)
+            time.sleep(3)
     except Exception:
         pass 
 
@@ -524,7 +530,7 @@ def extract_formation_and_xi_from_team(
             # On raffraichit la page si besoin / Refresh the page if necessary / Actualiza la página si es necesario.
             if not first.is_selected():
                 select.select_by_index(0)
-                time.sleep(0.05)
+                time.sleep(3)
     except Exception:
         pass
 
@@ -543,7 +549,7 @@ def extract_formation_and_xi_from_team(
             driver.execute_script("document.querySelector('#team-formations-content')?.scrollIntoView({block:'center'});")
         except Exception:
             pass
-        time.sleep(0.08)
+        time.sleep(3)
 
     wait.until(lambda d: _ul_count() > 0)
 
@@ -682,7 +688,7 @@ def ensure_df_teams_for_season(driver, id_season: int, _row: pd.Series,
             return df_season.reset_index(drop=True)
 
     # Sinon on scrape les données / Si no, recopilamos los datos
-    teams_info = extract_team_basic_info_from_summary(driver, timeout=10)
+    teams_info = extract_team_basic_info_from_summary(driver, timeout=20)
 
     df_season = pd.DataFrame(teams_info)
     # On spécifie la recherche sur les informations sur l'identifiant, le nom et l'url de l'équipe / We specify the search for information on the team's ID, name and URL / Se especifica la búsqueda de información sobre el identificador, el nombre y la URL del equipo
@@ -718,7 +724,7 @@ def ensure_df_teams_for_season(driver, id_season: int, _row: pd.Series,
     return df_season.reset_index(drop=True)
 
 # Fonction main / Function main / Función main
-def run_scrape_whoscored(headed: bool = True):
+def run_scrape_whoscored(headed: bool = False):
     # Sélection des saisons / Season selection / Selección de temporadas
     selections = choose_seasons_all()
     if not selections:
@@ -728,14 +734,10 @@ def run_scrape_whoscored(headed: bool = True):
     # Driver / Driver / Controlador
     try:
         driver = make_driver(headed=headed)
-    except NameError:
-        chrome_options = Options()
-        if not headed:
-            chrome_options.add_argument("--headless=new")
-        chrome_options.add_argument("--window-size=1366,900")
-        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        chrome_options.add_experimental_option("useAutomationExtension", False)
-        driver = webdriver.Chrome(options=chrome_options)
+    except WebDriverException as e:
+        print(f"[WARN] WebDriver init failed: {e.__class__.__name__}: {e}")
+        driver = make_driver(headed=headed)  # même options, source unique
+
 
     try:
         for (id_season, season_url, _row) in selections:
@@ -747,7 +749,7 @@ def run_scrape_whoscored(headed: bool = True):
 
                 # Ouvrir la page de saison / Open season page / Abrir la página de la temporada de forma robusta
                 get_with_retries(driver, season_url, tries=3, sleep_s=2.0)
-                time.sleep(0.5)
+                time.sleep(3)
 
                 # Gérer les cookies / Handle cookies / Gestionar cookies
                 handle_cookies(driver, accept=False, timeout=10)
@@ -771,14 +773,14 @@ def run_scrape_whoscored(headed: bool = True):
 
                     # TOP 5 / TOP 5 / TOP 5
                     try:
-                        top5 = extract_top5_ratings_from_team(driver, team_url, timeout=8)
+                        top5 = extract_top5_ratings_from_team(driver, team_url, timeout=20)
                     except Exception as e:
                         print(f"[WARN] top5: {r.get('team_name','?')}: {type(e).__name__}: {e}")
                         top5 = {k: "" for k in top5_keys}
 
                     # FORMATION + XI / Line-up + XI / Formación/XI
                     try:
-                        xi = extract_formation_and_xi_from_team(driver, team_url, timeout=8, reuse_current=True)
+                        xi = extract_formation_and_xi_from_team(driver, team_url, timeout=20, reuse_current=True)
                     except Exception as e:
                         print(f"[WARN] formation/XI: {r.get('team_name','?')}: {type(e).__name__}: {e}")
                         xi = {"formation_type": ""}
@@ -797,7 +799,7 @@ def run_scrape_whoscored(headed: bool = True):
                     print(f"✔ OK — {row_out.get('team_name','?')}" if (top5_full and xi_full)
                           else f"✖ Incomplet — {row_out.get('team_name','?')}")
 
-                    time.sleep(0.02)
+                    time.sleep(3)
 
                 df_out = pd.DataFrame(rows_out)
 
