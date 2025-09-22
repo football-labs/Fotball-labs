@@ -1,7 +1,6 @@
 import pandas as pd
 from pathlib import Path
 from unidecode import unidecode
-import json
 
 script_dir = Path(__file__).resolve().parent
 
@@ -24,15 +23,6 @@ def normalize_name(x):
 
 df_all_teams_stats["Squad_norm_left"] = df_all_teams_stats["Squad"].apply(normalize_name)
 df_salaries["Squad_norm_right"] = df_salaries["Squad"].apply(normalize_name)
-
-# Load mapping dictionary from JSON file | Charger le dictionnaire de correspondance depuis un fichier JSON
-mapping_path = script_dir.parent / "data" / "mapping.json"
-with open(mapping_path, "r", encoding="utf-8") as f:
-    mapping = json.load(f)
-
-# Apply mapping to original names | Appliquer le mapping aux noms originaux
-df_all_teams_stats["Squad"] = df_all_teams_stats["Squad"].replace(mapping)
-df_salaries["Squad"] = df_salaries["Squad"].replace(mapping)
 
 # Select columns to keep from salary data | Sélectionner les colonnes à conserver depuis salaires
 cols_keep = ["Squad_norm_right", weekly_col, annual_col, estimated_col]
