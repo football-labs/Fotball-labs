@@ -1,4 +1,3 @@
-# Import libraries
 import pandas as pd
 from unidecode import unidecode
 from pathlib import Path
@@ -23,19 +22,19 @@ opta = pd.read_csv(
 big5 = ['Premier League', 'La Liga', 'Bundesliga', 'Serie A', 'Ligue 1']
 df_big5 = fbref[fbref['Competition'].isin(big5)]
 
-# Normalize team names (remove accents, lowercase)
+# Load mapping from JSON
+with open(mapping_path, "r", encoding="utf-8") as f:
+    mapping = json.load(f)
+
+# Apply mapping on original names BEFORE normalization
+opta["team_code"] = opta["team_code"].replace(mapping)
+
+# Normalize names (remove accents, lowercase)
 def normalize_name(x):
     return unidecode(str(x)).strip().lower()
 
 df_big5["Squad_clean"] = df_big5["Squad"].apply(normalize_name)
 opta["team_code_clean"] = opta["team_code"].apply(normalize_name)
-
-# Load mapping from JSON (normalized lowercase keys/values)
-with open(mapping_path, "r", encoding="utf-8") as f:
-    mapping = json.load(f)
-
-# Apply mapping to normalized names in opta
-opta["team_code_clean"] = opta["team_code_clean"].replace(mapping)
 
 # Merge using normalized columns
 opta_merged = opta.merge(
