@@ -18,13 +18,15 @@ jobs:
       - name: Setup Google Chrome
         uses: browser-actions/setup-chrome@v1
 
-      - name: Install system dependencies for Chrome
+      - name: Install Xvfb + libs Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            libnss3 libxss1 libgbm1 libu2f-udev fonts-liberation xvfb || true
-          # Noble (24.04): libasound2 -> libasound2t64
+          sudo apt-get install -y xvfb libnss3 libxss1 libgbm1 libu2f-udev fonts-liberation || true
           sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2 || true
+
+      - name: Run scraper under Xvfb (headed)
+        run: |
+          xvfb-run -a -s "-screen 0 1366x900x24" python scripts/teams_stats_other.py
 
 
 

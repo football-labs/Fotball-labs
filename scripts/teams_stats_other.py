@@ -16,13 +16,28 @@ from pprint import pprint
 from pathlib import Path
 from selenium.webdriver.chrome.service import Service
 from urllib.parse import urlparse
-
+import os
+from typing import Optional
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
 
 # Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
-def make_driver(headed: bool = False) -> webdriver.Chrome:
+
+
+def make_driver(headed: Optional[bool] = None) -> webdriver.Chrome:
+    if headed is None:
+        headed = bool(os.environ.get("DISPLAY"))
+
     chrome_options = Options()
-    if not headed:
+    if headed:
+        chrome_options.add_argument("--window-size=1366,900")
+        chrome_options.add_argument("--lang=fr-FR")
+        chrome_options.add_argument(
+            "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+        )
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+    else:
         chrome_options.add_argument("--headless=new")
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--disable-dev-shm-usage")
@@ -36,8 +51,6 @@ def make_driver(headed: bool = False) -> webdriver.Chrome:
             "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
             "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
         )
-    else:
-        chrome_options.add_argument("--window-size=1366,900")
 
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
@@ -47,6 +60,7 @@ def make_driver(headed: bool = False) -> webdriver.Chrome:
     drv.set_page_load_timeout(60)
     drv.set_script_timeout(60)
     return drv
+
 
 
 
@@ -724,7 +738,8 @@ def ensure_df_teams_for_season(driver, id_season: int, _row: pd.Series,
     return df_season.reset_index(drop=True)
 
 # Fonction main / Function main / Función main
-def run_scrape_whoscored(headed: bool = False):
+
+def run_scrape_whoscored(headed: Optional[bool] = None):
     # Sélection des saisons / Season selection / Selección de temporadas
     selections = choose_seasons_all()
     if not selections:
@@ -736,7 +751,7 @@ def run_scrape_whoscored(headed: bool = False):
         driver = make_driver(headed=headed)
     except WebDriverException as e:
         print(f"[WARN] WebDriver init failed: {e.__class__.__name__}: {e}")
-        driver = make_driver(headed=headed)  # même options, source unique
+        driver = make_driver(headed=headed)
 
 
     try:
@@ -834,4 +849,4 @@ def run_scrape_whoscored(headed: bool = False):
 
 # Execution du web scraping pour la saison de son choix / Execution of web scraping for the season of your choice / Ejecución del web scraping para la temporada que elija
 if __name__ == "__main__":
-    run_scrape_whoscored(headed=False)
+    run_scrape_whoscored()
