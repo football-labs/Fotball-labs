@@ -22,26 +22,53 @@ from urllib.parse import urlparse
 # Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
 def make_driver(headed: bool = True) -> webdriver.Chrome:
     chrome_options = Options()
-    if not headed:
-        chrome_options.add_argument("--headless=new")
-        chrome_options.add_argument("--disable-gpu")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--hide-scrollbars")
-        chrome_options.add_argument("--force-device-scale-factor=1")
-        chrome_options.add_argument("--window-size=1366,900")
-        chrome_options.add_argument("--lang=fr-FR")
-        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
-    else:
-        chrome_options.add_argument("--window-size=1366,900")
+    chrome_options.add_argument("--window-size=1366,900")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
     chrome_options.page_load_strategy = "eager"
 
-    drv = webdriver.Chrome(options=chrome_options)
-    drv.set_page_load_timeout(40)
-    drv.set_script_timeout(40)
+    if headed:
+        drv = webdriver.Chrome(options=chrome_options)
+    else:
+        chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+        chrome_options.add_argument("--lang=fr-FR")
+        chrome_options.add_argument("--force-device-scale-factor=1")
+        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+
+        try:
+            import undetected_chromedriver as uc
+            drv = uc.Chrome(options=chrome_options, headless=True)
+        except Exception:
+            drv = webdriver.Chrome(options=chrome_options)
+
+    try:
+        drv.execute_cdp_cmd('Network.enable', {})
+        drv.execute_cdp_cmd('Network.setExtraHTTPHeaders', {
+            'headers': {'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8'}
+        })
+        drv.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Europe/Paris'})
+        drv.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
+            'source': """
+                Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+                window.chrome = window.chrome || { runtime: {} };
+                Object.defineProperty(navigator, 'language', {get: () => 'fr-FR'});
+                Object.defineProperty(navigator, 'languages', {get: () => ['fr-FR','fr']});
+                Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3]});
+                try { localStorage.setItem('cookie_consent', '1'); } catch(e){}
+                try { document.cookie='cookie_consent=1; Path=/; Max-Age='+(60*60*24*365)+'; SameSite=Lax'; } catch(e){}
+            """
+        })
+    except Exception:
+        pass
+
+    drv.set_page_load_timeout(60)
+    drv.set_script_timeout(60)
     return drv
+
 
 # Bloque les pages de cookies sur toute la durée du driver
 def seed_domain_consent(driver):
@@ -520,6 +547,12 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> 
 
     # On récupère l'url de l'équipe / We retrieve the team's URL / Recuperamos la URL del equipo.
     driver.get(team_url)
+    print("webdriver =", driver.execute_script("return navigator.webdriver"))
+    print("lang =", driver.execute_script("return navigator.language"))
+    print("plugins =", driver.execute_script("return navigator.plugins && navigator.plugins.length"))
+    print("rows top5 =", len(driver.find_elements(By.CSS_SELECTOR,
+        "#top-player-stats-summary-grid #player-table-statistics-body > tr:not(.not-current-player)")))
+
     try:
         handle_cookies(driver, accept=True, timeout=10)
     except Exception:
