@@ -20,45 +20,51 @@ from urllib.parse import urlparse
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
 
 # Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
 def make_driver(headed: bool = True) -> webdriver.Chrome:
     chrome_options = Options()
     chrome_options.add_argument("--window-size=1366,900")
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    chrome_options.add_experimental_option("useAutomationExtension", False)
     chrome_options.page_load_strategy = "eager"
 
-    if headed:
-        drv = webdriver.Chrome(options=chrome_options)
-    else:
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+
+    if not headed:
         chrome_options.add_argument("--headless=new")
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-blink-features=AutomationControlled")
         chrome_options.add_argument("--lang=fr-FR")
         chrome_options.add_argument("--force-device-scale-factor=1")
-        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
-
-        try:
-            import undetected_chromedriver as uc
-            drv = uc.Chrome(options=chrome_options, headless=True)
-        except Exception:
-            drv = webdriver.Chrome(options=chrome_options)
+        chrome_options.add_argument(
+            "--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+        )
 
     try:
-        drv.execute_cdp_cmd('Network.enable', {})
-        drv.execute_cdp_cmd('Network.setExtraHTTPHeaders', {
-            'headers': {'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8'}
+        if headed:
+            drv = webdriver.Chrome(options=chrome_options)
+        else:
+            import undetected_chromedriver as uc
+            drv = uc.Chrome(options=chrome_options, headless=True)
+    except Exception:
+        drv = webdriver.Chrome(options=chrome_options)
+
+    try:
+        drv.execute_cdp_cmd("Network.enable", {})
+        drv.execute_cdp_cmd("Network.setExtraHTTPHeaders", {
+            "headers": {"Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8"}
         })
-        drv.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Europe/Paris'})
-        drv.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
-            'source': """
+        drv.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "Europe/Paris"})
+        drv.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+            "source": """
                 Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
                 window.chrome = window.chrome || { runtime: {} };
                 Object.defineProperty(navigator, 'language', {get: () => 'fr-FR'});
                 Object.defineProperty(navigator, 'languages', {get: () => ['fr-FR','fr']});
                 Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3]});
-                try { localStorage.setItem('cookie_consent', '1'); } catch(e){}
+                try { localStorage.setItem('cookie_consent','1'); } catch(e){}
                 try { document.cookie='cookie_consent=1; Path=/; Max-Age='+(60*60*24*365)+'; SameSite=Lax'; } catch(e){}
             """
         })
@@ -68,6 +74,7 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
     drv.set_page_load_timeout(60)
     drv.set_script_timeout(60)
     return drv
+
 
 
 # Bloque les pages de cookies sur toute la durée du driver
