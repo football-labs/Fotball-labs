@@ -568,7 +568,6 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> 
     # On attend le driver et on cherche le tableau des joueurs / We wait for the driver and look for the players' table / Esperamos al conductor y buscamos la tabla de jugadores
     wait = WebDriverWait(driver, timeout)
     try:
-        wait_top5_rows_loaded(driver, timeout=12)
         wait.until(EC.presence_of_element_located((By.ID, "stage-team-stats")))
         tab = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-options a[href="#stage-team-stats-summary"]')
         if "selected" not in (tab.get_attribute("class") or ""):
@@ -664,7 +663,6 @@ def extract_formation_and_xi_from_team(
 
     # Cherche la table de la formation / Find the formation table Busca la tabla de formación
     try:
-        wait_formation_loaded(driver, timeout=12)
         wait.until(EC.presence_of_element_located((By.ID, "stage-team-stats")))
         tab = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-options a[href="#stage-team-stats-summary"]')
         if "selected" not in (tab.get_attribute("class") or ""):
@@ -913,111 +911,6 @@ def ensure_df_teams_for_season(driver, id_season: int, _row: pd.Series,
     df_all.to_csv(path, index=False)
 
     return df_season.reset_index(drop=True)
-
-
-def wait_top5_rows_loaded(driver, timeout=15, min_rows=5):
-    end = time.time() + timeout
-
-    # s’assurer onglet "Résumé" actif
-    try:
-        tab = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-options a[href="#stage-team-stats-summary"]')
-        if "selected" not in (tab.get_attribute("class") or ""):
-            try: tab.click()
-            except Exception: driver.execute_script("arguments[0].click();", tab)
-    except Exception:
-        pass
-
-    # scroll + scroll back pour déclencher les observers
-    def nrows():
-        return len(driver.find_elements(
-            By.CSS_SELECTOR,
-            "#top-player-stats-summary-grid #player-table-statistics-body > tr:not(.not-current-player)"
-        ))
-
-    try:
-        driver.execute_script("document.querySelector('#statistics-table-summary')?.scrollIntoView({block:'center'});")
-        driver.execute_script("window.dispatchEvent(new Event('scroll'));")
-    except Exception:
-        pass
-
-    last = -1
-    while time.time() < end:
-        c = nrows()
-        if c >= min_rows:
-            return True
-        # stimuler le rendu
-        driver.execute_script("window.scrollBy(0, 180);")
-        driver.execute_script("window.scrollBy(0, -180);")
-        time.sleep(0.25)
-
-        # si bloqué, rejouer un 'change' sur un select proche (s’il existe)
-        if c == last:
-            try:
-                sel = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-summary select.filter-drop')
-                driver.execute_script("arguments[0].dispatchEvent(new Event('change',{bubbles:true}))", sel)
-            except Exception:
-                pass
-        last = c
-
-    raise TimeoutException("Top 5: tbody présent mais non peuplé à temps.")
-
-
-def wait_formation_loaded(driver, timeout=15, need_players=11):
-    end = time.time() + timeout
-
-    # onglet "Résumé"
-    try:
-        tab = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-options a[href="#stage-team-stats-summary"]')
-        if "selected" not in (tab.get_attribute("class") or ""):
-            try: tab.click()
-            except Exception: driver.execute_script("arguments[0].click();", tab)
-    except Exception:
-        pass
-
-    # filtre "Saison"
-    try:
-        saison_btn = driver.find_element(By.CSS_SELECTOR, '#team-formations-filter-type .listbox.left a.option[data-value="2"]')
-        if "selected" not in (saison_btn.get_attribute("class") or ""):
-            saison_btn.click(); time.sleep(0.1)
-    except Exception:
-        pass
-
-    # re-sélectionner la 1ère formation
-    try:
-        sel_el = driver.find_element(By.CSS_SELECTOR, '#team-formations-filter-formation select.filter-drop')
-        Select(sel_el).select_by_index(0)
-        driver.execute_script("arguments[0].dispatchEvent(new Event('change',{bubbles:true}))", sel_el)
-    except Exception:
-        pass
-
-    try:
-        driver.execute_script("document.querySelector('#team-formations')?.scrollIntoView({block:'center'});")
-        driver.execute_script("window.dispatchEvent(new Event('scroll'));")
-    except Exception:
-        pass
-
-    def nplayers():
-        return len(driver.find_elements(
-            By.CSS_SELECTOR, "#team-formations-content .team-pitch-formation ul.player-wrapper"
-        ))
-
-    last = -1
-    while time.time() < end:
-        c = nplayers()
-        if c >= need_players:
-            return True
-        driver.execute_script("window.scrollBy(0, 200);")
-        driver.execute_script("window.scrollBy(0, -200);")
-        time.sleep(0.25)
-        if c == last:
-            try:
-                saison_btn = driver.find_element(By.CSS_SELECTOR, '#team-formations-filter-type .listbox.left a.option[data-value="2"]')
-                driver.execute_script("arguments[0].click();", saison_btn)
-            except Exception:
-                pass
-        last = c
-
-    raise TimeoutException("Formation/XI: joueurs non injectés à temps.")
 
 # Fonction main / Function main / Función main
 def run_scrape_whoscored(headed: bool = True):
