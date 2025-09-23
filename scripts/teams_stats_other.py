@@ -43,56 +43,211 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
     drv.set_script_timeout(40)
     return drv
 
+# Bloque les pages de cookies sur toute la durée du driver
+def seed_domain_consent(driver):
+    print("[cookies] seeding domain consent at site root…")
+    start_url = driver.current_url
+    root = "https://fr.whoscored.com/"
+
+    try:
+        # Aller à la racine du domaine pour s'assurer du bon scope d'origine
+        driver.get(root)
+        # court délais pour que le document soit prêt
+        time.sleep(0.2)
+
+        # Poser un flag simple côté navigateur
+        driver.execute_script("""
+            try { localStorage.setItem('cookie_consent', '1'); } catch(e) {}
+
+            // Cookie 'host-only' (fr.whoscored.com) valable 1 an
+            try {
+                document.cookie = [
+                    'cookie_consent=1',
+                    'Path=/',
+                    'Max-Age=' + (60*60*24*365),
+                    'SameSite=Lax'
+                ].join('; ');
+            } catch(e) {}
+        """)
+
+        print("[cookies] seed done on site root")
+    except Exception as e:
+        print("[cookies] seed error:", e)
+    finally:
+        # Revenir où on était si nécessaire
+        try:
+            if start_url and start_url != root:
+                driver.get(start_url)
+                time.sleep(0.2)
+        except Exception as e:
+            print("[cookies] return-to-start error:", e)
+
 
 # Fermeture de la page des cookies / Closing the cookies page / Cierre de la página de cookies
-def handle_cookies(driver, accept: bool = True, timeout: int = 2) -> bool:
-    # Récupération du driver en laissant du Timeout pour laisser le temps de raffraichir la page / Retrieving the driver by leaving a timeout to allow time to refresh the page / Recuperación del controlador dejando un tiempo de espera para que se actualice la página
-    wait = WebDriverWait(driver, timeout)
-    btn_id = "onetrust-accept-btn-handler" if accept else "onetrust-reject-all-handler"
-    banner_sel = "div.ot-sdk-container[role='dialog'],#onetrust-banner-sdk,#onetrust-consent-sdk,#onetrust-button-group-parent"
-    fallback_xp = ("//button[normalize-space()='I Accept' or contains(.,'Accept')]" if accept
-                   else "//button[normalize-space()='Reject All' or contains(.,'Reject')]")
+def handle_cookies(driver, accept: bool = True, timeout: int = 8) -> bool:
 
-    # Recherche d'une bannière de cookie visible / Search for a visible cookie banner / Búsqueda de un banner de cookies visible
-    def banner_visible(drv):
+    def overlay_present() -> bool:
+        js = r"""
+        const doc=document;
+        const text = (doc.body && doc.body.innerText || '').toLowerCase();
+        const hasTxt = text.includes('nous respectons votre vie privée')
+                    || text.includes('consentez-vous')
+                    || (text.includes('cookies') && text.includes('partenaires'));
+        const overlays = Array.from(doc.querySelectorAll('div,section,aside,dialog'))
+          .filter(el=>{
+            const st=getComputedStyle(el); if(!st) return false;
+            const zi=parseInt(st.zIndex)||0, op=parseFloat(st.opacity||'1');
+            const pos=st.position, w=el.offsetWidth, h=el.offsetHeight;
+            return (pos==='fixed'||pos==='sticky') && zi>=1000 && op>0.01 && w>200 && h>100;
+          });
+        return hasTxt || overlays.length>0;
+        """
         try:
-            return any(el.is_displayed() for el in drv.find_elements(By.CSS_SELECTOR, banner_sel))
+            return bool(driver.execute_script(js))
         except Exception:
             return False
 
-    if not banner_visible(driver):
-        return True
-    
-    # Si la bannière de cookie est visible, on cherche à fermer cette page / If the cookie banner is visible, we try to close this page / Si el banner de cookies está visible, se intenta cerrar esta página
-    frames = [None] + driver.find_elements(By.CSS_SELECTOR, "iframe,frame")
-    clicked = False
-    for fr in frames:
+    end = time.time() + 1.0
+    while time.time() < end:
+        time.sleep(0.05)
+
+    start_url = driver.current_url
+
+    def click_accept_in_banner() -> bool:
+        # Ne clique que le bouton dans le conteneur “vie privée”
+        js = r"""
+        function findPrivacyBanner(doc){
+          const nodes = Array.from(doc.querySelectorAll('div,section,dialog'));
+          for (const el of nodes){
+            const t = (el.innerText||'').toLowerCase();
+            if (!t) continue;
+            if (t.includes('nous respectons votre vie privée')) return el;
+          }
+          return null;
+        }
+        function preventAllNav(banner){
+          if (!banner) return;
+          banner.addEventListener('click', (ev)=>{
+            // neutralise toute navigation/lien dans la bannière
+            if (ev.target && ev.target.closest('a')) {
+              ev.preventDefault(); ev.stopPropagation();
+              return false;
+            }
+          }, {capture:true, passive:false});
+          const links = banner.querySelectorAll('a');
+          links.forEach(a=>{
+            a.addEventListener('click',(ev)=>{ev.preventDefault(); ev.stopPropagation(); return false;},
+                               {capture:true, passive:false});
+          });
+        }
+        function clickNode(n){
+          try { n.click(); return true; }
+          catch(e){
+            try{
+              n.dispatchEvent(new MouseEvent('mousedown',{bubbles:true,cancelable:true}));
+              n.dispatchEvent(new MouseEvent('mouseup',{bubbles:true,cancelable:true}));
+              n.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true}));
+              return true;
+            }catch(e2){ return false; }
+          }
+        }
+
+        const banner = findPrivacyBanner(document);
+        if (!banner) return {ok:false, reason:'no-banner'};
+
+        // on ne considère QUE des <button> dans la bannière
+        const btns = Array.from(banner.querySelectorAll('button'));
+        const wanted = (el)=>{
+          const t=(el.innerText||el.textContent||'').trim().toLowerCase();
+          return t==='tout accepter' || /\btout\s+accepter\b/.test(t) || t==='accepter' || t==='accept';
+        };
+        const matches = btns.filter(wanted);
+
+        if (!matches.length) {
+          return {ok:false, reason:'no-accept-button'};
+        }
+
+        // empêche toute navigation dans la bannière avant clic
+        preventAllNav(banner);
+
+        // clique le premier match
+        const ok = clickNode(matches[0]);
+        return {ok: !!ok, reason: ok?'clicked':'click-failed'};
+        """
         try:
-            if fr:
-                driver.switch_to.frame(fr)
-            btns = driver.find_elements(By.ID, btn_id) or driver.find_elements(By.XPATH, fallback_xp)
-            if btns:
-                try:
-                    btns[0].click()
-                except ElementClickInterceptedException:
-                    driver.execute_script("arguments[0].click();", btns[0])
-                clicked = True
-                break
+            res = driver.execute_script(js)
+            return bool(res and res.get("ok"))
         except Exception:
-            continue
-        finally:
+            return False
+
+    def fallback_hide_and_flag():
+        # Masque/retire la bannière & overlays + pose un consent flag
+        js = r"""
+        (function(){
+          let removed=0;
+          const doc=document;
+          // bannière “vie privée”
+          const nodes = Array.from(doc.querySelectorAll('div,section,dialog'));
+          for (const el of nodes){
+            const t=(el.innerText||'').toLowerCase();
+            if (t && (t.includes('nous respectons votre vie privée') || (t.includes('cookies') && t.includes('partenaires')))){
+              try{ el.style.display='none'; el.style.opacity='0'; el.remove&&el.remove(); removed++; }catch(e){}
+            }
+          }
+          // overlays “plein écran”
+          const overlays = Array.from(doc.querySelectorAll('div,section,aside,dialog')).filter(el=>{
+            const st=getComputedStyle(el); if(!st) return false;
+            const zi=parseInt(st.zIndex)||0, op=parseFloat(st.opacity||'1');
+            const pos=st.position, w=el.offsetWidth, h=el.offsetHeight;
+            return (pos==='fixed'||pos==='sticky') && zi>=1000 && op>0.01 && w>200 && h>100;
+          });
+          for (const el of overlays.slice(0,8)){
+            try{ el.style.display='none'; el.style.opacity='0'; el.remove&&el.remove(); removed++; }catch(e){}
+          }
+          try { localStorage.setItem('cookie_consent','1'); } catch(e){}
+          try { document.cookie='cookie_consent=1; Path=/; Max-Age='+(60*60*24*365)+'; SameSite=Lax'; } catch(e){}
+          return removed;
+        })();
+        """
+        try:
+            driver.execute_script(js)
+        except Exception:
+            pass
+
+    # 1) si rien à faire ou accept=False, on saute le clic et on se contente du fallback si overlay détecté
+    if accept:
+        # tente un clic STRICT dans la bannière
+        clicked = click_accept_in_banner()
+        # laisse 300ms pour que la modale se retire
+        time.sleep(0.3)
+
+        # si redirection, on revient en arrière et on bascule fallback
+        cur = driver.current_url or ""
+        if cur != start_url and "/accounts/" in cur:
             try:
-                driver.switch_to.default_content()
+                driver.back()
+                time.sleep(0.4)
             except Exception:
                 pass
+            fallback_hide_and_flag()
+        elif overlay_present():
+            # si la bannière est encore là, on ne clique plus : fallback direct
+            fallback_hide_and_flag()
+    else:
+        # pas de clic en mode refuse ; si overlay, fallback direct
+        if overlay_present():
+            fallback_hide_and_flag()
 
-    # Attendre la disparition de la bannière / Wait for the banner to disappear / Esperar a que desaparezca el banner
-    try:
-        WebDriverWait(driver, timeout).until(lambda d: not banner_visible(d))
-    except TimeoutException:
-        pass
+    # 2) vérif finale : tant que overlay détecté, on attend un peu (sans s’obstiner)
+    deadline = time.time() + max(0.8, timeout/2)
+    while time.time() < deadline:
+        if not overlay_present():
+            return True
+        time.sleep(0.1)
 
-    return not banner_visible(driver) or clicked
+    # on renvoie True pour ne pas bloquer le scraping ; le fallback a normalement neutralisé l’overlay
+    return True
+
 
 # Ouvre une URL avec quelques retries pour éviter les blocages de chargement / Open a URL with a few retries to avoid load stalls / Abre una URL con algunos reintentos para evitar bloqueos de carga.
 def get_with_retries(driver, url: str, tries: int = 3, sleep_s: float = 1.0):
@@ -366,7 +521,7 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> 
     # On récupère l'url de l'équipe / We retrieve the team's URL / Recuperamos la URL del equipo.
     driver.get(team_url)
     try:
-        handle_cookies(driver, accept=False, timeout=2)
+        handle_cookies(driver, accept=True, timeout=10)
     except Exception:
         pass
 
@@ -455,7 +610,7 @@ def extract_formation_and_xi_from_team(
     if (not reuse_current) or (not _same_page(cur, team_url)):
         driver.get(team_url)
         try:
-            handle_cookies(driver, accept=False, timeout=2)
+            handle_cookies(driver, accept=True, timeout=10)
         except Exception:
             pass
 
@@ -748,9 +903,11 @@ def run_scrape_whoscored(headed: bool = True):
                 # Ouvrir la page de saison / Open season page / Abrir la página de la temporada de forma robusta
                 get_with_retries(driver, season_url, tries=3, sleep_s=2.0)
                 time.sleep(0.5)
-
+                
+                seed_domain_consent(driver)
+                
                 # Gérer les cookies / Handle cookies / Gestionar cookies
-                handle_cookies(driver, accept=False, timeout=10)
+                handle_cookies(driver, accept=True, timeout=10)
                 print("Page des Cookies fermée")
 
                 # Cliquer l’onglet / Click the tab / Hacer clic en la pestaña
@@ -832,4 +989,4 @@ def run_scrape_whoscored(headed: bool = True):
 
 # Execution du web scraping pour la saison de son choix / Execution of web scraping for the season of your choice / Ejecución del web scraping para la temporada que elija
 if __name__ == "__main__":
-    run_scrape_whoscored(headed=False)
+    run_scrape_whoscored(headed=True)
