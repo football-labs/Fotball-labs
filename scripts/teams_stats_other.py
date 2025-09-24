@@ -787,6 +787,7 @@ DATA_DIR = (ROOT_DIR / "data").resolve()
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 SEASON_CSV = DATA_DIR / "season.csv"
+SEASON_COLS = ["country", "championship_name", "season_name", "id_season", "link_url_opta", "link_url_whoscored"]
 
 
 # Récupération des indices / Recovery of indices / Recuperación de los índices
