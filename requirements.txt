@@ -3,5 +3,3 @@ pandas
 lxml
 html5lib
 selenium>=4.21
-undetected-chromedriver>=3.5
-webdriver-manager>=4.0.1
