@@ -21,11 +21,7 @@ from urllib.parse import urlparse
 
 # Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.common.exceptions import WebDriverException
-import inspect
+import inspect  # seulement pour ChromeDriverManager param check
 
 def make_driver(headed: bool = True) -> webdriver.Chrome:
     chrome_options = Options()
@@ -33,7 +29,7 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
     chrome_options.page_load_strategy = "eager"
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 
-    # Langue FR via arguments + prefs (utile pour UC et Chrome "classique")
+    # FR partout (args + prefs)
     chrome_options.add_argument("--lang=fr-FR")
     chrome_options.add_experimental_option("prefs", {
         "intl.accept_languages": "fr-FR,fr"
@@ -50,27 +46,28 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
         )
 
-    # 1) ChromeDriverManager (sans casser si param non supporté)
+    # 1) undetected_chromedriver en priorité
     try:
-        from webdriver_manager.chrome import ChromeDriverManager
-        print("[driver] Trying ChromeDriverManager…")
-        kwargs = {}
-        if "cache_valid_range" in inspect.signature(ChromeDriverManager).parameters:
-            kwargs["cache_valid_range"] = 7
-        service = Service(ChromeDriverManager(**kwargs).install())
-        drv = webdriver.Chrome(service=service, options=chrome_options)
-        print("[driver] ✅ Using Selenium + ChromeDriverManager")
-    except Exception as e_cdm:
-        print(f"[driver] ChromeDriverManager failed: {type(e_cdm).__name__}: {e_cdm}")
+        print("[driver] Trying undetected_chromedriver (priority)…")
+        import undetected_chromedriver as uc
+        drv = uc.Chrome(options=chrome_options, headless=(not headed))
+        print("[driver] ✅ Using undetected_chromedriver (UC)")
+    except Exception as e_uc:
+        print(f"[driver] undetected_chromedriver failed: {type(e_uc).__name__}: {e_uc}")
 
-        # 2) undetected_chromedriver
+        # 2) ChromeDriverManager (si dispo)
         try:
-            print("[driver] Trying undetected_chromedriver…")
-            import undetected_chromedriver as uc
-            drv = uc.Chrome(options=chrome_options, headless=(not headed))
-            print("[driver] ✅ Using undetected_chromedriver (UC)")
-        except Exception as e_uc:
-            print(f"[driver] undetected_chromedriver failed: {type(e_uc).__name__}: {e_uc}")
+            from webdriver_manager.chrome import ChromeDriverManager
+            print("[driver] Trying ChromeDriverManager…")
+            kwargs = {}
+            # compat: certaines versions n'ont pas cache_valid_range
+            if "cache_valid_range" in inspect.signature(ChromeDriverManager).parameters:
+                kwargs["cache_valid_range"] = 7
+            service = Service(ChromeDriverManager(**kwargs).install())
+            drv = webdriver.Chrome(service=service, options=chrome_options)
+            print("[driver] ✅ Using Selenium + ChromeDriverManager")
+        except Exception as e_cdm:
+            print(f"[driver] ChromeDriverManager failed: {type(e_cdm).__name__}: {e_cdm}")
 
             # 3) Selenium Manager (builtin)
             try:
@@ -81,20 +78,16 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
                 print(f"[driver] ❌ All drivers failed: {type(e_sm).__name__}: {e_sm}")
                 raise
 
-    # --- Hardening langue FR côté CDP ---
+    # --- Renfort FR via CDP ---
     try:
-        # Accept-Language pour les requêtes HTTP
         drv.execute_cdp_cmd("Network.enable", {})
         drv.execute_cdp_cmd("Network.setExtraHTTPHeaders", {
             "headers": {"Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8"}
         })
-        # Locale (format dates/nombres) côté rendu
         try:
             drv.execute_cdp_cmd("Emulation.setLocaleOverride", {"locale": "fr-FR"})
         except Exception:
-            pass  # non critique selon versions
-
-        # Override JS avant chaque nouveau document
+            pass
         drv.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
             "source": """
                 try {
@@ -114,7 +107,7 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
     drv.set_page_load_timeout(60)
     drv.set_script_timeout(60)
 
-    # Log runtime utiles
+    # Petits logs de contrôle
     try:
         print("webdriver =", drv.execute_script("return navigator.webdriver"))
         print("lang =", drv.execute_script("return navigator.language"))
