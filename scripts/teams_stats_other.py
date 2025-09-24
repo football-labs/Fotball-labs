@@ -15,7 +15,6 @@ import pandas as pd
 from pprint import pprint
 from pathlib import Path
 from selenium.webdriver.chrome.service import Service
-from urllib.parse import urlparse
 import os
 
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
@@ -543,72 +542,114 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: in
 
 # Extraire les 5 meilleurs joueurs de chaque équipe / Pick the top 5 players from each team / Seleccionar a los 5 mejores jugadores de cada equipo
 def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> dict:
-    # On normalise le nom d'équipe / We standardise the team name / Se normaliza el nombre del equipo
-    def _clean_name(txt: str) -> str:
-        if not txt: return ""
-        txt = txt.replace("\xa0", " ")
-        txt = re.sub(r"^\s*\d+[\.\)]?\s*", "", txt)
-        txt = re.sub(r"\s{2,}", " ", txt)
-        return txt.strip()
 
-    # On récupère l'url de l'équipe / We retrieve the team's URL / Recuperamos la URL del equipo.
+    def _safe_click(elem):
+        try:
+            elem.click()
+        except Exception:
+            try:
+                driver.execute_script("arguments[0].click();", elem)
+            except Exception:
+                pass
+
+    def _clean_player_name(name: str) -> str:
+        """Supprime un rang préfixé (ex: '1', '1.', '#1', 'No. 1') et normalise les espaces."""
+        if not name:
+            return name
+        # retire un rang au début: "1", "1.", "1)", "#1", "No. 1", "1Hamza", etc.
+        name = re.sub(r'^\s*(?:No\.?\s*)?#?\s*\d+\s*[-\.\)]?\s*', '', name)
+        # remplace l’espace insécable et strip
+        name = name.replace('\xa0', ' ').strip()
+        # compresse les espaces multiples
+        name = re.sub(r'\s{2,}', ' ', name)
+        return name
+
+    # 1) Ouvrir la page équipe
     driver.get(team_url)
-
+    time.sleep(0.3)
     try:
-        handle_cookies(driver, accept=True, timeout=10)
+        handle_cookies(driver, accept=False, timeout=3)  # suppose que ta fonction existe déjà
     except Exception:
         pass
 
-    # On attend le driver et on cherche le tableau des joueurs / We wait for the driver and look for the players' table / Esperamos al conductor y buscamos la tabla de jugadores
     wait = WebDriverWait(driver, timeout)
+
+    # 2) S'assurer d'être sur l'onglet "Résumé" (summary)
     try:
         wait.until(EC.presence_of_element_located((By.ID, "stage-team-stats")))
-        tab = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-options a[href="#stage-team-stats-summary"]')
-        if "selected" not in (tab.get_attribute("class") or ""):
-            try: tab.click()
-            except Exception: driver.execute_script("arguments[0].click();", tab)
+        summary_tab = driver.find_element(
+            By.CSS_SELECTOR,
+            '#stage-team-stats-options a[href="#stage-team-stats-summary"]'
+        )
+        if "selected" not in (summary_tab.get_attribute("class") or ""):
+            _safe_click(summary_tab)
+            time.sleep(0.5)  # petite réhydratation DOM
     except Exception:
         pass
 
-    try:
-        driver.execute_script("document.querySelector('#statistics-table-summary')?.scrollIntoView({block:'center'});")
-    except Exception:
-        pass
+    # 3) Attendre le tableau joueurs
+    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#top-player-stats-summary-grid")))
+    time.sleep(0.3)  # léger délai si la table se rerend
 
-    wait.until(EC.presence_of_element_located(
-        (By.CSS_SELECTOR, "#top-player-stats-summary-grid #player-table-statistics-body"))
-    )
+    soup = BeautifulSoup(driver.page_source, "html.parser")
+    table = soup.select_one("#top-player-stats-summary-grid")
+    if not table:
+        # Fallback une fois si le DOM s'est rerendu
+        time.sleep(0.4)
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+        table = soup.select_one("#top-player-stats-summary-grid")
+    if not table:
+        raise RuntimeError("Table #top-player-stats-summary-grid introuvable.")
 
-    rows = driver.find_elements(
-        By.CSS_SELECTOR,
-        "#top-player-stats-summary-grid #player-table-statistics-body > tr:not(.not-current-player)"
-    )
+    tbody = table.select_one("#player-table-statistics-body") or table.select_one("tbody")
+    if not tbody:
+        raise RuntimeError("Corps de table des joueurs introuvable.")
 
-    # Recherche du nom des 5 meilleurs joueurs par équipe en omettant les joueurs plus au club / Search for the names of the top 5 players per team, excluding players who are no longer with the club / Buscar los nombres de los 5 mejores jugadores por equipo, omitiendo a los jugadores que ya no están en el club
-    names = []
-    for tr in rows:
+    # 4) Parcourir les lignes, en SKIPPANT celles marquées 'not-current-player'
+    players = []
+    for tr in tbody.select("tr"):
+        classes = tr.get("class", [])
+        if any((cls or "").strip() == "not-current-player" for cls in classes):
+            continue  # joueur indisponible -> on l'ignore
+
+        # Récupérer le nom depuis la première cellule "visible"
         name = ""
-        for sel in ["td.grid-abs a.player-link span.iconize",
-                    "td.grid-ghost-cell a.player-link span.iconize",
-                    "a.player-link"]:
-            try:
-                name = tr.find_element(By.CSS_SELECTOR, sel).text
-                break
-            except Exception:
-                continue
-        name = _clean_name(name)
+        # 1er essai : cellule principale (grid-abs)
+        a1 = tr.select_one("td.grid-abs a.player-link")
+        if a1:
+            # Essaye des attributs plus fiables s'ils existent, sinon innerText
+            name = a1.get('data-player-name') or a1.get('aria-label') or a1.get('title') or a1.get_text(strip=True)
+        # fallback : cellule "ghost" (copie pour sticky columns)
+        if not name:
+            a2 = tr.select_one("td.grid-ghost-cell a.player-link")
+            if a2:
+                name = a2.get('data-player-name') or a2.get('aria-label') or a2.get('title') or a2.get_text(strip=True)
+        # dernier fallback : premier <a.player-link> rencontré
+        if not name:
+            a = tr.select_one("a.player-link")
+            if a:
+                name = a.get('data-player-name') or a.get('aria-label') or a.get('title') or a.get_text(strip=True)
+
+        # Nettoyage pour retirer le rang préfixé
+        name = _clean_player_name(name)
+
         if name:
-            names.append(name)
-            if len(names) == 5:
-                break
-    while len(names) < 5: names.append("")
+            players.append(name)
+        if len(players) >= 5:
+            break
+
+    # Compléter si < 5
+    while len(players) < 5:
+        players.append("")
+
     return {
-        "1st_best_player": names[0],
-        "2nd_best_player": names[1],
-        "3rd_best_player": names[2],
-        "4th_best_player": names[3],
-        "5th_best_player": names[4],
+        "1st_best_player": players[0],
+        "2nd_best_player": players[1],
+        "3rd_best_player": players[2],
+        "4th_best_player": players[3],
+        "5th_best_player": players[4],
     }
+
 
 # On extrait le nom de la formation type ainsi que les XI type / We extract the name of the typical formation and the typical starting XI / Se extrae el nombre de la formación tipo y el XI tipo
 def extract_formation_and_xi_from_team(
