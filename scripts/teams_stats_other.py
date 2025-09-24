@@ -21,29 +21,43 @@ from urllib.parse import urlparse
 
 # Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.common.exceptions import WebDriverException
+import inspect
+
 def make_driver(headed: bool = True) -> webdriver.Chrome:
     chrome_options = Options()
     chrome_options.add_argument("--window-size=1366,900")
     chrome_options.page_load_strategy = "eager"
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 
+    # Langue FR via arguments + prefs (utile pour UC et Chrome "classique")
+    chrome_options.add_argument("--lang=fr-FR")
+    chrome_options.add_experimental_option("prefs", {
+        "intl.accept_languages": "fr-FR,fr"
+    })
+
     if not headed:
         chrome_options.add_argument("--headless=new")
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--lang=fr-FR")
         chrome_options.add_argument("--force-device-scale-factor=1")
         chrome_options.add_argument(
             "--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) "
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
         )
 
-    # 1) ChromeDriverManager
+    # 1) ChromeDriverManager (sans casser si param non supporté)
     try:
-        from webdriver_manager.chrome import ChromeDriverManager  # ensure it's installed
+        from webdriver_manager.chrome import ChromeDriverManager
         print("[driver] Trying ChromeDriverManager…")
-        service = Service(ChromeDriverManager(cache_valid_range=7).install())
+        kwargs = {}
+        if "cache_valid_range" in inspect.signature(ChromeDriverManager).parameters:
+            kwargs["cache_valid_range"] = 7
+        service = Service(ChromeDriverManager(**kwargs).install())
         drv = webdriver.Chrome(service=service, options=chrome_options)
         print("[driver] ✅ Using Selenium + ChromeDriverManager")
     except Exception as e_cdm:
@@ -53,13 +67,12 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
         try:
             print("[driver] Trying undetected_chromedriver…")
             import undetected_chromedriver as uc
-            # UC accepte options= et headless= ; on passe les deux pour être explicite
             drv = uc.Chrome(options=chrome_options, headless=(not headed))
             print("[driver] ✅ Using undetected_chromedriver (UC)")
         except Exception as e_uc:
             print(f"[driver] undetected_chromedriver failed: {type(e_uc).__name__}: {e_uc}")
 
-            # 3) Selenium Manager (intégré à Selenium >= 4.6)
+            # 3) Selenium Manager (builtin)
             try:
                 print("[driver] Falling back to Selenium Manager…")
                 drv = webdriver.Chrome(options=chrome_options)
@@ -68,22 +81,31 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
                 print(f"[driver] ❌ All drivers failed: {type(e_sm).__name__}: {e_sm}")
                 raise
 
-    # Tweaks CDP (best-effort)
+    # --- Hardening langue FR côté CDP ---
     try:
+        # Accept-Language pour les requêtes HTTP
         drv.execute_cdp_cmd("Network.enable", {})
         drv.execute_cdp_cmd("Network.setExtraHTTPHeaders", {
             "headers": {"Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8"}
         })
-        drv.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "Europe/Paris"})
+        # Locale (format dates/nombres) côté rendu
+        try:
+            drv.execute_cdp_cmd("Emulation.setLocaleOverride", {"locale": "fr-FR"})
+        except Exception:
+            pass  # non critique selon versions
+
+        # Override JS avant chaque nouveau document
         drv.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
             "source": """
-                Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
-                window.chrome = window.chrome || { runtime: {} };
-                Object.defineProperty(navigator, 'language', {get: () => 'fr-FR'});
-                Object.defineProperty(navigator, 'languages', {get: () => ['fr-FR','fr']});
-                Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3]});
-                try { localStorage.setItem('cookie_consent','1'); } catch(e){}
-                try { document.cookie='cookie_consent=1; Path=/; Max-Age='+(60*60*24*365)+'; SameSite=Lax'; } catch(e){}
+                try {
+                  Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+                  window.chrome = window.chrome || { runtime: {} };
+                  Object.defineProperty(navigator, 'language', {get: () => 'fr-FR'});
+                  Object.defineProperty(navigator, 'languages', {get: () => ['fr-FR','fr']});
+                  Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3]});
+                  localStorage.setItem('cookie_consent','1');
+                  document.cookie='cookie_consent=1; Path=/; Max-Age='+(60*60*24*365)+'; SameSite=Lax';
+                } catch(e) {}
             """
         })
     except Exception as e_cdp:
@@ -92,7 +114,7 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
     drv.set_page_load_timeout(60)
     drv.set_script_timeout(60)
 
-    # Petit log runtime pour confirmer les opts réellement actives
+    # Log runtime utiles
     try:
         print("webdriver =", drv.execute_script("return navigator.webdriver"))
         print("lang =", drv.execute_script("return navigator.language"))
@@ -101,7 +123,6 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
         pass
 
     return drv
-
 
 
 # Bloque les pages de cookies sur toute la durée du driver
