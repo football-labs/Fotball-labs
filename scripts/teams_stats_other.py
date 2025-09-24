@@ -20,28 +20,59 @@ from urllib.parse import urlparse
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
 
 # Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
+
 def make_driver(headed: bool = True) -> webdriver.Chrome:
     chrome_options = Options()
+    chrome_options.add_argument("--window-size=1366,900")
+    chrome_options.page_load_strategy = "eager"
+
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+
     if not headed:
         chrome_options.add_argument("--headless=new")
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--hide-scrollbars")
-        chrome_options.add_argument("--force-device-scale-factor=1")
-        chrome_options.add_argument("--window-size=1366,900")
         chrome_options.add_argument("--lang=fr-FR")
-        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
-    else:
-        chrome_options.add_argument("--window-size=1366,900")
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    chrome_options.add_experimental_option("useAutomationExtension", False)
-    chrome_options.page_load_strategy = "eager"
+        chrome_options.add_argument("--force-device-scale-factor=1")
+        chrome_options.add_argument(
+            "--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+        )
 
-    drv = webdriver.Chrome(options=chrome_options)
-    drv.set_page_load_timeout(40)
-    drv.set_script_timeout(40)
+    try:
+        if headed:
+            drv = webdriver.Chrome(options=chrome_options)
+        else:
+            import undetected_chromedriver as uc
+            drv = uc.Chrome(options=chrome_options, headless=True)
+    except Exception:
+        drv = webdriver.Chrome(options=chrome_options)
+
+    try:
+        drv.execute_cdp_cmd("Network.enable", {})
+        drv.execute_cdp_cmd("Network.setExtraHTTPHeaders", {
+            "headers": {"Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8"}
+        })
+        drv.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "Europe/Paris"})
+        drv.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+            "source": """
+                Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+                window.chrome = window.chrome || { runtime: {} };
+                Object.defineProperty(navigator, 'language', {get: () => 'fr-FR'});
+                Object.defineProperty(navigator, 'languages', {get: () => ['fr-FR','fr']});
+                Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3]});
+                try { localStorage.setItem('cookie_consent','1'); } catch(e){}
+                try { document.cookie='cookie_consent=1; Path=/; Max-Age='+(60*60*24*365)+'; SameSite=Lax'; } catch(e){}
+            """
+        })
+    except Exception:
+        pass
+
+    drv.set_page_load_timeout(60)
+    drv.set_script_timeout(60)
     return drv
+
 
 
 # Bloque les pages de cookies sur toute la durée du driver
@@ -405,8 +436,6 @@ def _name_from_href_fallback(href: str) -> str:
 
 # On extrait les informations de chaque équipe afin d'accéder dans un second temps leurs informations associées / Information is extracted from each team so that their associated information can be accessed at a later stage / Se extrae la información de cada equipo para acceder posteriormente a su información asociada 
 def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: int = 8):
-
-    time.sleep(40)
     # Attente du driver / Waiting for the driver / Esperando el controlador
     wait = WebDriverWait(driver, timeout)
 
@@ -513,6 +542,7 @@ def extract_team_basic_info_from_summary(driver, timeout: int = 20, min_rows: in
 
 # Extraire les 5 meilleurs joueurs de chaque équipe / Pick the top 5 players from each team / Seleccionar a los 5 mejores jugadores de cada equipo
 def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> dict:
+
     # On normalise le nom d'équipe / We standardise the team name / Se normaliza el nombre del equipo
     def _clean_name(txt: str) -> str:
         if not txt: return ""
@@ -534,11 +564,10 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> 
     except Exception:
         pass
     
-    time.sleep(40)
-    
     # On attend le driver et on cherche le tableau des joueurs / We wait for the driver and look for the players' table / Esperamos al conductor y buscamos la tabla de jugadores
     wait = WebDriverWait(driver, timeout)
     try:
+        time.sleep(40)
         wait.until(EC.presence_of_element_located((By.ID, "stage-team-stats")))
         tab = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-options a[href="#stage-team-stats-summary"]')
         if "selected" not in (tab.get_attribute("class") or ""):
@@ -634,6 +663,7 @@ def extract_formation_and_xi_from_team(
 
     # Cherche la table de la formation / Find the formation table Busca la tabla de formación
     try:
+        time.sleep(40)
         wait.until(EC.presence_of_element_located((By.ID, "stage-team-stats")))
         tab = driver.find_element(By.CSS_SELECTOR, '#stage-team-stats-options a[href="#stage-team-stats-summary"]')
         if "selected" not in (tab.get_attribute("class") or ""):
