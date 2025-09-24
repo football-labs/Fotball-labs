@@ -16,6 +16,7 @@ from pprint import pprint
 from pathlib import Path
 from selenium.webdriver.chrome.service import Service
 from urllib.parse import urlparse
+import os
 
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
 
@@ -552,11 +553,6 @@ def extract_top5_ratings_from_team(driver, team_url: str, timeout: int = 20) -> 
 
     # On récupère l'url de l'équipe / We retrieve the team's URL / Recuperamos la URL del equipo.
     driver.get(team_url)
-    print("webdriver =", driver.execute_script("return navigator.webdriver"))
-    print("lang =", driver.execute_script("return navigator.language"))
-    print("plugins =", driver.execute_script("return navigator.plugins && navigator.plugins.length"))
-    print("rows top5 =", len(driver.find_elements(By.CSS_SELECTOR,
-        "#top-player-stats-summary-grid #player-table-statistics-body > tr:not(.not-current-player)")))
 
     try:
         handle_cookies(driver, accept=True, timeout=10)
@@ -774,19 +770,24 @@ def extract_formation_and_xi_from_team(
 ## Partie pour choisir les saisons à scraper / Off to choose which seasons to scrap / Partida para elegir las temporadas que se van a descartar
 
 # Lecture de la liste de saisons / Reading the list of seasons / Lectura de la lista de temporadas
-try:
-    from IPython.display import display
-except Exception:
-    display = print
+def _project_root() -> Path:
+    # On essaie de partir du fichier, sinon du cwd
+    base = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+    # Remonte jusqu’à trouver un dossier contenant "data/season.csv"
+    cur = base
+    for _ in range(6):
+        if (cur / "data" / "season.csv").exists():
+            return cur
+        cur = cur.parent
+    # Si non trouvé, on retourne le parent direct du fichier (comportement le + sain)
+    return base.parent
 
-try:
-    DATA_DIR
-except NameError:
-    DATA_DIR = Path("data")
+ROOT_DIR = _project_root()
+DATA_DIR = (ROOT_DIR / "data").resolve()
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 SEASON_CSV = DATA_DIR / "season.csv"
-SEASON_COLS = ["country", "championship_name", "season_name", "id_season", "link_url_opta", "link_url_whoscored"]
+
 
 # Récupération des indices / Recovery of indices / Recuperación de los índices
 def _parse_multi_indices(raw: str, n: int) -> List[int]:
@@ -1028,3 +1029,5 @@ def run_scrape_whoscored(headed: bool = True):
 # Execution du web scraping pour la saison de son choix / Execution of web scraping for the season of your choice / Ejecución del web scraping para la temporada que elija
 if __name__ == "__main__":
     run_scrape_whoscored(headed=True)
+
+
