@@ -1028,6 +1028,6 @@ def run_scrape_whoscored(headed: bool = True):
 
 # Execution du web scraping pour la saison de son choix / Execution of web scraping for the season of your choice / Ejecución del web scraping para la temporada que elija
 if __name__ == "__main__":
-    run_scrape_whoscored(headed=True)
+    run_scrape_whoscored(headed=False)
 
 
