@@ -20,14 +20,11 @@ from urllib.parse import urlparse
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
 
 # Initialisation du driver en mettant les options désirés / Initialising the driver by setting the desired options / Inicialización del controlador configurando las opciones deseadas.
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 def make_driver(headed: bool = True) -> webdriver.Chrome:
     chrome_options = Options()
     chrome_options.add_argument("--window-size=1366,900")
     chrome_options.page_load_strategy = "eager"
-
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 
     if not headed:
@@ -42,15 +39,36 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
         )
 
+    # 1) ChromeDriverManager
     try:
-        if headed:
-            drv = webdriver.Chrome(options=chrome_options)
-        else:
-            import undetected_chromedriver as uc
-            drv = uc.Chrome(options=chrome_options, headless=True)
-    except Exception:
-        drv = webdriver.Chrome(options=chrome_options)
+        from webdriver_manager.chrome import ChromeDriverManager  # ensure it's installed
+        print("[driver] Trying ChromeDriverManager…")
+        service = Service(ChromeDriverManager(cache_valid_range=7).install())
+        drv = webdriver.Chrome(service=service, options=chrome_options)
+        print("[driver] ✅ Using Selenium + ChromeDriverManager")
+    except Exception as e_cdm:
+        print(f"[driver] ChromeDriverManager failed: {type(e_cdm).__name__}: {e_cdm}")
 
+        # 2) undetected_chromedriver
+        try:
+            print("[driver] Trying undetected_chromedriver…")
+            import undetected_chromedriver as uc
+            # UC accepte options= et headless= ; on passe les deux pour être explicite
+            drv = uc.Chrome(options=chrome_options, headless=(not headed))
+            print("[driver] ✅ Using undetected_chromedriver (UC)")
+        except Exception as e_uc:
+            print(f"[driver] undetected_chromedriver failed: {type(e_uc).__name__}: {e_uc}")
+
+            # 3) Selenium Manager (intégré à Selenium >= 4.6)
+            try:
+                print("[driver] Falling back to Selenium Manager…")
+                drv = webdriver.Chrome(options=chrome_options)
+                print("[driver] ✅ Using Selenium Manager (builtin)")
+            except WebDriverException as e_sm:
+                print(f"[driver] ❌ All drivers failed: {type(e_sm).__name__}: {e_sm}")
+                raise
+
+    # Tweaks CDP (best-effort)
     try:
         drv.execute_cdp_cmd("Network.enable", {})
         drv.execute_cdp_cmd("Network.setExtraHTTPHeaders", {
@@ -68,11 +86,20 @@ def make_driver(headed: bool = True) -> webdriver.Chrome:
                 try { document.cookie='cookie_consent=1; Path=/; Max-Age='+(60*60*24*365)+'; SameSite=Lax'; } catch(e){}
             """
         })
-    except Exception:
-        pass
+    except Exception as e_cdp:
+        print(f"[driver] CDP setup warnings (ignored): {type(e_cdp).__name__}: {e_cdp}")
 
     drv.set_page_load_timeout(60)
     drv.set_script_timeout(60)
+
+    # Petit log runtime pour confirmer les opts réellement actives
+    try:
+        print("webdriver =", drv.execute_script("return navigator.webdriver"))
+        print("lang =", drv.execute_script("return navigator.language"))
+        print("plugins =", drv.execute_script("return navigator.plugins && navigator.plugins.length"))
+    except Exception:
+        pass
+
     return drv
 
 
@@ -1029,4 +1056,4 @@ def run_scrape_whoscored(headed: bool = True):
 
 # Execution du web scraping pour la saison de son choix / Execution of web scraping for the season of your choice / Ejecución del web scraping para la temporada que elija
 if __name__ == "__main__":
-    run_scrape_whoscored(headed=True)
+    run_scrape_whoscored(headed=False)

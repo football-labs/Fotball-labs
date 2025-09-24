@@ -30,8 +30,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt || echo "⚠️ Error in requirements.txt"
 
-      - name: Start headless display
-        uses: pyvista/setup-headless-display-action@v3
 
       - name: Run the scraper (live logs)
         run: |
