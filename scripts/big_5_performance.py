@@ -678,6 +678,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 st.info("Dérouler la barre latérale pour choisir la langue et le championnat à analyser")
             else:
                 team_data = df[df['team_code'] == selected_team].iloc[0] # Filtrer le DataFrame pour l'équipe sélectionnée
+                pays = translate_country(team_data['country'], lang="fr")
 
                 # Équipe (image à gauche, infos à droite)
                 st.markdown(f"""
@@ -687,30 +688,33 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                     <img src="{team_data['team_logo']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
                 </div>
 
-                <div style="flex: 2; min-width: 280px;">
+                <div style="flex: 2; min-width: 180px;">
                     <p><strong>Nom :</strong> {team_data['team_code']}</p>
-                    p><strong>Saison :</strong> {team_data['season_name']}</p>
-                    p><strong>Pays :</strong> {team_data['country']}</p>
-                    p><strong>Championnat :</strong> {team_data['championship_name']}</p>
-
-                    <p><strong>Âge :</strong> {int(player_data['Age']) if pd.notna(player_data['Age']) else "-"}</p>
+                    <p><strong>Saison :</strong> {team_data['season_name']}</p>
+                    <p><strong>Championnat :</strong> {team_data['championship_name']}</p>
                     <p><strong>Pays :</strong> {pays}</p>
-                    <
-                    <p><strong>Poste :</strong> {poste}</p>
+                    <p><strong>Power Ranking :</strong> 30ème (F) </p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Taille :</strong> {int(player_data['height_in_cm']) if pd.notna(player_data['height_in_cm']) else "-" } cm</p>
-                    <p><strong>Valeur marchande :</strong> {format_market_value(player_data['market_value_in_eur'])}</p>
-                    <p><strong>Fin de contrat :</strong> {player_data['contract_expiration_date'] if pd.notna(player_data['contract_expiration_date']) else "-"}</p>
-                    <p><strong>Matches joués :</strong> {int(player_data['MP']) if pd.notna(player_data['MP']) else "-"}</p>
-                    <p><strong>Minutes jouées :</strong> {int(player_data['Min']) if pd.notna(player_data['Min']) else "-"}</p>
+                    <p><strong>Classement :</strong> 12ème (F)</p>
+                    <p><strong>Pts :</strong> 7 (F)</p>
+                    <p><strong>Différence de buts :</strong> {team_data['Team_Success_+/___ptime']}</p> 
+                    <p><strong>Style de jeu Offensif :</strong> Jeu d'alternance (F)</p>
+                    <p><strong>Style de jeu Défensif :</strong> Pressing Haut (F)</p>
+                </div>
+
+                <div style="flex: 2; min-width: 280px;">
+                    <p><strong>Âge moyen :</strong> {team_data['Age__std']}</p>
+                    <p><strong>Taille effectif :</strong> {int(team_data['#_Pl__std']) if pd.notna(team_data['#_Pl__std']) else "-"}</p>
+                    <p><strong>Valeur effectif :</strong> 150 M (F)</p>
+                    <p><strong>Valeur par joueur :</strong> 7 M (F)</p>
+                    <p><strong>Salaire annuel :</strong> {format_market_value(team_data['Annual Wages'])}</p> 
                 </div>
 
                 </div>
                 """, unsafe_allow_html=True)
 
-                st.info("Filtre par équipe")
         
         else:
             st.info("Autre langues")
