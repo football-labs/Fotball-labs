@@ -677,6 +677,39 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 st.image("../image/championship_analysis.jpg") # Utilisation de la 1er bannière en image
                 st.info("Dérouler la barre latérale pour choisir la langue et le championnat à analyser")
             else:
+                team_data = df[df['team_code'] == selected_team].iloc[0] # Filtrer le DataFrame pour l'équipe sélectionnée
+
+                # Équipe (image à gauche, infos à droite)
+                st.markdown(f"""
+                <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto;">
+
+                <div style="flex: 1; text-align: center; min-width: 180px;">
+                    <img src="{team_data['team_logo']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
+                </div>
+
+                <div style="flex: 2; min-width: 280px;">
+                    <p><strong>Nom :</strong> {team_data['team_code']}</p>
+                    p><strong>Saison :</strong> {team_data['season_name']}</p>
+                    p><strong>Pays :</strong> {team_data['country']}</p>
+                    p><strong>Championnat :</strong> {team_data['championship_name']}</p>
+
+                    <p><strong>Âge :</strong> {int(player_data['Age']) if pd.notna(player_data['Age']) else "-"}</p>
+                    <p><strong>Pays :</strong> {pays}</p>
+                    <
+                    <p><strong>Poste :</strong> {poste}</p>
+                </div>
+
+                <div style="flex: 2; min-width: 280px;">
+                    <p><strong>Taille :</strong> {int(player_data['height_in_cm']) if pd.notna(player_data['height_in_cm']) else "-" } cm</p>
+                    <p><strong>Valeur marchande :</strong> {format_market_value(player_data['market_value_in_eur'])}</p>
+                    <p><strong>Fin de contrat :</strong> {player_data['contract_expiration_date'] if pd.notna(player_data['contract_expiration_date']) else "-"}</p>
+                    <p><strong>Matches joués :</strong> {int(player_data['MP']) if pd.notna(player_data['MP']) else "-"}</p>
+                    <p><strong>Minutes jouées :</strong> {int(player_data['Min']) if pd.notna(player_data['Min']) else "-"}</p>
+                </div>
+
+                </div>
+                """, unsafe_allow_html=True)
+
                 st.info("Filtre par équipe")
         
         else:
