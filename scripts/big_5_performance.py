@@ -691,14 +691,14 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 <div style="flex: 2; min-width: 180px;">
                     <p><strong>Nom :</strong> {team_data['team_code']}</p>
                     <p><strong>Saison :</strong> {team_data['season_name']}</p>
-                    <p><strong>Championnat :</strong> {team_data['championship_name']}</p>
+                    <p><strong>Ligue :</strong> {team_data['championship_name']}</p>
                     <p><strong>Pays :</strong> {pays}</p>
                     <p><strong>Power Ranking :</strong> 30ème (F) </p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Classement :</strong> 12ème (F)</p>
-                    <p><strong>Pts :</strong> 7 (F)</p>
+                    <p><strong>Classement :</strong> {team_data['rank_league']}</p>
+                    <p><strong>Pts :</strong> {team_data['pts_league']}</p>
                     <p><strong>Différence de buts :</strong> {team_data['Team_Success_+/___ptime']}</p> 
                     <p><strong>Style de jeu Offensif :</strong> Jeu d'alternance (F)</p>
                     <p><strong>Style de jeu Défensif :</strong> Pressing Haut (F)</p>
@@ -724,13 +724,13 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         st.header("⚖️ Comparaison entre équipes/compétitions")
         # ...
     elif selected == "Stats +":
-        st.header("📈 Stats avancées (Équipes)")
+        st.header("📈 Stats aggrégées par catégorie")
         # ...
     elif selected == "Stats":
-        st.header("📋 Stats (Équipes)")
+        st.header("📋 Stats brutes")
         # ...
     elif selected in ["Top"]:
-        st.header("🏅 Classement")
+        st.header("🏅 Power Ranking")
         # ...
 
 else:
