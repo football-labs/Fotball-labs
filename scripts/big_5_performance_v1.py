@@ -317,6 +317,8 @@ position_category = {
     "Centre-Forward": "Attaquants"
 }
 
+
+
 # Statistiques par catégorie pour le radar / Statistics by categorie for the radar plot / Estadísticas por categoría para el radar plot
 category_stats = {
     "Gardiens de but": ["GA_per90", "PSxG_per90", "/90", "Save%", "PSxG+/-", "Err_per90","Launch%", "AvgLen", "Cmp%", "AvgDist", "#OPA_per90", "Stp%"],
@@ -655,33 +657,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                     
 
     elif selected in ["Équipe", "Team", "Equipo"]:
-        if lang == "Français":
-            # Afficher le titre
-            st.markdown("<h4 style='text-align: center;'>📊 Analyse d'une équipe</h4>", unsafe_allow_html=True)
-
-            df = pd.read_csv('../data/fbref_analyst_joined.csv') # Charger les données
-
-            championship_names = [''] + sorted(df['championship_name'].dropna().unique().tolist()) # Extraire la liste des championnats
-
-            selected_championship = st.sidebar.selectbox("Choisissez un championnat :", championship_names) # Sélection de championnat
-
-            championship_data = df[df['championship_name'] == selected_championship]
-                    
-            teams_names = [''] + sorted(championship_data['team_code'].dropna().unique().tolist()) # Extraire la liste des équipes dans le championnat choisi
-
-            selected_team = st.sidebar.selectbox("Choisissez une équipe :", teams_names) # Sélection de l'équipe
-
-            # Si un championnat est sélectionné, on cache l’image   
-            if not selected_championship or not selected_team:
-                # Aucun championnat sélectionné → afficher l'image d'intro
-                st.image("../image/championship_analysis.jpg") # Utilisation de la 1er bannière en image
-                st.info("Dérouler la barre latérale pour choisir la langue et le championnat à analyser")
-            else:
-                st.info("Filtre par équipe")
-        
-        else:
-            st.info("Autre langues")
-
+        st.header("📊 Profil d’équipe")
         # ...
     elif selected in ["Duel", "F2F", "Duelo"]:
         st.header("⚖️ Comparaison entre équipes/compétitions")
