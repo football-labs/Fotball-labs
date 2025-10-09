@@ -478,6 +478,67 @@ def find_similar_players(selected_player_name, df, filter_type=None, top_n=5):
 
     return candidates_df[final_cols].head(top_n)
 
+# Fonction pour trouver les équipes similaires / Function to find similar teams / Función para encontrar equipos similares
+def find_similar_teams(selected_team_name, df, filter_type=None, top_n=5):
+    # Informations de l'équipe sélectionné / Selected team information / Información del equipo seleccionado
+    try:
+        selected_team_row = df[df['team_code'] == selected_team_name].iloc[0]
+    except IndexError:
+        return pd.DataFrame()
+
+
+    competition = selected_team_row['championship_name'] 
+
+
+    candidates_df = df[df['team_code'] != selected_team_name] # Retirer l'équipe lui-même du calcul / Remove the team himself from the calculation / Eliminar al equipo mismo del cálculo
+
+    # Colonnes de stats à comparer (sauf les informations de base) / Columns of statistics to compare (except base informations) / Columnas de estadísticas para comparar (excepto información base)
+    stats_cols = df.columns[8:-5]
+
+    stats_df = candidates_df[stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
+
+    # Ajouter l'équipe sélectionné au début pour calculer les similarités
+    # Add the team selected at the beginning to calculate similarities
+    # Añadir el equipo seleccionado al principio para calcular las similitudes
+
+    selected_stats = df[df['team_code'] == selected_team_name][stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
+    full_stats = pd.concat([selected_stats, stats_df], ignore_index=True)
+
+    # Normalisation / Standardisation / Normalización
+    scaler = StandardScaler()
+    stats_scaled = scaler.fit_transform(full_stats)
+
+    similarities = cosine_similarity(stats_scaled)[0][1:] # Calcul de similarité / Similarity calculation / Cálculo de similitud
+
+    # Ajouter les scores à candidates_df / Add scores to candidates_df / Añadir los scores a candidates_df
+    candidates_df = candidates_df.reset_index(drop=True)
+    candidates_df['percentage_similarity'] = [round(s * 100, 2) for s in similarities]
+
+    # Appliquer un filtre si spécifié / Apply a filter if specified / Aplicar un filtro si especificado
+    if filter_type == "championnat":
+        candidates_df = candidates_df[
+            candidates_df['championship_name'] == competition
+        ]
+
+    candidates_df = candidates_df.sort_values(by='percentage_similarity', ascending=False) # Trier par similarité / Sort by similarity / Ordenar por similitud
+    
+    # Colonnes à afficher / Columns to display / Columnas a mostrar
+    final_cols = [
+        'team_code', 'percentage_similarity', 'championship_name', 'country'
+    ]
+    # Traduction du pays du joueur / Translation of the player's country / Traducción del país del jugador
+    if lang == "Français":
+        candidates_df['country'] = candidates_df['country'].apply(
+            lambda x: translate_country(x, lang="fr")
+        )
+    elif lang == "Español":
+        candidates_df['country'] = candidates_df['country'].apply(
+            lambda x: translate_country(x, lang="es")
+        )
+
+
+    return candidates_df[final_cols].head(top_n)
+
 # Sélecteur de MODE (Équipes / Joueurs) / Selector of MODE (Teams / Players) / Selector de MODE (Equipos / Jugadores)
 mode_label = {
     "Français": "Type d'analyse",
@@ -698,8 +759,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
                 <div style="flex: 2; min-width: 280px;">
                     <p><strong>Classement :</strong> {team_data['rank_league']}</p>
-                    <p><strong>Pts :</strong> {team_data['pts_league']}</p>
-                    <p><strong>Différence de buts :</strong> {team_data['Team_Success_+/___ptime']}</p> 
+                    <p><strong>Pts :</strong> {int(team_data['pts_league'])}</p>
+                    <p><strong>Différence de buts :</strong> {int(team_data['Team_Success_+/___ptime'])}</p> 
                     <p><strong>Style de jeu Offensif :</strong> Jeu d'alternance (F)</p>
                     <p><strong>Style de jeu Défensif :</strong> Pressing Haut (F)</p>
                 </div>
@@ -715,7 +776,44 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 </div>
                 """, unsafe_allow_html=True)
 
-        
+                # Filtre
+                st.markdown("<p style='text-align:center; margin-bottom:0'>En comparaison avec :</p>", unsafe_allow_html=True)
+
+                c1, c2, c3 = st.columns([1.6, 2, 1])
+
+                with c2:
+                    comparison_filter = st.radio(
+                        label="En comparaison avec",         
+                        options=["Big 5", "Championnat"],
+                        index=0,
+                        horizontal=True,
+                        label_visibility="collapsed",         
+                        key="comparison_filter_radio"  
+                    )
+
+                filter_arg = {"Big 5": None, "Championnat": "championnat"}[comparison_filter]
+
+                # Groupe filtré selon le filtre sélectionné
+                if filter_arg is None:
+                    group_df = df  # Pas de filtre
+                else:  # "championnat"
+                    group_df = df[df['championship_name'] == team_data['championship_name']]
+
+                similar_df = find_similar_teams(selected_team, df, filter_type=filter_arg)
+
+                # Affichage du titre et du tableau
+                if not similar_df.empty:
+                    # Titre centré
+                    st.markdown(
+                        f"<h4 style='text-align:center;'>Équipes similaires à {team_data['team_code']}</h4>",
+                        unsafe_allow_html=True
+                    )
+
+                    # DataFrame centré
+                    d1, d2, d3 = st.columns([0.1, 0.8, 0.1])  # ajuste les ratios si besoin
+                    with d2:
+                        st.dataframe(similar_df, use_container_width=True)
+
         else:
             st.info("Autre langues")
 
