@@ -27,7 +27,7 @@ jobs:
           pip install pandas unidecode pathlib
 
       - name: Ejecutar script fbref_analyst_joined_script.py
-        run: python scripts/fbref_analyst_joined_script.py
+        run: python scripts/team_scripts/fbref_analyst_joined_script.py
 
       - name: Commit y Push del archivo CSV generado
         uses: stefanzweifel/git-auto-commit-action@v5

@@ -26,12 +26,12 @@ jobs:
           pip install pandas lxml html5lib unidecode
 
       - name: Ejecutar script de salarios
-        run: python scripts/teams_salaries.py
+        run: python scripts/team_scripts/teams_salaries.py
 
       - name: Commit y Push del archivo CSV generado
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: Actualizar teams_salaries.csv [skip ci]"
+          commit_message: "chore: Actualizar teams_salaries.csv"
           branch: main
           file_pattern: ./data/team/teams_salaries.csv
           commit_user_name: GitHub Actions Bot

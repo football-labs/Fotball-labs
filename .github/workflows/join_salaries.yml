@@ -27,7 +27,7 @@ jobs:
           pip install pandas unidecode pathlib
 
       - name: Ejecutar script join_teams_salaries.py
-        run: python scripts/join_teams_salaries.py
+        run: python scripts/team_scripts/join_teams_salaries.py
 
       - name: Commit y Push del archivo CSV generado
         uses: stefanzweifel/git-auto-commit-action@v5

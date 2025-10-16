@@ -27,13 +27,13 @@ jobs:
           pip install pandas cloudscraper bs4 requests
 
       - name: Ejecutar script de Scrape
-        run: python scripts/leagues_scrape.py
+        run: python scripts/team_scripts/leagues_scrape.py
 
       - name: Commit y Push del archivo CSV generado
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: Actualizar grouped_stats.csv [skip ci]"
-          branch: main   # Cambia si tu rama principal no se llama 'main'
+          commit_message: "chore: Actualizar grouped_stats.csv"
+          branch: main
           file_pattern: ./data/team/grouped_stats.csv
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
