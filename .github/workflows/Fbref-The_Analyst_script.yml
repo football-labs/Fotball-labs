@@ -32,7 +32,7 @@ jobs:
       - name: Commit y Push del archivo CSV generado
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: Actualizar fbref_analyst_joined CSV [skip ci]"
+          commit_message: "chore: Actualizar fbref_analyst_joined CSV"
           branch: main
           file_pattern: ./data/team/fbref_analyst_joined.csv
           commit_user_name: GitHub Actions Bot
