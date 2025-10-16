@@ -2,7 +2,6 @@ import pandas as pd
 from pathlib import Path
 from unidecode import unidecode
 
-script_dir = Path(__file__).resolve().parent
 
 # Load input data | Charger les données d'entrée | Cargar los datos de entrada
 df_salaries = pd.read_csv(
@@ -40,9 +39,8 @@ df_all_teams_stats = df_all_teams_stats.merge(
 df_all_teams_stats = df_all_teams_stats.drop(columns=["Squad_norm_left", "Squad_norm_right"])
 
 # Save output CSV | Enregistrer le CSV de sortie | Guardar el CSV de salida
-data_dir = script_dir.parent / "data"
-data_dir.mkdir(parents=True, exist_ok=True)
-team_dir   = data_dir / "team"
-team_dir.mkdir(parents=True, exist_ok=True)
+script_dir  = Path(__file__).resolve().parents[2]
+data_dir  = script_dir / "data"
+team_dir  = data_dir / "team"
 out_path = team_dir / "join_teams_salaries.csv"
 df_all_teams_stats.to_csv(out_path, index=False, encoding="utf-8")

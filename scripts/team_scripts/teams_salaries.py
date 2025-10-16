@@ -37,10 +37,9 @@ if dfs:
     df_final = pd.concat(dfs, ignore_index=True)
 
     # Save output CSV / Enregistrer le CSV de sortie / Guardar el CSV de salida
-    data_dir = Path(__file__).resolve().parent.parent / "data"
-    data_dir.mkdir(parents=True, exist_ok=True)
-    team_dir   = data_dir / "team"
-    team_dir.mkdir(parents=True, exist_ok=True)
+    script_dir  = Path(__file__).resolve().parents[2]
+    data_dir  = script_dir / "data"
+    team_dir  = data_dir / "team"
     out_path = team_dir / "teams_salaries.csv"
 
     df_final.to_csv(out_path, index=False)

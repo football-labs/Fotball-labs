@@ -240,11 +240,9 @@ def main():
     final_df = final_df.loc[:, ~final_df.columns.duplicated()]
 
     # Save output CSV / Enregistrer le CSV de sortie / Guardar el CSV de salida
-    script_dir = Path(__file__).resolve().parent
-    data_dir = script_dir.parent / "data"
-    data_dir.mkdir(parents=True, exist_ok=True)
-    team_dir   = data_dir / "team"
-    team_dir.mkdir(parents=True, exist_ok=True)
+    script_dir  = Path(__file__).resolve().parents[2]
+    data_dir  = script_dir / "data"
+    team_dir  = data_dir / "team"
     out_path = team_dir / "grouped_stats.csv"
     final_df.to_csv(out_path, index=False, encoding="utf-8")
     print(f"Guardado: {out_path} | Filas: {len(final_df)} | Columnas: {len(final_df.columns)}")
