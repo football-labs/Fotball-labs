@@ -674,14 +674,11 @@ def aggregate_stats_by_team(
 
 # On trouve le chemin de la racine du projet / We find the path of the project root / Encontramos la ruta de la raíz del proyecto
 
-script_dir = Path(__file__).resolve().parent
-data_dir = script_dir.parent / "data"
-data_dir.mkdir(parents=True, exist_ok=True)
-team_dir   = data_dir / "team"
-team_dir.mkdir(parents=True, exist_ok=True)
+ROOT_DIR  = Path(__file__).resolve().parents[2]
+DATA_DIR  = ROOT_DIR / "data"
+TEAM_DIR  = DATA_DIR / "team"
 
-
-SEASON_CSV = team_dir / "season.csv"
+SEASON_CSV  = TEAM_DIR / "season.csv"
 
 SEASON_COLS = ["country", "championship_name", "season_name", "id_season", "link_url_opta", "link_url_whoscored"]
 
@@ -892,7 +889,7 @@ def run_scrape_the_analyst(headed: bool = True, all_seasons: bool = True):
                     ]
                     
                     df_agg = df_agg.drop(columns=drop_cols, errors="ignore")
-                    out_path = team_dir / "teams_stats.csv" # Chemin du fichier de sortie / Path of the output file / Ruta del archivo de salida
+                    out_path = TEAM_DIR / "teams_stats.csv" # Chemin du fichier de sortie / Path of the output file / Ruta del archivo de salida
                     upsert_csv_by_keys(out_path, df_agg, keys=["id_season", "team_id"])
                     print(f"→ Fichier mis à jour pour la saison {id_season}")
 
