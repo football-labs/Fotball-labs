@@ -674,7 +674,7 @@ def aggregate_stats_by_team(
 
 # On trouve le chemin de la racine du projet / We find the path of the project root / Encontramos la ruta de la raíz del proyecto
 
-ROOT_DIR  = Path(__file__).resolve().parents[1]
+ROOT_DIR  = Path(__file__).resolve().parents[2]
 DATA_DIR  = ROOT_DIR / "data"
 TEAM_DIR  = DATA_DIR / "team"
 
