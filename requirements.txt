@@ -1,18 +1,13 @@
-# Web scraping
 beautifulsoup4
 lxml
 html5lib
-selenium
+selenium>=4.21
 cloudscraper
 requests
 Unidecode
-
-# Data
 pandas
 numpy
 scikit-learn
-
-# Viz
 matplotlib
 seaborn>
 plotly
