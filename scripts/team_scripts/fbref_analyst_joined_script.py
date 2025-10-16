@@ -11,7 +11,7 @@ data_dir.mkdir(parents=True, exist_ok=True)
 team_dir   = data_dir / "team"
 team_dir.mkdir(parents=True, exist_ok=True)
 mapping_path = team_dir / "mapping.json"
-out_path = data_dir / "fbref_analyst_joined.csv"
+out_path = team_dir / "fbref_analyst_joined.csv"
 
 # Charger les fichiers csv / Load CSV files / Cargar los archivos csv
 fbref = pd.read_csv(
