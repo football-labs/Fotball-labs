@@ -1,15 +1,17 @@
-# Combina tablas de equipos (squads) por liga desde FBref en un único CSV local:
-# Salida: data/grouped_stats.csv  (carpeta 'data' fuera del directorio actual del script)
+# Combine team tables (squads) by league from FBref into a single local CSV file. Output: data/team/grouped_stats.csv 
+# Combine les tableaux des équipes (squads) par ligue provenant de FBref dans un seul fichier CSV local, sortie : data/team/grouped_stats.csv 
+# Combina tablas de equipos (squads) por liga desde FBref en un único CSV local, Salida: data/team/grouped_stats.csv 
 
 from bs4 import BeautifulSoup
 import pandas as pd
 from cloudscraper import CloudScraper
 import re, time, random
 from requests import HTTPError
-from pathlib import Path  # <- NUEVO
+from pathlib import Path  
 
 BASE_URL = "https://fbref.com"
 
+# Sections (containers) present on each league page (one page per league) / Sections (conteneurs) présentes sur chaque page de lien (une seule page par lien)
 # Secciones (contenedores) presentes en cada página de liga (una sola página por liga)
 SECTION_IDS = {
     "all_stats_squads_standard":   "std",
@@ -23,7 +25,7 @@ SECTION_IDS = {
     "all_stats_squads_defense":    "def",
 }
 
-# Expansión de Big5 a sus 5 ligas (IDs FBref habituales)
+# Expansion of Big5 to its 5 leagues (usual FBref IDs) / Expansion de Big5 à ses 5 ligues (ID FBref habituels) / Expansión de Big5 a sus 5 ligas (IDs FBref habituales)
 BIG5_SUBLEAGUES = {
     "9":  "Premier-League",
     "12": "La-Liga",
@@ -32,7 +34,7 @@ BIG5_SUBLEAGUES = {
     "13": "Ligue-1",
 }
 
-# Resto de ligas (puedes ampliar/ajustar)
+# Other leagues / Reste des ligues / Resto de ligas
 LEAGUES = {
     "23": "Eredivisie",
     "32": "Primeira-Liga",
@@ -43,7 +45,7 @@ LEAGUES = {
     "10": "Championship",
     "24": "Brasileirao",
     "21": "Liga-Profesional-Argentina",
-    "9":  "Premier-League",  # también incluimos Premier fuera de Big5 si quieres
+    "9":  "Premier-League",
 }
 
 def polite_sleep(a=4.0, b=8.0):
@@ -98,30 +100,32 @@ def build_headers(table) -> list:
     return headers
 
 def _finalize_df(df: pd.DataFrame, suffix: str | None) -> pd.DataFrame:
-    # copia para evitar SettingWithCopyWarning
+    # copy to avoid SettingWithCopyWarning / copie pour éviter SettingWithCopyWarning / copia para evitar SettingWithCopyWarning
     df = df.copy(deep=True)
 
-    # limpieza básica
+    # basic cleaning / nettoyage de base / limpieza básica
     df.dropna(how="all", inplace=True)
     df = df.loc[:, ~df.columns.duplicated()]
 
-    # normalizar claves: queremos SIEMPRE 'Squad' (equipo). Si viene como Team/Club o '..._Squad' lo renombramos.
+    # Standardise keywords: we want “Squad”. If it comes as Team/Club or “..._Squad”, we rename it.
+    # Normaliser les mots-clés : nous voulons « Squad » (équipe). Si le nom est « Team/Club » ou « ..._Squad », nous le renommons.
+    # normalizar claves: queremos 'Squad' (equipo). Si viene como Team/Club o '..._Squad' lo renombramos.
     if "Squad" not in df.columns:
         candidates = [c for c in df.columns if c.endswith("_Squad")] + [c for c in df.columns if c in ("Team", "Club")]
         if candidates:
             df = df.rename(columns={candidates[0]: "Squad"})
         else:
+            # If there is no Squad, this table is not for teams and is of no use to us. / S'il n'y a pas d'équipe, ce tableau ne concerne pas les équipes et ne nous est d'aucune utilité.
             # si no hay Squad, esta tabla no es de equipos y no nos sirve
             raise ValueError(f"No se encontró columna 'Squad' (equipo). Columnas: {list(df.columns)}")
 
-    # unificar 'Comp' -> 'Competition' si aparece
+    # unify “Comp” -> “Competition” if it appears / unifier « Comp » -> « Competition » si cela apparaît / unificar 'Comp' -> 'Competition' si aparece
     if "Competition" not in df.columns and "Comp" in df.columns:
         df = df.rename(columns={"Comp": "Competition"})
 
-    # columnas ruidosas
     df.drop(columns=[c for c in ("Rk", "Matches") if c in df.columns], inplace=True, errors="ignore")
 
-    # sufijo para evitar colisiones entre secciones (dejamos claves sin sufijo)
+    # suffix to avoid collisions between sections / suffixe pour éviter les collisions entre sections / sufijo para evitar colisiones entre secciones
     if suffix:
         rename_map = {c: f"{c}__{suffix}" for c in df.columns if c not in ("Competition", "Squad")}
         if rename_map:
@@ -166,7 +170,7 @@ def parse_table_from_container(soup: BeautifulSoup, container_id: str, col_suffi
     return _finalize_df(df, col_suffix)
 
 def merge_on_keys(left: pd.DataFrame, right: pd.DataFrame) -> pd.DataFrame:
-    # Merge siempre por Competition + Squad (ambas deben existir)
+    # Always merge by Competition + Squad / Fusionner toujours par Compétition + Équipe / Merge siempre por Competition + Squad
     for k in ("Competition", "Squad"):
         if k not in left.columns or k not in right.columns:
             raise ValueError(f"Falta clave '{k}' en el merge.")
@@ -185,11 +189,11 @@ def fetch_league_squads_page(league_id: str, league_slug: str) -> pd.DataFrame |
     for container_id, suffix in SECTION_IDS.items():
         try:
             df_sec = parse_table_from_container(soup, container_id, col_suffix=suffix)
-            # Asegurar columna 'Competition' con el nombre humano de la liga
+            # Secure the “Competition” column with the name of the league / Assurer la colonne « Compétition » avec le nom de la ligue / Asegurar columna 'Competition' con el nombre de la liga
             if "Competition" not in df_sec.columns:
                 df_sec.insert(0, "Competition", league_slug.replace("-", " "))
             else:
-                # normalizar valor si viene distinto
+                # normalise value if it is different / normalise la valeur si elle est différente / normalizar valor si viene distinto
                 if df_sec["Competition"].nunique() == 1 and df_sec["Competition"].iloc[0] in ("", None):
                     df_sec["Competition"] = league_slug.replace("-", " ")
             # merge
@@ -208,7 +212,7 @@ def fetch_league_squads_page(league_id: str, league_slug: str) -> pd.DataFrame |
 def main():
     all_dfs = []
 
-    # ---- BIG5 como equipos: expandimos a sus 5 ligas ----
+    # BIG5 as teams: we expanded to its five leagues / BIG5 en tant qu'équipes : nous nous développons dans ses 5 ligues / BIG5 como equipos: expandimos a sus 5 ligas
     print("Big5 -> expandiendo a: Premier, La Liga, Bundesliga, Serie A, Ligue 1")
     for lid, lslug in BIG5_SUBLEAGUES.items():
         print(f"Fetching: {lslug} (id={lid}) [Big5]")
@@ -217,9 +221,9 @@ def main():
             all_dfs.append(df)
         polite_sleep(6.0, 10.0)
 
-    # ---- Resto de ligas ----
+    # Other leagues / Reste des ligues / Resto de ligas
     for lid, lslug in LEAGUES.items():
-        # Evitar duplicar Premier si ya te vale con la del bloque Big5
+        # Avoid duplicating Premier if the one in the Big5 block is sufficient for you / Évitez de dupliquer Premier si celui du bloc Big5 vous suffit. / Evitar duplicar Premier si ya te vale con la del bloque Big5
         if lid in BIG5_SUBLEAGUES:
             continue
         print(f"Fetching: {lslug} (id={lid})")
@@ -235,12 +239,13 @@ def main():
     final_df = pd.concat(all_dfs, axis=0, ignore_index=True)
     final_df = final_df.loc[:, ~final_df.columns.duplicated()]
 
-    # ----- NUEVO: guardar fuera del directorio del script, en ../data/grouped_stats.csv -----
+    # Save output CSV / Enregistrer le CSV de sortie / Guardar el CSV de salida
     script_dir = Path(__file__).resolve().parent
     data_dir = script_dir.parent / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
-
-    out_path = data_dir / "grouped_stats.csv"
+    team_dir   = data_dir / "team"
+    team_dir.mkdir(parents=True, exist_ok=True)
+    out_path = team_dir / "grouped_stats.csv"
     final_df.to_csv(out_path, index=False, encoding="utf-8")
     print(f"Guardado: {out_path} | Filas: {len(final_df)} | Columnas: {len(final_df.columns)}")
 

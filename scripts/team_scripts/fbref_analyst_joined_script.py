@@ -8,7 +8,9 @@ import json
 script_dir = Path(__file__).resolve().parent
 data_dir = script_dir.parent / "data"
 data_dir.mkdir(parents=True, exist_ok=True)
-mapping_path = data_dir / "mapping.json"
+team_dir   = data_dir / "team"
+team_dir.mkdir(parents=True, exist_ok=True)
+mapping_path = team_dir / "mapping.json"
 out_path = data_dir / "fbref_analyst_joined.csv"
 
 # Charger les fichiers csv / Load CSV files / Cargar los archivos csv

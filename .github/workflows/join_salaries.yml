@@ -2,7 +2,8 @@ name: Ejecutar Join Teams Salaries
 
 on:
   schedule:
-    - cron: '0 8 */2 * *'   # Cada 2 días a las 08:00 UTC
+    # Every Wednesday at 07:00 UTC
+    - cron: '0 7 * * 3'
   workflow_dispatch:
 
 jobs:
@@ -33,7 +34,7 @@ jobs:
         with:
           commit_message: "chore: Actualizar join_teams_salaries CSV [skip ci]"
           branch: main
-          file_pattern: ./data/join_teams_salaries.csv
+          file_pattern: ./data/team/join_teams_salaries.csv
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
           commit_author: GitHub Actions Bot <actions@github.com>

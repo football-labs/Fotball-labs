@@ -681,10 +681,11 @@ def _project_root() -> Path:
 ROOT_DIR = _project_root()
 DATA_DIR = ROOT_DIR / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
+TEAM_DIR = DATA_DIR / "team"
+TEAM_DIR.mkdir(parents=True, exist_ok=True)
 
+SEASON_CSV = TEAM_DIR / "season.csv"
 
-
-SEASON_CSV = DATA_DIR / "season.csv"
 SEASON_COLS = ["country", "championship_name", "season_name", "id_season", "link_url_opta", "link_url_whoscored"]
 
 
@@ -894,7 +895,7 @@ def run_scrape_the_analyst(headed: bool = True, all_seasons: bool = True):
                     ]
                     
                     df_agg = df_agg.drop(columns=drop_cols, errors="ignore")
-                    out_path = DATA_DIR / "teams_stats.csv" # Chemin du fichier de sortie / Path of the output file / Ruta del archivo de salida
+                    out_path = TEAM_DIR / "teams_stats.csv" # Chemin du fichier de sortie / Path of the output file / Ruta del archivo de salida
                     upsert_csv_by_keys(out_path, df_agg, keys=["id_season", "team_id"])
                     print(f"→ Fichier mis à jour pour la saison {id_season}")
 

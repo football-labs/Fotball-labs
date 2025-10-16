@@ -720,7 +720,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
             # Afficher le titre
             st.markdown("<h4 style='text-align: center;'>📊 Analyse d'une équipe</h4>", unsafe_allow_html=True)
 
-            df = pd.read_csv('../data/fbref_analyst_joined.csv') # Charger les données
+            df = pd.read_csv('../data/team/fbref_analyst_joined.csv') # Charger les données
 
             championship_names = [''] + sorted(df['championship_name'].dropna().unique().tolist()) # Extraire la liste des championnats
 
@@ -991,7 +991,7 @@ else:
             # Afficher le titre
             st.markdown("<h4 style='text-align: center;'>📊 Analyse d'un joueur</h4>", unsafe_allow_html=True)
 
-            df = pd.read_csv('../data/database_player.csv') # Charger les données
+            df = pd.read_csv('../data/player/database_player.csv') # Charger les données
 
             player_names = [''] + sorted(df['name'].dropna().unique().tolist()) # Extraire la liste des joueurs
 
@@ -1303,7 +1303,7 @@ else:
             # Display the title
             st.markdown("<h4 style='text-align: center;'>📊 Player analysis</h4>", unsafe_allow_html=True)
 
-            df = pd.read_csv('../data/database_player.csv') # Collect the data
+            df = pd.read_csv('../data/player/database_player.csv') # Collect the data
 
             player_names = [''] + sorted(df['name'].dropna().unique().tolist()) # Extract the list of players
 
@@ -1650,7 +1650,7 @@ else:
             # Título
             st.markdown("<h4 style='text-align: center;'>📊 Análisis de un jugador</h4>", unsafe_allow_html=True)
 
-            df = pd.read_csv('../data/database_player.csv')  # Cargar datos
+            df = pd.read_csv('../data/player/database_player.csv')  # Cargar datos
 
             player_names = [''] + sorted(df['name'].dropna().unique().tolist())  # Lista de jugadores
 
@@ -1969,7 +1969,7 @@ else:
                 unsafe_allow_html=True)
             
 
-            df = pd.read_csv("../data/database_player.csv") # Récupérer les données
+            df = pd.read_csv("../data/player/database_player.csv") # Récupérer les données
             player_names = sorted(df['name'].dropna().unique().tolist()) # Ordonner par le nom du joueur
 
             st.sidebar.markdown("### Sélection des joueurs") # Sélection dans la sidebar
@@ -2245,7 +2245,7 @@ else:
                 "<h4 style='text-align: center;'>🥊 Player Comparison</h4>", 
                 unsafe_allow_html=True)
 
-            df = pd.read_csv("../data/database_player.csv") # Recover the data
+            df = pd.read_csv("../data/player/database_player.csv") # Recover the data
             player_names = sorted(df['name'].dropna().unique().tolist()) # Order by data 
 
             st.sidebar.markdown("### Player selection") # Selection in the sidebar
@@ -2513,7 +2513,7 @@ else:
                 "<h4 style='text-align: center;'>🥊 Comparación de dos jugadores</h4>", 
                 unsafe_allow_html=True)
 
-            df = pd.read_csv("../data/database_player.csv")  # Cargar datos
+            df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
             player_names = sorted(df['name'].dropna().unique().tolist())  # Ordenar por nombre
 
             st.sidebar.markdown("### Selección de jugadores")  # Selección en la barra lateral
@@ -2779,7 +2779,7 @@ else:
         # Page en français
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>🏅 Classement des joueurs (0-100) pour les statistiques aggrégées par catégorie selon leur poste</h4>", unsafe_allow_html=True) # Affichage du titre de la page
-            df = pd.read_csv("../data/database_player.csv") # Récupération des données
+            df = pd.read_csv("../data/player/database_player.csv") # Récupération des données
             
             # Récupération des colonnes "score_" + "rating"
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
@@ -2962,7 +2962,7 @@ else:
         elif lang == "English":
 
             st.markdown("<h4 style='text-align: center;'>🏅 Player rankings (0-100) for aggregate statistics by category according to their position</h4>", unsafe_allow_html=True) # Display title
-            df = pd.read_csv("../data/database_player.csv") # Collect the data
+            df = pd.read_csv("../data/player/database_player.csv") # Collect the data
             
             # Retrieve “score_” + “rating” columns
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
@@ -3130,7 +3130,7 @@ else:
         else:
             # Página en español
             st.markdown("<h4 style='text-align: center;'>🏅 Clasificación de jugadores (0-100) para estadísticas agregadas por categoría según su posición</h4>", unsafe_allow_html=True)
-            df = pd.read_csv("../data/database_player.csv")  # Cargar datos
+            df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
 
             # Columnas "score_" + "rating"
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
@@ -3303,7 +3303,7 @@ else:
         # Page en français
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>🏆 Classement des joueurs pour les statistiques brutes</h4>", unsafe_allow_html=True) # Affichage du titre de la page
-            df = pd.read_csv("../data/database_player.csv") # Récupération des données
+            df = pd.read_csv("../data/player/database_player.csv") # Récupération des données
 
             all_stats = sorted(set(stat for stats in category_stats.values() for stat in stats if stat in df.columns)) # Liste des statistiques disponibles
 
@@ -3580,7 +3580,7 @@ else:
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>🏆 Player rankings for raw statistics</h4>", unsafe_allow_html=True) # Display the title
             
-            df = pd.read_csv("../data/database_player.csv") # Recovering data
+            df = pd.read_csv("../data/player/database_player.csv") # Recovering data
 
             all_stats = sorted(set(stat for stats in category_stats.values() for stat in stats if stat in df.columns)) # List of available statistics
 
@@ -3844,7 +3844,7 @@ else:
         else:
             # Página en español
             st.markdown("<h4 style='text-align: center;'>🏆 Clasificación de jugadores por estadísticas brutas</h4>", unsafe_allow_html=True)
-            df = pd.read_csv("../data/database_player.csv")  # Cargar datos
+            df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
 
             # Lista de estadísticas disponibles
             all_stats = sorted(set(stat for stats in category_stats.values() for stat in stats if stat in df.columns))
@@ -4115,7 +4115,7 @@ else:
         # Page en français
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'> 🔎 Scouting </h4>", unsafe_allow_html=True) # Affichage du titre de la page
-            df = pd.read_csv("../data/database_player.csv") # Récupération des données
+            df = pd.read_csv("../data/player/database_player.csv") # Récupération des données
             
             # Caractéristiques générales (avec traductions lorsque cela est nécéssaire)
             pays_options_raw = sorted(df["country_of_citizenship"].dropna().unique())
@@ -4426,7 +4426,7 @@ else:
 
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'> 🔎 Scouting </h4>", unsafe_allow_html=True) # Display the title
-            df = pd.read_csv("../data/database_player.csv") # Recover the data 
+            df = pd.read_csv("../data/player/database_player.csv") # Recover the data 
 
             # General Characteristics
             country_options = sorted(df["country_of_citizenship"].dropna().unique())
@@ -4718,7 +4718,7 @@ else:
         else:
             # Página en español
             st.markdown("<h4 style='text-align: center;'> 🔎 Scouting </h4>", unsafe_allow_html=True)
-            df = pd.read_csv("../data/database_player.csv")  # Cargar datos
+            df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
 
             # Características generales (con traducciones cuando es necesario)
             pais_options_raw = sorted(df["country_of_citizenship"].dropna().unique())

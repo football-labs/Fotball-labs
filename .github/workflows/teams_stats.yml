@@ -2,8 +2,8 @@ name: Scrape and commit teams stats
 
 on:
   schedule:
-    # Every Wednesday at 08:00 UTC
-    - cron: '0 8 * * 3'
+    # Every Wednesday at 07:00 UTC
+    - cron: '0 7 * * 3'
   workflow_dispatch:
 
 jobs:
@@ -34,7 +34,7 @@ jobs:
         with:
           commit_message: "chore: Update teams_stats.csv"
           branch: main
-          file_pattern: ./data/teams_stats.csv
+          file_pattern: ./data/team/teams_stats.csv
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
           commit_author: GitHub Actions Bot <actions@github.com>

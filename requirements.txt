@@ -1,6 +1,21 @@
+# Web scraping
 beautifulsoup4
-pandas
 lxml
 html5lib
-selenium>=4.21
-undetected-chromedriver>=3.5
+selenium
+cloudscraper
+requests
+Unidecode
+
+# Data
+pandas
+numpy
+scikit-learn
+
+# Viz
+matplotlib
+seaborn>
+plotly
+mplsoccer
+streamlit
+streamlit-option-menu

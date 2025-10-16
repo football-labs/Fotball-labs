@@ -1,13 +1,13 @@
 import pandas as pd
 import re
-import unidecode  # si no lo tienes: !pip install Unidecode
+import unidecode
 from pathlib import Path
 
-# Lista de enlaces de salarios
+# List of salary links / Liste des salaires / Lista de enlaces de salarios
 links = ['https://fbref.com/en/comps/Big5/wages/Big-5-European-Leagues-Wages']
 
 def extract_euro_value(val):
-    """Extrae el valor numérico en euros desde una cadena con formato '€ 123,456 (x)'."""
+    """Extract the numerical value in euros from a string with the format “€ 123,456 (x)”. / Extrait la valeur numérique en euros d'une chaîne au format « € 123,456 (x) ». / Extrae el valor numérico en euros desde una cadena con formato '€ 123,456 (x)'."""
     if isinstance(val, str):
         match = re.search(r'€\s?([\d,]+)', val)
         if match:
@@ -15,9 +15,9 @@ def extract_euro_value(val):
     return None
 
 def process_wage_table(url):
-    """Lee y limpia la tabla de salarios desde un enlace de FBref."""
+    """Read and clear the salary table from a FBref link. / Lis et nettoie le tableau des salaires à partir d'un lien FBref. / Lee y limpia la tabla de salarios desde un enlace de FBref."""
     try:
-        df = pd.read_html(url)[0]  # igual que lo tenías
+        df = pd.read_html(url)[0]
         if 'Weekly Wages' in df.columns:
             df['Weekly Wages'] = df['Weekly Wages'].apply(extract_euro_value)
         if 'Annual Wages' in df.columns:
@@ -29,17 +29,19 @@ def process_wage_table(url):
         print(f"Error procesando {url}: {e}")
         return None
 
-# Procesamos todos los enlaces y descartamos resultados vacíos
+# We process all links and discard empty results. / Nous traitons tous les liens et rejetons les résultats vides. / Procesamos todos los enlaces y descartamos resultados vacíos
 dfs = [process_wage_table(url) for url in links]
 dfs = [df for df in dfs if df is not None and not df.empty]
 
 if dfs:
     df_final = pd.concat(dfs, ignore_index=True)
 
-    # Guardar en carpeta data/
+    # Save output CSV / Enregistrer le CSV de sortie / Guardar el CSV de salida
     data_dir = Path(__file__).resolve().parent.parent / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
-    out_path = data_dir / "teams_salaries.csv"
+    team_dir   = data_dir / "team"
+    team_dir.mkdir(parents=True, exist_ok=True)
+    out_path = team_dir / "teams_salaries.csv"
 
     df_final.to_csv(out_path, index=False)
     print(f"Guardado: {out_path} | Filas: {len(df_final)} | Columnas: {df_final.shape[1]}")

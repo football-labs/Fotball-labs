@@ -2,7 +2,8 @@ name: Ejecutar FBref-Analyst Join
 
 on:
   schedule:
-    - cron: '0 8 * * *'   # Todos los días a las 08:00 UTC
+    # Every Wednesday at 08:00 UTC
+    - cron: '0 8 * * 3'
   workflow_dispatch:
 
 jobs:
@@ -33,7 +34,7 @@ jobs:
         with:
           commit_message: "chore: Actualizar fbref_analyst_joined CSV [skip ci]"
           branch: main
-          file_pattern: ./data/fbref_analyst_joined.csv
+          file_pattern: ./data/team/fbref_analyst_joined.csv
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
           commit_author: GitHub Actions Bot <actions@github.com>

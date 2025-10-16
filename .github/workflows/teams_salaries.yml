@@ -2,8 +2,7 @@ name: Ejecutar Scraper de FBref Teams Salaries
 
 on:
   schedule:
-    - cron: '0 8 5 2 *'   # 5 de febrero a las 08:00 UTC
-    - cron: '0 8 10 10 *' # 10 de octubre a las 08:00 UTC
+    - cron: '0 8 1 * *'   # Every 1st of the month at 08:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -34,7 +33,7 @@ jobs:
         with:
           commit_message: "chore: Actualizar teams_salaries.csv [skip ci]"
           branch: main
-          file_pattern: ./data/teams_salaries.csv
+          file_pattern: ./data/team/teams_salaries.csv
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
           commit_author: GitHub Actions Bot <actions@github.com>

@@ -2,15 +2,15 @@ name: Ejecutar script de Scrape
 
 on:
   schedule:
-    # Se ejecuta cada martes y viernes a las 08:00 UTC
-    - cron: '0 8 * * 2,5'
-  workflow_dispatch: # Permite ejecutar manualmente el workflow
+    # Every Wednesday at 07:00 UTC
+    - cron: '0 7 * * 3'
+  workflow_dispatch:
 
 jobs:
   scrape_and_commit:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Necesario para hacer commit en el repo
+      contents: write
 
     steps:
       - name: Checkout del repositorio
@@ -34,7 +34,7 @@ jobs:
         with:
           commit_message: "chore: Actualizar grouped_stats.csv [skip ci]"
           branch: main   # Cambia si tu rama principal no se llama 'main'
-          file_pattern: ./data/grouped_stats.csv
+          file_pattern: ./data/team/grouped_stats.csv
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
           commit_author: GitHub Actions Bot <actions@github.com>
