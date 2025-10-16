@@ -9,7 +9,7 @@ pandas
 numpy
 scikit-learn
 matplotlib
-seaborn>
+seaborn
 plotly
 mplsoccer
 streamlit
