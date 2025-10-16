@@ -5,9 +5,9 @@ from pathlib import Path
 import json
 
 # Chemins / Paths / Caminos
-script_dir  = Path(__file__).resolve().parent
-data_dir = script_dir.parent / "data"
-team_dir   = data_dir / "team"
+script_dir  = Path(__file__).resolve().parents[2]
+data_dir  = script_dir / "data"
+team_dir  = data_dir / "team"
 mapping_path = team_dir / "mapping.json"
 out_path = team_dir / "fbref_analyst_joined.csv"
 
