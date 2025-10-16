@@ -7,18 +7,16 @@ import json
 # Chemins / Paths / Caminos
 script_dir  = Path(__file__).resolve().parent
 data_dir = script_dir.parent / "data"
-data_dir.mkdir(parents=True, exist_ok=True)
 team_dir   = data_dir / "team"
-team_dir.mkdir(parents=True, exist_ok=True)
 mapping_path = team_dir / "mapping.json"
 out_path = team_dir / "fbref_analyst_joined.csv"
 
 # Charger les fichiers csv / Load CSV files / Cargar los archivos csv
 fbref = pd.read_csv(
-    'https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/join_teams_salaries.csv'
+    'https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/join_teams_salaries.csv'
 )
 opta = pd.read_csv(
-    'https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/teams_stats.csv'
+    'https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/teams_stats.csv'
 )
 
 # Filtrer les données des 5 grands championnats / Filter Big5 leagues / Filtrar los datos de las 5 grandes ligas
