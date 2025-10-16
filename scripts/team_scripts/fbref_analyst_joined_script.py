@@ -5,7 +5,7 @@ from pathlib import Path
 import json
 
 # Chemins / Paths / Caminos
-script_dir  = Path(__file__).resolve().parents[2]
+script_dir  = Path(__file__).resolve().parent
 data_dir = script_dir.parent / "data"
 data_dir.mkdir(parents=True, exist_ok=True)
 team_dir   = data_dir / "team"
