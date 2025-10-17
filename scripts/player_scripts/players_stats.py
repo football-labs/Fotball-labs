@@ -241,9 +241,6 @@ remaining_tm = remaining_tm[~remaining_tm["name_clean"].isin(matched_tm_75)]
 
 matches_90noyear, matched_fbref_90noyear, matched_tm_90noyear = fuzzy_match(remaining_fbref, remaining_tm, 90, False, "90%_no_year")
 
-# On n'allège pas le filtre plus bas pour l'instant (car sinon erreur d'association)
-# We are not lightening the filter further at this stage (as this would result in association errors)
-# Por ahora no se aligera el filtro inferior (ya que, de lo contrario, se produciría un error de asociación).
 
 matches_65, matched_fbref_65, matched_tm_65 = fuzzy_match(remaining_fbref, remaining_tm, 65, True, "65%_year")
 remaining_fbref = remaining_fbref[~remaining_fbref["Player_clean"].isin(matched_fbref_65)]
@@ -256,13 +253,6 @@ matches_60, matched_fbref_60, matched_tm_60 = fuzzy_match(remaining_fbref, remai
 remaining_fbref = remaining_fbref[~remaining_fbref["Player_clean"].isin(matched_fbref_60)]
 remaining_tm = remaining_tm[~remaining_tm["name_clean"].isin(matched_tm_60)]
 
-#remaining_fbref = remaining_fbref[~remaining_fbref["Player_clean"].isin(matched_fbref_90noyear)]
-#remaining_tm = remaining_tm[~remaining_tm["name_clean"].isin(matched_tm_90noyear)]
-
-# Association manuelle / Manual matching / Asociación manual
-
-# À modifier lors de la version complète des données / To be modified when the complete version of the data is available
-# Modificar cuando se disponga de la versión completa de los datos
 
 manual_links = {
     "cucho": "cucho hernandez",
@@ -392,11 +382,12 @@ print(f"Total appariés : {len(all_matches)}")
 print(f"Non appariés (fbref) : {len(unmatched_fbref_final)}")
 print(f"Non appariés (tm) : {len(unmatched_tm_final)}")
 
+all_matches.to_csv(out_db, index=False)
 
 ## Rating / Notation
 
 # Chargement du fichier / Load file / Cargando el archivo
-df = all_matches
+df = pd.read_csv(out_db)
 
 # Définir la liste de colonne / Define columns / Definir la lista de columnas
 stat_cols = df.columns[23:]
