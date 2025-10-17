@@ -42,7 +42,7 @@ cols_num = ["MP", "Starts", "Min", "90s", "Tkl", "Won", "Succ","Cmp", "A-xAG", "
             "/90", "AvgDist"]
 
 # Colonne contenant un pourcentage / Column containing a percentage / Columna que contiene un porcentaje
-cols_pct = ["G/Sh", "SoT%", "CS%", "Launch%", "Stp%", "Cmp%", "Tkl%", "Succ%", "Won%", "Save%"]
+cols_pct = ["G/Sh", "SoT%", "CS%", "Launch%", "Stp%", "Cmp%", "Tkl%", "Succ%", "Won%", "Save%"] 
 
 # Colonnes à transformer en statistiques par 90 minutes / Columns to convert to per-90 stats 
 # Columnas que se convertirán en estadísticas cada 90 minutos
@@ -55,7 +55,6 @@ cols_per_90 = [
 cols_fixed = [col for col in cols_fixed if col in fbref_data.columns]
 cols_num = [col for col in cols_num if col in fbref_data.columns]
 cols_pct = [col for col in cols_pct if col in fbref_data.columns]
-
 cols_per_90 = [col for col in cols_per_90 if col in fbref_data.columns]
 
 # Conversion en numérique / Convert relevant columns to numeric / Conversión a formato digital 
@@ -68,6 +67,20 @@ per90_df = per90_df.fillna(0)
 
 # On concatène les données / We concatenate the data / Se concatenan los datos
 fbref_df = pd.concat([fbref_data, per90_df], axis=1)
+
+
+# Remplir les % manquants par la moyenne (par ligue puis globale) / Fill missing % by mean (by league then global) /
+# Rellenar % faltantes por la media (por liga y luego global)
+pct_cols_present = [c for c in cols_pct if c in fbref_df.columns]
+if pct_cols_present:
+    if "Comp" in fbref_df.columns:
+        fbref_df[pct_cols_present] = fbref_df[pct_cols_present].fillna(
+            fbref_df.groupby("Comp")[pct_cols_present].transform("mean")
+        )
+    fbref_df[pct_cols_present] = fbref_df[pct_cols_present].fillna(
+        fbref_df[pct_cols_present].mean(numeric_only=True)
+    )
+    fbref_df[pct_cols_present] = fbref_df[pct_cols_present].round(2)
 
 # On récupère le nombre maximum de match possible par championnat / We collect the maximum number of matches possible per league
 # Se recupera el máximo número de partidos posibles por campeonato
@@ -382,12 +395,10 @@ print(f"Total appariés : {len(all_matches)}")
 print(f"Non appariés (fbref) : {len(unmatched_fbref_final)}")
 print(f"Non appariés (tm) : {len(unmatched_tm_final)}")
 
-all_matches.to_csv(out_db, index=False)
-
 ## Rating / Notation
 
 # Chargement du fichier / Load file / Cargando el archivo
-df = pd.read_csv(out_db)
+df = all_matches
 
 # Définir la liste de colonne / Define columns / Definir la lista de columnas
 stat_cols = df.columns[23:]
