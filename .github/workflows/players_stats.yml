@@ -27,7 +27,7 @@ jobs:
           pip install -r requirements.txt || echo "⚠️ Error in requirements.txt"
 
       - name: Run the script
-        run: python scripts/team_scripts/players_stats.py
+        run: python scripts/player_scripts/players_stats.py
 
       - name: Commit and Push the generated CSV file
         uses: stefanzweifel/git-auto-commit-action@v5
