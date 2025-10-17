@@ -9,7 +9,6 @@ import unicodedata
 import re
 
 ## Extraction des données / Data extraction / Extracción de datos
-
 def _get_script_dir():
     try:
         return Path(__file__).resolve().parent
@@ -18,11 +17,17 @@ def _get_script_dir():
 
 # Localisation des fichiers / File location / Ubicación de los archivos
 script_dir = _get_script_dir()
-data_player_dir = script_dir.parent.parent / "data" / "player"
+data_player_dir = (script_dir.parent.parent / "data" / "player").resolve()
+
 
 # Chemins des fichiers / path of this files / La ruta de acceso a este archivos
 fbref_path = data_player_dir / "light2025-2026.csv"
 tm_path = data_player_dir / "players_tm.csv"
+
+# Chemins de sortie / Exit paths / Salidas
+out_fbref = data_player_dir / "unmatched_fbref.csv"
+out_tm = data_player_dir / "unmatched_tm.csv"
+out_db = data_player_dir / "database_player.csv"
 
 ##  Pré-traitement des données / Data processing / Preprocesamiento de datos
 # Récupération des données / Data recovery / Recuperación de datos
@@ -370,8 +375,9 @@ all_matched_tm = matched_tm_name.union(
 unmatched_fbref_final = fbref_df[~fbref_df["Player_clean"].isin(all_matched_fbref)]
 unmatched_tm_final = tm_data[~tm_data["name_clean"].isin(all_matched_tm)]
 
-unmatched_fbref_final.to_csv("../../data/player/unmatched_fbref.csv", index=False)
-unmatched_tm_final.to_csv("../../data/player/unmatched_tm.csv", index=False)
+unmatched_fbref_final.to_csv(out_fbref, index=False)
+unmatched_tm_final.to_csv(out_tm, index=False)
+
 
 # Résumé / Summary / Resumen
 print(f"Noms identique (même année, ligue, poste gardien) : {len(matches_name)}")
@@ -644,5 +650,6 @@ ordered_score_cols = [
 other_cols = [col for col in df.columns if col not in ordered_score_cols and not col.endswith('_norm') and col != "position_group"]
 df = df[ordered_score_cols + other_cols]
 
-df.to_csv("../../data/player/database_player.csv", index=False)
+df.to_csv(out_db, index=False)
+
 print("Fichier mis à jour")
