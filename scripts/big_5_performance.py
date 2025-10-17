@@ -404,18 +404,18 @@ def plot_pizza_radar(labels, player_values, median_values, title="Radar",legend_
 def find_similar_players(selected_player_name, df, filter_type=None, top_n=5):
     # Informations du joueur sélectionné / Selected player information / Información del jugador seleccionado
     try:
-        selected_player_row = df[df['name'] == selected_player_name].iloc[0]
+        selected_player_row = df[df['player_name'] == selected_player_name].iloc[0]
     except IndexError:
         return pd.DataFrame()
 
-    sub_position = selected_player_row['sub_position']
+    sub_position = selected_player_row['position']
     age = selected_player_row['Age']
-    competition = selected_player_row['current_club_domestic_competition_id']
-    country = selected_player_row['country_of_citizenship']
+    competition = selected_player_row['Comp']
+    country = selected_player_row['nationality']
 
-    candidates_df = df[df['sub_position'] == sub_position].copy() # Candidats = tous les joueurs du même poste / Candidates = all players in the same position / Candidatos = todos los jugadores en la misma posición
+    candidates_df = df[df['position'] == sub_position].copy() # Candidats = tous les joueurs du même poste / Candidates = all players in the same position / Candidatos = todos los jugadores en la misma posición
 
-    candidates_df = candidates_df[candidates_df['name'] != selected_player_name] # Retirer le joueur lui-même du calcul / Remove the player himself from the calculation / Eliminar al jugador mismo del cálculo
+    candidates_df = candidates_df[candidates_df['player_name'] != selected_player_name] # Retirer le joueur lui-même du calcul / Remove the player himself from the calculation / Eliminar al jugador mismo del cálculo
 
     # Colonnes de stats à comparer (sauf les informations de base) / Columns of statistics to compare (except base informations) / Columnas de estadísticas para comparar (excepto información base)
     stats_cols = df.columns[14:]
@@ -425,7 +425,7 @@ def find_similar_players(selected_player_name, df, filter_type=None, top_n=5):
     # Add the player selected at the beginning to calculate similarities
     # Añadir el jugador seleccionado al principio para calcular las similitudes
 
-    selected_stats = df[df['name'] == selected_player_name][stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
+    selected_stats = df[df['player_name'] == selected_player_name][stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
     full_stats = pd.concat([selected_stats, stats_df], ignore_index=True)
 
     # Normalisation / Standardisation / Normalización
@@ -441,11 +441,11 @@ def find_similar_players(selected_player_name, df, filter_type=None, top_n=5):
     # Appliquer un filtre si spécifié / Apply a filter if specified / Aplicar un filtro si especificado
     if filter_type == "championnat":
         candidates_df = candidates_df[
-            candidates_df['current_club_domestic_competition_id'] == competition
+            candidates_df['Comp'] == competition
         ]
     elif filter_type == "pays":
         candidates_df = candidates_df[
-            candidates_df['country_of_citizenship'] == country
+            candidates_df['nationality'] == country
         ]
     elif filter_type == "tranche_age":
         if pd.isna(age):
@@ -459,19 +459,19 @@ def find_similar_players(selected_player_name, df, filter_type=None, top_n=5):
 
     candidates_df = candidates_df.sort_values(by='percentage_similarity', ascending=False) # Trier par similarité / Sort by similarity / Ordenar por similitud
     
-    candidates_df['market_value_in_eur'] = candidates_df['market_value_in_eur'].apply(format_market_value) # Formater la colonne de valeur marchande / Formatting market value column / Formatar la columna de valor de mercado
+    candidates_df['marketValue'] = candidates_df['marketValue'].apply(format_market_value) # Formater la colonne de valeur marchande / Formatting market value column / Formatar la columna de valor de mercado
 
     # Colonnes à afficher / Columns to display / Columnas a mostrar
     final_cols = [
-        'name', 'percentage_similarity', 'Age', 'country_of_citizenship',  'current_club_name', 'market_value_in_eur', 'contract_expiration_date'
+        'player_name', 'percentage_similarity', 'Age', 'nationality',  'club_name', 'marketValue', 'contract'
     ]
     # Traduction du pays du joueur / Translation of the player's country / Traducción del país del jugador
     if lang == "Français":
-        candidates_df['country_of_citizenship'] = candidates_df['country_of_citizenship'].apply(
+        candidates_df['nationality'] = candidates_df['nationality'].apply(
             lambda x: translate_country(x, lang="fr")
         )
     elif lang == "Español":
-        candidates_df['country_of_citizenship'] = candidates_df['country_of_citizenship'].apply(
+        candidates_df['nationality'] = candidates_df['nationality'].apply(
             lambda x: translate_country(x, lang="es")
         )
 
@@ -993,7 +993,7 @@ else:
 
             df = pd.read_csv('../data/player/database_player.csv') # Charger les données
 
-            player_names = [''] + sorted(df['name'].dropna().unique().tolist()) # Extraire la liste des joueurs
+            player_names = [''] + sorted(df['player_name'].dropna().unique().tolist()) # Extraire la liste des joueurs
 
             selected_player = st.sidebar.selectbox("Choisissez un joueur :", player_names) # Sélection de joueur
 
@@ -1003,11 +1003,11 @@ else:
                 st.image("../image/player_analysis.jpg") # Utilisation de la 1er bannière en image
                 st.info("Dérouler la barre latérale pour choisir la langue et le joueur à analyser")
             else:
-                player_data = df[df['name'] == selected_player].iloc[0] # Filtrer le DataFrame pour le joueur sélectionné
+                player_data = df[df['player_name'] == selected_player].iloc[0] # Filtrer le DataFrame pour le joueur sélectionné
 
                 # Récupération des traductions
-                pays = translate_country(player_data['country_of_citizenship'], lang="fr")
-                poste = translate_position(player_data['sub_position'], lang="fr")
+                pays = translate_country(player_data['nationality'], lang="fr")
+                poste = translate_position(player_data['position'], lang="fr")
 
                 # Profil du joueur (image à gauche, infos à droite)
                 st.markdown("<h4 style='text-align: center;'>Profil du joueur</h4>", unsafe_allow_html=True)
@@ -1016,21 +1016,21 @@ else:
                 <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto;">
 
                 <div style="flex: 1; text-align: center; min-width: 180px;">
-                    <img src="{player_data['image_url']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
+                    <img src="{player_data['imageUrl']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Nom :</strong> {player_data['name']}</p>
+                    <p><strong>Nom :</strong> {player_data['player_name']}</p>
                     <p><strong>Âge :</strong> {int(player_data['Age']) if pd.notna(player_data['Age']) else "-"}</p>
                     <p><strong>Pays :</strong> {pays}</p>
-                    <p><strong>Club :</strong> {player_data['current_club_name']}</p>
+                    <p><strong>Club :</strong> {player_data['club_name']}</p>
                     <p><strong>Poste :</strong> {poste}</p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Taille :</strong> {int(player_data['height_in_cm']) if pd.notna(player_data['height_in_cm']) else "-" } cm</p>
-                    <p><strong>Valeur marchande :</strong> {format_market_value(player_data['market_value_in_eur'])}</p>
-                    <p><strong>Fin de contrat :</strong> {player_data['contract_expiration_date'] if pd.notna(player_data['contract_expiration_date']) else "-"}</p>
+                    <p><strong>Taille :</strong> {int(player_data['height']) if pd.notna(player_data['height']) else "-" } cm</p>
+                    <p><strong>Valeur marchande :</strong> {format_market_value(player_data['marketValue'])}</p>
+                    <p><strong>Fin de contrat :</strong> {player_data['contract'] if pd.notna(player_data['contract']) else "-"}</p>
                     <p><strong>Matches joués :</strong> {int(player_data['MP']) if pd.notna(player_data['MP']) else "-"}</p>
                     <p><strong>Minutes jouées :</strong> {int(player_data['Min']) if pd.notna(player_data['Min']) else "-"}</p>
                 </div>
@@ -1058,7 +1058,7 @@ else:
                     "Pays": "pays"
                 }[comparison_filter]
 
-                poste_cat = position_category.get(player_data['sub_position'], None)
+                poste_cat = position_category.get(player_data['position'], None)
 
                 # Glossaire des statistiques associées
                 with st.expander(" Glossaire des statistiques"):
@@ -1166,38 +1166,38 @@ else:
 
                     # Groupe filtré selon le filtre sélectionné par l'utilisateur
                     if filter_arg is None:
-                        group_df = df[df['sub_position'].map(position_category.get) == poste_cat]
+                        group_df = df[df['position'].map(position_category.get) == poste_cat]
                     elif filter_arg == "championnat":
                         group_df = df[
-                            (df['sub_position'] == player_data['sub_position']) &
-                            (df['current_club_domestic_competition_id'] == player_data['current_club_domestic_competition_id'])
+                            (df['position'] == player_data['position']) &
+                            (df['Comp'] == player_data['Comp'])
                         ]
                     elif filter_arg == "pays":
                         group_df = df[
-                            (df['sub_position'] == player_data['sub_position']) &
-                            (df['country_of_citizenship'] == player_data['country_of_citizenship'])
+                            (df['position'] == player_data['position']) &
+                            (df['nationality'] == player_data['nationality'])
                         ]
                     elif filter_arg == "tranche_age":
                         age = player_data['Age']
                         if pd.isna(age):
-                            group_df = df[df['sub_position'].map(position_category.get) == poste_cat]
+                            group_df = df[df['position'].map(position_category.get) == poste_cat]
                         elif age < 23:
-                            group_df = df[(df['sub_position'] == player_data['sub_position']) & (df['Age'] < 23)]
+                            group_df = df[(df['position'] == player_data['position']) & (df['Age'] < 23)]
                         elif 24 <= age <= 29:
-                            group_df = df[(df['sub_position'] == player_data['sub_position']) & (df['Age'].between(24, 29))]
+                            group_df = df[(df['position'] == player_data['position']) & (df['Age'].between(24, 29))]
                         else:
-                            group_df = df[(df['sub_position'] == player_data['sub_position']) & (df['Age'] >= 30)]
+                            group_df = df[(df['position'] == player_data['position']) & (df['Age'] >= 30)]
 
                     nb_players = len(group_df) # Calculer le nombre de joueur dans le groupe filtré
 
                     # Si il y a moins de 5 joueurs, on n'affiche pas de radar pour le groupe associé
                     if nb_players >= 5:
-                        radar_df = group_df[['name'] + stats_cols].dropna(subset=stats_cols).copy()
-                        radar_df = radar_df.set_index('name')
+                        radar_df = group_df[['player_name'] + stats_cols].dropna(subset=stats_cols).copy()
+                        radar_df = radar_df.set_index('player_name')
 
                         # On s'assure que le joueur est présent dans la catégorie de poste
-                        if player_data['name'] not in radar_df.index:
-                            radar_df.loc[player_data['name']] = pd.Series(player_data).reindex(stats_cols)
+                        if player_data['player_name'] not in radar_df.index:
+                            radar_df.loc[player_data['player_name']] = pd.Series(player_data).reindex(stats_cols)
 
                         radar_vals = radar_df[stats_cols].apply(pd.to_numeric, errors='coerce')
 
@@ -1211,11 +1211,11 @@ else:
                                 rank_pct[col] = 1 - rank_pct[col]
 
                         # On normalise le profil du joueur en percentiles
-                        player_norm = rank_pct.loc[player_data['name']].reindex(stats_cols).fillna(0)
+                        player_norm = rank_pct.loc[player_data['player_name']].reindex(stats_cols).fillna(0)
 
                         # On calcule la médiane selon la catégorie de poste
                         group_median = (
-                            rank_pct.drop(index=player_data['name'], errors='ignore')
+                            rank_pct.drop(index=player_data['player_name'], errors='ignore')
                                     .median()
                                     .reindex(stats_cols)
                                     .fillna(0)
@@ -1226,7 +1226,7 @@ else:
 
                         # Affichage du titre avec note
                         st.markdown(
-                            f"<h4 style='text-align: center;'>Radar de performance de {player_data['name']} vs {nb_players} joueurs dans sa catégorie {rating_text}</h4>",
+                            f"<h4 style='text-align: center;'>Radar de performance de {player_data['player_name']} vs {nb_players} joueurs dans sa catégorie {rating_text}</h4>",
                             unsafe_allow_html=True
                         )
 
@@ -1235,8 +1235,8 @@ else:
                             labels=stats_cols,
                             player_values=player_norm * 100,
                             median_values=group_median * 100,
-                            title=f"Statistiques avancées de {player_data['name']} de vs Médiane à son poste",
-                            legend_labels=(player_data['name'], "Médiane poste")
+                            title=f"Statistiques avancées de {player_data['player_name']} de vs Médiane à son poste",
+                            legend_labels=(player_data['player_name'], "Médiane poste")
                         )
 
                         # Liste des colonnes à afficher selon le poste
@@ -1273,8 +1273,8 @@ else:
                                     labels=pizza_labels,
                                     player_values=player_scaled,
                                     median_values=median_scaled,
-                                    title=f"Statistiques de base de {player_data['name']} vs Médiane à son poste",
-                                    legend_labels=(player_data['name'], "Médiane poste")
+                                    title=f"Statistiques de base de {player_data['player_name']} vs Médiane à son poste",
+                                    legend_labels=(player_data['player_name'], "Médiane poste")
                                 )
 
                                 # Affichage dans Streamlit
@@ -1291,7 +1291,7 @@ else:
                 if not similar_df.empty:
                     # Affichage du titre
                     st.markdown(
-                        f"<h4 style='text-align: center;'>Joueurs similaires à {player_data['name']}</h4>",
+                        f"<h4 style='text-align: center;'>Joueurs similaires à {player_data['player_name']}</h4>",
                         unsafe_allow_html=True
                     )
                     st.dataframe(similar_df)
@@ -1305,7 +1305,7 @@ else:
 
             df = pd.read_csv('../data/player/database_player.csv') # Collect the data
 
-            player_names = [''] + sorted(df['name'].dropna().unique().tolist()) # Extract the list of players
+            player_names = [''] + sorted(df['player_name'].dropna().unique().tolist()) # Extract the list of players
 
             selected_player = st.sidebar.selectbox("Select a player :", player_names) # Select a player
 
@@ -1315,7 +1315,7 @@ else:
                 st.image("../image/player_analysis.jpg")
                 st.info("Scroll down the sidebar to select the language and the player you wish to analyze")
             else:
-                player_data = df[df['name'] == selected_player].iloc[0] # Filter the DataFrame for the selected player
+                player_data = df[df['player_name'] == selected_player].iloc[0] # Filter the DataFrame for the selected player
 
                 # Player profile (image on left, info on right)
                 st.markdown(
@@ -1327,21 +1327,21 @@ else:
                 <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto;">
 
                 <div style="flex: 1; text-align: center; min-width: 180px;">
-                    <img src="{player_data['image_url']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
+                    <img src="{player_data['imageUrl']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Name :</strong> {player_data['name']}</p>
+                    <p><strong>Name :</strong> {player_data['player_name']}</p>
                     <p><strong>Age :</strong> {int(player_data['Age']) if pd.notna(player_data['Age']) else "-"}</p>
-                    <p><strong>Country :</strong> {player_data['country_of_citizenship']}</p>
-                    <p><strong>Club :</strong> {player_data['current_club_name']}</p>
-                    <p><strong>Position :</strong> {player_data['sub_position']}</p>
+                    <p><strong>Country :</strong> {player_data['nationality']}</p>
+                    <p><strong>Club :</strong> {player_data['club_name']}</p>
+                    <p><strong>Position :</strong> {player_data['position']}</p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Height :</strong> {int(player_data['height_in_cm']) if pd.notna(player_data['height_in_cm']) else "-" } cm</p>
-                    <p><strong>Market Value :</strong> {format_market_value(player_data['market_value_in_eur'])}</p>
-                    <p><strong>Contract :</strong> {player_data['contract_expiration_date'] if pd.notna(player_data['contract_expiration_date']) else "-"}</p>
+                    <p><strong>Height :</strong> {int(player_data['height']) if pd.notna(player_data['height']) else "-" } cm</p>
+                    <p><strong>Market Value :</strong> {format_market_value(player_data['marketValue'])}</p>
+                    <p><strong>Contract :</strong> {player_data['contract'] if pd.notna(player_data['contract']) else "-"}</p>
                     <p><strong>Matches Played :</strong> {int(player_data['MP']) if pd.notna(player_data['MP']) else "-"}</p>
                     <p><strong>Minutes Played :</strong> {int(player_data['Min']) if pd.notna(player_data['Min']) else "-"}</p>
                 </div>
@@ -1369,7 +1369,7 @@ else:
                     "Country": "pays"
                 }[comparison_filter]
 
-                poste_cat = position_category.get(player_data['sub_position'], None)
+                poste_cat = position_category.get(player_data['position'], None)
 
                 # Glossary of Statistics associated
                 with st.expander("Glossary of Statistics"):
@@ -1476,38 +1476,38 @@ else:
 
                     # Group filtered according to the selected filter by the user
                     if filter_arg is None:
-                        group_df = df[df['sub_position'].map(position_category.get) == poste_cat]
+                        group_df = df[df['position'].map(position_category.get) == poste_cat]
                     elif filter_arg == "championnat":
                         group_df = df[
-                            (df['sub_position'] == player_data['sub_position']) &
-                            (df['current_club_domestic_competition_id'] == player_data['current_club_domestic_competition_id'])
+                            (df['position'] == player_data['position']) &
+                            (df['Comp'] == player_data['Comp'])
                         ]
                     elif filter_arg == "pays":
                         group_df = df[
-                            (df['sub_position'] == player_data['sub_position']) &
-                            (df['country_of_citizenship'] == player_data['country_of_citizenship'])
+                            (df['position'] == player_data['position']) &
+                            (df['nationality'] == player_data['nationality'])
                         ]
                     elif filter_arg == "tranche_age":
                         age = player_data['Age']
                         if pd.isna(age):
-                            group_df = df[df['sub_position'].map(position_category.get) == poste_cat]
+                            group_df = df[df['position'].map(position_category.get) == poste_cat]
                         elif age < 23:
-                            group_df = df[(df['sub_position'] == player_data['sub_position']) & (df['Age'] < 23)]
+                            group_df = df[(df['position'] == player_data['position']) & (df['Age'] < 23)]
                         elif 24 <= age <= 29:
-                            group_df = df[(df['sub_position'] == player_data['sub_position']) & (df['Age'].between(24, 29))]
+                            group_df = df[(df['position'] == player_data['position']) & (df['Age'].between(24, 29))]
                         else:
-                            group_df = df[(df['sub_position'] == player_data['sub_position']) & (df['Age'] >= 30)]
+                            group_df = df[(df['position'] == player_data['position']) & (df['Age'] >= 30)]
 
                     nb_players = len(group_df) # Calculation of the length of the group
 
                     # If the group is less than 5, we don't build the radar
                     if nb_players >= 5:
-                        radar_df = group_df[['name'] + stats_cols].dropna(subset=stats_cols).copy()
-                        radar_df = radar_df.set_index('name')
+                        radar_df = group_df[['player_name'] + stats_cols].dropna(subset=stats_cols).copy()
+                        radar_df = radar_df.set_index('player_name')
 
                         # We ensure that the player is present in the position category.
-                        if player_data['name'] not in radar_df.index:
-                            radar_df.loc[player_data['name']] = pd.Series(player_data).reindex(stats_cols)
+                        if player_data['player_name'] not in radar_df.index:
+                            radar_df.loc[player_data['player_name']] = pd.Series(player_data).reindex(stats_cols)
 
                         radar_vals = radar_df[stats_cols].apply(pd.to_numeric, errors='coerce')
 
@@ -1521,11 +1521,11 @@ else:
                                 rank_pct[col] = 1 - rank_pct[col]
 
                         # The player's profile is standardised in percentiles.
-                        player_norm = rank_pct.loc[player_data['name']].reindex(stats_cols).fillna(0)
+                        player_norm = rank_pct.loc[player_data['player_name']].reindex(stats_cols).fillna(0)
 
                         # The median is calculated according to position category.
                         group_median = (
-                            rank_pct.drop(index=player_data['name'], errors='ignore')
+                            rank_pct.drop(index=player_data['player_name'], errors='ignore')
                                     .median()
                                     .reindex(stats_cols)
                                     .fillna(0)
@@ -1535,7 +1535,7 @@ else:
 
                         # Title display with note
                         st.markdown(
-                            f"<h4 style='text-align: center;'>Performance radar from {player_data['name']} vs {nb_players} players in his category {rating_text}</h4>",
+                            f"<h4 style='text-align: center;'>Performance radar from {player_data['player_name']} vs {nb_players} players in his category {rating_text}</h4>",
                             unsafe_allow_html=True
                         )
                         
@@ -1544,8 +1544,8 @@ else:
                             labels=stats_cols,
                             player_values=player_norm * 100,
                             median_values=group_median * 100,
-                            title=f"Advanced statistics of {player_data['name']} vs. median at the same position",
-                            legend_labels=(player_data['name'], "Median position")
+                            title=f"Advanced statistics of {player_data['player_name']} vs. median at the same position",
+                            legend_labels=(player_data['player_name'], "Median position")
                         )
 
                         # List of columns to be displayed by position
@@ -1583,8 +1583,8 @@ else:
                                     labels=pizza_labels,
                                     player_values=player_scaled,
                                     median_values=median_scaled,
-                                    title=f"Basic statistics of {player_data['name']} vs. median at the same position",
-                                    legend_labels=(player_data['name'], "Median position")
+                                    title=f"Basic statistics of {player_data['player_name']} vs. median at the same position",
+                                    legend_labels=(player_data['player_name'], "Median position")
                                 )
 
                         # List of columns to be displayed by position
@@ -1623,7 +1623,7 @@ else:
                                     player_values=player_scaled,
                                     median_values=median_scaled,
                                     title="Basic statistics vs. median at the same position",
-                                    legend_labels=(player_data['name'], "Median position")
+                                    legend_labels=(player_data['player_name'], "Median position")
                                 )
 
                                 # Display in Streamlit
@@ -1640,7 +1640,7 @@ else:
                 if not similar_df.empty:
                     # Display the title
                     st.markdown(
-                        f"<h4 style='text-align: center;'>Players similar to {player_data['name']}</h4>",
+                        f"<h4 style='text-align: center;'>Players similar to {player_data['player_name']}</h4>",
                         unsafe_allow_html=True
                     )
                     st.dataframe(similar_df)
@@ -1652,7 +1652,7 @@ else:
 
             df = pd.read_csv('../data/player/database_player.csv')  # Cargar datos
 
-            player_names = [''] + sorted(df['name'].dropna().unique().tolist())  # Lista de jugadores
+            player_names = [''] + sorted(df['player_name'].dropna().unique().tolist())  # Lista de jugadores
 
             selected_player = st.sidebar.selectbox("Elige un jugador:", player_names)  # Selección de jugador
 
@@ -1661,11 +1661,11 @@ else:
                 st.image("../image/player_analysis.jpg")  # Banner de introducción
                 st.info("Despliega la barra lateral para elegir el idioma y el jugador a analizar")
             else:
-                player_data = df[df['name'] == selected_player].iloc[0]  # Fila del jugador
+                player_data = df[df['player_name'] == selected_player].iloc[0]  # Fila del jugador
 
                 # Traducciones
-                pais = translate_country(player_data['country_of_citizenship'], lang="es")
-                puesto = translate_position(player_data['sub_position'], lang="es")
+                pais = translate_country(player_data['nationality'], lang="es")
+                puesto = translate_position(player_data['position'], lang="es")
 
                 # Perfil del jugador (imagen a la izquierda, info a la derecha)
                 st.markdown("<h4 style='text-align: center;'>Perfil del jugador</h4>", unsafe_allow_html=True)
@@ -1674,21 +1674,21 @@ else:
                 <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto;">
 
                 <div style="flex: 1; text-align: center; min-width: 180px;">
-                    <img src="{player_data['image_url']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
+                    <img src="{player_data['imageUrl']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Nombre:</strong> {player_data['name']}</p>
+                    <p><strong>Nombre:</strong> {player_data['player_name']}</p>
                     <p><strong>Edad:</strong> {int(player_data['Age']) if pd.notna(player_data['Age']) else "-"}</p>
                     <p><strong>País:</strong> {pais}</p>
-                    <p><strong>Club:</strong> {player_data['current_club_name']}</p>
+                    <p><strong>Club:</strong> {player_data['club_name']}</p>
                     <p><strong>Posición:</strong> {puesto}</p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Altura:</strong> {int(player_data['height_in_cm']) if pd.notna(player_data['height_in_cm']) else "-" } cm</p>
-                    <p><strong>Valor de mercado:</strong> {format_market_value(player_data['market_value_in_eur'])}</p>
-                    <p><strong>Fin de contrato:</strong> {player_data['contract_expiration_date'] if pd.notna(player_data['contract_expiration_date']) else "-"}</p>
+                    <p><strong>Altura:</strong> {int(player_data['height']) if pd.notna(player_data['height']) else "-" } cm</p>
+                    <p><strong>Valor de mercado:</strong> {format_market_value(player_data['marketValue'])}</p>
+                    <p><strong>Fin de contrato:</strong> {player_data['contract'] if pd.notna(player_data['contract']) else "-"}</p>
                     <p><strong>Partidos jugados:</strong> {int(player_data['MP']) if pd.notna(player_data['MP']) else "-"}</p>
                     <p><strong>Minutos jugados:</strong> {int(player_data['Min']) if pd.notna(player_data['Min']) else "-"}</p>
                 </div>
@@ -1718,7 +1718,7 @@ else:
                 }[comparison_filter]
 
                 # ⚠️ Categoría del puesto: se mantiene en FRANCÉS
-                poste_cat = position_category.get(player_data['sub_position'], None)
+                poste_cat = position_category.get(player_data['position'], None)
 
                 # Glosario de estadísticas (poste_cat en francés)
                 with st.expander(" Glosario de estadísticas"):
@@ -1826,38 +1826,38 @@ else:
 
                     # Grupo filtrado según el filtro seleccionado
                     if filter_arg is None:
-                        group_df = df[df['sub_position'].map(position_category.get) == poste_cat]
+                        group_df = df[df['position'].map(position_category.get) == poste_cat]
                     elif filter_arg == "championnat":
                         group_df = df[
-                            (df['sub_position'] == player_data['sub_position']) &
-                            (df['current_club_domestic_competition_id'] == player_data['current_club_domestic_competition_id'])
+                            (df['position'] == player_data['position']) &
+                            (df['Comp'] == player_data['Comp'])
                         ]
                     elif filter_arg == "pays":
                         group_df = df[
-                            (df['sub_position'] == player_data['sub_position']) &
-                            (df['country_of_citizenship'] == player_data['country_of_citizenship'])
+                            (df['position'] == player_data['position']) &
+                            (df['nationality'] == player_data['nationality'])
                         ]
                     elif filter_arg == "tranche_age":
                         age = player_data['Age']
                         if pd.isna(age):
-                            group_df = df[df['sub_position'].map(position_category.get) == poste_cat]
+                            group_df = df[df['position'].map(position_category.get) == poste_cat]
                         elif age < 23:
-                            group_df = df[(df['sub_position'] == player_data['sub_position']) & (df['Age'] < 23)]
+                            group_df = df[(df['position'] == player_data['position']) & (df['Age'] < 23)]
                         elif 24 <= age <= 29:
-                            group_df = df[(df['sub_position'] == player_data['sub_position']) & (df['Age'].between(24, 29))]
+                            group_df = df[(df['position'] == player_data['position']) & (df['Age'].between(24, 29))]
                         else:
-                            group_df = df[(df['sub_position'] == player_data['sub_position']) & (df['Age'] >= 30)]
+                            group_df = df[(df['position'] == player_data['position']) & (df['Age'] >= 30)]
 
                     nb_players = len(group_df)  # Número de jugadores en el grupo
 
                     # Si hay menos de 5 jugadores, no mostramos radar del grupo
                     if nb_players >= 5:
-                        radar_df = group_df[['name'] + stats_cols].dropna(subset=stats_cols).copy()
-                        radar_df = radar_df.set_index('name')
+                        radar_df = group_df[['player_name'] + stats_cols].dropna(subset=stats_cols).copy()
+                        radar_df = radar_df.set_index('player_name')
 
                         # Asegurar que el jugador esté presente
-                        if player_data['name'] not in radar_df.index:
-                            radar_df.loc[player_data['name']] = pd.Series(player_data).reindex(stats_cols)
+                        if player_data['player_name'] not in radar_df.index:
+                            radar_df.loc[player_data['player_name']] = pd.Series(player_data).reindex(stats_cols)
 
                         radar_vals = radar_df[stats_cols].apply(pd.to_numeric, errors='coerce')
 
@@ -1871,12 +1871,12 @@ else:
                                 rank_pct[col] = 1 - rank_pct[col]
 
                         # Perfil del jugador normalizado (percentiles)
-                        player_norm = rank_pct.loc[player_data['name']].reindex(stats_cols).fillna(0)
+                        player_norm = rank_pct.loc[player_data['player_name']].reindex(stats_cols).fillna(0)
 
                         # Mediana del grupo (sin el propio jugador)
                         group_median = (
                             rank_pct
-                            .drop(index=player_data['name'], errors='ignore')
+                            .drop(index=player_data['player_name'], errors='ignore')
                             .median()
                             .reindex(stats_cols)
                             .fillna(0)
@@ -1887,7 +1887,7 @@ else:
 
                         # Título con nota
                         st.markdown(
-                            f"<h4 style='text-align: center;'>Radar de rendimiento de {player_data['name']} frente a {nb_players} jugadores de su categoría{rating_text}</h4>",
+                            f"<h4 style='text-align: center;'>Radar de rendimiento de {player_data['player_name']} frente a {nb_players} jugadores de su categoría{rating_text}</h4>",
                             unsafe_allow_html=True
                         )
 
@@ -1896,8 +1896,8 @@ else:
                             labels=stats_cols,
                             player_values=player_norm * 100,
                             median_values=group_median * 100,
-                            title=f"Estadísticas avanzadas de {player_data['name']} vs Mediana del puesto",
-                            legend_labels=(player_data['name'], "Mediana del puesto")
+                            title=f"Estadísticas avanzadas de {player_data['player_name']} vs Mediana del puesto",
+                            legend_labels=(player_data['player_name'], "Mediana del puesto")
                         )
 
                         # Columnas para el radar (básicas)
@@ -1936,8 +1936,8 @@ else:
                                     labels=pizza_labels,
                                     player_values=player_scaled,
                                     median_values=median_scaled,
-                                    title=f"Estadísticas básicas de {player_data['name']} vs Mediana del puesto",
-                                    legend_labels=(player_data['name'], "Mediana del puesto")
+                                    title=f"Estadísticas básicas de {player_data['player_name']} vs Mediana del puesto",
+                                    legend_labels=(player_data['player_name'], "Mediana del puesto")
                                 )
 
                                 # Mostrar en Streamlit
@@ -1954,7 +1954,7 @@ else:
                 similar_df = find_similar_players(selected_player, df, filter_type=filter_arg)
                 if not similar_df.empty:
                     st.markdown(
-                        f"<h4 style='text-align: center;'>Jugadores similares a {player_data['name']}</h4>",
+                        f"<h4 style='text-align: center;'>Jugadores similares a {player_data['player_name']}</h4>",
                         unsafe_allow_html=True
                     )
                     st.dataframe(similar_df)
@@ -1970,7 +1970,7 @@ else:
             
 
             df = pd.read_csv("../data/player/database_player.csv") # Récupérer les données
-            player_names = sorted(df['name'].dropna().unique().tolist()) # Ordonner par le nom du joueur
+            player_names = sorted(df['player_name'].dropna().unique().tolist()) # Ordonner par le nom du joueur
 
             st.sidebar.markdown("### Sélection des joueurs") # Sélection dans la sidebar
 
@@ -1983,18 +1983,18 @@ else:
 
             if player1:
                 # Nous stockons les informations du 1er joueur
-                player1_data = df[df['name'] == player1].iloc[0]
-                sub_position = player1_data['sub_position']
+                player1_data = df[df['player_name'] == player1].iloc[0]
+                sub_position = player1_data['position']
                 poste_cat = position_category.get(sub_position, None)
 
-                # Tous les sub_position de la même catégorie
+                # Tous les position de la même catégorie
                 sub_positions_same_cat = [
                     pos for pos, cat in position_category.items() if cat == poste_cat
                 ]
 
                 # On filtre tous les joueurs ayant un poste dans cette catégorie
-                same_category_players = df[df['sub_position'].isin(sub_positions_same_cat)]
-                player2_names = sorted(same_category_players['name'].dropna().unique().tolist())
+                same_category_players = df[df['position'].isin(sub_positions_same_cat)]
+                player2_names = sorted(same_category_players['player_name'].dropna().unique().tolist())
                 player2_names = [p for p in player2_names if p != player1]
 
 
@@ -2007,35 +2007,35 @@ else:
 
 
                 if player2:
-                    player2_data = df[df['name'] == player2].iloc[0] # Récupération du nom du 2nd joueur
+                    player2_data = df[df['player_name'] == player2].iloc[0] # Récupération du nom du 2nd joueur
                     
                     # On affiche le profil des joueurs
                     st.markdown("<h4 style='text-align: center;'>Profils des joueurs</h4>", unsafe_allow_html=True)
 
                     for pdata in [player1_data, player2_data]:
                         # Traductions
-                        pays = translate_country(pdata['country_of_citizenship'], lang="fr")
-                        poste = translate_position(pdata['sub_position'], lang="fr")
+                        pays = translate_country(pdata['nationality'], lang="fr")
+                        poste = translate_position(pdata['position'], lang="fr")
 
                         st.markdown(f"""
                         <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;">
 
                         <div style="flex: 1; text-align: center; min-width: 180px;">
-                            <img src="{pdata['image_url']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
+                            <img src="{pdata['imageUrl']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
                         </div>
 
                         <div style="flex: 2; min-width: 280px;">
-                            <p><strong>Nom :</strong> {pdata['name']}</p>
+                            <p><strong>Nom :</strong> {pdata['player_name']}</p>
                             <p><strong>Âge :</strong> {int(pdata['Age']) if pd.notna(pdata['Age']) else "-"}</p>
                             <p><strong>Pays :</strong> {pays}</p>
-                            <p><strong>Club :</strong> {pdata['current_club_name']}</p>
+                            <p><strong>Club :</strong> {pdata['club_name']}</p>
                         </div>
 
                         <div style="flex: 2; min-width: 280px;">
                             <p><strong>Poste :</strong> {poste}</p>
-                            <p><strong>Taille :</strong> {int(pdata['height_in_cm']) if pd.notna(pdata['height_in_cm']) else "-" } cm</p>
-                            <p><strong>Valeur marchande :</strong> {format_market_value(pdata['market_value_in_eur'])}</p>
-                            <p><strong>Fin de contrat :</strong> {pdata['contract_expiration_date'] if pd.notna(pdata['contract_expiration_date']) else "-"}</p>
+                            <p><strong>Taille :</strong> {int(pdata['height']) if pd.notna(pdata['height']) else "-" } cm</p>
+                            <p><strong>Valeur marchande :</strong> {format_market_value(pdata['marketValue'])}</p>
+                            <p><strong>Fin de contrat :</strong> {pdata['contract'] if pd.notna(pdata['contract']) else "-"}</p>
                         </div>
 
                         </div>
@@ -2148,10 +2148,10 @@ else:
                         # Filtrer les statistiques des joueurs selon la catégorie de poste
                         if 'poste_cat' not in df.columns:
                             df = df.copy()
-                            df['poste_cat'] = df['sub_position'].map(position_category)
+                            df['poste_cat'] = df['position'].map(position_category)
 
-                        radar_df = df[df['poste_cat'] == poste_cat][['name'] + stats_cols].copy()
-                        radar_df = radar_df.dropna(subset=stats_cols).set_index('name')
+                        radar_df = df[df['poste_cat'] == poste_cat][['player_name'] + stats_cols].copy()
+                        radar_df = radar_df.dropna(subset=stats_cols).set_index('player_name')
 
                         # On s'assure que les 2 joueurs comparés sont inclus dans la référence
                         for p, pdata in [(player1, player1_data), (player2, player2_data)]:
@@ -2246,7 +2246,7 @@ else:
                 unsafe_allow_html=True)
 
             df = pd.read_csv("../data/player/database_player.csv") # Recover the data
-            player_names = sorted(df['name'].dropna().unique().tolist()) # Order by data 
+            player_names = sorted(df['player_name'].dropna().unique().tolist()) # Order by data 
 
             st.sidebar.markdown("### Player selection") # Selection in the sidebar
 
@@ -2259,18 +2259,18 @@ else:
 
             if player1:
                 # Collecting the data for the players
-                player1_data = df[df['name'] == player1].iloc[0]
-                sub_position = player1_data['sub_position']
+                player1_data = df[df['player_name'] == player1].iloc[0]
+                sub_position = player1_data['position']
                 poste_cat = position_category.get(sub_position, None)
 
-                # All sub_positions in the same category
+                # All positions in the same category
                 sub_positions_same_cat = [
                     pos for pos, cat in position_category.items() if cat == poste_cat
                 ]
 
                 # We filter all players with a position in this category
-                same_category_players = df[df['sub_position'].isin(sub_positions_same_cat)]
-                player2_names = sorted(same_category_players['name'].dropna().unique().tolist())
+                same_category_players = df[df['position'].isin(sub_positions_same_cat)]
+                player2_names = sorted(same_category_players['player_name'].dropna().unique().tolist())
                 player2_names = [p for p in player2_names if p != player1]
 
                 player2 = st.sidebar.selectbox("Second player (same position) :", [''] + player2_names, key="player2") # Select the 2nd player
@@ -2281,7 +2281,7 @@ else:
                     st.info("Scroll down the sidebar to select the language and players for analysis")
                         
                 if player2:
-                    player2_data = df[df['name'] == player2].iloc[0] # Collecting the name of the player 2
+                    player2_data = df[df['player_name'] == player2].iloc[0] # Collecting the name of the player 2
                     
                     # We display players profiles
                     st.markdown("<h4 style='text-align: center;'>Players profile</h4>", unsafe_allow_html=True)
@@ -2291,21 +2291,21 @@ else:
                         <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;">
 
                         <div style="flex: 1; text-align: center; min-width: 180px;">
-                            <img src="{pdata['image_url']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
+                            <img src="{pdata['imageUrl']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
                         </div>
 
                         <div style="flex: 2; min-width: 280px;">
-                            <p><strong>Name:</strong> {pdata['name']}</p>
+                            <p><strong>Name:</strong> {pdata['player_name']}</p>
                             <p><strong>Age:</strong> {int(pdata['Age']) if pd.notna(pdata['Age']) else "-"}</p>
-                            <p><strong>Country:</strong> {pdata['country_of_citizenship']}</p>
-                            <p><strong>Club:</strong> {pdata['current_club_name']}</p>
+                            <p><strong>Country:</strong> {pdata['nationality']}</p>
+                            <p><strong>Club:</strong> {pdata['club_name']}</p>
                         </div>
 
                         <div style="flex: 2; min-width: 280px;">
-                            <p><strong>Position:</strong> {pdata['sub_position']}</p>
-                            <p><strong>Height:</strong> {int(pdata['height_in_cm']) if pd.notna(pdata['height_in_cm']) else "-"} cm</p>
-                            <p><strong>Market Value:</strong> {format_market_value(pdata['market_value_in_eur'])}</p>
-                            <p><strong>Contract:</strong> {pdata['contract_expiration_date'] if pd.notna(pdata['contract_expiration_date']) else "-"}</p>
+                            <p><strong>Position:</strong> {pdata['position']}</p>
+                            <p><strong>Height:</strong> {int(pdata['height']) if pd.notna(pdata['height']) else "-"} cm</p>
+                            <p><strong>Market Value:</strong> {format_market_value(pdata['marketValue'])}</p>
+                            <p><strong>Contract:</strong> {pdata['contract'] if pd.notna(pdata['contract']) else "-"}</p>
                         </div>
 
                         </div>
@@ -2418,10 +2418,10 @@ else:
                         # Filter player statistics by position category
                         if 'poste_cat' not in df.columns:
                             df = df.copy()
-                            df['poste_cat'] = df['sub_position'].map(position_category)
+                            df['poste_cat'] = df['position'].map(position_category)
 
-                        radar_df = df[df['poste_cat'] == poste_cat][['name'] + stats_cols].copy()
-                        radar_df = radar_df.dropna(subset=stats_cols).set_index('name')
+                        radar_df = df[df['poste_cat'] == poste_cat][['player_name'] + stats_cols].copy()
+                        radar_df = radar_df.dropna(subset=stats_cols).set_index('player_name')
 
                         # We ensure that the two players being compared are included in the reference
                         for p, pdata in [(player1, player1_data), (player2, player2_data)]:
@@ -2514,7 +2514,7 @@ else:
                 unsafe_allow_html=True)
 
             df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
-            player_names = sorted(df['name'].dropna().unique().tolist())  # Ordenar por nombre
+            player_names = sorted(df['player_name'].dropna().unique().tolist())  # Ordenar por nombre
 
             st.sidebar.markdown("### Selección de jugadores")  # Selección en la barra lateral
 
@@ -2527,16 +2527,16 @@ else:
 
             if player1:
                 # Datos del primer jugador
-                player1_data = df[df['name'] == player1].iloc[0]
-                sub_position = player1_data['sub_position']
+                player1_data = df[df['player_name'] == player1].iloc[0]
+                sub_position = player1_data['position']
                 poste_cat = position_category.get(sub_position, None) 
 
-                # Todas las sub_position de la misma categoría
+                # Todas las position de la misma categoría
                 sub_positions_same_cat = [pos for pos, cat in position_category.items() if cat == poste_cat]
 
                 # Filtrar jugadores de la misma categoría
-                same_category_players = df[df['sub_position'].isin(sub_positions_same_cat)]
-                player2_names = sorted(same_category_players['name'].dropna().unique().tolist())
+                same_category_players = df[df['position'].isin(sub_positions_same_cat)]
+                player2_names = sorted(same_category_players['player_name'].dropna().unique().tolist())
                 player2_names = [p for p in player2_names if p != player1]
 
                 player2 = st.sidebar.selectbox("Segundo jugador (misma posición):", [''] + player2_names, key="player2")  # Jugador 2
@@ -2546,35 +2546,35 @@ else:
                     st.info("Despliega la barra lateral para elegir el idioma y los jugadores a analizar")
 
                 if player2:
-                    player2_data = df[df['name'] == player2].iloc[0]  # Datos del segundo jugador
+                    player2_data = df[df['player_name'] == player2].iloc[0]  # Datos del segundo jugador
 
                     # Perfiles de los jugadores
                     st.markdown("<h4 style='text-align: center;'>Perfiles de los jugadores</h4>", unsafe_allow_html=True)
 
                     for pdata in [player1_data, player2_data]:
                         # Traducciones mostradas en ES
-                        pais = translate_country(pdata['country_of_citizenship'], lang="es")
-                        puesto = translate_position(pdata['sub_position'], lang="es")
+                        pais = translate_country(pdata['nationality'], lang="es")
+                        puesto = translate_position(pdata['position'], lang="es")
 
                         st.markdown(f"""
                         <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;">
 
                         <div style="flex: 1; text-align: center; min-width: 180px;">
-                            <img src="{pdata['image_url']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
+                            <img src="{pdata['imageUrl']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
                         </div>
 
                         <div style="flex: 2; min-width: 280px;">
-                            <p><strong>Nombre:</strong> {pdata['name']}</p>
+                            <p><strong>Nombre:</strong> {pdata['player_name']}</p>
                             <p><strong>Edad:</strong> {int(pdata['Age']) if pd.notna(pdata['Age']) else "-"}</p>
                             <p><strong>País:</strong> {pais}</p>
-                            <p><strong>Club:</strong> {pdata['current_club_name']}</p>
+                            <p><strong>Club:</strong> {pdata['club_name']}</p>
                         </div>
 
                         <div style="flex: 2; min-width: 280px;">
                             <p><strong>Posición:</strong> {puesto}</p>
-                            <p><strong>Altura:</strong> {int(pdata['height_in_cm']) if pd.notna(pdata['height_in_cm']) else "-" } cm</p>
-                            <p><strong>Valor de mercado:</strong> {format_market_value(pdata['market_value_in_eur'])}</p>
-                            <p><strong>Fin de contrato:</strong> {pdata['contract_expiration_date'] if pd.notna(pdata['contract_expiration_date']) else "-"}</p>
+                            <p><strong>Altura:</strong> {int(pdata['height']) if pd.notna(pdata['height']) else "-" } cm</p>
+                            <p><strong>Valor de mercado:</strong> {format_market_value(pdata['marketValue'])}</p>
+                            <p><strong>Fin de contrato:</strong> {pdata['contract'] if pd.notna(pdata['contract']) else "-"}</p>
                         </div>
 
                         </div>
@@ -2687,10 +2687,10 @@ else:
                         # Añadir columna poste_cat si no existe
                         if 'poste_cat' not in df.columns:
                             df = df.copy()
-                            df['poste_cat'] = df['sub_position'].map(position_category)
+                            df['poste_cat'] = df['position'].map(position_category)
 
-                        radar_df = df[df['poste_cat'] == poste_cat][['name'] + stats_cols].copy()
-                        radar_df = radar_df.dropna(subset=stats_cols).set_index('name')
+                        radar_df = df[df['poste_cat'] == poste_cat][['player_name'] + stats_cols].copy()
+                        radar_df = radar_df.dropna(subset=stats_cols).set_index('player_name')
 
                         # Asegurar que ambos jugadores estén presentes
                         for p, pdata in [(player1, player1_data), (player2, player2_data)]:
@@ -2816,39 +2816,39 @@ else:
                     filtered_df = df_with_stat.copy()  # Point de départ pour les filtres
 
                     # Filtre Poste
-                    poste_options_raw = sorted(filtered_df["sub_position"].dropna().unique())
+                    poste_options_raw = sorted(filtered_df["position"].dropna().unique())
                     poste_options_fr = [""] + [translate_position(p, lang="fr") for p in poste_options_raw]
                     poste_fr = st.selectbox("Poste", poste_options_fr)
 
                     if poste_fr:
                         idx = poste_options_fr.index(poste_fr) - 1
                         poste_en = poste_options_raw[idx]
-                        filtered_df = filtered_df[filtered_df["sub_position"] == poste_en]
+                        filtered_df = filtered_df[filtered_df["position"] == poste_en]
 
 
                     # Filtre Championnat
-                    championnat_options = sorted(filtered_df["current_club_domestic_competition_id"].dropna().unique())
+                    championnat_options = sorted(filtered_df["Comp"].dropna().unique())
                     championnat = st.selectbox("Championnat", [""] + championnat_options)
 
                     if championnat:
-                        filtered_df = filtered_df[filtered_df["current_club_domestic_competition_id"] == championnat]
+                        filtered_df = filtered_df[filtered_df["Comp"] == championnat]
 
                     # Filtre Club
-                    club_options = sorted(filtered_df["current_club_name"].dropna().unique())
+                    club_options = sorted(filtered_df["club_name"].dropna().unique())
                     club = st.selectbox("Club", [""] + club_options)
 
                     if club:
-                        filtered_df = filtered_df[filtered_df["current_club_name"] == club]
+                        filtered_df = filtered_df[filtered_df["club_name"] == club]
 
                     # Filtre Pays
-                    pays_options_raw = sorted(filtered_df["country_of_citizenship"].dropna().unique())
+                    pays_options_raw = sorted(filtered_df["nationality"].dropna().unique())
                     pays_options_fr = [""] + [translate_country(p, lang="fr") for p in pays_options_raw]
                     pays_fr = st.selectbox("Pays", pays_options_fr, placeholder="")
 
                     if pays_fr:
                         idx = pays_options_fr.index(pays_fr) - 1  # -1 à cause de l'option vide
                         pays_en = pays_options_raw[idx]
-                        filtered_df = filtered_df[filtered_df["country_of_citizenship"] == pays_en]
+                        filtered_df = filtered_df[filtered_df["nationality"] == pays_en]
 
 
                     # Filtre Tranche d’âge (création dynamiquement des tranches d'âge disponibles)
@@ -2876,7 +2876,7 @@ else:
 
                     # Filtre de valeur marchande
                     valeur_min_possible = 0
-                    valeur_max_possible = int(filtered_df["market_value_in_eur"].max()) if not filtered_df["market_value_in_eur"].isnull().all() else 10_000_000
+                    valeur_max_possible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
                     valeur_max = st.slider(
                         "Valeur marchande maximum (€)",
@@ -2888,7 +2888,7 @@ else:
                     )
 
                     st.markdown(f"Valeur maximum sélectionné : **{format_market_value(valeur_max)}**") # Affichage du choix de l'utilisateur
-                    filtered_df = filtered_df[filtered_df["market_value_in_eur"] <= valeur_max]
+                    filtered_df = filtered_df[filtered_df["marketValue"] <= valeur_max]
 
                 # Définir les statistiques spécifiques aux gardiens
                 goalkeeper_stats = [
@@ -2898,26 +2898,25 @@ else:
 
                 # Liste de colonnes
                 df_stat = filtered_df[
-                    ['name', 'image_url', 'Age', 'country_of_citizenship', 'current_club_name',
-                    'current_club_domestic_competition_id', 'market_value_in_eur','contract_expiration_date',
-                    'sub_position', selected_stat]
+                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue','contract',
+                    'position', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 # Filtrage conditionnel selon la statistique sélectionnée
                 if selected_stat in [f"score_{stat}" for stat in goalkeeper_stats]:
-                    df_stat = df_stat[df_stat['sub_position'] == 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] == 'Goalkeeper']
                 else:
-                    df_stat = df_stat[df_stat['sub_position'] != 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] != 'Goalkeeper']
 
-                df_stat['sub_position'] = df_stat['sub_position'].apply(
+                df_stat['position'] = df_stat['position'].apply(
                     lambda x: translate_position(x, lang="fr")
                 )
 
                 # Traduction du pays du joueur dans la table
-                df_stat['country_of_citizenship'] = df_stat['country_of_citizenship'].apply(
+                df_stat['nationality'] = df_stat['nationality'].apply(
                     lambda x: translate_country(x, lang="fr")
                 )
-                df_stat['market_value_in_eur'] = df_stat['market_value_in_eur'].apply(format_market_value) # Utilisation du format de market_value
+                df_stat['marketValue'] = df_stat['marketValue'].apply(format_market_value) # Utilisation du format de market_value
                 
                 df_stat = df_stat.sort_values(by=selected_stat, ascending=False) # Ordonner les données du plus grand au plus petit
 
@@ -2932,9 +2931,9 @@ else:
                 for display_index, i in enumerate(podium_order):
                     if i < len(top3):
                         player = top3.loc[i]
-                        name = player['name']
+                        name = player['player_name']
                         stat = round(player[selected_stat]) if pd.notna(player[selected_stat]) else "-"
-                        image_url = player['image_url']
+                        image_url = player['imageUrl']
                         image_html = f"<img src='{image_url}' style='width: 100%; max-width: 120px; border-radius: 10px; margin-bottom: 0.5rem;'>" if pd.notna(image_url) else ""
 
                         player_html = (
@@ -2954,7 +2953,7 @@ else:
                 # Choix des colonnes dans la table
                 final_df = df_stat.rename(columns={selected_stat: 'Statistique'})
                 final_df = final_df[[
-                    'name', 'Statistique', 'Age', 'country_of_citizenship', 'current_club_name', 'sub_position','market_value_in_eur', 'contract_expiration_date'
+                    'player_name', 'Statistique', 'Age', 'nationality', 'club_name', 'position','marketValue', 'contract'
                 ]]
 
                 st.dataframe(final_df, use_container_width=True)
@@ -2993,32 +2992,32 @@ else:
                     filtered_df = df_with_stat.copy()  # Starting point for filters
 
                     # Position filter
-                    poste_options_raw = sorted(filtered_df["sub_position"].dropna().unique())
+                    poste_options_raw = sorted(filtered_df["position"].dropna().unique())
                     poste_options = st.selectbox("Position", [""] + poste_options_raw )
 
                     if poste_options:
-                        filtered_df = filtered_df[filtered_df["sub_position"] == poste_options]
+                        filtered_df = filtered_df[filtered_df["position"] == poste_options]
 
                     # League filter
-                    championnat_options = sorted(filtered_df["current_club_domestic_competition_id"].dropna().unique())
+                    championnat_options = sorted(filtered_df["Comp"].dropna().unique())
                     championnat = st.selectbox("League", [""] + championnat_options)
 
                     if championnat:
-                        filtered_df = filtered_df[filtered_df["current_club_domestic_competition_id"] == championnat]
+                        filtered_df = filtered_df[filtered_df["Comp"] == championnat]
 
                     # Club filter
-                    club_options = sorted(filtered_df["current_club_name"].dropna().unique())
+                    club_options = sorted(filtered_df["club_name"].dropna().unique())
                     club = st.selectbox("Club", [""] + club_options)
 
                     if club:
-                        filtered_df = filtered_df[filtered_df["current_club_name"] == club]
+                        filtered_df = filtered_df[filtered_df["club_name"] == club]
 
                     # Country filter
-                    pays_options_raw = sorted(filtered_df["country_of_citizenship"].dropna().unique())
+                    pays_options_raw = sorted(filtered_df["nationality"].dropna().unique())
                     pays_options = st.selectbox("Country", [""] + pays_options_raw )
 
                     if pays_options:
-                        filtered_df = filtered_df[filtered_df["country_of_citizenship"] == pays_options]
+                        filtered_df = filtered_df[filtered_df["nationality"] == pays_options]
 
                     # Age group filter (dynamically create the age ranges available)
                     tranche_options = [""]
@@ -3044,7 +3043,7 @@ else:
 
                     # Market value filter
                     valeur_min_possible = 0
-                    valeur_max_possible = int(filtered_df["market_value_in_eur"].max()) if not filtered_df["market_value_in_eur"].isnull().all() else 10_000_000
+                    valeur_max_possible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
                     valeur_max = st.slider(
                         "Maximum market value (€)",
@@ -3056,7 +3055,7 @@ else:
                     )
 
                     st.markdown(f"Maximum value selected: **{format_market_value(valeur_max)}**") # Display the choice of the user
-                    filtered_df = filtered_df[filtered_df["market_value_in_eur"] <= valeur_max]
+                    filtered_df = filtered_df[filtered_df["marketValue"] <= valeur_max]
             
 
                 # Define statistics specific to goalkeepers
@@ -3066,17 +3065,17 @@ else:
                 ]
                 # Selecting columns
                 df_stat = filtered_df[
-                    ['name', 'image_url', 'Age', 'country_of_citizenship', 'current_club_name','sub_position',
-                    'current_club_domestic_competition_id', 'market_value_in_eur','contract_expiration_date', selected_stat]
+                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','position',
+                    'Comp', 'marketValue','contract', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 # Conditional filtering by selected statistic
                 if selected_stat in [f"score_{stat}" for stat in goalkeeper_stats]:
-                    df_stat = df_stat[df_stat['sub_position'] == 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] == 'Goalkeeper']
                 else:
-                    df_stat = df_stat[df_stat['sub_position'] != 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] != 'Goalkeeper']
 
-                df_stat['market_value_in_eur'] = df_stat['market_value_in_eur'].apply(format_market_value) # Format market value
+                df_stat['marketValue'] = df_stat['marketValue'].apply(format_market_value) # Format market value
                     
                 df_stat = df_stat.sort_values(by=selected_stat, ascending=False) # Order data from largest to smallest
 
@@ -3092,8 +3091,8 @@ else:
                 for display_index, i in enumerate(podium_order):
                     if i < len(top3):
                         player = top3.loc[i]
-                        name = player['name']
-                        image_url = player['image_url']
+                        name = player['player_name']
+                        image_url = player['imageUrl']
                         stat_val = round(player[selected_stat]) if pd.notna(player[selected_stat]) else "-"
                         stat_label = format_stat_name(selected_stat)
 
@@ -3122,7 +3121,7 @@ else:
                 # We display the table with the columns desired
                 final_df = df_stat.rename(columns={selected_stat: 'Statistic'})
                 final_df = final_df[[
-                    'name', 'Statistic', 'Age', 'country_of_citizenship', 'current_club_name', 'sub_position', 'market_value_in_eur', 'contract_expiration_date'
+                    'player_name', 'Statistic', 'Age', 'nationality', 'club_name', 'position', 'marketValue', 'contract'
                 ]]
 
                 st.dataframe(final_df, use_container_width=True)
@@ -3163,35 +3162,35 @@ else:
                     filtered_df = df_with_stat.copy()
 
                     # Filtro Posición
-                    poste_options_raw = sorted(filtered_df["sub_position"].dropna().unique())
+                    poste_options_raw = sorted(filtered_df["position"].dropna().unique())
                     poste_options_es = [""] + [translate_position(p, lang="es") for p in poste_options_raw]
                     poste_es = st.selectbox("Posición", poste_options_es)
 
                     if poste_es:
                         idx = poste_options_es.index(poste_es) - 1
                         poste_en = poste_options_raw[idx]
-                        filtered_df = filtered_df[filtered_df["sub_position"] == poste_en]
+                        filtered_df = filtered_df[filtered_df["position"] == poste_en]
 
                     # Filtro Liga
-                    campeonato_options = sorted(filtered_df["current_club_domestic_competition_id"].dropna().unique())
+                    campeonato_options = sorted(filtered_df["Comp"].dropna().unique())
                     campeonato = st.selectbox("Liga", [""] + campeonato_options)
                     if campeonato:
-                        filtered_df = filtered_df[filtered_df["current_club_domestic_competition_id"] == campeonato]
+                        filtered_df = filtered_df[filtered_df["Comp"] == campeonato]
 
                     # Filtro Club
-                    club_options = sorted(filtered_df["current_club_name"].dropna().unique())
+                    club_options = sorted(filtered_df["club_name"].dropna().unique())
                     club = st.selectbox("Club", [""] + club_options)
                     if club:
-                        filtered_df = filtered_df[filtered_df["current_club_name"] == club]
+                        filtered_df = filtered_df[filtered_df["club_name"] == club]
 
                     # Filtro País
-                    pays_options_raw = sorted(filtered_df["country_of_citizenship"].dropna().unique())
+                    pays_options_raw = sorted(filtered_df["nationality"].dropna().unique())
                     pays_options_es = [""] + [translate_country(p, lang="es") for p in pays_options_raw]
                     pais_es = st.selectbox("País", pays_options_es, placeholder="")
                     if pais_es:
                         idx = pays_options_es.index(pais_es) - 1  # -1 por la opción vacía
                         pais_en = pays_options_raw[idx]
-                        filtered_df = filtered_df[filtered_df["country_of_citizenship"] == pais_en]
+                        filtered_df = filtered_df[filtered_df["nationality"] == pais_en]
 
                     # Filtro Tramo de edad (dinámico)
                     tranche_options = [""]
@@ -3217,7 +3216,7 @@ else:
 
                     # Filtro de valor de mercado
                     valor_min_posible = 0
-                    valor_max_posible = int(filtered_df["market_value_in_eur"].max()) if not filtered_df["market_value_in_eur"].isnull().all() else 10_000_000
+                    valor_max_posible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
                     valor_max = st.slider(
                         "Valor de mercado máximo (€)",
@@ -3229,7 +3228,7 @@ else:
                     )
 
                     st.markdown(f"Valor máximo seleccionado: **{format_market_value(valor_max)}**")
-                    filtered_df = filtered_df[filtered_df["market_value_in_eur"] <= valor_max]
+                    filtered_df = filtered_df[filtered_df["marketValue"] <= valor_max]
 
                 # Stats específicas de porteros
                 goalkeeper_stats = [
@@ -3239,25 +3238,24 @@ else:
 
                 # Subconjunto de columnas
                 df_stat = filtered_df[
-                    ['name', 'image_url', 'Age', 'country_of_citizenship', 'current_club_name',
-                    'current_club_domestic_competition_id', 'market_value_in_eur', 'contract_expiration_date',
-                    'sub_position', selected_stat]
+                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue', 'contract',
+                    'position', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 # Filtrado condicional según la estadística seleccionada
                 if selected_stat in [f"score_{stat}" for stat in goalkeeper_stats]:
-                    df_stat = df_stat[df_stat['sub_position'] == 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] == 'Goalkeeper']
                 else:
-                    df_stat = df_stat[df_stat['sub_position'] != 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] != 'Goalkeeper']
 
                 # Posición en ES (solo visual)
-                df_stat['sub_position'] = df_stat['sub_position'].apply(lambda x: translate_position(x, lang="es"))
+                df_stat['position'] = df_stat['position'].apply(lambda x: translate_position(x, lang="es"))
 
                 # País en ES (solo visual)
-                df_stat['country_of_citizenship'] = df_stat['country_of_citizenship'].apply(lambda x: translate_country(x, lang="es"))
+                df_stat['nationality'] = df_stat['nationality'].apply(lambda x: translate_country(x, lang="es"))
 
                 # Formato del valor de mercado
-                df_stat['market_value_in_eur'] = df_stat['market_value_in_eur'].apply(format_market_value)
+                df_stat['marketValue'] = df_stat['marketValue'].apply(format_market_value)
 
                 # Ordenar de mayor a menor
                 df_stat = df_stat.sort_values(by=selected_stat, ascending=False)
@@ -3272,9 +3270,9 @@ else:
                 for display_index, i in enumerate(podium_order):
                     if i < len(top3):
                         player = top3.loc[i]
-                        name = player['name']
+                        name = player['player_name']
                         stat = round(player[selected_stat]) if pd.notna(player[selected_stat]) else "-"
-                        image_url = player['image_url']
+                        image_url = player['imageUrl']
                         image_html = f"<img src='{image_url}' style='width: 100%; max-width: 120px; border-radius: 10px; margin-bottom: 0.5rem;'>" if pd.notna(image_url) else ""
 
                         player_html = (
@@ -3293,8 +3291,8 @@ else:
                 # Tabla final (renombrar solo la columna de la métrica)
                 final_df = df_stat.rename(columns={selected_stat: 'Estadística'})
                 final_df = final_df[
-                    ['name', 'Estadística', 'Age', 'country_of_citizenship', 'current_club_name',
-                    'sub_position', 'market_value_in_eur', 'contract_expiration_date']
+                    ['player_name', 'Estadística', 'Age', 'nationality', 'club_name',
+                    'position', 'marketValue', 'contract']
                 ]
 
                 st.dataframe(final_df, use_container_width=True)
@@ -3324,38 +3322,38 @@ else:
                     filtered_df = df_with_stat.copy()  # Point de départ pour les filtres
 
                     # Filtre Poste
-                    poste_options_raw = sorted(filtered_df["sub_position"].dropna().unique())
+                    poste_options_raw = sorted(filtered_df["position"].dropna().unique())
                     poste_options_fr = [""] + [translate_position(p, lang="fr") for p in poste_options_raw]
                     poste_fr = st.selectbox("Poste", poste_options_fr)
 
                     if poste_fr:
                         idx = poste_options_fr.index(poste_fr) - 1
                         poste_en = poste_options_raw[idx]
-                        filtered_df = filtered_df[filtered_df["sub_position"] == poste_en]
+                        filtered_df = filtered_df[filtered_df["position"] == poste_en]
 
                     # Filtre Championnat
-                    championnat_options = sorted(filtered_df["current_club_domestic_competition_id"].dropna().unique())
+                    championnat_options = sorted(filtered_df["Comp"].dropna().unique())
                     championnat = st.selectbox("Championnat", [""] + championnat_options)
 
                     if championnat:
-                        filtered_df = filtered_df[filtered_df["current_club_domestic_competition_id"] == championnat]
+                        filtered_df = filtered_df[filtered_df["Comp"] == championnat]
 
                     # Filtre Club
-                    club_options = sorted(filtered_df["current_club_name"].dropna().unique())
+                    club_options = sorted(filtered_df["club_name"].dropna().unique())
                     club = st.selectbox("Club", [""] + club_options)
 
                     if club:
-                        filtered_df = filtered_df[filtered_df["current_club_name"] == club]
+                        filtered_df = filtered_df[filtered_df["club_name"] == club]
 
                     # Filtre Pays
-                    pays_options_raw = sorted(filtered_df["country_of_citizenship"].dropna().unique())
+                    pays_options_raw = sorted(filtered_df["nationality"].dropna().unique())
                     pays_options_fr = [""] + [translate_country(p, lang="fr") for p in pays_options_raw]
                     pays_fr = st.selectbox("Pays", pays_options_fr, placeholder="")
 
                     if pays_fr:
                         idx = pays_options_fr.index(pays_fr) - 1  # -1 à cause de l'option vide
                         pays_en = pays_options_raw[idx]
-                        filtered_df = filtered_df[filtered_df["country_of_citizenship"] == pays_en]
+                        filtered_df = filtered_df[filtered_df["nationality"] == pays_en]
 
                     # Filtre Tranche d’âge (créer dynamiquement les tranches d'âge disponibles)
                     tranche_options = [""]
@@ -3381,7 +3379,7 @@ else:
 
                     # Filtre de valeur marchande
                     valeur_min_possible = 0
-                    valeur_max_possible = int(filtered_df["market_value_in_eur"].max()) if not filtered_df["market_value_in_eur"].isnull().all() else 10_000_000
+                    valeur_max_possible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
                     valeur_max = st.slider(
                         "Valeur marchande maximum (€)",
@@ -3393,7 +3391,7 @@ else:
                     )
 
                     st.markdown(f"Valeur maximum sélectionné : **{format_market_value(valeur_max)}**") # Affichage du choix de l'utilisateur
-                    filtered_df = filtered_df[filtered_df["market_value_in_eur"] <= valeur_max]
+                    filtered_df = filtered_df[filtered_df["marketValue"] <= valeur_max]
 
                 # Placement du glossaire en sidebar
                 with st.sidebar.expander("Glossaire des statistiques"):
@@ -3501,33 +3499,32 @@ else:
 
                 # Liste de colonnes
                 df_stat = filtered_df[
-                    ['name', 'image_url', 'Age', 'country_of_citizenship', 'current_club_name',
-                    'current_club_domestic_competition_id', 'market_value_in_eur','contract_expiration_date',
-                    'sub_position', selected_stat]
+                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue','contract',
+                    'position', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 # Traduction du pays du joueur dans la table
-                df_stat['country_of_citizenship'] = df_stat['country_of_citizenship'].apply(
+                df_stat['nationality'] = df_stat['nationality'].apply(
                     lambda x: translate_country(x, lang="fr")
                 )
-                df_stat['market_value_in_eur'] = df_stat['market_value_in_eur'].apply(format_market_value) # Utilisation du format de market_value
+                df_stat['marketValue'] = df_stat['marketValue'].apply(format_market_value) # Utilisation du format de market_value
 
                 # Filtrage spécial si la statistique sélectionnée est reservée aux gardiens
                 if selected_stat in ['Saves_per90', 'Save%', '/90', 'PSxG+/-','AvgLen', 'Launch%', 'Stp%', '#OPA_per90', 'CS%']:
-                    df_stat = df_stat[df_stat['sub_position'] == 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] == 'Goalkeeper']
         
                 # Filtrage spécial si la statistique sélectionnée est GA_per90
                 if selected_stat == 'GA_per90':
-                    df_stat = df_stat[df_stat['sub_position'] == 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] == 'Goalkeeper']
                     df_stat = df_stat.sort_values(by=selected_stat, ascending=True)
                 else:
                     df_stat = df_stat.sort_values(by=selected_stat, ascending=False)
 
                 # Cas particuliers : exclusion des gardiens pour certaines statistiques
                 if selected_stat in ['Won%', 'Tkl%','Succ%']:
-                    df_stat = df_stat[df_stat['sub_position'] != 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] != 'Goalkeeper']
 
-                df_stat['sub_position'] = df_stat['sub_position'].apply(
+                df_stat['position'] = df_stat['position'].apply(
                     lambda x: translate_position(x, lang="fr")
                 )
                 top3 = df_stat.head(3).reset_index(drop=True) # Affichage du podium
@@ -3544,8 +3541,8 @@ else:
                 for display_index, i in enumerate(podium_order):
                     if i < len(top3):
                         player = top3.loc[i]
-                        name = player['name']
-                        image_url = player['image_url']
+                        name = player['player_name']
+                        image_url = player['imageUrl']
                         stat_val = round(player[selected_stat], 2) if pd.notna(player[selected_stat]) else "-"
 
                         image_html = (
@@ -3572,7 +3569,7 @@ else:
                 # Choix des colonnes dans la table
                 final_df = df_stat.rename(columns={selected_stat: 'Statistique'})
                 final_df = final_df[[
-                    'name', 'Statistique', 'Age', 'country_of_citizenship', 'current_club_name', 'sub_position','market_value_in_eur', 'contract_expiration_date'
+                    'player_name', 'Statistique', 'Age', 'nationality', 'club_name', 'position','marketValue', 'contract'
                 ]]
 
                 st.dataframe(final_df, use_container_width=True)
@@ -3601,32 +3598,32 @@ else:
                     filtered_df = df_with_stat.copy()  # Starting point for filters
 
                     # Position filter
-                    poste_options_raw = sorted(filtered_df["sub_position"].dropna().unique())
+                    poste_options_raw = sorted(filtered_df["position"].dropna().unique())
                     poste_options = st.selectbox("Position", [""] + poste_options_raw )
 
                     if poste_options:
-                        filtered_df = filtered_df[filtered_df["sub_position"] == poste_options]
+                        filtered_df = filtered_df[filtered_df["position"] == poste_options]
 
                     # League filter
-                    championnat_options = sorted(filtered_df["current_club_domestic_competition_id"].dropna().unique())
+                    championnat_options = sorted(filtered_df["Comp"].dropna().unique())
                     championnat = st.selectbox("League", [""] + championnat_options)
 
                     if championnat:
-                        filtered_df = filtered_df[filtered_df["current_club_domestic_competition_id"] == championnat]
+                        filtered_df = filtered_df[filtered_df["Comp"] == championnat]
 
                     # Club filter
-                    club_options = sorted(filtered_df["current_club_name"].dropna().unique())
+                    club_options = sorted(filtered_df["club_name"].dropna().unique())
                     club = st.selectbox("Club", [""] + club_options)
 
                     if club:
-                        filtered_df = filtered_df[filtered_df["current_club_name"] == club]
+                        filtered_df = filtered_df[filtered_df["club_name"] == club]
 
                     # Country filter
-                    pays_options_raw = sorted(filtered_df["country_of_citizenship"].dropna().unique())
+                    pays_options_raw = sorted(filtered_df["nationality"].dropna().unique())
                     pays_options = st.selectbox("Country", [""] + pays_options_raw )
 
                     if pays_options:
-                        filtered_df = filtered_df[filtered_df["country_of_citizenship"] == pays_options]
+                        filtered_df = filtered_df[filtered_df["nationality"] == pays_options]
 
                     # Age group filter (dynamically create the age ranges available)
                     tranche_options = [""]
@@ -3652,7 +3649,7 @@ else:
 
                     # Market value filter
                     valeur_min_possible = 0
-                    valeur_max_possible = int(filtered_df["market_value_in_eur"].max()) if not filtered_df["market_value_in_eur"].isnull().all() else 10_000_000
+                    valeur_max_possible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
                     valeur_max = st.slider(
                         "Maximum market value (€)",
@@ -3664,7 +3661,7 @@ else:
                     )
 
                     st.markdown(f"Maximum value selected: **{format_market_value(valeur_max)}**") # Display the choice of the user
-                    filtered_df = filtered_df[filtered_df["market_value_in_eur"] <= valeur_max]
+                    filtered_df = filtered_df[filtered_df["marketValue"] <= valeur_max]
 
                 # Statistics glossary in the sidebar
                 with st.sidebar.expander("Statistics glossary"):
@@ -3772,27 +3769,27 @@ else:
 
                 # Selecting columns
                 df_stat = filtered_df[
-                    ['name', 'image_url', 'Age', 'country_of_citizenship', 'current_club_name',
-                    'current_club_domestic_competition_id', 'market_value_in_eur','contract_expiration_date',
-                    'sub_position', selected_stat]
+                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name',
+                    'Comp', 'marketValue','contract',
+                    'position', selected_stat]
                 ].dropna(subset=[selected_stat])
 
-                df_stat['market_value_in_eur'] = df_stat['market_value_in_eur'].apply(format_market_value) # Format market value
+                df_stat['marketValue'] = df_stat['marketValue'].apply(format_market_value) # Format market value
 
                 # Special filtering if the selected statistic is reserved for goalkeepers
                 if selected_stat in ['Saves_per90', 'Save%', '/90', 'PSxG+/-','AvgLen', 'Launch%', 'Stp%', '#OPA_per90', 'CS%']:
-                    df_stat = df_stat[df_stat['sub_position'] == 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] == 'Goalkeeper']
                     
                 # Special filtering if the selected statistic is GA_per90
                 if selected_stat == 'GA_per90':
-                    df_stat = df_stat[df_stat['sub_position'] == 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] == 'Goalkeeper']
                     df_stat = df_stat.sort_values(by=selected_stat, ascending=True)
                 else:
                     df_stat = df_stat.sort_values(by=selected_stat, ascending=False)
 
                 # Special cases: exclusion of goalkeepers for certain statistics
                 if selected_stat in ['Won%', 'Tkl%','Succ%']:
-                    df_stat = df_stat[df_stat['sub_position'] != 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] != 'Goalkeeper']
 
                 top3 = df_stat.head(3).reset_index(drop=True) # Displaying podium
 
@@ -3809,8 +3806,8 @@ else:
                 for display_index, i in enumerate(podium_order):
                     if i < len(top3):
                         player = top3.loc[i]
-                        name = player['name']
-                        image_url = player['image_url']
+                        name = player['player_name']
+                        image_url = player['imageUrl']
                         stat_val = round(player[selected_stat], 2) if pd.notna(player[selected_stat]) else "-"
 
                         image_html = (
@@ -3837,7 +3834,7 @@ else:
                 # We display the table with the columns desired
                 final_df = df_stat.rename(columns={selected_stat: 'Statistic'})
                 final_df = final_df[[
-                    'name', 'Statistic', 'Age', 'country_of_citizenship', 'current_club_name', 'market_value_in_eur', 'contract_expiration_date'
+                    'player_name', 'Statistic', 'Age', 'nationality', 'club_name', 'marketValue', 'contract'
                 ]]
 
                 st.dataframe(final_df, use_container_width=True)
@@ -3865,35 +3862,35 @@ else:
                     filtered_df = df_with_stat.copy()
 
                     # Filtro Posición
-                    poste_options_raw = sorted(filtered_df["sub_position"].dropna().unique())
+                    poste_options_raw = sorted(filtered_df["position"].dropna().unique())
                     poste_options_es = [""] + [translate_position(p, lang="es") for p in poste_options_raw]
                     poste_es = st.selectbox("Posición", poste_options_es)
 
                     if poste_es:
                         idx = poste_options_es.index(poste_es) - 1
                         poste_en = poste_options_raw[idx]
-                        filtered_df = filtered_df[filtered_df["sub_position"] == poste_en]
+                        filtered_df = filtered_df[filtered_df["position"] == poste_en]
 
                     # Filtro Liga
-                    campeonato_options = sorted(filtered_df["current_club_domestic_competition_id"].dropna().unique())
+                    campeonato_options = sorted(filtered_df["Comp"].dropna().unique())
                     campeonato = st.selectbox("Liga", [""] + campeonato_options)
                     if campeonato:
-                        filtered_df = filtered_df[filtered_df["current_club_domestic_competition_id"] == campeonato]
+                        filtered_df = filtered_df[filtered_df["Comp"] == campeonato]
 
                     # Filtro Club
-                    club_options = sorted(filtered_df["current_club_name"].dropna().unique())
+                    club_options = sorted(filtered_df["club_name"].dropna().unique())
                     club = st.selectbox("Club", [""] + club_options)
                     if club:
-                        filtered_df = filtered_df[filtered_df["current_club_name"] == club]
+                        filtered_df = filtered_df[filtered_df["club_name"] == club]
 
                     # Filtro País
-                    pais_options_raw = sorted(filtered_df["country_of_citizenship"].dropna().unique())
+                    pais_options_raw = sorted(filtered_df["nationality"].dropna().unique())
                     pais_options_es = [""] + [translate_country(p, lang="es") for p in pais_options_raw]
                     pais_es = st.selectbox("País", pais_options_es, placeholder="")
                     if pais_es:
                         idx = pais_options_es.index(pais_es) - 1  # -1 por la opción vacía
                         pais_en = pais_options_raw[idx]
-                        filtered_df = filtered_df[filtered_df["country_of_citizenship"] == pais_en]
+                        filtered_df = filtered_df[filtered_df["nationality"] == pais_en]
 
                     # Filtro Tramo de edad (crear dinámicamente)
                     tranche_options = [""]
@@ -3919,7 +3916,7 @@ else:
 
                     # Filtro de valor de mercado
                     valor_min_posible = 0
-                    valor_max_posible = int(filtered_df["market_value_in_eur"].max()) if not filtered_df["market_value_in_eur"].isnull().all() else 10_000_000
+                    valor_max_posible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
                     valor_max = st.slider(
                         "Valor de mercado máximo (€)",
@@ -3931,7 +3928,7 @@ else:
                     )
 
                     st.markdown(f"Valor máximo seleccionado: **{format_market_value(valor_max)}**")
-                    filtered_df = filtered_df[filtered_df["market_value_in_eur"] <= valor_max]
+                    filtered_df = filtered_df[filtered_df["marketValue"] <= valor_max]
 
                 # Glosario en la barra lateral
                 with st.sidebar.expander("Glosario de estadísticas"):
@@ -4037,32 +4034,32 @@ else:
 
                 # Subconjunto de columnas
                 df_stat = filtered_df[
-                    ['name', 'image_url', 'Age', 'country_of_citizenship', 'current_club_name',
-                    'current_club_domestic_competition_id', 'market_value_in_eur', 'contract_expiration_date',
-                    'sub_position', selected_stat]
+                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name',
+                    'Comp', 'marketValue', 'contract',
+                    'position', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 # Traducciones visuales (ES)
-                df_stat['country_of_citizenship'] = df_stat['country_of_citizenship'].apply(lambda x: translate_country(x, lang="es"))
-                df_stat['market_value_in_eur'] = df_stat['market_value_in_eur'].apply(format_market_value)
+                df_stat['nationality'] = df_stat['nationality'].apply(lambda x: translate_country(x, lang="es"))
+                df_stat['marketValue'] = df_stat['marketValue'].apply(format_market_value)
 
                 # Filtros especiales para porteros
                 if selected_stat in ['Saves_per90', 'Save%', '/90', 'PSxG+/-', 'AvgLen', 'Launch%', 'Stp%', '#OPA_per90', 'CS%']:
-                    df_stat = df_stat[df_stat['sub_position'] == 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] == 'Goalkeeper']
 
                 # Caso especial GA_per90 (orden ascendente)
                 if selected_stat == 'GA_per90':
-                    df_stat = df_stat[df_stat['sub_position'] == 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] == 'Goalkeeper']
                     df_stat = df_stat.sort_values(by=selected_stat, ascending=True)
                 else:
                     df_stat = df_stat.sort_values(by=selected_stat, ascending=False)
 
                 # Excluir porteros en métricas % específicas
                 if selected_stat in ['Won%', 'Tkl%', 'Succ%']:
-                    df_stat = df_stat[df_stat['sub_position'] != 'Goalkeeper']
+                    df_stat = df_stat[df_stat['position'] != 'Goalkeeper']
 
                 # Posición en ES (visual)
-                df_stat['sub_position'] = df_stat['sub_position'].apply(lambda x: translate_position(x, lang="es"))
+                df_stat['position'] = df_stat['position'].apply(lambda x: translate_position(x, lang="es"))
 
                 # Top 3 (podio)
                 top3 = df_stat.head(3).reset_index(drop=True)
@@ -4078,8 +4075,8 @@ else:
                 for display_index, i in enumerate(podium_order):
                     if i < len(top3):
                         player = top3.loc[i]
-                        name = player['name']
-                        image_url = player['image_url']
+                        name = player['player_name']
+                        image_url = player['imageUrl']
                         stat_val = round(player[selected_stat], 2) if pd.notna(player[selected_stat]) else "-"
 
                         image_html = (
@@ -4105,8 +4102,8 @@ else:
                 # Tabla final
                 final_df = df_stat.rename(columns={selected_stat: 'Estadística'})
                 final_df = final_df[
-                    ['name', 'Estadística', 'Age', 'country_of_citizenship', 'current_club_name',
-                    'sub_position', 'market_value_in_eur', 'contract_expiration_date']
+                    ['player_name', 'Estadística', 'Age', 'nationality', 'club_name',
+                    'position', 'marketValue', 'contract']
                 ]
 
                 st.dataframe(final_df, use_container_width=True)
@@ -4118,7 +4115,7 @@ else:
             df = pd.read_csv("../data/player/database_player.csv") # Récupération des données
             
             # Caractéristiques générales (avec traductions lorsque cela est nécéssaire)
-            pays_options_raw = sorted(df["country_of_citizenship"].dropna().unique())
+            pays_options_raw = sorted(df["nationality"].dropna().unique())
             pays_options_fr = [translate_country(p, lang="fr") for p in pays_options_raw]
             pays_fr = st.multiselect("Pays", pays_options_fr, placeholder="")
             fr_to_en = dict(zip(pays_options_fr, pays_options_raw))
@@ -4128,24 +4125,24 @@ else:
             age_min, age_max = st.slider("Âge", 17, 42, (17, 42))
             height_min, height_max = st.slider("Taille (cm)", 163, 206, (163, 206))
 
-            poste_options_raw = sorted(df["sub_position"].dropna().unique())
+            poste_options_raw = sorted(df["position"].dropna().unique())
             poste_options_fr = [translate_position(p, lang="fr") for p in poste_options_raw]
             poste_fr = st.multiselect("Poste", poste_options_fr, placeholder="")
             poste_en = [k for k, v in position_translation.get("fr", {}).items() if v in poste_fr] if poste_fr else []
 
-            contract_years = sorted(df["contract_expiration_date"].dropna().apply(lambda x: str(x)[:4]).unique())
+            contract_years = sorted(df["contract"].dropna().apply(lambda x: str(x)[:4]).unique())
             contract_year = st.multiselect("Année de fin de contrat", contract_years, placeholder="")
 
-            championnat = st.multiselect("Championnat", sorted(df["current_club_domestic_competition_id"].dropna().unique()), placeholder="")
+            championnat = st.multiselect("Championnat", sorted(df["Comp"].dropna().unique()), placeholder="")
             
             # Mise à jour dynamique des clubs en fonction des championnats
             if championnat:
-                clubs_filtered = df[df["current_club_domestic_competition_id"].isin(championnat)]["current_club_name"].dropna().unique()
+                clubs_filtered = df[df["Comp"].isin(championnat)]["club_name"].dropna().unique()
                 club = st.multiselect("Club", sorted(clubs_filtered), placeholder="")
             else:
-                club = st.multiselect("Club", sorted(df["current_club_name"].dropna().unique()), placeholder="")
+                club = st.multiselect("Club", sorted(df["club_name"].dropna().unique()), placeholder="")
 
-            price_max = st.slider("Valeur marchande maximum (€)", 0, int(df["market_value_in_eur"].max()), 200000000, step=100000)
+            price_max = st.slider("Valeur marchande maximum (€)", 0, int(df["marketValue"].max()), 200000000, step=100000)
 
             # Statistiques de base avec traduction
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
@@ -4176,7 +4173,7 @@ else:
 
             # Statistiques avancées (à partir de la 30e colonne)
             selected_adv_stats, adv_stat_limits = [], {}
-            adv_columns = df.columns[30:]
+            adv_columns = df.columns[42:]
             selected_adv_stats = st.multiselect("Statistiques brutes", list(adv_columns), placeholder="")
             for stat in selected_adv_stats:
                 if stat in df.columns:
@@ -4214,14 +4211,14 @@ else:
                 else:
                     # On récupère les données associées
                     df_filtered = df.copy()
-                    if pays_en: df_filtered = df_filtered[df_filtered["country_of_citizenship"].isin(pays_en)]
-                    if poste_en: df_filtered = df_filtered[df_filtered["sub_position"].isin(poste_en)]
-                    if contract_year: df_filtered = df_filtered[df_filtered["contract_expiration_date"].str[:4].isin(contract_year)]
-                    if championnat: df_filtered = df_filtered[df_filtered["current_club_domestic_competition_id"].isin(championnat)]
-                    if club: df_filtered = df_filtered[df_filtered["current_club_name"].isin(club)]
+                    if pays_en: df_filtered = df_filtered[df_filtered["nationality"].isin(pays_en)]
+                    if poste_en: df_filtered = df_filtered[df_filtered["position"].isin(poste_en)]
+                    if contract_year: df_filtered = df_filtered[df_filtered["contract"].str[:4].isin(contract_year)]
+                    if championnat: df_filtered = df_filtered[df_filtered["Comp"].isin(championnat)]
+                    if club: df_filtered = df_filtered[df_filtered["club_name"].isin(club)]
                     df_filtered = df_filtered[(df_filtered["Age"] >= age_min) & (df_filtered["Age"] <= age_max)]
-                    df_filtered = df_filtered[(df_filtered["height_in_cm"] >= height_min) & (df_filtered["height_in_cm"] <= height_max)]
-                    df_filtered = df_filtered[df_filtered["market_value_in_eur"] <= price_max]
+                    df_filtered = df_filtered[(df_filtered["height"] >= height_min) & (df_filtered["height"] <= height_max)]
+                    df_filtered = df_filtered[df_filtered["marketValue"] <= price_max]
 
                     for stat, (min_v, max_v) in base_stat_limits.items():
                         df_filtered = df_filtered[df_filtered[stat].between(min_v, max_v)]
@@ -4247,15 +4244,15 @@ else:
                     goalkeeper_advanced_stats = ['Saves_per90', 'Save%', '/90', 'PSxG+/-', 'AvgLen', 'Launch%', 'Stp%', '#OPA_per90', 'CS%', 'GA_per90']
 
                     if any(stat in selected_adv_stats for stat in goalkeeper_advanced_stats):
-                        df_filtered = df_filtered[df_filtered["sub_position"] == "Goalkeeper"]
+                        df_filtered = df_filtered[df_filtered["position"] == "Goalkeeper"]
 
                     # Exclusion des gardiens pour certaines stats
                     if any(stat in ['Won%', 'Tkl%', 'Succ%'] for stat in selected_adv_stats):
-                        df_filtered = df_filtered[df_filtered["sub_position"] != "Goalkeeper"]
+                        df_filtered = df_filtered[df_filtered["position"] != "Goalkeeper"]
 
                     all_stats = selected_base_stats + selected_adv_stats
-                    display_columns = ["name", "image_url", "Age", "country_of_citizenship", "current_club_name",
-                                    "sub_position", "market_value_in_eur", "contract_expiration_date", "rating"] + all_stats
+                    display_columns = ["player_name", "imageUrl", "Age", "nationality", "club_name",
+                                    "position", "marketValue", "contract", "rating"] + all_stats
 
                     df_stat = df_filtered.dropna(subset=["rating"]).sort_values("rating", ascending=False)
                     
@@ -4264,15 +4261,15 @@ else:
                     # Vérifie si une stat de base sélectionnée est spécifique aux gardiens
                     selected_goalkeeper_stats = [stat for stat in selected_base_stats if stat in [f"score_{s}" for s in goalkeeper_stats]]
                     if selected_goalkeeper_stats:
-                        df_stat = df_stat[df_stat["sub_position"] == "Goalkeeper"]
+                        df_stat = df_stat[df_stat["position"] == "Goalkeeper"]
                     elif selected_base_stats:
-                        df_stat = df_stat[df_stat["sub_position"] != "Goalkeeper"]
+                        df_stat = df_stat[df_stat["position"] != "Goalkeeper"]
                     df_stat = df_stat[display_columns].head(nb_players).reset_index(drop=True)
 
                     # Traductions de plusieurs catégories (postion, pays) et mise sous format des valeurs sur le marché des transferts
-                    df_stat['sub_position'] = df_stat['sub_position'].apply(lambda x: translate_position(x, lang="fr"))
-                    df_stat["country_of_citizenship"] = df_stat["country_of_citizenship"].apply(lambda x: translate_country(x, lang="fr"))
-                    df_stat["market_value_in_eur"] = df_stat["market_value_in_eur"].apply(format_market_value)
+                    df_stat['position'] = df_stat['position'].apply(lambda x: translate_position(x, lang="fr"))
+                    df_stat["nationality"] = df_stat["nationality"].apply(lambda x: translate_country(x, lang="fr"))
+                    df_stat["marketValue"] = df_stat["marketValue"].apply(format_market_value)
 
                     # Construction du podium
                     top3 = df_stat.head(3)
@@ -4288,9 +4285,9 @@ else:
                     for display_index, i in enumerate(podium_order):
                         if i < len(top3):
                             player = top3.loc[i]
-                            name = player['name']
+                            name = player['player_name']
                             rating = round(player['rating'], 2) if pd.notna(player['rating']) else "-"
-                            image_url = player['image_url']
+                            image_url = player['imageUrl']
                             
                             image_html = (
                                 f"<img src='{image_url}' style='width: 100%; max-width: 120px; "
@@ -4313,7 +4310,7 @@ else:
 
                     st.markdown(podium_html, unsafe_allow_html=True)
 
-                    final_df = df_stat.drop(columns=["image_url"]) # Suppression de image_url pour la table finale
+                    final_df = df_stat.drop(columns=["imageUrl"]) # Suppression de image_url pour la table finale
                     st.dataframe(final_df, use_container_width=True)
 
             # Sidebar résumé
@@ -4429,27 +4426,27 @@ else:
             df = pd.read_csv("../data/player/database_player.csv") # Recover the data 
 
             # General Characteristics
-            country_options = sorted(df["country_of_citizenship"].dropna().unique())
+            country_options = sorted(df["nationality"].dropna().unique())
             country = st.multiselect("Country", country_options, placeholder="")
 
             age_min, age_max = st.slider("Age", 17, 42, (17, 42))
             height_min, height_max = st.slider("Height (cm)", 163, 206, (163, 206))
 
-            position_options = sorted(df["sub_position"].dropna().unique())
+            position_options = sorted(df["position"].dropna().unique())
             position = st.multiselect("Position", position_options, placeholder="")
 
-            contract_years = sorted(df["contract_expiration_date"].dropna().apply(lambda x: str(x)[:4]).unique())
+            contract_years = sorted(df["contract"].dropna().apply(lambda x: str(x)[:4]).unique())
             contract_year = st.multiselect("Contract end year", contract_years, placeholder="")
 
-            leagues = st.multiselect("League", sorted(df["current_club_domestic_competition_id"].dropna().unique()), placeholder="")
+            leagues = st.multiselect("League", sorted(df["Comp"].dropna().unique()), placeholder="")
 
             if leagues:
-                filtered_clubs = df[df["current_club_domestic_competition_id"].isin(leagues)]["current_club_name"].dropna().unique()
+                filtered_clubs = df[df["Comp"].isin(leagues)]["club_name"].dropna().unique()
                 club = st.multiselect("Club", sorted(filtered_clubs), placeholder="")
             else:
-                club = st.multiselect("Club", sorted(df["current_club_name"].dropna().unique()), placeholder="")
+                club = st.multiselect("Club", sorted(df["club_name"].dropna().unique()), placeholder="")
 
-            price_max = st.slider("Maximum market value (€)", 0, int(df["market_value_in_eur"].max()), 200000000, step=100000)
+            price_max = st.slider("Maximum market value (€)", 0, int(df["marketValue"].max()), 200000000, step=100000)
 
             # Base statistics
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
@@ -4509,14 +4506,14 @@ else:
                 else:
                     # We recovering the data
                     df_filtered = df.copy()
-                    if country: df_filtered = df_filtered[df_filtered["country_of_citizenship"].isin(country)]
-                    if position: df_filtered = df_filtered[df_filtered["sub_position"].isin(position)]
-                    if contract_year: df_filtered = df_filtered[df_filtered["contract_expiration_date"].str[:4].isin(contract_year)]
-                    if leagues: df_filtered = df_filtered[df_filtered["current_club_domestic_competition_id"].isin(leagues)]
-                    if club: df_filtered = df_filtered[df_filtered["current_club_name"].isin(club)]
+                    if country: df_filtered = df_filtered[df_filtered["nationality"].isin(country)]
+                    if position: df_filtered = df_filtered[df_filtered["position"].isin(position)]
+                    if contract_year: df_filtered = df_filtered[df_filtered["contract"].str[:4].isin(contract_year)]
+                    if leagues: df_filtered = df_filtered[df_filtered["Comp"].isin(leagues)]
+                    if club: df_filtered = df_filtered[df_filtered["club_name"].isin(club)]
                     df_filtered = df_filtered[(df_filtered["Age"] >= age_min) & (df_filtered["Age"] <= age_max)]
-                    df_filtered = df_filtered[(df_filtered["height_in_cm"] >= height_min) & (df_filtered["height_in_cm"] <= height_max)]
-                    df_filtered = df_filtered[df_filtered["market_value_in_eur"] <= price_max]
+                    df_filtered = df_filtered[(df_filtered["height"] >= height_min) & (df_filtered["height"] <= height_max)]
+                    df_filtered = df_filtered[df_filtered["marketValue"] <= price_max]
 
                     for stat, (min_v, max_v) in base_stat_limits.items():
                         df_filtered = df_filtered[df_filtered[stat].between(min_v, max_v)]
@@ -4541,9 +4538,9 @@ else:
                     # Some specifics parameters for the goalkeepers
                     goalkeeper_advanced_stats = ['Saves_per90', 'Save%', '/90', 'PSxG+/-', 'AvgLen', 'Launch%', 'Stp%', '#OPA_per90', 'CS%', 'GA_per90']
                     if any(stat in selected_adv_stats for stat in goalkeeper_advanced_stats):
-                        df_filtered = df_filtered[df_filtered["sub_position"] == "Goalkeeper"]
+                        df_filtered = df_filtered[df_filtered["position"] == "Goalkeeper"]
                     if any(stat in ['Won%', 'Tkl%', 'Succ%'] for stat in selected_adv_stats):
-                        df_filtered = df_filtered[df_filtered["sub_position"] != "Goalkeeper"]
+                        df_filtered = df_filtered[df_filtered["position"] != "Goalkeeper"]
 
                     goalkeeper_stats = [
                         "goal_scoring_conceded", "efficiency", "error_fouls",
@@ -4552,18 +4549,18 @@ else:
                     selected_goalkeeper_stats = [stat for stat in selected_base_stats if stat in [f"score_{s}" for s in goalkeeper_stats]]
                     
                     if selected_goalkeeper_stats:
-                        df_filtered = df_filtered[df_filtered["sub_position"] == "Goalkeeper"]
+                        df_filtered = df_filtered[df_filtered["position"] == "Goalkeeper"]
                     elif selected_base_stats:
-                        df_filtered = df_filtered[df_filtered["sub_position"] != "Goalkeeper"]
+                        df_filtered = df_filtered[df_filtered["position"] != "Goalkeeper"]
 
                     all_stats = selected_base_stats + selected_adv_stats
-                    display_columns = ["name", "image_url", "Age", "country_of_citizenship", "current_club_name",
-                                    "sub_position", "market_value_in_eur", "contract_expiration_date", "rating"] + all_stats # We choose the list of informations collected
+                    display_columns = ["player_name", "imageUrl", "Age", "nationality", "club_name",
+                                    "position", "marketValue", "contract", "rating"] + all_stats # We choose the list of informations collected
 
                     df_stat = df_filtered.dropna(subset=["rating"]).sort_values("rating", ascending=False)
                     df_stat = df_stat[display_columns].head(nb_players).reset_index(drop=True)
 
-                    df_stat["market_value_in_eur"] = df_stat["market_value_in_eur"].apply(format_market_value) # Format market value
+                    df_stat["marketValue"] = df_stat["marketValue"].apply(format_market_value) # Format market value
 
                     # We display a podium
                     top3 = df_stat.head(3)
@@ -4579,9 +4576,9 @@ else:
                     for display_index, i in enumerate(podium_order):
                         if i < len(top3):
                             player = top3.loc[i]
-                            name = player['name']
+                            name = player['player_name']
                             rating = round(player['rating'], 2) if pd.notna(player['rating']) else "-"
-                            image_url = player['image_url']
+                            image_url = player['imageUrl']
                             
                             image_html = (
                                 f"<img src='{image_url}' style='width: 100%; max-width: 120px; "
@@ -4604,7 +4601,7 @@ else:
 
                     st.markdown(podium_html, unsafe_allow_html=True)
 
-                    final_df = df_stat.drop(columns=["image_url"])
+                    final_df = df_stat.drop(columns=["imageUrl"])
                     st.dataframe(final_df, use_container_width=True) # We didsplay the entire list of players asked
 
             # Sidebar summary
@@ -4721,7 +4718,7 @@ else:
             df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
 
             # Características generales (con traducciones cuando es necesario)
-            pais_options_raw = sorted(df["country_of_citizenship"].dropna().unique())
+            pais_options_raw = sorted(df["nationality"].dropna().unique())
             pais_options_es = [translate_country(p, lang="es") for p in pais_options_raw]
             pais_es = st.multiselect("País", pais_options_es, placeholder="")
             es_to_en_country = dict(zip(pais_options_es, pais_options_raw))
@@ -4730,24 +4727,24 @@ else:
             age_min, age_max = st.slider("Edad", 17, 42, (17, 42))
             height_min, height_max = st.slider("Altura (cm)", 163, 206, (163, 206))
 
-            poste_options_raw = sorted(df["sub_position"].dropna().unique())
+            poste_options_raw = sorted(df["position"].dropna().unique())
             poste_options_es = [translate_position(p, lang="es") for p in poste_options_raw]
             poste_es = st.multiselect("Posición", poste_options_es, placeholder="")
             poste_en = [k for k, v in position_translation.get("es", {}).items() if v in poste_es] if poste_es else []
 
-            contract_years = sorted(df["contract_expiration_date"].dropna().apply(lambda x: str(x)[:4]).unique())
+            contract_years = sorted(df["contract"].dropna().apply(lambda x: str(x)[:4]).unique())
             contract_year = st.multiselect("Año de fin de contrato", contract_years, placeholder="")
 
-            campeonato = st.multiselect("Liga", sorted(df["current_club_domestic_competition_id"].dropna().unique()), placeholder="")
+            campeonato = st.multiselect("Liga", sorted(df["Comp"].dropna().unique()), placeholder="")
 
             # Actualización dinámica de clubes según ligas
             if campeonato:
-                clubs_filtered = df[df["current_club_domestic_competition_id"].isin(campeonato)]["current_club_name"].dropna().unique()
+                clubs_filtered = df[df["Comp"].isin(campeonato)]["club_name"].dropna().unique()
                 club = st.multiselect("Club", sorted(clubs_filtered), placeholder="")
             else:
-                club = st.multiselect("Club", sorted(df["current_club_name"].dropna().unique()), placeholder="")
+                club = st.multiselect("Club", sorted(df["club_name"].dropna().unique()), placeholder="")
 
-            price_max = st.slider("Valor de mercado máximo (€)", 0, int(df["market_value_in_eur"].max()), 200000000, step=100000)
+            price_max = st.slider("Valor de mercado máximo (€)", 0, int(df["marketValue"].max()), 200000000, step=100000)
 
             # Estadísticas de base con traducción
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
@@ -4816,14 +4813,14 @@ else:
                 else:
                     # Datos filtrados
                     df_filtered = df.copy()
-                    if pais_en: df_filtered = df_filtered[df_filtered["country_of_citizenship"].isin(pais_en)]
-                    if poste_en: df_filtered = df_filtered[df_filtered["sub_position"].isin(poste_en)]
-                    if contract_year: df_filtered = df_filtered[df_filtered["contract_expiration_date"].str[:4].isin(contract_year)]
-                    if campeonato: df_filtered = df_filtered[df_filtered["current_club_domestic_competition_id"].isin(campeonato)]
-                    if club: df_filtered = df_filtered[df_filtered["current_club_name"].isin(club)]
+                    if pais_en: df_filtered = df_filtered[df_filtered["nationality"].isin(pais_en)]
+                    if poste_en: df_filtered = df_filtered[df_filtered["position"].isin(poste_en)]
+                    if contract_year: df_filtered = df_filtered[df_filtered["contract"].str[:4].isin(contract_year)]
+                    if campeonato: df_filtered = df_filtered[df_filtered["Comp"].isin(campeonato)]
+                    if club: df_filtered = df_filtered[df_filtered["club_name"].isin(club)]
                     df_filtered = df_filtered[(df_filtered["Age"] >= age_min) & (df_filtered["Age"] <= age_max)]
-                    df_filtered = df_filtered[(df_filtered["height_in_cm"] >= height_min) & (df_filtered["height_in_cm"] <= height_max)]
-                    df_filtered = df_filtered[df_filtered["market_value_in_eur"] <= price_max]
+                    df_filtered = df_filtered[(df_filtered["height"] >= height_min) & (df_filtered["height"] <= height_max)]
+                    df_filtered = df_filtered[df_filtered["marketValue"] <= price_max]
 
                     for stat, (min_v, max_v) in base_stat_limits.items():
                         df_filtered = df_filtered[df_filtered[stat].between(min_v, max_v)]
@@ -4847,15 +4844,15 @@ else:
                     # Filtrado porteros / jugadores de campo según stats avanzadas
                     goalkeeper_advanced_stats = ['Saves_per90', 'Save%', '/90', 'PSxG+/-', 'AvgLen', 'Launch%', 'Stp%', '#OPA_per90', 'CS%', 'GA_per90']
                     if any(stat in selected_adv_stats for stat in goalkeeper_advanced_stats):
-                        df_filtered = df_filtered[df_filtered["sub_position"] == "Goalkeeper"]
+                        df_filtered = df_filtered[df_filtered["position"] == "Goalkeeper"]
 
                     # Exclusión de porteros para ciertas stats
                     if any(stat in ['Won%', 'Tkl%', 'Succ%'] for stat in selected_adv_stats):
-                        df_filtered = df_filtered[df_filtered["sub_position"] != "Goalkeeper"]
+                        df_filtered = df_filtered[df_filtered["position"] != "Goalkeeper"]
 
                     all_stats = selected_base_stats + selected_adv_stats
-                    display_columns = ["name", "image_url", "Age", "country_of_citizenship", "current_club_name",
-                                    "sub_position", "market_value_in_eur", "contract_expiration_date", "rating"] + all_stats
+                    display_columns = ["player_name", "imageUrl", "Age", "nationality", "club_name",
+                                    "position", "marketValue", "contract", "rating"] + all_stats
 
                     df_stat = df_filtered.dropna(subset=["rating"]).sort_values("rating", ascending=False)
 
@@ -4863,16 +4860,16 @@ else:
                     goalkeeper_stats = ["goal_scoring_conceded", "efficiency", "error_fouls", "short_clearance", "long_clearance", "positioning", "aerial_defense"]
                     selected_goalkeeper_stats = [stat for stat in selected_base_stats if stat in [f"score_{s}" for s in goalkeeper_stats]]
                     if selected_goalkeeper_stats:
-                        df_stat = df_stat[df_stat["sub_position"] == "Goalkeeper"]
+                        df_stat = df_stat[df_stat["position"] == "Goalkeeper"]
                     elif selected_base_stats:
-                        df_stat = df_stat[df_stat["sub_position"] != "Goalkeeper"]
+                        df_stat = df_stat[df_stat["position"] != "Goalkeeper"]
 
                     df_stat = df_stat[display_columns].head(nb_players).reset_index(drop=True)
 
                     # Traducciones (posición, país) y formato de valor de mercado
-                    df_stat['sub_position'] = df_stat['sub_position'].apply(lambda x: translate_position(x, lang="es"))
-                    df_stat["country_of_citizenship"] = df_stat["country_of_citizenship"].apply(lambda x: translate_country(x, lang="es"))
-                    df_stat["market_value_in_eur"] = df_stat["market_value_in_eur"].apply(format_market_value)
+                    df_stat['position'] = df_stat['position'].apply(lambda x: translate_position(x, lang="es"))
+                    df_stat["nationality"] = df_stat["nationality"].apply(lambda x: translate_country(x, lang="es"))
+                    df_stat["marketValue"] = df_stat["marketValue"].apply(format_market_value)
 
                     # Podio
                     top3 = df_stat.head(3)
@@ -4888,9 +4885,9 @@ else:
                     for display_index, i in enumerate(podium_order):
                         if i < len(top3):
                             player = top3.loc[i]
-                            name = player['name']
+                            name = player['player_name']
                             rating = round(player['rating'], 2) if pd.notna(player['rating']) else "-"
-                            image_url = player['image_url']
+                            image_url = player['imageUrl']
 
                             image_html = (
                                 f"<img src='{image_url}' style='width: 100%; max-width: 120px; "
@@ -4912,7 +4909,7 @@ else:
                     podium_html += "</div></div>"
                     st.markdown(podium_html, unsafe_allow_html=True)
 
-                    final_df = df_stat.drop(columns=["image_url"])  # Quitar image_url de la tabla
+                    final_df = df_stat.drop(columns=["imageUrl"])  # Quitar image_url de la tabla
                     st.dataframe(final_df, use_container_width=True)
 
             # Resumen en la barra lateral
