@@ -1,3 +1,4 @@
+# Web scraping
 beautifulsoup4
 lxml
 html5lib
@@ -5,12 +6,20 @@ selenium>=4.21
 cloudscraper
 requests
 Unidecode
+
+# Data
 pandas
 numpy
+scipy
 scikit-learn
+rapidfuzz
+
+# Viz
 matplotlib
 seaborn
 plotly
 mplsoccer
+
+# App
 streamlit
 streamlit-option-menu
