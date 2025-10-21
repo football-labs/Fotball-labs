@@ -19,6 +19,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from mplsoccer import PyPizza, FontManager
 from matplotlib.patches import Patch
 import base64
+import re
 
 
 # Affichage du titre et du logo de l'application web / Display of web application title and logo / Visualización del título y el logotipo de la aplicación web
@@ -281,6 +282,12 @@ base_stat_translation = {
     },
 }
 
+foot_translation = {
+    "fr": {"right": "Droit", "left": "Gaucher", "both": "Ambidextre"},
+    "es": {"right": "Diestro", "left": "Zurdo", "both": "Ambidiestro"},
+}
+foot_en_pretty = {"right": "Right", "left": "Left", "both": "Both"}
+
 
 # Utilise la traduction si besoin selon la langue de l'application / Use translation if necessary depending on the language of the application
 # Utiliza la traducción si es necesario según el idioma de la aplicación
@@ -299,6 +306,29 @@ def translate_base_stat(key: str, lang: str = "fr") -> str:
     if key in base_stat_translation.get("fr", {}):
         return base_stat_translation["fr"][key]
     return key.replace("_", " ").capitalize()
+
+def translate_foot(foot_raw: str | None, lang: str = "fr") -> str | None:
+    if foot_raw is None:
+        return None
+    s = str(foot_raw).strip()
+    if s == "" or (isinstance(foot_raw, float) and pd.isna(foot_raw)):
+        return None
+    key = s.lower()
+    if lang in foot_translation:
+        return foot_translation[lang].get(key, s)
+    return foot_en_pretty.get(key, s)
+
+def translate_position_list(pos_str: str | None, lang: str = "fr") -> str | None:
+    if pos_str is None or (isinstance(pos_str, float) and pd.isna(pos_str)):
+        return None
+    s = str(pos_str).strip()
+    if not s:
+        return None
+    items = [p.strip() for p in s.split(",") if p.strip()]
+    if not items:
+        return None
+    translated = [translate_position(p, lang=lang) for p in items]
+    return ", ".join(translated) if translated else None
 
 #  Catégorie des postes pour le radar / Position category for the radar plot / Categoría de posiciones para el radar plot
 position_category = {
@@ -486,14 +516,40 @@ def find_similar_teams(selected_team_name, df, filter_type=None, top_n=5):
     except IndexError:
         return pd.DataFrame()
 
-
     competition = selected_team_row['championship_name'] 
-
 
     candidates_df = df[df['team_code'] != selected_team_name] # Retirer l'équipe lui-même du calcul / Remove the team himself from the calculation / Eliminar al equipo mismo del cálculo
 
-    # Colonnes de stats à comparer (sauf les informations de base) / Columns of statistics to compare (except base informations) / Columnas de estadísticas para comparar (excepto información base)
-    stats_cols = df.columns[8:-5]
+    # Colonnes de stats à comparer / Columns of statistics to compare  / Columnas de estadísticas para comparar
+    stats_cols = [col for col in [
+        "attacking_set_pieces__xg_pct",
+        "attacking_misc__fast_breaks__total",
+        "passing__avg_poss",
+        "passing__pass_direction__fwd",
+        "passing__pass_direction__bwd",
+        "passing__pass_direction__left",
+        "passing__pass_direction__right",
+        "passing__crosses__pct",
+        "passing__through_balls",
+        "pressing__pressed_seqs",
+        "pressing__ppda",
+        "pressing__start_distance_m",
+        "sequences__ten_plus_passes",
+        "sequences__direct_speed",
+        "sequences__passes_per_seq",
+        "sequences__sequence_time",
+        "sequences__build_ups__total",
+        "sequences__direct_attacks__total",
+        "misc.__fouled",
+        "misc.__fouls",
+        "defending_set_pieces__xg_pct",
+        "defending_defensive_actions__clearances",
+        "defending_defensive_actions__ground_duels_won",
+        "defending_defensive_actions__aerial_duels_won",
+        "defending_misc__offsides",
+        "defending_misc__headers__total",
+        "defending_misc__fast_breaks__total",
+    ] if col in df.columns]
 
     stats_df = candidates_df[stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
 
@@ -1005,11 +1061,30 @@ else:
             else:
                 player_data = df[df['player_name'] == selected_player].iloc[0] # Filtrer le DataFrame pour le joueur sélectionné
 
-                # Récupération des traductions
+                # Récupération des informations et traductions associées en français si besoin
                 pays = translate_country(player_data['nationality'], lang="fr")
                 poste = translate_position(player_data['position'], lang="fr")
 
-                # Profil du joueur (image à gauche, infos à droite)
+                shirt_raw = player_data.get("shirtNumber")
+                if shirt_raw is not None and not (isinstance(shirt_raw, float) and pd.isna(shirt_raw)):
+                    digits = re.sub(r"\D+", "", str(shirt_raw))
+                    shirt_num = digits if digits else None
+                else:
+                    shirt_num = None
+
+                foot_lbl = translate_foot(player_data.get("foot"), lang="fr")
+                position_other_translated = translate_position_list(player_data.get("position_other"), lang="fr")
+                agent_name = player_data.get("agent_name")
+                agent_name = None if (agent_name is None or (isinstance(agent_name, float) and pd.isna(agent_name)) or str(agent_name).strip() == "") else str(agent_name).strip()
+                outfitter = player_data.get("outfitter")
+                outfitter = None if (outfitter is None or (isinstance(outfitter, float) and pd.isna(outfitter)) or str(outfitter).strip() == "") else str(outfitter).strip()
+
+                shirt_num = shirt_num if shirt_num is not None else "Non connu"
+                foot_lbl = foot_lbl if foot_lbl is not None else "Non connu"
+                position_other = position_other_translated if position_other_translated is not None else "Aucun"
+                agent_name = agent_name if agent_name is not None else "Non connu"
+                outfitter = outfitter if outfitter is not None else "Non connu"
+
                 st.markdown("<h4 style='text-align: center;'>Profil du joueur</h4>", unsafe_allow_html=True)
 
                 st.markdown(f"""
@@ -1033,6 +1108,14 @@ else:
                     <p><strong>Fin de contrat :</strong> {player_data['contract'] if pd.notna(player_data['contract']) else "-"}</p>
                     <p><strong>Matches joués :</strong> {int(player_data['MP']) if pd.notna(player_data['MP']) else "-"}</p>
                     <p><strong>Minutes jouées :</strong> {int(player_data['Min']) if pd.notna(player_data['Min']) else "-"}</p>
+                </div>
+
+                <div style="flex: 2; min-width: 280px;">
+                    <p><strong>Numéro :</strong> {shirt_num}</p>
+                    <p><strong>Pied fort :</strong> {foot_lbl}</p>
+                    <p><strong>Autre(s) poste(s) :</strong> {position_other_translated}</p>
+                    <p><strong>Agent :</strong> {agent_name}</p>
+                    <p><strong>Équipementier :</strong> {outfitter}</p>
                 </div>
 
                 </div>
@@ -1317,6 +1400,27 @@ else:
             else:
                 player_data = df[df['player_name'] == selected_player].iloc[0] # Filter the DataFrame for the selected player
 
+                # Récupération des informations
+                shirt_raw = player_data.get("shirtNumber")
+                if shirt_raw is not None and not (isinstance(shirt_raw, float) and pd.isna(shirt_raw)):
+                    digits = re.sub(r"\D+", "", str(shirt_raw))
+                    shirt_num = digits if digits else None
+                else:
+                    shirt_num = None
+
+                foot_lbl = translate_foot(player_data.get("foot"), lang="eng")
+                position_other_translated = translate_position_list(player_data.get("position_other"), lang="eng")
+                agent_name = player_data.get("agent_name")
+                agent_name = None if (agent_name is None or (isinstance(agent_name, float) and pd.isna(agent_name)) or str(agent_name).strip() == "") else str(agent_name).strip()
+                outfitter = player_data.get("outfitter")
+                outfitter = None if (outfitter is None or (isinstance(outfitter, float) and pd.isna(outfitter)) or str(outfitter).strip() == "") else str(outfitter).strip()
+
+                shirt_num = shirt_num if shirt_num is not None else "Not known"
+                foot_lbl = foot_lbl if foot_lbl is not None else "Not known"
+                position_other = position_other_translated if position_other_translated is not None else "None"
+                agent_name = agent_name if agent_name is not None else "Not known"
+                outfitter = outfitter if outfitter is not None else "Not known"
+
                 # Player profile (image on left, info on right)
                 st.markdown(
                     f"<h4 style='text-align: center;'>Player profile</h4>",
@@ -1346,6 +1450,13 @@ else:
                     <p><strong>Minutes Played :</strong> {int(player_data['Min']) if pd.notna(player_data['Min']) else "-"}</p>
                 </div>
 
+                <div style="flex: 2; min-width: 280px;">
+                    <p><strong>Number :</strong> {shirt_num}</p>
+                    <p><strong>Strong foot :</strong> {foot_lbl}</p>
+                    <p><strong>Other(s) position(s) :</strong> {position_other_translated}</p>
+                    <p><strong>Agent :</strong> {agent_name}</p>
+                    <p><strong>Outfitter :</strong> {outfitter}</p>
+                </div>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -1663,9 +1774,29 @@ else:
             else:
                 player_data = df[df['player_name'] == selected_player].iloc[0]  # Fila del jugador
 
-                # Traducciones
+                # Recuperación de la información y traducciones asociadas, si es necesario
                 pais = translate_country(player_data['nationality'], lang="es")
                 puesto = translate_position(player_data['position'], lang="es")
+
+                shirt_raw = player_data.get("shirtNumber")
+                if shirt_raw is not None and not (isinstance(shirt_raw, float) and pd.isna(shirt_raw)):
+                    digits = re.sub(r"\D+", "", str(shirt_raw))
+                    shirt_num = digits if digits else None
+                else:
+                    shirt_num = None
+
+                foot_lbl = translate_foot(player_data.get("foot"), lang="es")
+                position_other_translated = translate_position_list(player_data.get("position_other"), lang="es")
+                agent_name = player_data.get("agent_name")
+                agent_name = None if (agent_name is None or (isinstance(agent_name, float) and pd.isna(agent_name)) or str(agent_name).strip() == "") else str(agent_name).strip()
+                outfitter = player_data.get("outfitter")
+                outfitter = None if (outfitter is None or (isinstance(outfitter, float) and pd.isna(outfitter)) or str(outfitter).strip() == "") else str(outfitter).strip()
+
+                shirt_num = shirt_num if shirt_num is not None else "Desconocido"
+                foot_lbl = foot_lbl if foot_lbl is not None else "Desconocido"
+                position_other = position_other_translated if position_other_translated is not None else "Ninguno"
+                agent_name = agent_name if agent_name is not None else "Desconocido"
+                outfitter = outfitter if outfitter is not None else "Desconocido"
 
                 # Perfil del jugador (imagen a la izquierda, info a la derecha)
                 st.markdown("<h4 style='text-align: center;'>Perfil del jugador</h4>", unsafe_allow_html=True)
@@ -1693,6 +1824,13 @@ else:
                     <p><strong>Minutos jugados:</strong> {int(player_data['Min']) if pd.notna(player_data['Min']) else "-"}</p>
                 </div>
 
+                <div style="flex: 2; min-width: 280px;">
+                    <p><strong>Número :</strong> {shirt_num}</p>
+                    <p><strong>Pie fuerte :</strong> {foot_lbl}</p>
+                    <p><strong>Otro(s) puesto(s) :</strong> {position_other_translated}</p>
+                    <p><strong>Agente :</strong> {agent_name}</p>
+                    <p><strong>Fabricante de equipos :</strong> {outfitter}</p>
+                </div>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -2013,9 +2151,21 @@ else:
                     st.markdown("<h4 style='text-align: center;'>Profils des joueurs</h4>", unsafe_allow_html=True)
 
                     for pdata in [player1_data, player2_data]:
-                        # Traductions
+                        # Traductions et affichage propre des informations
                         pays = translate_country(pdata['nationality'], lang="fr")
                         poste = translate_position(pdata['position'], lang="fr")
+
+                        foot_lbl = translate_foot(pdata.get("foot"), lang="fr")
+                        position_other_translated = translate_position_list(pdata.get("position_other"), lang="fr")
+                        agent_name = pdata.get("agent_name")
+                        agent_name = None if (agent_name is None or (isinstance(agent_name, float) and pd.isna(agent_name)) or str(agent_name).strip() == "") else str(agent_name).strip()
+                        outfitter = pdata.get("outfitter")
+                        outfitter = None if (outfitter is None or (isinstance(outfitter, float) and pd.isna(outfitter)) or str(outfitter).strip() == "") else str(outfitter).strip()
+
+                        foot_lbl = foot_lbl if foot_lbl is not None else "Non connu"
+                        position_other = position_other_translated if position_other_translated is not None else "Aucun"
+                        agent_name = agent_name if agent_name is not None else "Non connu"
+                        outfitter = outfitter if outfitter is not None else "Non connu"
 
                         st.markdown(f"""
                         <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;">
@@ -2038,6 +2188,12 @@ else:
                             <p><strong>Fin de contrat :</strong> {pdata['contract'] if pd.notna(pdata['contract']) else "-"}</p>
                         </div>
 
+                        <div style="flex: 2; min-width: 280px;">
+                            <p><strong>Pied fort :</strong> {foot_lbl}</p>
+                            <p><strong>Autre(s) poste(s) :</strong> {position_other_translated}</p>
+                            <p><strong>Agent :</strong> {agent_name}</p>
+                            <p><strong>Équipementier :</strong> {outfitter}</p>
+                        </div>
                         </div>
                         """, unsafe_allow_html=True)
 
@@ -2287,6 +2443,20 @@ else:
                     st.markdown("<h4 style='text-align: center;'>Players profile</h4>", unsafe_allow_html=True)
 
                     for pdata in [player1_data, player2_data]:
+                        
+                        # Recovery of the data
+                        foot_lbl = translate_foot(pdata.get("foot"), lang="eng")
+                        position_other_translated = translate_position_list(pdata.get("position_other"), lang="eng")
+                        agent_name = pdata.get("agent_name")
+                        agent_name = None if (agent_name is None or (isinstance(agent_name, float) and pd.isna(agent_name)) or str(agent_name).strip() == "") else str(agent_name).strip()
+                        outfitter = pdata.get("outfitter")
+                        outfitter = None if (outfitter is None or (isinstance(outfitter, float) and pd.isna(outfitter)) or str(outfitter).strip() == "") else str(outfitter).strip()
+
+                        foot_lbl = foot_lbl if foot_lbl is not None else "Not known"
+                        position_other = position_other_translated if position_other_translated is not None else "None"
+                        agent_name = agent_name if agent_name is not None else "Not known"
+                        outfitter = outfitter if outfitter is not None else "Not known"
+
                         st.markdown(f"""
                         <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;">
 
@@ -2308,6 +2478,12 @@ else:
                             <p><strong>Contract:</strong> {pdata['contract'] if pd.notna(pdata['contract']) else "-"}</p>
                         </div>
 
+                        <div style="flex: 2; min-width: 280px;">
+                            <p><strong>Strong foot :</strong> {foot_lbl}</p>
+                            <p><strong>Other(s) position(s) :</strong> {position_other_translated}</p>
+                            <p><strong>Agent :</strong> {agent_name}</p>
+                            <p><strong>Outfitter :</strong> {outfitter}</p>
+                        </div>
                         </div>
                         """, unsafe_allow_html=True)
 
@@ -2552,9 +2728,20 @@ else:
                     st.markdown("<h4 style='text-align: center;'>Perfiles de los jugadores</h4>", unsafe_allow_html=True)
 
                     for pdata in [player1_data, player2_data]:
-                        # Traducciones mostradas en ES
+                        # Traducciones mostradas en ES y recuperación de datos
                         pais = translate_country(pdata['nationality'], lang="es")
                         puesto = translate_position(pdata['position'], lang="es")
+                        foot_lbl = translate_foot(pdata.get("foot"), lang="es")
+                        position_other_translated = translate_position_list(pdata.get("position_other"), lang="es")
+                        agent_name = pdata.get("agent_name")
+                        agent_name = None if (agent_name is None or (isinstance(agent_name, float) and pd.isna(agent_name)) or str(agent_name).strip() == "") else str(agent_name).strip()
+                        outfitter = pdata.get("outfitter")
+                        outfitter = None if (outfitter is None or (isinstance(outfitter, float) and pd.isna(outfitter)) or str(outfitter).strip() == "") else str(outfitter).strip()
+
+                        foot_lbl = foot_lbl if foot_lbl is not None else "Desconocido"
+                        position_other = position_other_translated if position_other_translated is not None else "Ninguno"
+                        agent_name = agent_name if agent_name is not None else "Desconocido"
+                        outfitter = outfitter if outfitter is not None else "Desconocido"
 
                         st.markdown(f"""
                         <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;">
@@ -2577,6 +2764,12 @@ else:
                             <p><strong>Fin de contrato:</strong> {pdata['contract'] if pd.notna(pdata['contract']) else "-"}</p>
                         </div>
 
+                        <div style="flex: 2; min-width: 280px;">
+                            <p><strong>Pie fuerte :</strong> {foot_lbl}</p>
+                            <p><strong>Otro(s) puesto(s) :</strong> {position_other_translated}</p>
+                            <p><strong>Agente :</strong> {agent_name}</p>
+                            <p><strong>Fabricante de equipos :</strong> {outfitter}</p>
+                        </div>
                         </div>
                         """, unsafe_allow_html=True)
 

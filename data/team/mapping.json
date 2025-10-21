@@ -4,6 +4,7 @@
   "Newcastle": "Newcastle Utd",
   "Leeds": "Leeds United",
   "Nottm Forest": "Nott'ham Forest",
+  "Spurs": "Tottenham",
 
   "Atlético": "Atlético Madrid",
   "Athletic": "Athletic Club",
@@ -19,6 +20,5 @@
 
   "Verona": "Hellas Verona",
 
-  "PSG": "Paris S-G",
-  "Paris": "Paris FC"
+  "Paris SG": "Paris S-G"
 }

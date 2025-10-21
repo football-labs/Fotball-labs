@@ -652,6 +652,17 @@ ordered_score_cols = [
 other_cols = [col for col in df.columns if col not in ordered_score_cols and not col.endswith('_norm') and col != "position_group"]
 df = df[ordered_score_cols + other_cols]
 
+# Supprime les ellipses finales ("...", "…"), espaces adjacents, normalise les espaces / Removes trailing ellipses (‘...’, ‘…’), adjacent spaces, normalises spaces
+# Elimina los puntos suspensivos finales («...», «…»), los espacios adyacentes y normaliza los espacios
+df["agent_name"] = (
+    df["agent_name"]
+      .astype("string")
+      .str.replace(r"\s*(?:\u2026|\.{3,})\s*$", "", regex=True)
+      .str.replace("\u00A0", " ", regex=False)
+      .str.replace(r"\s+", " ", regex=True)
+      .str.strip()
+)
+
 df.to_csv(out_db, index=False)
 
 print("Fichier mis à jour")
