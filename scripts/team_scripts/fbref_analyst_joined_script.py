@@ -88,5 +88,11 @@ opta_merged
     .apply(_rank_season)
 )
 
+# Dénominateur du total des passes / Denominator of total passes / Denominador del total de pases
+den = (opta_merged["Long_Att__pass"] + opta_merged["Medium_Att__pass"] + opta_merged["Short_Att__pass"])
+
+# Proportion de passes longues / Proportion of long passes / Proporción de pases largos
+opta_merged["Long_Att__pass_prop"] = ((opta_merged["Long_Att__pass"] / den).where(den > 0, 0))
+
 # Enregistrer le fichier csv final / Save the final merged CSV / Guardar el archivo CSV final
 opta_merged.to_csv(out_path, index=False, encoding="utf-8")
