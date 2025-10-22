@@ -95,5 +95,17 @@ den = (opta_merged["Long_Att__pass"] + opta_merged["Medium_Att__pass"] + opta_me
 opta_merged["Long_Att__pass_prop"] = ((opta_merged["Long_Att__pass"] / den).where(den > 0, 0))
 opta_merged["Long_Att__pass_prop"] = (opta_merged["Long_Att__pass_prop"] * 100).round(2)
 
+# Dénominateur du total d'attaque / Denominator of total attack / Denominador del ataque total
+den_attack = (opta_merged["sequences__direct_attacks__total"] + opta_merged["sequences__build_ups__total"])
+
+# Proportion d'attaque directe / Proportion of direct attack / Proporción de ataque directo
+opta_merged["direct_attack_prop"] = ((opta_merged["sequences__direct_attacks__total"] / den_attack).where(den_attack > 0, 0))
+opta_merged["direct_attack_prop"] = (opta_merged["direct_attack_prop"] * 100).round(2)
+
+# Proportion d'attaque placée / Proportion of build ups / Proporción de ataque colocado
+opta_merged["build_ups_prop"] = ((opta_merged["sequences__build_ups__total"] / den_attack).where(den_attack > 0, 0))
+opta_merged["build_ups_prop"] = (opta_merged["build_ups_prop"] * 100).round(2)
+
+
 # Enregistrer le fichier csv final / Save the final merged CSV / Guardar el archivo CSV final
 opta_merged.to_csv(out_path, index=False, encoding="utf-8")

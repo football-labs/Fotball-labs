@@ -567,6 +567,9 @@ def find_similar_teams(selected_team_name, df, filter_type=None, top_n=5):
         "defending_defensive_actions__ground_duels_won",
         "defending_defensive_actions__aerial_duels_won",
         "defending_misc__offsides",
+        "Long_Att__pass_prop",
+        "direct_attack_prop",
+        "build_ups_prop",
     ] if col in df.columns]
 
     stats_df = candidates_df[stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
