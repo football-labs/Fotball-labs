@@ -30,8 +30,7 @@ if "lang" not in st.session_state:
     st.session_state["lang"] = "Français"
 
 lang = st.sidebar.selectbox(
-    "Choisissez votre langue / Choose your language / Elige tu idioma", 
-    ["Français", "English", "Español"]
+    "Choisissez votre langue / Choose your language / Elige tu idioma", ["Français", "English", "Español"]
 )
 st.session_state["lang"] = lang
 
@@ -51,243 +50,84 @@ def format_market_value(eur):
 # Dictionnaire de traduction des postes de joueurs et de leur pays / Translation dictionary for player positions and his country / Diccionario de traducción de posiciones de jugadores y sus países
 position_translation = {
     "fr": {
-        "Second Striker": "Second Attaquant",
-        "Centre-Forward": "Attaquant-Centre",
-        "Right-Back": "Défenseur Droit",
-        "Left-Back": "Défenseur Gauche",
-        "Right Winger": "Ailier Droit",
-        "Left Winger": "Ailier Gauche",
-        "Right Midfield": "Milieu Droit",
-        "Left Midfield": "Milieu Gauche",
-        "Attacking Midfield": "Milieu Attaquant",
-        "Goalkeeper": "Gardien",
-        "Defensive Midfield": "Milieu Défensif",
-        "Central Midfield": "Milieu Central",
+        "Second Striker": "Second Attaquant","Centre-Forward": "Attaquant-Centre","Right-Back": "Défenseur Droit","Left-Back": "Défenseur Gauche",
+        "Right Winger": "Ailier Droit","Left Winger": "Ailier Gauche","Right Midfield": "Milieu Droit","Left Midfield": "Milieu Gauche",
+        "Attacking Midfield": "Milieu Attaquant","Goalkeeper": "Gardien","Defensive Midfield": "Milieu Défensif","Central Midfield": "Milieu Central",
         "Centre-Back": "Défenseur Central",
     },
     "es": {
-        "Second Striker": "Segundo delantero",
-        "Centre-Forward": "Delantero centro",
-        "Right-Back": "Lateral derecho",
-        "Left-Back": "Lateral izquierdo",
-        "Right Winger": "Extremo derecho",
-        "Left Winger": "Extremo izquierdo",
-        "Right Midfield": "Centrocampista derecho",
-        "Left Midfield": "Centrocampista izquierdo",
-        "Attacking Midfield": "Mediapunta",
-        "Goalkeeper": "Portero",
-        "Defensive Midfield": "Mediocentro defensivo",
-        "Central Midfield": "Mediocentro",
+        "Second Striker": "Segundo delantero","Centre-Forward": "Delantero centro","Right-Back": "Lateral derecho","Left-Back": "Lateral izquierdo",
+        "Right Winger": "Extremo derecho","Left Winger": "Extremo izquierdo","Right Midfield": "Centrocampista derecho","Left Midfield": "Centrocampista izquierdo",
+        "Attacking Midfield": "Mediapunta","Goalkeeper": "Portero","Defensive Midfield": "Mediocentro defensivo","Central Midfield": "Mediocentro",
         "Centre-Back": "Defensa central",
     }
 }
 
 country_translation = {
     "fr": {
-        "Germany": "Allemagne",
-        "Spain": "Espagne",
-        "Italy": "Italie",
-        "England": "Angleterre",
-        "Netherlands": "Pays-Bas",
-        "Brazil": "Brésil",
-        "Argentina": "Argentine",
-        "Belgium": "Belgique",
-        "Croatia": "Croatie",
-        "Switzerland": "Suisse",
-        "Senegal": "Sénégal",
-        "Cameroon": "Cameroun",
-        "Morocco": "Maroc",
-        "Albania": "Albanie",
-        "Algeria": "Algérie",
-        "Andorra": "Andorre",
-        "Armenia": "Arménie",
-        "Australia": "Australie",
-        "Austria": "Autriche",
-        "Bosnia-Herzegovina": "Bosnie-Herzégovine",
-        "Cape Verde": "Cap-Vert",
-        "Central African Republic": "République centrafricaine",
-        "Chile": "Chili",
-        "Colombia": "Colombie",
-        "Czech Republic": "Tchéquie",
-        "Denmark": "Danemark",
-        "DR Congo": "République démocratique du Congo",
-        "Ecuador": "Équateur",
-        "Egypt": "Égypte",
-        "Equatorial Guinea": "Guinée équatoriale",
-        "Estonia": "Estonie",
-        "Finland": "Finlande",
-        "French Guiana": "Guyane française",
-        "Georgia": "Géorgie",
-        "Greece": "Grèce",
-        "Guinea": "Guinée",
-        "Guinea-Bissau": "Guinée-Bissau",
-        "Hungary": "Hongrie",
-        "Iceland": "Islande",
-        "Indonesia": "Indonésie",
-        "Ireland": "Irlande",
-        "Jamaica": "Jamaïque",
-        "Japan": "Japon",
-        "Jordan": "Jordanie",
-        "Korea, South": "Corée du Sud",
-        "Libya": "Libye",
-        "Lithuania": "Lituanie",
-        "Malta": "Malte",
-        "Mexico": "Mexique",
-        "New Zealand": "Nouvelle-Zélande",
-        "North Macedonia": "Macédoine du Nord",
-        "Northern Ireland": "Irlande du Nord",
-        "Norway": "Norvège",
-        "Peru": "Pérou",
-        "Poland": "Pologne",
-        "Romania": "Roumanie",
-        "Russia": "Russie",
-        "Scotland": "Écosse",
-        "Serbia": "Serbie",
-        "Slovakia": "Slovaquie",
-        "Slovenia": "Slovénie",
-        "Sweden": "Suède",
-        "Syria": "Syrie",
-        "The Gambia": "Gambie",
-        "Tunisia": "Tunisie",
-        "Türkiye": "Turquie",
-        "United States": "États-Unis",
-        "Uzbekistan": "Ouzbékistan",
-        "Wales": "Pays de Galles",
-        "Zambia": "Zambie",
+        "Germany": "Allemagne","Spain": "Espagne","Italy": "Italie","England": "Angleterre","Netherlands": "Pays-Bas","Brazil": "Brésil","Argentina": "Argentine",
+        "Belgium": "Belgique","Croatia": "Croatie","Switzerland": "Suisse","Senegal": "Sénégal","Cameroon": "Cameroun","Morocco": "Maroc","Albania": "Albanie",
+        "Algeria": "Algérie","Andorra": "Andorre","Armenia": "Arménie","Australia": "Australie","Austria": "Autriche","Bosnia-Herzegovina": "Bosnie-Herzégovine",
+        "Cape Verde": "Cap-Vert","Central African Republic": "République centrafricaine","Chile": "Chili","Colombia": "Colombie","Czech Republic": "Tchéquie",
+        "Denmark": "Danemark","DR Congo": "République démocratique du Congo","Ecuador": "Équateur","Egypt": "Égypte","Equatorial Guinea": "Guinée équatoriale",
+        "Estonia": "Estonie","Finland": "Finlande","French Guiana": "Guyane française","Georgia": "Géorgie","Greece": "Grèce","Guinea": "Guinée",
+        "Guinea-Bissau": "Guinée-Bissau","Hungary": "Hongrie","Iceland": "Islande","Indonesia": "Indonésie","Ireland": "Irlande","Jamaica": "Jamaïque",
+        "Japan": "Japon","Jordan": "Jordanie","Korea, South": "Corée du Sud","Libya": "Libye","Lithuania": "Lituanie","Malta": "Malte","Mexico": "Mexique",
+        "New Zealand": "Nouvelle-Zélande","North Macedonia": "Macédoine du Nord","Northern Ireland": "Irlande du Nord","Norway": "Norvège","Peru": "Pérou",
+        "Poland": "Pologne","Romania": "Roumanie","Russia": "Russie","Scotland": "Écosse","Serbia": "Serbie","Slovakia": "Slovaquie","Slovenia": "Slovénie",
+        "Sweden": "Suède","Syria": "Syrie","The Gambia": "Gambie","Tunisia": "Tunisie","Türkiye": "Turquie","United States": "États-Unis","Uzbekistan": "Ouzbékistan",
+        "Wales": "Pays de Galles","Zambia": "Zambie",
     },
     "es": {
-        "France": "Francia",
-        "Canada": "Canadá",
-        "Germany": "Alemania",
-        "Spain": "España",
-        "Italy": "Italia",
-        "England": "Inglaterra",
-        "Netherlands": "Países Bajos",
-        "Brazil": "Brasil",
-        "Argentina": "Argentina",
-        "Belgium": "Bélgica",
-        "Croatia": "Croacia",
-        "Switzerland": "Suiza",
-        "Senegal": "Senegal",
-        "Cameroon": "Camerún",
-        "Morocco": "Marruecos",
-        "Albania": "Albania",
-        "Algeria": "Argelia",
-        "Andorra": "Andorra",
-        "Armenia": "Armenia",
-        "Australia": "Australia",
-        "Austria": "Austria",
-        "Bosnia-Herzegovina": "Bosnia y Herzegovina",
-        "Cape Verde": "Cabo Verde",
-        "Central African Republic": "República Centroafricana",
-        "Chile": "Chile",
-        "Colombia": "Colombia",
-        "Czech Republic": "Chequia",
-        "Denmark": "Dinamarca",
-        "DR Congo": "República Democrática del Congo",
-        "Ecuador": "Ecuador",
-        "Egypt": "Egipto",
-        "Equatorial Guinea": "Guinea Ecuatorial",
-        "Estonia": "Estonia",
-        "Finland": "Finlandia",
-        "French Guiana": "Guayana Francesa",
-        "Georgia": "Georgia",
-        "Greece": "Grecia",
-        "Guinea": "Guinea",
-        "Guinea-Bissau": "Guinea-Bisáu",
-        "Hungary": "Hungría",
-        "Iceland": "Islandia",
-        "Indonesia": "Indonesia",
-        "Ireland": "Irlanda",
-        "Jamaica": "Jamaica",
-        "Japan": "Japón",
-        "Jordan": "Jordania",
-        "Korea, South": "Corea del Sur",
-        "Libya": "Libia",
-        "Lithuania": "Lituania",
-        "Malta": "Malta",
-        "Mexico": "México",
-        "New Zealand": "Nueva Zelanda",
-        "North Macedonia": "Macedonia del Norte",
-        "Northern Ireland": "Irlanda del Norte",
-        "Norway": "Noruega",
-        "Peru": "Perú",
-        "Poland": "Polonia",
-        "Romania": "Rumanía",
-        "Russia": "Rusia",
-        "Scotland": "Escocia",
-        "Serbia": "Serbia",
-        "Slovakia": "Eslovaquia",
-        "Slovenia": "Eslovenia",
-        "Sweden": "Suecia",
-        "Syria": "Siria",
-        "The Gambia": "Gambia",
-        "Tunisia": "Túnez",
-        "Türkiye": "Turquía",
-        "United States": "Estados Unidos",
-        "Ukraine": "Ucrania",
-        "Uzbekistan": "Uzbekistán",
-        "Wales": "Gales",
-        "Zambia": "Zambia",
-        "Zimbabwe": "Zimbabue",
-        "Panama": "Panamá",
-        "Haiti": "Haití",
-        "Guadeloupe": "Guadalupe",
-        "Gabon": "Gabón",
-        "Cote d'Ivoire": "Costa de Marfil",
+        "France": "Francia","Canada": "Canadá","Germany": "Alemania","Spain": "España","Italy": "Italia","England": "Inglaterra","Netherlands": "Países Bajos",
+        "Brazil": "Brasil","Argentina": "Argentina","Belgium": "Bélgica","Croatia": "Croacia","Switzerland": "Suiza","Senegal": "Senegal","Cameroon": "Camerún",
+        "Morocco": "Marruecos","Albania": "Albania","Algeria": "Argelia","Andorra": "Andorra","Armenia": "Armenia","Australia": "Australia","Austria": "Austria",
+        "Bosnia-Herzegovina": "Bosnia y Herzegovina","Cape Verde": "Cabo Verde","Central African Republic": "República Centroafricana","Chile": "Chile",
+        "Colombia": "Colombia","Czech Republic": "Chequia","Denmark": "Dinamarca","DR Congo": "República Democrática del Congo","Ecuador": "Ecuador",
+        "Egypt": "Egipto","Equatorial Guinea": "Guinea Ecuatorial","Estonia": "Estonia","Finland": "Finlandia","French Guiana": "Guayana Francesa","Georgia": "Georgia",
+        "Greece": "Grecia","Guinea": "Guinea","Guinea-Bissau": "Guinea-Bisáu","Hungary": "Hungría","Iceland": "Islandia","Indonesia": "Indonesia","Ireland": "Irlanda",
+        "Jamaica": "Jamaica","Japan": "Japón","Jordan": "Jordania","Korea, South": "Corea del Sur","Libya": "Libia","Lithuania": "Lituania","Malta": "Malta",
+        "Mexico": "México","New Zealand": "Nueva Zelanda","North Macedonia": "Macedonia del Norte","Northern Ireland": "Irlanda del Norte","Norway": "Noruega",
+        "Peru": "Perú","Poland": "Polonia","Romania": "Rumanía","Russia": "Rusia","Scotland": "Escocia","Serbia": "Serbia","Slovakia": "Eslovaquia","Slovenia": "Eslovenia",
+        "Sweden": "Suecia","Syria": "Siria","The Gambia": "Gambia","Tunisia": "Túnez","Türkiye": "Turquía","United States": "Estados Unidos","Ukraine": "Ucrania",
+        "Uzbekistan": "Uzbekistán","Wales": "Gales","Zambia": "Zambia","Zimbabwe": "Zimbabue","Panama": "Panamá","Haiti": "Haití","Guadeloupe": "Guadalupe",
+        "Gabon": "Gabón","Cote d'Ivoire": "Costa de Marfil",
 
     }
 }
 
 base_stat_translation = {
     "fr": {
-        "goal_scoring_created": "Création de buts",
-        "goal_scoring_conceded": "Occasions concédées",
-        "efficiency": "Efficacité",
-        "error_fouls": "Erreurs et fautes",
-        "short_clearance": "Relance courte",
-        "long_clearance": "Relance longue",
-        "positioning": "Positionnement",
-        "aerial_defense": "Jeu aérien défensif",
-        "finish": "Finition",
-        "building": "Construction du jeu",
-        "creation": "Création d'occasions",
-        "dribble": "Dribbles",
-        "projection": "Projection",
-        "defensive_actions": "Actions défensives",
-        "waste": "Pertes de balle",
-        "faults_committed": "Fautes commises",
-        "provoked_fouls": "Fautes provoquées",
+        "goal_scoring_created": "Création de buts","goal_scoring_conceded": "Occasions concédées","efficiency": "Efficacité","error_fouls": "Erreurs et fautes",
+        "short_clearance": "Relance courte","long_clearance": "Relance longue","positioning": "Positionnement","aerial_defense": "Jeu aérien défensif",
+        "finish": "Finition","building": "Construction du jeu","creation": "Création d'occasions","dribble": "Dribbles","projection": "Projection",
+        "defensive_actions": "Actions défensives","waste": "Pertes de balle","faults_committed": "Fautes commises","provoked_fouls": "Fautes provoquées",
         "aerial": "Jeu aérien",
     },
     "es": {
-        "goal_scoring_created": "Creación de goles",
-        "goal_scoring_conceded": "Ocasiones concedidas",
-        "efficiency": "Eficiencia",
-        "error_fouls": "Errores y faltas",
-        "short_clearance": "Salida en corto",
-        "long_clearance": "Salida en largo",
-        "positioning": "Posicionamiento",
-        "aerial_defense": "Juego aéreo defensivo",
-        "finish": "Finalización",
-        "building": "Construcción del juego",
-        "creation": "Creación de ocasiones",
-        "dribble": "Regates",
-        "projection": "Proyección",
-        "defensive_actions": "Acciones defensivas",
-        "waste": "Pérdidas de balón",
-        "faults_committed": "Faltas cometidas",
-        "provoked_fouls": "Faltas provocadas",
+        "goal_scoring_created": "Creación de goles","goal_scoring_conceded": "Ocasiones concedidas","efficiency": "Eficiencia","error_fouls": "Errores y faltas",
+        "short_clearance": "Salida en corto","long_clearance": "Salida en largo","positioning": "Posicionamiento","aerial_defense": "Juego aéreo defensivo",
+        "finish": "Finalización","building": "Construcción del juego","creation": "Creación de ocasiones","dribble": "Regates","projection": "Proyección",
+        "defensive_actions": "Acciones defensivas","waste": "Pérdidas de balón","faults_committed": "Faltas cometidas","provoked_fouls": "Faltas provocadas",
         "aerial": "Juego aéreo",
     },
 }
 
 foot_translation = {
-    "fr": {"right": "Droit", "left": "Gaucher", "both": "Ambidextre"},
-    "es": {"right": "Diestro", "left": "Zurdo", "both": "Ambidiestro"},
+    "fr": {"right": "Droit", "left": "Gaucher", "both": "Ambidextre"}, "es": {"right": "Diestro", "left": "Zurdo", "both": "Ambidiestro"},
 }
 foot_en_pretty = {"right": "Right", "left": "Left", "both": "Both"}
 
+style_translation = {
+    "fr": {
+        "Direct Play": "Jeu direct","Possession Play": "Jeu de possession","Counter-Attacking": "Jeu de contre-attaque","Mixed": "Jeu mixte",
+        "High Press": "Pressing haut","Low Block": "Bloc bas","Mid Block": "Bloc médian",
+    },
+    "es": {
+        "Direct Play": "Juego directo", "Possession Play": "Juego de posesión","Counter-Attacking": "Juego de contraataque", "Mixed": "Juego mixto",
+        "High Press": "Presión alta", "Low Block": "Bloque bajo","Mid Block": "Bloque medio",
+    },
+}
 
 # Utilise la traduction si besoin selon la langue de l'application / Use translation if necessary depending on the language of the application
 # Utiliza la traducción si es necesario según el idioma de la aplicación
@@ -330,44 +170,28 @@ def translate_position_list(pos_str: str | None, lang: str = "fr") -> str | None
     translated = [translate_position(p, lang=lang) for p in items]
     return ", ".join(translated) if translated else None
 
+
+def translate_style(style_en: str, lang: str = "fr") -> str:
+    if not isinstance(style_en, str):
+        return style_en
+    lang_map = style_translation.get(lang, {})
+    if style_en in lang_map:
+        return lang_map[style_en]
+    return style_translation.get("fr", {}).get(style_en, style_en)
+
 # Mapping des noms d'équipe (fbref_opta_join -> database_player) / Mapping of teams name (fbref_opta_join -> database_player) / Asignación de nombres de equipos (fbref_opta_join -> database_player)
 df_to_info = {
-    "Sevilla": "Sevilla FC",
-    "Betis": "Real Betis",
-    "RB Leipzig": "Leipzig",
-    "Osasuna": "CA Osasuna",
-    "Nott'ham Forest": "Nott'm Forest",
-    "Newcastle Utd": "Newcastle",
-    "Milan": "AC Milan",
-    "Manchester Utd": "Man Utd",
-    "Manchester City": "Man City",
-    "Mallorca": "RCD Mallorca",
-    "Mainz 05": "Mainz",
-    "Leeds United": "Leeds",
-    "Köln": "1.FC Köln",
-    "Hamburger FC": "Hamburg",
-    "Gladbach": "Mönchengladbach",
-    "Elche": "Elche CF",
-    "Eint Frankfurt": "Frankfurt",
-    "Celta Vigo": "Celta de Vigo",
+    "Sevilla": "Sevilla FC","Betis": "Real Betis","RB Leipzig": "Leipzig","Osasuna": "CA Osasuna","Nott'ham Forest": "Nott'm Forest","Newcastle Utd": "Newcastle",
+    "Milan": "AC Milan","Manchester Utd": "Man Utd","Manchester City": "Man City","Mallorca": "RCD Mallorca","Mainz 05": "Mainz","Leeds United": "Leeds",
+    "Köln": "1.FC Köln","Hamburger FC": "Hamburg","Gladbach": "Mönchengladbach","Elche": "Elche CF","Eint Frankfurt": "Frankfurt","Celta Vigo": "Celta de Vigo",
     "Atlético Madrid": "Atlético",
 }
 
 #  Catégorie des postes pour le radar / Position category for the radar plot / Categoría de posiciones para el radar plot
 position_category = {
-    "Goalkeeper": "Gardiens de but",
-    "Centre-Back": "Défenseurs centraux",
-    "Right-Back": "Défenseurs latéraux",
-    "Left-Back": "Défenseurs latéraux",
-    "Left Midfield": "Milieux de terrain",
-    "Right Midfield": "Milieux de terrain",
-    "Central Midfield": "Milieux de terrain",
-    "Defensive Midfield": "Milieux de terrain",
-    "Attacking Midfield": "Milieux offensifs / Ailiers",
-    "Right Winger": "Milieux offensifs / Ailiers",
-    "Left Winger": "Milieux offensifs / Ailiers",
-    "Second Striker": "Attaquants",
-    "Centre-Forward": "Attaquants"
+    "Goalkeeper": "Gardiens de but","Centre-Back": "Défenseurs centraux","Right-Back": "Défenseurs latéraux","Left-Back": "Défenseurs latéraux","Left Midfield": "Milieux de terrain",
+    "Right Midfield": "Milieux de terrain","Central Midfield": "Milieux de terrain","Defensive Midfield": "Milieux de terrain","Attacking Midfield": "Milieux offensifs / Ailiers",
+    "Right Winger": "Milieux offensifs / Ailiers","Left Winger": "Milieux offensifs / Ailiers","Second Striker": "Attaquants","Centre-Forward": "Attaquants"
 }
 
 # Statistiques par catégorie pour le radar / Statistics by categorie for the radar plot / Estadísticas por categoría para el radar plot
@@ -392,20 +216,13 @@ def format_stat_name(stat):
 def plot_pizza_radar(labels, player_values, median_values, title="Radar",legend_labels=("Joueur", "Médiane")):
     # Paramètres de la pizza plot / Parameters of the pizza plot
     pizza = PyPizza(
-        params=labels,
-        background_color="#EFF0D1",
-        straight_line_color="#000000",
-        straight_line_lw=1,
-        last_circle_lw=1,
-        last_circle_color="#000000",
-        other_circle_ls="--",
-        other_circle_color="#000000",
-        other_circle_lw=0.5
+        params=labels,background_color="#EFF0D1",straight_line_color="#000000",straight_line_lw=1,last_circle_lw=1,
+        last_circle_color="#000000",other_circle_ls="--",other_circle_color="#000000",other_circle_lw=0.5
     )
     
     # Mise des couleurs et valeurs sur la pizza plot / Dislay colors and values on the pizza plot / Colores y valores en la pizza plot
     fig, ax = pizza.make_pizza(
-        values=[round(v) for v in player_values],
+        values=[round(v) for v in player_values], 
         compare_values=[round(v) for v in median_values],
         figsize=(8, 8),
         kwargs_slices=dict(
@@ -429,27 +246,15 @@ def plot_pizza_radar(labels, player_values, median_values, title="Radar",legend_
 
     # Ajustement si valeurs proches / Adjustment if values are close / Ajuste si los valores son cercanos
     threshold = 10
-    params_offset = [
-        abs(p - m) < threshold for p, m in zip(player_values, median_values)
-    ]
+    params_offset = [abs(p - m) < threshold for p, m in zip(player_values, median_values)]
     pizza.adjust_texts(params_offset, offset=-0.17, adj_comp_values=True)
 
     # Titre du radar / Radar title / Título del radar
-    fig.text(
-        0.5, 1.00, title,
-        ha="center", fontsize=14, fontweight="bold", color="#000000"
-    )
+    fig.text(0.5, 1.00, title,ha="center", fontsize=14, fontweight="bold", color="#000000")
 
     # Légende personnalisée / Custom legend / Légende personnalisée
-    legend_elements = [
-        Patch(facecolor="#7FBFFF", edgecolor='black', label=legend_labels[0]),
-        Patch(facecolor="#e63946", edgecolor='black', label=legend_labels[1])
-    ]
-    ax.legend(
-        handles=legend_elements,
-        loc='lower center', bbox_to_anchor=(0.5, -0.15),
-        ncol=2, fontsize=10, frameon=False
-    )
+    legend_elements = [Patch(facecolor="#7FBFFF", edgecolor='black', label=legend_labels[0]),Patch(facecolor="#e63946", edgecolor='black', label=legend_labels[1])]
+    ax.legend(handles=legend_elements,loc='lower center', bbox_to_anchor=(0.5, -0.15),ncol=2, fontsize=10, frameon=False)
 
     return fig
 
@@ -493,13 +298,9 @@ def find_similar_players(selected_player_name, df, filter_type=None, top_n=5):
 
     # Appliquer un filtre si spécifié / Apply a filter if specified / Aplicar un filtro si especificado
     if filter_type == "championnat":
-        candidates_df = candidates_df[
-            candidates_df['Comp'] == competition
-        ]
+        candidates_df = candidates_df[candidates_df['Comp'] == competition]
     elif filter_type == "pays":
-        candidates_df = candidates_df[
-            candidates_df['nationality'] == country
-        ]
+        candidates_df = candidates_df[candidates_df['nationality'] == country]
     elif filter_type == "tranche_age":
         if pd.isna(age):
             pass
@@ -520,14 +321,9 @@ def find_similar_players(selected_player_name, df, filter_type=None, top_n=5):
     ]
     # Traduction du pays du joueur / Translation of the player's country / Traducción del país del jugador
     if lang == "Français":
-        candidates_df['nationality'] = candidates_df['nationality'].apply(
-            lambda x: translate_country(x, lang="fr")
-        )
+        candidates_df['nationality'] = candidates_df['nationality'].apply(lambda x: translate_country(x, lang="fr"))
     elif lang == "Español":
-        candidates_df['nationality'] = candidates_df['nationality'].apply(
-            lambda x: translate_country(x, lang="es")
-        )
-
+        candidates_df['nationality'] = candidates_df['nationality'].apply(lambda x: translate_country(x, lang="es"))
 
     return candidates_df[final_cols].head(top_n)
 
@@ -545,31 +341,11 @@ def find_similar_teams(selected_team_name, df, filter_type=None, top_n=5):
 
     # Colonnes de stats à comparer / Columns of statistics to compare  / Columnas de estadísticas para comparar
     stats_cols = [col for col in [
-        "attacking_set_pieces__xg_pct",
-        "passing__avg_poss",
-        "passing__pass_direction__fwd",
-        "passing__pass_direction__left",
-        "passing__pass_direction__right",
-        "passing__crosses__pct",
-        "pressing__pressed_seqs",
-        "pressing__ppda",
-        "pressing__start_distance_m",
-        "sequences__ten_plus_passes",
-        "sequences__direct_speed",
-        "sequences__passes_per_seq",
-        "sequences__sequence_time",
-        "sequences__build_ups__total",
-        "sequences__direct_attacks__total",
-        "misc.__fouled",
-        "misc.__fouls",
-        "defending_set_pieces__xg_pct",
-        "defending_defensive_actions__clearances",
-        "defending_defensive_actions__ground_duels_won",
-        "defending_defensive_actions__aerial_duels_won",
-        "defending_misc__offsides",
-        "Long_Att__pass_prop",
-        "direct_attack_prop",
-        "build_ups_prop",
+        "attacking_set_pieces__xg_pct","passing__avg_poss","passing__pass_direction__fwd","passing__pass_direction__left","passing__pass_direction__right",
+        "passing__crosses__pct","pressing__pressed_seqs","pressing__ppda","pressing__start_distance_m","sequences__ten_plus_passes","sequences__direct_speed",
+        "sequences__passes_per_seq","sequences__sequence_time","sequences__build_ups__total","sequences__direct_attacks__total","misc.__fouled","misc.__fouls",
+        "defending_set_pieces__xg_pct","defending_defensive_actions__clearances","defending_defensive_actions__ground_duels_won","defending_defensive_actions__aerial_duels_won",
+        "defending_misc__offsides","Long_Att__pass_prop","direct_attack_prop","build_ups_prop",
     ] if col in df.columns]
 
     stats_df = candidates_df[stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
@@ -593,48 +369,105 @@ def find_similar_teams(selected_team_name, df, filter_type=None, top_n=5):
 
     # Appliquer un filtre si spécifié / Apply a filter if specified / Aplicar un filtro si especificado
     if filter_type == "championnat":
-        candidates_df = candidates_df[
-            candidates_df['championship_name'] == competition
-        ]
+        candidates_df = candidates_df[candidates_df['championship_name'] == competition]
 
     candidates_df = candidates_df.sort_values(by='percentage_similarity', ascending=False) # Trier par similarité / Sort by similarity / Ordenar por similitud
     
     # Colonnes à afficher / Columns to display / Columnas a mostrar
-    final_cols = [
-        'team_code', 'percentage_similarity', 'championship_name', 'country'
-    ]
+    final_cols = ['team_code', 'percentage_similarity', 'championship_name', 'country']
     # Traduction du pays du joueur / Translation of the player's country / Traducción del país del jugador
     if lang == "Français":
-        candidates_df['country'] = candidates_df['country'].apply(
-            lambda x: translate_country(x, lang="fr")
-        )
+        candidates_df['country'] = candidates_df['country'].apply(lambda x: translate_country(x, lang="fr"))
     elif lang == "Español":
-        candidates_df['country'] = candidates_df['country'].apply(
-            lambda x: translate_country(x, lang="es")
-        )
+        candidates_df['country'] = candidates_df['country'].apply(lambda x: translate_country(x, lang="es"))
 
 
     return candidates_df[final_cols].head(top_n)
 
+# Fonction pour estimer le style de jeu offensif et défensif d'une équipe / Function to estimate a team's offensive and defensive playing style / Función para estimar el estilo de juego ofensivo y defensivo de un equipo
+def estimate_team_styles(team_row_or_series):
+    # Normaliser l'entrée / Normalise input / Normalizar la entrada
+    if isinstance(team_row_or_series, pd.Series):
+        row = team_row_or_series
+    else:
+        row = pd.Series(team_row_or_series)
+
+    # Règles / Rules / Reglas
+    direct_rules = [
+        ("sequences__direct_attacks__total", ">", 1.5),("direct_attack_prop", ">", 60),("Long_Att__pass_prop", ">", 18),
+        ("sequences__sequence_time", "<", 8),("sequences__passes_per_seq", "<", 3),("sequences__ten_plus_passes", "<", 6),
+    ]
+    possession_rules = [
+        ("passing__avg_poss", ">", 55),("sequences__build_ups__total", ">", 2.5),("build_ups_prop", ">", 75),
+        ("sequences__sequence_time", ">", 11),("sequences__passes_per_seq", ">", 4.5),("sequences__ten_plus_passes", ">", 15),
+    ]
+    counter_rules = [
+        ("sequences__direct_attacks__total", ">", 1.5),("direct_attack_prop", ">", 60),("Long_Att__pass_prop", "<", 15),
+        ("sequences__sequence_time", "<", 8),("sequences__passes_per_seq", "<", 3),("sequences__ten_plus_passes", "<", 6),
+    ]
+    high_press_rules = [
+        ("pressing__pressed_seqs", ">", 12.5),("pressing__ppda", "<", 10),("pressing__start_distance_m", ">", 45),
+    ]
+    low_block_rules = [
+        ("pressing__pressed_seqs", "<", 8.5),("pressing__ppda", ">", 15),("pressing__start_distance_m", "<", 40),
+    ]
+
+    # Fonction pour déterminer le style / Function to determine style / Función para determinar el estilo
+    def score_style(rules):
+        ok = 0
+        seen = 0
+        dist_sum = 0.0
+        for col, op, thr in rules:
+            if col in row and pd.notna(row[col]):
+                try:
+                    val = float(row[col])
+                except Exception:
+                    continue
+                seen += 1
+                if (op == ">" and val > thr) or (op == "<" and val < thr):
+                    ok += 1
+                    base = abs(thr) if thr != 0 else 1.0
+                    dist_sum += (val - thr) / base if op == ">" else (thr - val) / base
+        ratio = ok / seen if seen > 0 else 0.0
+        return ratio, dist_sum, seen
+
+    # Offensif / Offensive / Ofensivo
+    off_scores = {
+        "Direct Play": score_style(direct_rules),"Possession Play": score_style(possession_rules),"Counter-Attacking": score_style(counter_rules),
+    }
+    poss_ratio = off_scores["Possession Play"][0]
+    direct_ratio = off_scores["Direct Play"][0]
+    counter_ratio = off_scores["Counter-Attacking"][0]
+    # Mixed uniquement si Possession ET (Direct OU Counter) sont chacun >= 0.5 / Mixed only if Possession AND (Direct OR Counter) are each >= 0.5
+    # Mixed solo si Posesión Y (Directa O Contrarrestada) son ambas >= 0,5
+    if (poss_ratio >= 0.5) and ((direct_ratio >= 0.5) or (counter_ratio >= 0.5)):
+        offensive_style = "Mixed"
+    else:
+        # Sinon, choisir le meilleur par (ratio, dist) /Otherwise, choose the best by (ratio, dist) / Si no, elegir el mejor por (ratio, dist)
+        offensive_style = max(
+            off_scores.items(),
+            key=lambda kv: (kv[1][0], kv[1][1])
+        )[0]
+
+
+    # Défensif / Defensive / Defensivo
+    hp = score_style(high_press_rules)
+    lb = score_style(low_block_rules)
+    # Mid Block si aucun extrême ne domine clairement (les deux < 0.5) ou les deux >= 0.5 / Mid Block if neither extreme clearly dominates (both < 0.5) or both >= 0.5
+    # Mid Block si ningún extremo predomina claramente (ambos < 0,5) o ambos >= 0,5
+    if (hp[2] > 0 and lb[2] > 0) and ((hp[0] < 0.5 and lb[0] < 0.5) or (hp[0] >= 0.5 and lb[0] >= 0.5)):
+        defensive_style = "Mid Block"
+    else:
+        defensive_style = "High Press" if (hp[0], hp[1]) >= (lb[0], lb[1]) else "Low Block"
+
+    return {"offensive_style": offensive_style, "defensive_style": defensive_style}
+
 # Sélecteur de MODE (Équipes / Joueurs) / Selector of MODE (Teams / Players) / Selector de MODE (Equipos / Jugadores)
-mode_label = {
-    "Français": "Type d'analyse",
-    "English": "Analysis type",
-    "Español": "Tipo de análisis",
-}[lang]
+mode_label = {"Français": "Type d'analyse","English": "Analysis type","Español": "Tipo de análisis",}[lang]
 
-mode_options = {
-    "Français": ["Équipes", "Joueurs"],
-    "English": ["Teams", "Players"],
-    "Español": ["Equipos", "Jugadores"],
-}[lang]
+mode_options = {"Français": ["Équipes", "Joueurs"],"English": ["Teams", "Players"],"Español": ["Equipos", "Jugadores"],}[lang]
 
-mode = option_menu(
-    menu_title=None,
-    options=mode_options,
-    icons=["shield", "person-lines-fill"], 
-    orientation="horizontal",
-)
+mode = option_menu(menu_title=None,options=mode_options,icons=["shield", "person-lines-fill"], orientation="horizontal")
 
 # Menus selon le MODE / Menus according to MODE /Menús según el MODO
 if (mode in ["Équipes", "Teams", "Equipos"]):
@@ -646,27 +479,16 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
     else:
         menu_labels = ["Inicio", "Equipo", "Duelo", "Stats +", "Stats", "Top"]
 
-    selected = option_menu(
-        menu_title=None,
-        options=menu_labels,
-        icons=["house", "people", "crosshair", "trophy", "list-ol", "award"],
-        orientation="horizontal",
-    )
+    selected = option_menu(menu_title=None,options=menu_labels,icons=["house", "people", "crosshair", "trophy", "list-ol", "award"],orientation="horizontal")
 
     # Code de la partie Équipe / Code of the Team part / Código de la parte Equipo
     if selected in ["Menu", "Home", "Inicio"]:
         if lang == "Français":
-            # Titre de la page
-            st.markdown(
-                "<h3 style='text-align: center;'>Visualisation des performances des équipes sur la saison 25/26</h3>", 
-                unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center;'>Visualisation des performances des équipes sur la saison 25/26</h3>", unsafe_allow_html=True) # Titre de la page
 
             st.image("../image/logo_team_performance.png") # Utilisation de la 1er bannière en image
 
-            # Sous-titre
-            st.markdown(
-                "<h4 style='text-align: center;'>Présentation</h4>", 
-                unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: center;'>Présentation</h4>", unsafe_allow_html=True) # Sous-titre
 
             # Description du projet
             st.markdown(
@@ -703,17 +525,11 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
             )
 
         elif lang == "English":
-            # Page title
-            st.markdown(
-                "<h3 style='text-align: center;'>Visualization of team performance over the 25/26 season</h3>", 
-                unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center;'>Visualization of team performance over the 25/26 season</h3>", unsafe_allow_html=True) # Page title
 
             st.image("../image/logo_team_performance.png") # Using the 1st image banner
 
-            # Subtitle
-            st.markdown(
-                "<h4 style='text-align: center;'>Presentation</h4>", 
-                unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: center;'>Presentation</h4>", unsafe_allow_html=True) # Subtitle
 
             # Project description
             st.markdown(
@@ -747,17 +563,11 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 """, unsafe_allow_html=True
             )
         else :
-            # Título de la página
-            st.markdown(
-                "<h3 style='text-align: center;'>Visualización del rendimiento de los equipos durante la temporada 25/26</h3>", 
-                unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center;'>Visualización del rendimiento de los equipos durante la temporada 25/26</h3>", unsafe_allow_html=True) # Título de la página
 
             st.image("../image/logo_team_performance.png") # Usando el primer banner de imagen
 
-            # Subtítulo
-            st.markdown(
-                "<h4 style='text-align: center;'>Presentación</h4>", 
-                unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: center;'>Presentación</h4>", unsafe_allow_html=True) # Subtítulo
 
             # Descripción del proyecto
             st.markdown(
@@ -794,8 +604,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
     elif selected in ["Équipe", "Team", "Equipo"]:
         if lang == "Français":
-            # Afficher le titre
-            st.markdown("<h4 style='text-align: center;'>📊 Analyse d'une équipe</h4>", unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: center;'>📊 Analyse d'une équipe</h4>", unsafe_allow_html=True) # Afficher le titre
             # Charger les données
             df = pd.read_csv('../data/team/fbref_analyst_joined.csv')
             info_player = pd.read_csv('../data/player/database_player.csv')
@@ -812,7 +621,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
             # Si un championnat est sélectionné, on cache l’image   
             if not selected_championship or not selected_team:
-                # Aucun championnat sélectionné → afficher l'image d'intro
+                # Aucun championnat sélectionné, on affiche l'image d'intro
                 st.image("../image/championship_analysis.jpg") # Utilisation de la 1er bannière en image
                 st.info("Dérouler la barre latérale pour choisir la langue et le championnat à analyser")
             else:
@@ -846,6 +655,11 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                         valeur_effectif_fmt = format_market_value(total_value)
                         valeur_par_joueur_fmt = format_market_value(total_value / n_players)
 
+                # On estime le style de jeu offensif et défensif de l'équipe
+                styles = estimate_team_styles(team_data) 
+                off_label = translate_style(styles["offensive_style"], lang="fr")
+                def_label = translate_style(styles["defensive_style"], lang="fr")
+
                 # Équipe (image à gauche, infos à droite)
                 st.markdown(f"""
                 <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto;">
@@ -866,8 +680,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                     <p><strong>Classement :</strong> {team_data['rank_league']}</p>
                     <p><strong>Pts :</strong> {int(team_data['pts_league'])}</p>
                     <p><strong>Différence de buts :</strong> {int(team_data['Team_Success_+/___ptime'])}</p>
-                    <p><strong>Style de jeu Offensif :</strong> Jeu d'alternance (F)</p>
-                    <p><strong>Style de jeu Défensif :</strong> Pressing Haut (F)</p>
+                    <p><strong>Style de jeu Offensif :</strong> {off_label}</p>
+                    <p><strong>Style de jeu Défensif :</strong> {def_label}</p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
@@ -949,14 +763,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 c1, c2, c3 = st.columns([1.6, 2, 1])
 
                 with c2:
-                    comparison_filter = st.radio(
-                        label="En comparaison avec",         
-                        options=["Big 5", "Championnat"],
-                        index=0,
-                        horizontal=True,
-                        label_visibility="collapsed",         
-                        key="comparison_filter_radio"  
-                    )
+                    comparison_filter = st.radio(label="En comparaison avec",options=["Big 5", "Championnat"],
+                    index=0,horizontal=True,label_visibility="collapsed",key="comparison_filter_radio")
 
                 filter_arg = {"Big 5": None, "Championnat": "championnat"}[comparison_filter]
 
@@ -970,17 +778,12 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
                 # Affichage du titre et du tableau
                 if not similar_df.empty:
-                    # Titre centré
-                    st.markdown(
-                        f"<h4 style='text-align:center;'>Équipes similaires à {team_data['team_code']}</h4>",
-                        unsafe_allow_html=True
-                    )
+                    st.markdown(f"<h4 style='text-align:center;'>Équipes similaires à {team_data['team_code']}</h4>",unsafe_allow_html=True) # Titre centré
 
                     # DataFrame centré
                     d1, d2, d3 = st.columns([0.1, 0.8, 0.1])  # ajuste les ratios si besoin
                     with d2:
                         st.dataframe(similar_df, use_container_width=True)
-
         else:
             st.info("Autre langues")
 
@@ -1007,27 +810,16 @@ else:
     else:
         menu_labels = ["Inicio", "Atleta", "Duelo", "Stats +", "Stats", "Scout"]
 
-    selected = option_menu(
-        menu_title=None,
-        options=menu_labels,
-        icons=["house", "person", "crosshair", "trophy", "list-ol", "binoculars"],
-        orientation="horizontal",
-    )
+    selected = option_menu(menu_title=None,options=menu_labels,icons=["house", "person", "crosshair", "trophy", "list-ol", "binoculars"],orientation="horizontal")
 
     # Code de la partie Joueur / Code of the Player part / Código de la parte Jugador
     if selected in ["Menu", "Home", "Inicio"]:
         if lang == "Français":
-            # Titre de la page
-            st.markdown(
-                "<h3 style='text-align: center;'>Visualisation des performances des joueurs sur la saison 25/26</h3>", 
-                unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center;'>Visualisation des performances des joueurs sur la saison 25/26</h3>", unsafe_allow_html=True) # Titre de la page
 
             st.image("../image/logo_player_performance.png") # Utilisation de la 1er bannière en image
 
-            # Sous-titre
-            st.markdown(
-                "<h4 style='text-align: center;'>Présentation</h4>", 
-                unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: center;'>Présentation</h4>", unsafe_allow_html=True) # Sous-titre
 
             # Description du projet
             st.markdown(
@@ -1064,17 +856,11 @@ else:
             )
 
         elif lang == "English":
-            # Page title
-            st.markdown(
-                "<h3 style='text-align: center;'>Visualization of player performance over the 25/26 season</h3>", 
-                unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center;'>Visualization of player performance over the 25/26 season</h3>", unsafe_allow_html=True) # Page title
 
             st.image("../image/logo_player_performance.png") # Using the 1st image banner
 
-            # Subtitle
-            st.markdown(
-                "<h4 style='text-align: center;'>Presentation</h4>", 
-                unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: center;'>Presentation</h4>", unsafe_allow_html=True) # Subtitle
 
             # Project description
             st.markdown(
@@ -1108,17 +894,11 @@ else:
                 """, unsafe_allow_html=True
             )
         else:
-            # Título de la página
-            st.markdown(
-                "<h3 style='text-align: center;'>Visualización del rendimiento de los jugadores durante la temporada 25/26</h3>", 
-                unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center;'>Visualización del rendimiento de los jugadores durante la temporada 25/26</h3>", unsafe_allow_html=True) # Título de la página
 
             st.image("../image/logo_player_performance.png") # Usando el primer banner de imagen
 
-            # Subtítulo
-            st.markdown(
-                "<h4 style='text-align: center;'>Presentación</h4>", 
-                unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: center;'>Presentación</h4>", unsafe_allow_html=True) # Subtítulo
 
             # Descripción del proyecto
             st.markdown(
@@ -1155,8 +935,7 @@ else:
 
     elif selected in ["Joueur", "Player", "Atleta"]:
         if lang == "Français":
-            # Afficher le titre
-            st.markdown("<h4 style='text-align: center;'>📊 Analyse d'un joueur</h4>", unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: center;'>📊 Analyse d'un joueur</h4>", unsafe_allow_html=True) # Afficher le titre
 
             df = pd.read_csv('../data/player/database_player.csv') # Charger les données
 
@@ -1224,7 +1003,7 @@ else:
                 <div style="flex: 2; min-width: 280px;">
                     <p><strong>Numéro :</strong> {shirt_num}</p>
                     <p><strong>Pied fort :</strong> {foot_lbl}</p>
-                    <p><strong>Autre(s) poste(s) :</strong> {position_other_translated}</p>
+                    <p><strong>Autre(s) poste(s) :</strong> {position_other}</p>
                     <p><strong>Agent :</strong> {agent_name}</p>
                     <p><strong>Équipementier :</strong> {outfitter}</p>
                 </div>
@@ -1233,24 +1012,9 @@ else:
                 """, unsafe_allow_html=True)
 
                 # Filtre unique pour radar + similarité
-                comparison_filter = st.radio(
-                    "En comparaison à son poste : ",
-                    options=[
-                        "Vue globale",
-                        "Championnat",
-                        "Tranche d’âge",
-                        "Pays"
-                    ],
-                    index=0,
-                    horizontal=True
-                )
+                comparison_filter = st.radio("En comparaison à son poste : ",options=["Vue globale","Championnat","Tranche d’âge","Pays"],index=0,horizontal=True)
 
-                filter_arg = {
-                    "Vue globale": None,
-                    "Championnat": "championnat",
-                    "Tranche d’âge": "tranche_age",
-                    "Pays": "pays"
-                }[comparison_filter]
+                filter_arg = {"Vue globale": None,"Championnat": "championnat","Tranche d’âge": "tranche_age","Pays": "pays"}[comparison_filter]
 
                 poste_cat = position_category.get(player_data['position'], None)
 
@@ -1426,24 +1190,20 @@ else:
 
                         # Construction de la pizza plot (joueur-médiane à son poste) pour les statistiques avancées
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,
-                            player_values=player_norm * 100,
-                            median_values=group_median * 100,
+                            labels=stats_cols,player_values=player_norm * 100,median_values=group_median * 100,
                             title=f"Statistiques avancées de {player_data['player_name']} de vs Médiane à son poste",
                             legend_labels=(player_data['player_name'], "Médiane poste")
                         )
 
                         # Liste des colonnes à afficher selon le poste
                         if poste_cat == "Gardiens de but":
-                            pizza_cols = [
-                                "score_goal_scoring_conceded", "score_efficiency", "score_error_fouls",
+                            pizza_cols = ["score_goal_scoring_conceded", "score_efficiency", "score_error_fouls",
                                 "score_short_clearance", "score_long_clearance", "score_positioning", "score_aerial_defense"
                             ]
                         else:
                             pizza_cols = [
-                                "score_goal_scoring_created", "score_finish", "score_building", "score_creation",
-                                "score_dribble", "score_projection", "score_defensive_actions", "score_waste",
-                                "score_faults_committed", "score_provoked_fouls", "score_aerial"
+                                "score_goal_scoring_created", "score_finish", "score_building", "score_creation","score_dribble", "score_projection",
+                                "score_defensive_actions", "score_waste","score_faults_committed", "score_provoked_fouls", "score_aerial"
                             ]
 
                         # On garde uniquement les colonnes présentes
@@ -1464,9 +1224,7 @@ else:
 
                                 # Construction de la pizza plot (joueur-médiane) pour les statistiques de base
                                 fig_pizza_stat_basis = plot_pizza_radar(
-                                    labels=pizza_labels,
-                                    player_values=player_scaled,
-                                    median_values=median_scaled,
+                                    labels=pizza_labels,player_values=player_scaled,median_values=median_scaled,
                                     title=f"Statistiques de base de {player_data['player_name']} vs Médiane à son poste",
                                     legend_labels=(player_data['player_name'], "Médiane poste")
                                 )
@@ -1483,19 +1241,14 @@ else:
 
                 similar_df = find_similar_players(selected_player, df, filter_type=filter_arg) # Recherche des joueurs similaires avec le même filtre utilisé
                 if not similar_df.empty:
-                    # Affichage du titre
-                    st.markdown(
-                        f"<h4 style='text-align: center;'>Joueurs similaires à {player_data['player_name']}</h4>",
-                        unsafe_allow_html=True
-                    )
+                    st.markdown(f"<h4 style='text-align: center;'>Joueurs similaires à {player_data['player_name']}</h4>",unsafe_allow_html=True) # Affichage du titre
                     st.dataframe(similar_df)
                 else:
                     st.info("Aucun joueur similaire trouvé avec les critères sélectionnés.")
 
 
         elif lang == "English":
-            # Display the title
-            st.markdown("<h4 style='text-align: center;'>📊 Player analysis</h4>", unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: center;'>📊 Player analysis</h4>", unsafe_allow_html=True) # Display the title
 
             df = pd.read_csv('../data/player/database_player.csv') # Collect the data
 
@@ -1533,10 +1286,7 @@ else:
                 outfitter = outfitter if outfitter is not None else "Not known"
 
                 # Player profile (image on left, info on right)
-                st.markdown(
-                    f"<h4 style='text-align: center;'>Player profile</h4>",
-                    unsafe_allow_html=True
-                )
+                st.markdown(f"<h4 style='text-align: center;'>Player profile</h4>",unsafe_allow_html=True)
 
                 st.markdown(f"""
                 <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto;">
@@ -1572,24 +1322,9 @@ else:
                 """, unsafe_allow_html=True)
 
                 # Single filter for radar + similarity
-                comparison_filter = st.radio(
-                    "Compared to his position :",
-                    options=[
-                        "Overview",
-                        "Championship",
-                        "Age group",
-                        "Country"
-                    ],
-                    index=0,
-                    horizontal=True
-                )
+                comparison_filter = st.radio("Compared to his position :",options=["Overview","Championship","Age group","Country"],index=0,horizontal=True)
 
-                filter_arg = {
-                    "Overview": None,
-                    "Championship": "championnat",
-                    "Age group": "tranche_age",
-                    "Country": "pays"
-                }[comparison_filter]
+                filter_arg = {"Overview": None,"Championship": "championnat","Age group": "tranche_age","Country": "pays"}[comparison_filter]
 
                 poste_cat = position_category.get(player_data['position'], None)
 
@@ -1756,32 +1491,23 @@ else:
                         rating_text = f" - Rating : {round(player_rating, 2)}" if player_rating is not None else ""
 
                         # Title display with note
-                        st.markdown(
-                            f"<h4 style='text-align: center;'>Performance radar from {player_data['player_name']} vs {nb_players} players in his category {rating_text}</h4>",
-                            unsafe_allow_html=True
-                        )
+                        st.markdown(f"<h4 style='text-align: center;'>Performance radar from {player_data['player_name']} vs {nb_players} players in his category {rating_text}</h4>",
+                            unsafe_allow_html=True)
                         
                         # Bulding the pizza plot (player-median) for the advanced statistics
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,
-                            player_values=player_norm * 100,
-                            median_values=group_median * 100,
+                            labels=stats_cols,player_values=player_norm * 100,median_values=group_median * 100,
                             title=f"Advanced statistics of {player_data['player_name']} vs. median at the same position",
                             legend_labels=(player_data['player_name'], "Median position")
                         )
 
                         # List of columns to be displayed by position
                         if poste_cat == "Gardiens de but":
-                            pizza_cols = [
-                                "score_goal_scoring_conceded", "score_efficiency", "score_error_fouls",
-                                "score_short_clearance", "score_long_clearance", "score_positioning", "score_aerial_defense"
-                            ]
+                            pizza_cols = ["score_goal_scoring_conceded", "score_efficiency", "score_error_fouls","score_short_clearance",
+                             "score_long_clearance","score_positioning", "score_aerial_defense"]
                         else:
-                            pizza_cols = [
-                                "score_goal_scoring_created", "score_finish", "score_building", "score_creation",
-                                "score_dribble", "score_projection", "score_defensive_actions", "score_waste",
-                                "score_faults_committed", "score_provoked_fouls", "score_aerial"
-                            ]
+                            pizza_cols = ["score_goal_scoring_created", "score_finish", "score_building", "score_creation","score_dribble",
+                             "score_projection", "score_defensive_actions", "score_waste","score_faults_committed", "score_provoked_fouls", "score_aerial"]
 
                         # We keep only the columns present
                         pizza_cols = [col for col in pizza_cols if col in df.columns]
@@ -1789,7 +1515,6 @@ else:
 
                         # Checks that all columns exist for the player
                         if all(col in player_data for col in pizza_cols):
-
                             player_values = [player_data[col] for col in pizza_cols]
 
                             # Calculation of median values on the filtered group
@@ -1802,25 +1527,18 @@ else:
 
                                 # Bulding the pizza plot (player-median) for the basic statistics
                                 fig_pizza_stat_basis = plot_pizza_radar(
-                                    labels=pizza_labels,
-                                    player_values=player_scaled,
-                                    median_values=median_scaled,
+                                    labels=pizza_labels,player_values=player_scaled,median_values=median_scaled,
                                     title=f"Basic statistics of {player_data['player_name']} vs. median at the same position",
                                     legend_labels=(player_data['player_name'], "Median position")
                                 )
 
                         # List of columns to be displayed by position
                         if poste_cat == "Gardiens de but":
-                            pizza_cols = [
-                                "score_goal_scoring_conceded", "score_efficiency", "score_error_fouls",
-                                "score_short_clearance", "score_long_clearance", "score_positioning", "score_aerial_defense"
-                            ]
+                            pizza_cols = ["score_goal_scoring_conceded", "score_efficiency", "score_error_fouls",
+                                "score_short_clearance", "score_long_clearance", "score_positioning", "score_aerial_defense"]
                         else:
-                            pizza_cols = [
-                                "score_goal_scoring_created", "score_finish", "score_building", "score_creation",
-                                "score_dribble", "score_projection", "score_defensive_actions", "score_waste",
-                                "score_faults_committed", "score_provoked_fouls", "score_aerial"
-                            ]
+                            pizza_cols = ["score_goal_scoring_created", "score_finish", "score_building", "score_creation","score_dribble",
+                             "score_projection", "score_defensive_actions", "score_waste","score_faults_committed", "score_provoked_fouls", "score_aerial"]
 
                         # We keep only the columns present
                         pizza_cols = [col for col in pizza_cols if col in df.columns]
@@ -1828,7 +1546,6 @@ else:
 
                         # Checks that all columns exist for the player
                         if all(col in player_data for col in pizza_cols):
-
                             player_values = [player_data[col] for col in pizza_cols]
 
                             # Calculation of median values on the filtered group
@@ -1839,11 +1556,8 @@ else:
                                 player_scaled = [v if pd.notna(v) else 0 for v in player_values]
                                 median_scaled = [round(v) for v in group_median]
 
-
                                 fig_pizza_stat_basis = plot_pizza_radar(
-                                    labels=pizza_labels,
-                                    player_values=player_scaled,
-                                    median_values=median_scaled,
+                                    labels=pizza_labels,player_values=player_scaled,median_values=median_scaled,
                                     title="Basic statistics vs. median at the same position",
                                     legend_labels=(player_data['player_name'], "Median position")
                                 )
@@ -1860,17 +1574,12 @@ else:
 
                 similar_df = find_similar_players(selected_player, df, filter_type=filter_arg) # Search for similar players using the same filter
                 if not similar_df.empty:
-                    # Display the title
-                    st.markdown(
-                        f"<h4 style='text-align: center;'>Players similar to {player_data['player_name']}</h4>",
-                        unsafe_allow_html=True
-                    )
+                    st.markdown(f"<h4 style='text-align: center;'>Players similar to {player_data['player_name']}</h4>",unsafe_allow_html=True) # Display the title
                     st.dataframe(similar_df)
                 else:
                     st.info("Not enough players in this group to generate a radar (minimum requirement: 5).")
         else:
-            # Título
-            st.markdown("<h4 style='text-align: center;'>📊 Análisis de un jugador</h4>", unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: center;'>📊 Análisis de un jugador</h4>", unsafe_allow_html=True) # Título
 
             df = pd.read_csv('../data/player/database_player.csv')  # Cargar datos
 
@@ -1946,27 +1655,12 @@ else:
                 """, unsafe_allow_html=True)
 
                 # Filtro único para radar + similitud
-                comparison_filter = st.radio(
-                    "En comparación con su posición:",
-                    options=[
-                        "Vista general",
-                        "Liga",
-                        "Tramo de edad",
-                        "País"
-                    ],
-                    index=0,
-                    horizontal=True
-                )
+                comparison_filter = st.radio("En comparación con su posición:",options=["Vista general","Liga","Tramo de edad","País"],index=0,horizontal=True)
 
                 # Mapeo de la opción de UI (ES) a las claves internas usadas en tu lógica
-                filter_arg = {
-                    "Vista general": None,
-                    "Liga": "championnat",
-                    "Tramo de edad": "tranche_age",
-                    "País": "pays"
-                }[comparison_filter]
+                filter_arg = {"Vista general": None,"Liga": "championnat","Tramo de edad": "tranche_age","País": "pays"}[comparison_filter]
 
-                # ⚠️ Categoría del puesto: se mantiene en FRANCÉS
+                # Categoría del puesto
                 poste_cat = position_category.get(player_data['position'], None)
 
                 # Glosario de estadísticas (poste_cat en francés)
@@ -2135,41 +1829,29 @@ else:
                         rating_text = f" - Nota: {round(player_rating, 2)}" if player_rating is not None else ""
 
                         # Título con nota
-                        st.markdown(
-                            f"<h4 style='text-align: center;'>Radar de rendimiento de {player_data['player_name']} frente a {nb_players} jugadores de su categoría{rating_text}</h4>",
-                            unsafe_allow_html=True
-                        )
+                        st.markdown(f"<h4 style='text-align: center;'>Radar de rendimiento de {player_data['player_name']} frente a {nb_players} jugadores de su categoría{rating_text}</h4>",
+                            unsafe_allow_html=True)
 
                         # Radar (avanzadas)
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,
-                            player_values=player_norm * 100,
-                            median_values=group_median * 100,
+                            labels=stats_cols,player_values=player_norm * 100,median_values=group_median * 100,
                             title=f"Estadísticas avanzadas de {player_data['player_name']} vs Mediana del puesto",
                             legend_labels=(player_data['player_name'], "Mediana del puesto")
                         )
 
                         # Columnas para el radar (básicas)
                         if poste_cat == "Gardiens de but":
-                            pizza_cols = [
-                                "score_goal_scoring_conceded", "score_efficiency", "score_error_fouls",
-                                "score_short_clearance", "score_long_clearance", "score_positioning", "score_aerial_defense"
-                            ]
+                            pizza_cols = ["score_goal_scoring_conceded", "score_efficiency", "score_error_fouls","score_short_clearance",
+                             "score_long_clearance", "score_positioning", "score_aerial_defense"]
                         else:
-                            pizza_cols = [
-                                "score_goal_scoring_created", "score_finish", "score_building", "score_creation",
-                                "score_dribble", "score_projection", "score_defensive_actions", "score_waste",
-                                "score_faults_committed", "score_provoked_fouls", "score_aerial"
-                            ]
+                            pizza_cols = ["score_goal_scoring_created", "score_finish", "score_building", "score_creation","score_dribble", "score_projection",
+                             "score_defensive_actions", "score_waste","score_faults_committed", "score_provoked_fouls", "score_aerial"]
 
-                        # Mantener solo las columnas presentes
-                        pizza_cols = [col for col in pizza_cols if col in df.columns]
-                        # Etiquetas en español
-                        pizza_labels = [translate_base_stat(col.replace("score_", ""), lang="es") for col in pizza_cols]
+                        pizza_cols = [col for col in pizza_cols if col in df.columns] # Mantener solo las columnas presentes
+                        pizza_labels = [translate_base_stat(col.replace("score_", ""), lang="es") for col in pizza_cols] # Etiquetas en español
 
                         # Verificar que el jugador tenga todas las columnas
                         if all(col in player_data for col in pizza_cols):
-
                             player_values = [player_data[col] for col in pizza_cols]
 
                             # Mediana del grupo para estas columnas
@@ -2182,9 +1864,7 @@ else:
 
                                 # Radar (básicas)
                                 fig_pizza_stat_basis = plot_pizza_radar(
-                                    labels=pizza_labels,
-                                    player_values=player_scaled,
-                                    median_values=median_scaled,
+                                    labels=pizza_labels,player_values=player_scaled,median_values=median_scaled,
                                     title=f"Estadísticas básicas de {player_data['player_name']} vs Mediana del puesto",
                                     legend_labels=(player_data['player_name'], "Mediana del puesto")
                                 )
@@ -2195,17 +1875,13 @@ else:
                                     st.pyplot(fig_pizza_stat_basis)
                                 with col2:
                                     st.pyplot(fig_pizza_stat_adv)
-
                     else:
                         st.info("No hay suficientes jugadores en este grupo para generar un radar (mínimo requerido: 5).")
 
                 # Jugadores similares (mismo filtro)
                 similar_df = find_similar_players(selected_player, df, filter_type=filter_arg)
                 if not similar_df.empty:
-                    st.markdown(
-                        f"<h4 style='text-align: center;'>Jugadores similares a {player_data['player_name']}</h4>",
-                        unsafe_allow_html=True
-                    )
+                    st.markdown(f"<h4 style='text-align: center;'>Jugadores similares a {player_data['player_name']}</h4>",unsafe_allow_html=True)
                     st.dataframe(similar_df)
                 else:
                     st.info("No se encontraron jugadores similares con los criterios seleccionados.")
@@ -2213,11 +1889,7 @@ else:
 
     elif selected in ["Duel", "F2F", "Duelo"]:
         if lang == "Français":
-            st.markdown(
-                "<h4 style='text-align: center;'>🥊 Comparaison de deux joueurs</h4>", 
-                unsafe_allow_html=True)
-            
-
+            st.markdown("<h4 style='text-align: center;'>🥊 Comparaison de deux joueurs</h4>", unsafe_allow_html=True) # Affichage du titre
             df = pd.read_csv("../data/player/database_player.csv") # Récupérer les données
             player_names = sorted(df['player_name'].dropna().unique().tolist()) # Ordonner par le nom du joueur
 
@@ -2237,15 +1909,12 @@ else:
                 poste_cat = position_category.get(sub_position, None)
 
                 # Tous les position de la même catégorie
-                sub_positions_same_cat = [
-                    pos for pos, cat in position_category.items() if cat == poste_cat
-                ]
+                sub_positions_same_cat = [pos for pos, cat in position_category.items() if cat == poste_cat]
 
                 # On filtre tous les joueurs ayant un poste dans cette catégorie
                 same_category_players = df[df['position'].isin(sub_positions_same_cat)]
                 player2_names = sorted(same_category_players['player_name'].dropna().unique().tolist())
                 player2_names = [p for p in player2_names if p != player1]
-
 
                 player2 = st.sidebar.selectbox("Second joueur (même poste) :", [''] + player2_names, key="player2") # Sélection du 2nd joueur
                 
@@ -2253,7 +1922,6 @@ else:
                     # Aucun joueur sélectionné → afficher l'image d'intro
                     st.image("../image/player_comparison.jpg")
                     st.info("Dérouler la barre latérale pour choisir la langue et les joueurs à analyser")
-
 
                 if player2:
                     player2_data = df[df['player_name'] == player2].iloc[0] # Récupération du nom du 2nd joueur
@@ -2449,32 +2117,21 @@ else:
                         rating2_text = f"Note : {round(player2_rating)}" if player2_rating is not None else ""
                         
                         # Affichage du titre et du radar
-                        st.markdown(
-                            f"<h4 style='text-align: center;'>Radar comparatif : {player1} ({rating1_text}) vs {player2} ({rating2_text})</h4>",
-                            unsafe_allow_html=True
-                        )
+                        st.markdown(f"<h4 style='text-align: center;'>Radar comparatif : {player1} ({rating1_text}) vs {player2} ({rating2_text})</h4>",unsafe_allow_html=True)
                         
                         # Création de la la pizza plot des statistiques avancées
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,
-                            player_values=player1_norm * 100,
-                            median_values=player2_norm * 100,
-                            title=f"Statistiques avancées de {player1} vs {player2}",
-                            legend_labels=(player1, player2)
+                            labels=stats_cols,player_values=player1_norm * 100,median_values=player2_norm * 100,
+                            title=f"Statistiques avancées de {player1} vs {player2}",legend_labels=(player1, player2)
                         )
 
                         # Liste de colonnes de score par poste
                         if poste_cat == "Gardiens de but":
-                            pizza_cols = [
-                                "score_goal_scoring_conceded", "score_efficiency", "score_error_fouls",
-                                "score_short_clearance", "score_long_clearance", "score_positioning", "score_aerial_defense"
-                            ]
+                            pizza_cols = ["score_goal_scoring_conceded", "score_efficiency", "score_error_fouls","score_short_clearance",
+                             "score_long_clearance", "score_positioning", "score_aerial_defense"]
                         else:
-                            pizza_cols = [
-                                "score_goal_scoring_created", "score_finish", "score_building", "score_creation",
-                                "score_dribble", "score_projection", "score_defensive_actions", "score_waste",
-                                "score_faults_committed", "score_provoked_fouls", "score_aerial"
-                            ]
+                            pizza_cols = ["score_goal_scoring_created", "score_finish", "score_building", "score_creation","score_dribble", "score_projection",
+                             "score_defensive_actions", "score_waste","score_faults_committed", "score_provoked_fouls", "score_aerial"]
 
                         # Nous ne gardons uniquement les colonnes d'interêt pour le poste
                         pizza_cols = [col for col in pizza_cols if col in df.columns]
@@ -2492,11 +2149,8 @@ else:
 
                             # Création du radar comparatif (pizza plot) pour les statistiques de base
                             fig_pizza_stat_basis = plot_pizza_radar(
-                                labels=pizza_labels,
-                                player_values=player1_scaled,
-                                median_values=player2_scaled,
-                                title=f"Statistiques de base de {player1} vs {player2}",
-                                legend_labels=(player1, player2)
+                                labels=pizza_labels,player_values=player1_scaled,median_values=player2_scaled,
+                                title=f"Statistiques de base de {player1} vs {player2}",legend_labels=(player1, player2)
                             )
 
                         # Affichage dans Streamlit
@@ -2507,11 +2161,7 @@ else:
                             st.pyplot(fig_pizza_stat_adv)
 
         elif lang == "English":
-            # Display the title
-            st.markdown(
-                "<h4 style='text-align: center;'>🥊 Player Comparison</h4>", 
-                unsafe_allow_html=True)
-
+            st.markdown("<h4 style='text-align: center;'>🥊 Player Comparison</h4>", unsafe_allow_html=True) # Display the title
             df = pd.read_csv("../data/player/database_player.csv") # Recover the data
             player_names = sorted(df['player_name'].dropna().unique().tolist()) # Order by data 
 
@@ -2531,9 +2181,7 @@ else:
                 poste_cat = position_category.get(sub_position, None)
 
                 # All positions in the same category
-                sub_positions_same_cat = [
-                    pos for pos, cat in position_category.items() if cat == poste_cat
-                ]
+                sub_positions_same_cat = [pos for pos, cat in position_category.items() if cat == poste_cat]
 
                 # We filter all players with a position in this category
                 same_category_players = df[df['position'].isin(sub_positions_same_cat)]
@@ -2738,32 +2386,21 @@ else:
                         rating2_text = f"Rating : {round(player2_rating)}" if player2_rating is not None else ""
                         
                         # Title and radar display
-                        st.markdown(
-                            f"<h4 style='text-align: center;'>Radar comparison : {player1} ({rating1_text}) vs {player2} ({rating2_text})</h4>",
-                            unsafe_allow_html=True
-                        )
+                        st.markdown(f"<h4 style='text-align: center;'>Radar comparison : {player1} ({rating1_text}) vs {player2} ({rating2_text})</h4>",unsafe_allow_html=True)
                         
                         # Creating the advanced statistics pizza plot
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,
-                            player_values=player1_norm * 100,
-                            median_values=player2_norm * 100,
-                            title=f"Advanced statistics of {player1} vs {player2}",
-                            legend_labels=(player1, player2)
+                            labels=stats_cols,player_values=player1_norm * 100,median_values=player2_norm * 100,
+                            title=f"Advanced statistics of {player1} vs {player2}",legend_labels=(player1, player2)
                         )
 
                         # List of score columns by position
                         if poste_cat == "Gardiens de but":
-                            pizza_cols = [
-                                "score_goal_scoring_conceded", "score_efficiency", "score_error_fouls",
-                                "score_short_clearance", "score_long_clearance", "score_positioning", "score_aerial_defense"
-                            ]
+                            pizza_cols = ["score_goal_scoring_conceded", "score_efficiency", "score_error_fouls","score_short_clearance",
+                             "score_long_clearance", "score_positioning", "score_aerial_defense"]
                         else:
-                            pizza_cols = [
-                                "score_goal_scoring_created", "score_finish", "score_building", "score_creation",
-                                "score_dribble", "score_projection", "score_defensive_actions", "score_waste",
-                                "score_faults_committed", "score_provoked_fouls", "score_aerial"
-                            ]
+                            pizza_cols = ["score_goal_scoring_created", "score_finish", "score_building", "score_creation","score_dribble", "score_projection",
+                             "score_defensive_actions", "score_waste","score_faults_committed", "score_provoked_fouls", "score_aerial"]
 
                         # We keep only the columns of interest for the post
                         pizza_cols = [col for col in pizza_cols if col in df.columns]
@@ -2781,11 +2418,8 @@ else:
 
                             # Creation of comparative radar (pizza plot) for the basic statistics
                             fig_pizza_stat_basis = plot_pizza_radar(
-                                labels=pizza_labels,
-                                player_values=player1_scaled,
-                                median_values=player2_scaled,
-                                title=f"Basic statistics of {player1} vs {player2}",
-                                legend_labels=(player1, player2)
+                                labels=pizza_labels,player_values=player1_scaled,median_values=player2_scaled,
+                                title=f"Basic statistics of {player1} vs {player2}",legend_labels=(player1, player2)
                             )
 
                         # Display in Streamlit
@@ -2796,10 +2430,7 @@ else:
                             st.pyplot(fig_pizza_stat_adv)
         
         else:
-            st.markdown(
-                "<h4 style='text-align: center;'>🥊 Comparación de dos jugadores</h4>", 
-                unsafe_allow_html=True)
-
+            st.markdown("<h4 style='text-align: center;'>🥊 Comparación de dos jugadores</h4>", unsafe_allow_html=True)
             df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
             player_names = sorted(df['player_name'].dropna().unique().tolist())  # Ordenar por nombre
 
@@ -3023,32 +2654,21 @@ else:
                         rating2_text = f"Nota: {round(player2_rating)}" if player2_rating is not None else ""
 
                         # Título
-                        st.markdown(
-                            f"<h4 style='text-align: center;'>Radar comparativo: {player1} ({rating1_text}) vs {player2} ({rating2_text})</h4>",
-                            unsafe_allow_html=True
-                        )
+                        st.markdown(f"<h4 style='text-align: center;'>Radar comparativo: {player1} ({rating1_text}) vs {player2} ({rating2_text})</h4>",unsafe_allow_html=True)
 
                         # Radar de estadísticas avanzadas
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,
-                            player_values=player1_norm * 100,
-                            median_values=player2_norm * 100,
-                            title=f"Estadísticas avanzadas de {player1} vs {player2}",
-                            legend_labels=(player1, {player2})
+                            labels=stats_cols,player_values=player1_norm * 100,median_values=player2_norm * 100,
+                            title=f"Estadísticas avanzadas de {player1} vs {player2}",legend_labels=(player1, {player2})
                         )
 
                         # Columnas de puntuación por puesto
                         if poste_cat == "Gardiens de but":
-                            pizza_cols = [
-                                "score_goal_scoring_conceded", "score_efficiency", "score_error_fouls",
-                                "score_short_clearance", "score_long_clearance", "score_positioning", "score_aerial_defense"
-                            ]
+                            pizza_cols = ["score_goal_scoring_conceded", "score_efficiency", "score_error_fouls","score_short_clearance",
+                             "score_long_clearance", "score_positioning", "score_aerial_defense"]
                         else:
-                            pizza_cols = [
-                                "score_goal_scoring_created", "score_finish", "score_building", "score_creation",
-                                "score_dribble", "score_projection", "score_defensive_actions", "score_waste",
-                                "score_faults_committed", "score_provoked_fouls", "score_aerial"
-                            ]
+                            pizza_cols = ["score_goal_scoring_created", "score_finish", "score_building", "score_creation","score_dribble", "score_projection",
+                             "score_defensive_actions", "score_waste","score_faults_committed", "score_provoked_fouls", "score_aerial"]
 
                         # Mantener solo columnas presentes
                         pizza_cols = [col for col in pizza_cols if col in df.columns]
@@ -3064,11 +2684,8 @@ else:
 
                             # Radar de estadísticas básicas
                             fig_pizza_stat_basis = plot_pizza_radar(
-                                labels=pizza_labels,
-                                player_values=player1_scaled,
-                                median_values=player2_scaled,
-                                title=f"Estadísticas básicas de {player1} vs {player2}",
-                                legend_labels=(player1, player2)
+                                labels=pizza_labels,player_values=player1_scaled,median_values=player2_scaled,
+                                title=f"Estadísticas básicas de {player1} vs {player2}",legend_labels=(player1, player2)
                             )
 
                         # Mostrar en Streamlit
@@ -3154,7 +2771,6 @@ else:
                         pays_en = pays_options_raw[idx]
                         filtered_df = filtered_df[filtered_df["nationality"] == pays_en]
 
-
                     # Filtre Tranche d’âge (création dynamiquement des tranches d'âge disponibles)
                     tranche_options = [""]
 
@@ -3182,28 +2798,16 @@ else:
                     valeur_min_possible = 0
                     valeur_max_possible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
-                    valeur_max = st.slider(
-                        "Valeur marchande maximum (€)",
-                        valeur_min_possible,
-                        valeur_max_possible,
-                        valeur_max_possible,
-                        step=100000,
-                        format="%d"
-                    )
+                    valeur_max = st.slider("Valeur marchande maximum (€)",valeur_min_possible,valeur_max_possible,valeur_max_possible,step=100000,format="%d")
 
                     st.markdown(f"Valeur maximum sélectionné : **{format_market_value(valeur_max)}**") # Affichage du choix de l'utilisateur
                     filtered_df = filtered_df[filtered_df["marketValue"] <= valeur_max]
 
                 # Définir les statistiques spécifiques aux gardiens
-                goalkeeper_stats = [
-                    "goal_scoring_conceded", "efficiency", "error_fouls",
-                    "short_clearance", "long_clearance", "positioning", "aerial_defense"
-                ]
+                goalkeeper_stats = ["goal_scoring_conceded", "efficiency", "error_fouls","short_clearance", "long_clearance", "positioning", "aerial_defense"]
 
                 # Liste de colonnes
-                df_stat = filtered_df[
-                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue','contract',
-                    'position', selected_stat]
+                df_stat = filtered_df[['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue','contract','position', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 # Filtrage conditionnel selon la statistique sélectionnée
@@ -3212,14 +2816,10 @@ else:
                 else:
                     df_stat = df_stat[df_stat['position'] != 'Goalkeeper']
 
-                df_stat['position'] = df_stat['position'].apply(
-                    lambda x: translate_position(x, lang="fr")
-                )
+                df_stat['position'] = df_stat['position'].apply(lambda x: translate_position(x, lang="fr"))
 
                 # Traduction du pays du joueur dans la table
-                df_stat['nationality'] = df_stat['nationality'].apply(
-                    lambda x: translate_country(x, lang="fr")
-                )
+                df_stat['nationality'] = df_stat['nationality'].apply(lambda x: translate_country(x, lang="fr"))
                 df_stat['marketValue'] = df_stat['marketValue'].apply(format_market_value) # Utilisation du format de market_value
                 
                 df_stat = df_stat.sort_values(by=selected_stat, ascending=False) # Ordonner les données du plus grand au plus petit
@@ -3256,9 +2856,7 @@ else:
 
                 # Choix des colonnes dans la table
                 final_df = df_stat.rename(columns={selected_stat: 'Statistique'})
-                final_df = final_df[[
-                    'player_name', 'Statistique', 'Age', 'nationality', 'club_name', 'position','marketValue', 'contract'
-                ]]
+                final_df = final_df[['player_name', 'Statistique', 'Age', 'nationality', 'club_name', 'position','marketValue', 'contract']]
 
                 st.dataframe(final_df, use_container_width=True)
 
@@ -3349,28 +2947,18 @@ else:
                     valeur_min_possible = 0
                     valeur_max_possible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
-                    valeur_max = st.slider(
-                        "Maximum market value (€)",
-                        valeur_min_possible,
-                        valeur_max_possible,
-                        valeur_max_possible,
-                        step=100000,
-                        format="%d"
-                    )
+                    valeur_max = st.slider("Maximum market value (€)",valeur_min_possible,valeur_max_possible,valeur_max_possible,step=100000,format="%d")
 
                     st.markdown(f"Maximum value selected: **{format_market_value(valeur_max)}**") # Display the choice of the user
                     filtered_df = filtered_df[filtered_df["marketValue"] <= valeur_max]
             
-
                 # Define statistics specific to goalkeepers
                 goalkeeper_stats = [
                     "goal_scoring_conceded", "efficiency", "error_fouls",
                     "short_clearance", "long_clearance", "positioning", "aerial_defense"
                 ]
                 # Selecting columns
-                df_stat = filtered_df[
-                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','position',
-                    'Comp', 'marketValue','contract', selected_stat]
+                df_stat = filtered_df[['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','position','Comp', 'marketValue','contract', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 # Conditional filtering by selected statistic
@@ -3416,17 +3004,13 @@ else:
 
                         podium_html += player_html
 
-                # Closing the container
-                podium_html += "</div>"
+                podium_html += "</div>" # Closing the container
 
-                # Final display
-                st.markdown(podium_html, unsafe_allow_html=True)
+                st.markdown(podium_html, unsafe_allow_html=True) # Final display
 
                 # We display the table with the columns desired
                 final_df = df_stat.rename(columns={selected_stat: 'Statistic'})
-                final_df = final_df[[
-                    'player_name', 'Statistic', 'Age', 'nationality', 'club_name', 'position', 'marketValue', 'contract'
-                ]]
+                final_df = final_df[['player_name', 'Statistic', 'Age', 'nationality', 'club_name', 'position', 'marketValue', 'contract']]
 
                 st.dataframe(final_df, use_container_width=True)
         
@@ -3522,28 +3106,16 @@ else:
                     valor_min_posible = 0
                     valor_max_posible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
-                    valor_max = st.slider(
-                        "Valor de mercado máximo (€)",
-                        valor_min_posible,
-                        valor_max_posible,
-                        valor_max_posible,
-                        step=100000,
-                        format="%d"
-                    )
+                    valor_max = st.slider("Valor de mercado máximo (€)",valor_min_posible,valor_max_posible,valor_max_posible,step=100000,format="%d")
 
                     st.markdown(f"Valor máximo seleccionado: **{format_market_value(valor_max)}**")
                     filtered_df = filtered_df[filtered_df["marketValue"] <= valor_max]
 
                 # Stats específicas de porteros
-                goalkeeper_stats = [
-                    "goal_scoring_conceded", "efficiency", "error_fouls",
-                    "short_clearance", "long_clearance", "positioning", "aerial_defense"
-                ]
+                goalkeeper_stats = ["goal_scoring_conceded", "efficiency", "error_fouls","short_clearance", "long_clearance", "positioning", "aerial_defense"]
 
                 # Subconjunto de columnas
-                df_stat = filtered_df[
-                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue', 'contract',
-                    'position', selected_stat]
+                df_stat = filtered_df[['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue', 'contract','position', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 # Filtrado condicional según la estadística seleccionada
@@ -3594,10 +3166,7 @@ else:
 
                 # Tabla final (renombrar solo la columna de la métrica)
                 final_df = df_stat.rename(columns={selected_stat: 'Estadística'})
-                final_df = final_df[
-                    ['player_name', 'Estadística', 'Age', 'nationality', 'club_name',
-                    'position', 'marketValue', 'contract']
-                ]
+                final_df = final_df[['player_name', 'Estadística', 'Age', 'nationality', 'club_name','position', 'marketValue', 'contract']]
 
                 st.dataframe(final_df, use_container_width=True)
 
@@ -3685,14 +3254,7 @@ else:
                     valeur_min_possible = 0
                     valeur_max_possible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
-                    valeur_max = st.slider(
-                        "Valeur marchande maximum (€)",
-                        valeur_min_possible,
-                        valeur_max_possible,
-                        valeur_max_possible,
-                        step=100000,
-                        format="%d"
-                    )
+                    valeur_max = st.slider("Valeur marchande maximum (€)",valeur_min_possible,valeur_max_possible,valeur_max_possible,step=100000,format="%d")
 
                     st.markdown(f"Valeur maximum sélectionné : **{format_market_value(valeur_max)}**") # Affichage du choix de l'utilisateur
                     filtered_df = filtered_df[filtered_df["marketValue"] <= valeur_max]
@@ -3786,12 +3348,7 @@ else:
                     """)
 
                 # Appliquer des conditions minimales sur les métriques spécifiques
-                thresholds = {
-                    'Cmp%': ('Cmp', 50),
-                    'Tkl%': ('Tkl', 7),
-                    'Won%': ('Won', 6),
-                    'Succ%': ('Succ', 6)
-                }
+                thresholds = {'Cmp%': ('Cmp', 50),'Tkl%': ('Tkl', 7),'Won%': ('Won', 6),'Succ%': ('Succ', 6)}
 
                 if selected_stat in thresholds:
                     col, min_value = thresholds[selected_stat]
@@ -3802,15 +3359,11 @@ else:
                         st.markdown(f"<small><strong>Filtre : {col} > {min_value}</strong></small>", unsafe_allow_html=True)
 
                 # Liste de colonnes
-                df_stat = filtered_df[
-                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue','contract',
-                    'position', selected_stat]
+                df_stat = filtered_df[['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue','contract','position', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 # Traduction du pays du joueur dans la table
-                df_stat['nationality'] = df_stat['nationality'].apply(
-                    lambda x: translate_country(x, lang="fr")
-                )
+                df_stat['nationality'] = df_stat['nationality'].apply(lambda x: translate_country(x, lang="fr"))
                 df_stat['marketValue'] = df_stat['marketValue'].apply(format_market_value) # Utilisation du format de market_value
 
                 # Filtrage spécial si la statistique sélectionnée est reservée aux gardiens
@@ -3828,9 +3381,7 @@ else:
                 if selected_stat in ['Won%', 'Tkl%','Succ%']:
                     df_stat = df_stat[df_stat['position'] != 'Goalkeeper']
 
-                df_stat['position'] = df_stat['position'].apply(
-                    lambda x: translate_position(x, lang="fr")
-                )
+                df_stat['position'] = df_stat['position'].apply(lambda x: translate_position(x, lang="fr"))
                 top3 = df_stat.head(3).reset_index(drop=True) # Affichage du podium
 
                 podium_order = [0, 1, 2]
@@ -3872,9 +3423,7 @@ else:
 
                 # Choix des colonnes dans la table
                 final_df = df_stat.rename(columns={selected_stat: 'Statistique'})
-                final_df = final_df[[
-                    'player_name', 'Statistique', 'Age', 'nationality', 'club_name', 'position','marketValue', 'contract'
-                ]]
+                final_df = final_df[['player_name', 'Statistique', 'Age', 'nationality', 'club_name', 'position','marketValue', 'contract']]
 
                 st.dataframe(final_df, use_container_width=True)
 
@@ -3955,14 +3504,7 @@ else:
                     valeur_min_possible = 0
                     valeur_max_possible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
-                    valeur_max = st.slider(
-                        "Maximum market value (€)",
-                        valeur_min_possible,
-                        valeur_max_possible,
-                        valeur_max_possible,
-                        step=100000,
-                        format="%d"
-                    )
+                    valeur_max = st.slider("Maximum market value (€)",valeur_min_possible,valeur_max_possible,valeur_max_possible,step=100000,format="%d")
 
                     st.markdown(f"Maximum value selected: **{format_market_value(valeur_max)}**") # Display the choice of the user
                     filtered_df = filtered_df[filtered_df["marketValue"] <= valeur_max]
@@ -4072,10 +3614,7 @@ else:
                         st.markdown(f"<small><strong>Filter : {col} > {min_value}</strong></small>", unsafe_allow_html=True)
 
                 # Selecting columns
-                df_stat = filtered_df[
-                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name',
-                    'Comp', 'marketValue','contract',
-                    'position', selected_stat]
+                df_stat = filtered_df[['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue','contract','position', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 df_stat['marketValue'] = df_stat['marketValue'].apply(format_market_value) # Format market value
@@ -4137,9 +3676,7 @@ else:
 
                 # We display the table with the columns desired
                 final_df = df_stat.rename(columns={selected_stat: 'Statistic'})
-                final_df = final_df[[
-                    'player_name', 'Statistic', 'Age', 'nationality', 'club_name', 'marketValue', 'contract'
-                ]]
+                final_df = final_df[['player_name', 'Statistic', 'Age', 'nationality', 'club_name', 'marketValue', 'contract']]
 
                 st.dataframe(final_df, use_container_width=True)
         else:
@@ -4158,7 +3695,7 @@ else:
                 st.info("Despliega la barra lateral para seleccionar el idioma, la métrica y los filtros que quieras")
 
             if selected_stat:
-                # --- Filtros en la barra lateral ---
+                # Filtros en la barra lateral
                 with st.sidebar:
                     st.markdown("### 🎯 Filtros")
 
@@ -4222,14 +3759,7 @@ else:
                     valor_min_posible = 0
                     valor_max_posible = int(filtered_df["marketValue"].max()) if not filtered_df["marketValue"].isnull().all() else 10_000_000
 
-                    valor_max = st.slider(
-                        "Valor de mercado máximo (€)",
-                        valor_min_posible,
-                        valor_max_posible,
-                        valor_max_posible,
-                        step=100000,
-                        format="%d"
-                    )
+                    valor_max = st.slider("Valor de mercado máximo (€)",valor_min_posible,valor_max_posible,valor_max_posible,step=100000,format="%d")
 
                     st.markdown(f"Valor máximo seleccionado: **{format_market_value(valor_max)}**")
                     filtered_df = filtered_df[filtered_df["marketValue"] <= valor_max]
@@ -4323,12 +3853,7 @@ else:
                     """)
 
                 # Condiciones mínimas en métricas específicas
-                thresholds = {
-                    'Cmp%': ('Cmp', 50),
-                    'Tkl%': ('Tkl', 7),
-                    'Won%': ('Won', 6),
-                    'Succ%': ('Succ', 6)
-                }
+                thresholds = {'Cmp%': ('Cmp', 50),'Tkl%': ('Tkl', 7),'Won%': ('Won', 6),'Succ%': ('Succ', 6)}
 
                 if selected_stat in thresholds:
                     col, min_value = thresholds[selected_stat]
@@ -4337,10 +3862,7 @@ else:
                         st.markdown(f"<small><strong>Filtro: {col} > {min_value}</strong></small>", unsafe_allow_html=True)
 
                 # Subconjunto de columnas
-                df_stat = filtered_df[
-                    ['player_name', 'imageUrl', 'Age', 'nationality', 'club_name',
-                    'Comp', 'marketValue', 'contract',
-                    'position', selected_stat]
+                df_stat = filtered_df[['player_name', 'imageUrl', 'Age', 'nationality', 'club_name','Comp', 'marketValue', 'contract','position', selected_stat]
                 ].dropna(subset=[selected_stat])
 
                 # Traducciones visuales (ES)
@@ -4405,10 +3927,7 @@ else:
 
                 # Tabla final
                 final_df = df_stat.rename(columns={selected_stat: 'Estadística'})
-                final_df = final_df[
-                    ['player_name', 'Estadística', 'Age', 'nationality', 'club_name',
-                    'position', 'marketValue', 'contract']
-                ]
+                final_df = final_df[['player_name', 'Estadística', 'Age', 'nationality', 'club_name','position', 'marketValue', 'contract']]
 
                 st.dataframe(final_df, use_container_width=True)
 
@@ -4500,14 +4019,10 @@ else:
                 unsafe_allow_html=True
             )
 
-            # Et ici le vrai bouton fonctionnel
-            recherche = st.button("🔍 Rechercher")
+            recherche = st.button("🔍 Rechercher") # Bouton
 
             # On s'assure qu'un minimum d'informations a été renseigné
-            nb_filled = sum([
-                bool(pays_fr), bool(poste_fr), bool(contract_year), bool(championnat),
-                bool(club), len(selected_base_stats) > 0, len(selected_adv_stats) > 0
-            ])
+            nb_filled = sum([bool(pays_fr), bool(poste_fr), bool(contract_year), bool(championnat),bool(club), len(selected_base_stats) > 0, len(selected_adv_stats) > 0])
 
             if recherche:
                 if nb_filled < 1:
@@ -4531,12 +4046,7 @@ else:
                             df_filtered = df_filtered[df_filtered[stat].between(min_v, max_v)]
                     
                     # Filtrage avancé spécial : seuils minimaux pour certaines stats
-                    thresholds = {
-                        'Cmp%': ('Cmp', 50),
-                        'Tkl%': ('Tkl', 7),
-                        'Won%': ('Won', 6),
-                        'Succ%': ('Succ', 6)
-                    }
+                    thresholds = {'Cmp%': ('Cmp', 50),'Tkl%': ('Tkl', 7),'Won%': ('Won', 6),'Succ%': ('Succ', 6)}
 
                     for stat in selected_adv_stats:
                         if stat in thresholds:
@@ -4555,8 +4065,7 @@ else:
                         df_filtered = df_filtered[df_filtered["position"] != "Goalkeeper"]
 
                     all_stats = selected_base_stats + selected_adv_stats
-                    display_columns = ["player_name", "imageUrl", "Age", "nationality", "club_name",
-                                    "position", "marketValue", "contract", "rating"] + all_stats
+                    display_columns = ["player_name", "imageUrl", "Age", "nationality", "club_name","position", "marketValue", "contract", "rating"] + all_stats
 
                     df_stat = df_filtered.dropna(subset=["rating"]).sort_values("rating", ascending=False)
                     
@@ -4794,15 +4303,11 @@ else:
                 unsafe_allow_html=True
             )
 
-            # And here's the real functional button
-            search = st.button("🔍 Search")
+            search = st.button("🔍 Search") # Button
 
 
             # We want that 1 criterias to start the search
-            nb_filled = sum([
-                bool(country), bool(position), bool(contract_year), bool(leagues),
-                bool(club), len(selected_base_stats) > 0, len(selected_adv_stats) > 0
-            ])
+            nb_filled = sum([bool(country), bool(position), bool(contract_year), bool(leagues),bool(club), len(selected_base_stats) > 0, len(selected_adv_stats) > 0])
 
             if search:
                 if nb_filled < 1:
@@ -4826,12 +4331,7 @@ else:
                             df_filtered = df_filtered[df_filtered[stat].between(min_v, max_v)]
 
                     # Thresholds made to not over-reward a player which have a low number realised on a statistic but a high percentage
-                    thresholds = {
-                        'Cmp%': ('Cmp', 50),
-                        'Tkl%': ('Tkl', 7),
-                        'Won%': ('Won', 6),
-                        'Succ%': ('Succ', 6)
-                    }
+                    thresholds = {'Cmp%': ('Cmp', 50),'Tkl%': ('Tkl', 7),'Won%': ('Won', 6),'Succ%': ('Succ', 6)}
 
                     for stat in selected_adv_stats:
                         if stat in thresholds:
@@ -4846,9 +4346,7 @@ else:
                     if any(stat in ['Won%', 'Tkl%', 'Succ%'] for stat in selected_adv_stats):
                         df_filtered = df_filtered[df_filtered["position"] != "Goalkeeper"]
 
-                    goalkeeper_stats = [
-                        "goal_scoring_conceded", "efficiency", "error_fouls",
-                        "short_clearance", "long_clearance", "positioning", "aerial_defense"
+                    goalkeeper_stats = ["goal_scoring_conceded", "efficiency", "error_fouls","short_clearance", "long_clearance", "positioning", "aerial_defense"
                     ]
                     selected_goalkeeper_stats = [stat for stat in selected_base_stats if stat in [f"score_{s}" for s in goalkeeper_stats]]
                     
@@ -4858,8 +4356,7 @@ else:
                         df_filtered = df_filtered[df_filtered["position"] != "Goalkeeper"]
 
                     all_stats = selected_base_stats + selected_adv_stats
-                    display_columns = ["player_name", "imageUrl", "Age", "nationality", "club_name",
-                                    "position", "marketValue", "contract", "rating"] + all_stats # We choose the list of informations collected
+                    display_columns = ["player_name", "imageUrl", "Age", "nationality", "club_name","position", "marketValue", "contract", "rating"] + all_stats # We choose the list of informations collected
 
                     df_stat = df_filtered.dropna(subset=["rating"]).sort_values("rating", ascending=False)
                     df_stat = df_stat[display_columns].head(nb_players).reset_index(drop=True)
@@ -5102,14 +4599,10 @@ else:
                 unsafe_allow_html=True
             )
 
-            # Botón
-            recherche = st.button("🔍 Buscar")
+            recherche = st.button("🔍 Buscar") # Botón
 
             # Mínimo de información rellenada
-            nb_filled = sum([
-                bool(pais_es), bool(poste_es), bool(contract_year), bool(campeonato),
-                bool(club), len(selected_base_stats) > 0, len(selected_adv_stats) > 0
-            ])
+            nb_filled = sum([bool(pais_es), bool(poste_es), bool(contract_year), bool(campeonato),bool(club), len(selected_base_stats) > 0, len(selected_adv_stats) > 0])
 
             if recherche:
                 if nb_filled < 1:
@@ -5133,12 +4626,7 @@ else:
                             df_filtered = df_filtered[df_filtered[stat].between(min_v, max_v)]
 
                     # Filtro avanzado especial: umbrales mínimos para ciertas stats
-                    thresholds = {
-                        'Cmp%': ('Cmp', 50),
-                        'Tkl%': ('Tkl', 7),
-                        'Won%': ('Won', 6),
-                        'Succ%': ('Succ', 6)
-                    }
+                    thresholds = {'Cmp%': ('Cmp', 50),'Tkl%': ('Tkl', 7),'Won%': ('Won', 6),'Succ%': ('Succ', 6)}
                     for stat in selected_adv_stats:
                         if stat in thresholds:
                             col, min_value = thresholds[stat]
@@ -5155,8 +4643,7 @@ else:
                         df_filtered = df_filtered[df_filtered["position"] != "Goalkeeper"]
 
                     all_stats = selected_base_stats + selected_adv_stats
-                    display_columns = ["player_name", "imageUrl", "Age", "nationality", "club_name",
-                                    "position", "marketValue", "contract", "rating"] + all_stats
+                    display_columns = ["player_name", "imageUrl", "Age", "nationality", "club_name","position", "marketValue", "contract", "rating"] + all_stats
 
                     df_stat = df_filtered.dropna(subset=["rating"]).sort_values("rating", ascending=False)
 
