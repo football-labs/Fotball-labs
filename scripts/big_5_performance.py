@@ -432,23 +432,29 @@ def estimate_team_styles(team_row_or_series):
         return ratio, dist_sum, seen
 
     # Offensif / Offensive / Ofensivo
-    off_scores = {
-        "Direct Play": score_style(direct_rules),"Possession Play": score_style(possession_rules),"Counter-Attacking": score_style(counter_rules),
-    }
-    poss_ratio = off_scores["Possession Play"][0]
-    direct_ratio = off_scores["Direct Play"][0]
-    counter_ratio = off_scores["Counter-Attacking"][0]
-    # Mixed uniquement si Possession ET (Direct OU Counter) sont chacun >= 0.5 / Mixed only if Possession AND (Direct OR Counter) are each >= 0.5
-    # Mixed solo si Posesión Y (Directa O Contrarrestada) son ambas >= 0,5
-    if (poss_ratio >= 0.5) and ((direct_ratio >= 0.5) or (counter_ratio >= 0.5)):
+    direct = score_style(direct_rules)
+    counter = score_style(counter_rules)
+    possession = score_style(possession_rules)
+
+    # On cherche le score maximum obtenu entre le style en Jeu direct et Contre-attaque / We are looking for the highest score achieved between the Direct Play and Counterattack styles
+    # Se busca la puntuación máxima obtenida entre el estilo de juego directo y el contraataque
+    transition_label, transition = max([("Direct Play", direct), ("Counter-Attacking", counter)],key=lambda kv: (kv[1][0], kv[1][1]))
+    poss_ratio, poss_dist, poss_seen = possession
+    tran_ratio,  tran_dist,  tran_seen  = transition
+
+    # "Mixed" si les deux style de Possession et de Transition sont simultanément faibles (<0.5) ou forts (>=0.5)
+    # ‘Mixed’ if both Possession and Transition styles are simultaneously weak (<0.5) or strong (>=0.5)    
+    # «Mixto» si los dos estilos de posesión y transición son simultáneamente débiles (<0,5) o fuertes (>=0,5).
+    if (poss_seen > 0 and tran_seen > 0) and (
+        (poss_ratio < 0.5 and tran_ratio < 0.5) or (poss_ratio >= 0.5 and tran_ratio >= 0.5)
+    ):
         offensive_style = "Mixed"
     else:
-        # Sinon, choisir le meilleur par (ratio, dist) /Otherwise, choose the best by (ratio, dist) / Si no, elegir el mejor por (ratio, dist)
-        offensive_style = max(
-            off_scores.items(),
-            key=lambda kv: (kv[1][0], kv[1][1])
-        )[0]
-
+        # Sinon on choisit le style le plus élevé / Otherwise, we choose the highest style / Si no, se elige el estilo más elevado.
+        if (poss_ratio, poss_dist) >= (tran_ratio, tran_dist):
+            offensive_style = "Possession Play"
+        else:
+            offensive_style = transition_label
 
     # Défensif / Defensive / Defensivo
     hp = score_style(high_press_rules)
