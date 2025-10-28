@@ -394,15 +394,15 @@ def estimate_team_styles(team_row_or_series):
 
     # Règles / Rules / Reglas
     direct_rules = [
-        ("sequences__direct_attacks__total", ">", 1.5),("direct_attack_prop", ">", 60),("Long_Att__pass_prop", ">", 20),
+        ("sequences__direct_attacks__total", ">", 1.5),("direct_attack_prop", ">", 40),("Long_Att__pass_prop", ">", 20),
         ("sequences__sequence_time", "<", 8),("sequences__passes_per_seq", "<", 3),("sequences__ten_plus_passes", "<", 6),
     ]
     possession_rules = [
-        ("passing__avg_poss", ">", 55),("sequences__build_ups__total", ">", 2.5),("build_ups_prop", ">", 75),
+        ("passing__avg_poss", ">", 55),("sequences__build_ups__total", ">", 2.5),("build_ups_prop", ">", 60),
         ("sequences__sequence_time", ">", 11),("sequences__passes_per_seq", ">", 4.5),("sequences__ten_plus_passes", ">", 15),
     ]
     counter_rules = [
-        ("attacking_misc__fast_breaks__total", ">", 1.25),("fast_break_prop", ">", 60),("Long_Att__pass_prop", "<", 15),
+        ("attacking_misc__fast_breaks__total", ">", 1.25),("fast_break_prop", ">", 30),("Long_Att__pass_prop", "<", 15),
         ("sequences__sequence_time", "<", 8),("sequences__passes_per_seq", "<", 3),("sequences__ten_plus_passes", "<", 6),
     ]
     high_press_rules = [
