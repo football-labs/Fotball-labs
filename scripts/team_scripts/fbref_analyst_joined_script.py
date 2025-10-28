@@ -96,7 +96,7 @@ opta_merged["Long_Att__pass_prop"] = ((opta_merged["Long_Att__pass"] / den).wher
 opta_merged["Long_Att__pass_prop"] = (opta_merged["Long_Att__pass_prop"] * 100).round(2)
 
 # Dénominateur du total d'attaque / Denominator of total attack / Denominador del ataque total
-den_attack = (opta_merged["sequences__direct_attacks__total"] + opta_merged["sequences__build_ups__total"])
+den_attack = (opta_merged["sequences__direct_attacks__total"] + opta_merged["sequences__build_ups__total"] + opta_merged["attacking_misc__fast_breaks__total"])
 
 # Proportion d'attaque directe / Proportion of direct attack / Proporción de ataque directo
 opta_merged["direct_attack_prop"] = ((opta_merged["sequences__direct_attacks__total"] / den_attack).where(den_attack > 0, 0))
@@ -106,6 +106,9 @@ opta_merged["direct_attack_prop"] = (opta_merged["direct_attack_prop"] * 100).ro
 opta_merged["build_ups_prop"] = ((opta_merged["sequences__build_ups__total"] / den_attack).where(den_attack > 0, 0))
 opta_merged["build_ups_prop"] = (opta_merged["build_ups_prop"] * 100).round(2)
 
+# Proportion de contre-attaque / Proportion of fast break / Proporción de contraataques
+opta_merged["fast_break_prop"] = ((opta_merged["attacking_misc__fast_breaks__total"] / den_attack).where(den_attack > 0, 0))
+opta_merged["fast_break_prop"] = (opta_merged["fast_break_prop"] * 100).round(2)
 
 # On passe cette liste de statistiques brutes par 90 minutes / We run this list of raw statistics through 90 minutes / Pasamos esta lista de estadísticas brutas por 90 minutos
 minutes_col = "Playing_Time_Min__ptime"

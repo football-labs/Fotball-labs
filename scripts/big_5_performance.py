@@ -343,9 +343,9 @@ def find_similar_teams(selected_team_name, df, filter_type=None, top_n=5):
     stats_cols = [col for col in [
         "attacking_set_pieces__xg_pct","passing__avg_poss","passing__pass_direction__fwd","passing__pass_direction__left","passing__pass_direction__right",
         "passing__crosses__pct","pressing__pressed_seqs","pressing__ppda","pressing__start_distance_m","sequences__ten_plus_passes","sequences__direct_speed",
-        "sequences__passes_per_seq","sequences__sequence_time","sequences__build_ups__total","sequences__direct_attacks__total","misc.__fouled","misc.__fouls",
-        "defending_set_pieces__xg_pct","defending_defensive_actions__clearances","defending_defensive_actions__ground_duels_won","defending_defensive_actions__aerial_duels_won",
-        "defending_misc__offsides","Long_Att__pass_prop","direct_attack_prop","build_ups_prop",
+        "sequences__passes_per_seq","sequences__sequence_time","sequences__build_ups__total","sequences__direct_attacks__total", "attacking_misc__fast_breaks__total",
+        "misc.__fouled","misc.__fouls","defending_set_pieces__xg_pct","defending_defensive_actions__clearances","defending_defensive_actions__ground_duels_won",
+        "defending_defensive_actions__aerial_duels_won","defending_misc__offsides","Long_Att__pass_prop","direct_attack_prop","build_ups_prop","fast_break_prop"
     ] if col in df.columns]
 
     stats_df = candidates_df[stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
@@ -394,7 +394,7 @@ def estimate_team_styles(team_row_or_series):
 
     # Règles / Rules / Reglas
     direct_rules = [
-        ("sequences__direct_attacks__total", ">", 1.5),("direct_attack_prop", ">", 60),("Long_Att__pass_prop", ">", 18),
+        ("sequences__direct_attacks__total", ">", 1.5),("direct_attack_prop", ">", 60),("Long_Att__pass_prop", ">", 20),
         ("sequences__sequence_time", "<", 8),("sequences__passes_per_seq", "<", 3),("sequences__ten_plus_passes", "<", 6),
     ]
     possession_rules = [
@@ -402,7 +402,7 @@ def estimate_team_styles(team_row_or_series):
         ("sequences__sequence_time", ">", 11),("sequences__passes_per_seq", ">", 4.5),("sequences__ten_plus_passes", ">", 15),
     ]
     counter_rules = [
-        ("sequences__direct_attacks__total", ">", 1.5),("direct_attack_prop", ">", 60),("Long_Att__pass_prop", "<", 15),
+        ("attacking_misc__fast_breaks__total", ">", 1.25),("fast_break_prop", ">", 60),("Long_Att__pass_prop", "<", 15),
         ("sequences__sequence_time", "<", 8),("sequences__passes_per_seq", "<", 3),("sequences__ten_plus_passes", "<", 6),
     ]
     high_press_rules = [
