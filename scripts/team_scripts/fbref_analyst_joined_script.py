@@ -108,7 +108,7 @@ opta_merged["build_ups_prop"] = (opta_merged["build_ups_prop"] * 100).round(2)
 
 
 # On passe cette liste de statistiques brutes par 90 minutes / We run this list of raw statistics through 90 minutes / Pasamos esta lista de estadísticas brutas por 90 minutos
-minutes_col = "Playing_Time_MP__ptime"
+minutes_col = "Playing_Time_Min__ptime"
 per90_cols = ["CrsPA__pass","Progression_PrgP__std","Progression_PrgC__std","Carries_Carries__poss","Carries_1/3__poss","Take_Ons_Att__poss","Take_Ons_Succ__poss",
     "Performance_Saves__keeper","Aerial_Duels_Won__misc","Receiving_PrgR__poss","Total_Cmp__pass","Carries_Mis__poss","Carries_Dis__poss",]
 factor = 90.0 / opta_merged[minutes_col]
