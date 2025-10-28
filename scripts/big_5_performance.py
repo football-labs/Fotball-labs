@@ -394,16 +394,16 @@ def estimate_team_styles(team_row_or_series):
 
     # Règles / Rules / Reglas
     direct_rules = [
-        ("sequences__direct_attacks__total", ">", 1.5),("direct_attack_prop", ">", 40),("Long_Att__pass_prop", ">", 20),
+        ("sequences__direct_attacks__total", ">", 1.75),("direct_attack_prop", ">", 40),("Long_Att__pass_prop", ">", 20),
         ("sequences__sequence_time", "<", 8),("sequences__passes_per_seq", "<", 3),("sequences__ten_plus_passes", "<", 6),
     ]
     possession_rules = [
-        ("passing__avg_poss", ">", 55),("sequences__build_ups__total", ">", 2.5),("build_ups_prop", ">", 60),
+        ("passing__avg_poss", ">", 55),("sequences__build_ups__total", ">", 3),("build_ups_prop", ">", 60),
         ("sequences__sequence_time", ">", 11),("sequences__passes_per_seq", ">", 4.5),("sequences__ten_plus_passes", ">", 15),
     ]
     counter_rules = [
-        ("attacking_misc__fast_breaks__total", ">", 1.25),("fast_break_prop", ">", 30),("Long_Att__pass_prop", "<", 15),
-        ("sequences__sequence_time", "<", 8),("sequences__passes_per_seq", "<", 3),("sequences__ten_plus_passes", "<", 6),
+        ("attacking_misc__fast_breaks__total", ">", 1.25),("fast_break_prop", ">", 25), ("sequences__sequence_time", "<", 8),
+        ("sequences__passes_per_seq", "<", 3),("sequences__ten_plus_passes", "<", 6),
     ]
     high_press_rules = [
         ("pressing__pressed_seqs", ">", 12.5),("pressing__ppda", "<", 10),("pressing__start_distance_m", ">", 45),
@@ -442,11 +442,11 @@ def estimate_team_styles(team_row_or_series):
     poss_ratio, poss_dist, poss_seen = possession
     tran_ratio,  tran_dist,  tran_seen  = transition
 
-    # "Mixed" si les deux style de Possession et de Transition sont simultanément faibles (<0.5) ou forts (>=0.5)
-    # ‘Mixed’ if both Possession and Transition styles are simultaneously weak (<0.5) or strong (>=0.5)    
-    # «Mixto» si los dos estilos de posesión y transición son simultáneamente débiles (<0,5) o fuertes (>=0,5).
+    # "Mixed" si les deux style de Possession et de Transition sont simultanément faibles ou forts
+    # ‘Mixed’ if both Possession and Transition styles are simultaneously weak or strong
+    # «Mixto» si los dos estilos de posesión y transición son simultáneamente débiles o fuertes
     if (poss_seen > 0 and tran_seen > 0) and (
-        (poss_ratio < 0.5 and tran_ratio < 0.5) or (poss_ratio >= 0.5 and tran_ratio >= 0.5)
+        (poss_ratio < 0.33 and tran_ratio < 0.33) or (poss_ratio >= 0.66 and tran_ratio >= 0.66)
     ):
         offensive_style = "Mixed"
     else:
