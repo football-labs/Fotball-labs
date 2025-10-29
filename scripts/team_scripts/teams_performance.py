@@ -21,6 +21,9 @@ data_team_dir = script_dir.parent.parent / "data" / "team"
 # Chemins des fichiers / path of this files / La ruta de acceso a este archivos
 team_path = data_team_dir / "fbref_analyst_joined.csv"
 
+# Chemins de sortie / Exit paths / Salidas
+out_db = data_team_dir / "database_team.csv"
+
 # Récupération des données / Data recovery / Recuperación de datos
 team_data = pd.read_csv(team_path)
 
@@ -204,4 +207,4 @@ other_cols = [c for c in df.columns if c not in exist_ordered]
 df = df[exist_ordered + other_cols]
 
 # Sauvegarde du dataframe final / Save final DataFrame / Guardar el marco de datos final
-df.to_csv("../../data/team/database_team.csv", index=False)
+df.to_csv(out_db, index=False)
