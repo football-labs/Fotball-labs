@@ -613,6 +613,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
             # Charger les données
             df = pd.read_csv('../data/team/fbref_analyst_joined.csv')
             info_player = pd.read_csv('../data/player/database_player.csv')
+            info_team = pd.read_csv('../data/team/database_team.csv')
 
             championship_names = [''] + sorted(df['championship_name'].dropna().unique().tolist()) # Extraire la liste des championnats
 
@@ -631,8 +632,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 st.info("Dérouler la barre latérale pour choisir la langue et le championnat à analyser")
             else:
                 team_data = df[df['team_code'] == selected_team].iloc[0] # Filtrer le DataFrame pour l'équipe sélectionnée
+                team_score = info_team[info_team['team_code'] == selected_team].iloc[0] # Filtrer le DataFrame pour l'équipe sélectionnée
                 pays = translate_country(team_data['country'], lang="fr") # On traduit le nom du pays
-
+                
                 # On indique le noms des colonnes utilisées
                 df_team_col = "team_code"     # dans df
                 club_col = "club_name"     # dans info_player
@@ -678,7 +680,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                     <p><strong>Saison :</strong> {team_data['season_name']}</p>
                     <p><strong>Ligue :</strong> {team_data['championship_name']}</p>
                     <p><strong>Pays :</strong> {pays}</p>
-                    <p><strong>Power Ranking :</strong> 30ème (F)</p>
+                    <p><strong>Power Ranking :</strong> {team_score['rank_big5']}</p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
