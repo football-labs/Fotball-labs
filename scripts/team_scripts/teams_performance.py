@@ -90,7 +90,7 @@ categories = {
         (0.05, "defending_defensive_actions__blocks"),(0.05, "defending_defensive_actions__clearances")],
     "set_pieces_def": [(0.40, "defending_set_pieces__xg"),(0.30, "defending_set_pieces__goals"),(0.10, "defending_set_pieces__shots"),
         (0.10, "defending_misc__free_kicks__total"),(0.10, "defending_misc__free_kicks__goals")],
-    "efficacity_goalkeeper": [(0.60, "defending_overall__goals_vs_xg"),(0.15, "Performance_Save%__keeper"),
+    "efficiency_goalkeeper": [(0.60, "defending_overall__goals_vs_xg"),(0.15, "Performance_Save%__keeper"),
         (0.15, "defending_overall__conv_pct"),(0.10, "Per_90_min_Performance_Saves__keeper")],
     "pressing": [(0.40, "pressing__ppda"),(0.30, "pressing__pressed_seqs"),(0.15, "pressing__start_distance_m"),
         (0.05, "pressing__high_turnovers__shot_ending"),(0.05, "pressing__high_turnovers__goal_ending"),
@@ -105,7 +105,7 @@ categories = {
     ## OTHER
     "rank_league": [(0.50, "rank_league"),(0.40, "Team_Success_PPM__ptime"),(0.10, "Team_Success_+/_90__ptime")],
     "ground_duel": [(1.00, "defending_defensive_actions__ground_duels_won")],
-    "aerial_duel": [(0.70, "defending_defensive_actions__aerial_duels_won"),(0.30, "Per_90_min_Aerial_Duels_Won__misc")],
+    "aerial": [(0.70, "defending_defensive_actions__aerial_duels_won"),(0.30, "Per_90_min_Aerial_Duels_Won__misc")],
     "provoked_fouls": [(0.50, "misc.__fouled"),(0.20, "misc.__opp_yellows"),(0.15, "misc.__pens_won"),(0.10, "misc.__opp_reds"),
         (0.05, "defending_misc__offsides")],
     "faults_committed": [(0.50, "misc.__fouls"),(0.20, "misc.__yellows"),(0.15, "misc.__pens_conceded"),(0.10, "misc.__reds"),
@@ -147,14 +147,14 @@ stats_weights = {
     "crosses": 0.03, "dribble": 0.03,
 
     ## OFF-BALL
-    "goal_scoring_conceded": 0.10, "defensive_actions": 0.03, "set_pieces_def": 0.03, "efficacity_goalkeeper": 0.05,
+    "goal_scoring_conceded": 0.10, "defensive_actions": 0.03, "set_pieces_def": 0.03, "efficiency_goalkeeper": 0.05,
     "pressing": 0.10,
 
     ## STYLE OF PLAY
     "possession": 0.03, "direct_play": 0.03, "counter-attacking": 0.03,
 
     ## OTHER
-    "rank_league": 0.15, "ground_duel": 0.03, "aerial_duel": 0.03, "provoked_fouls": 0.02, "faults_committed": 0.02,
+    "rank_league": 0.15, "ground_duel": 0.03, "aerial": 0.03, "provoked_fouls": 0.02, "faults_committed": 0.02,
     "waste": 0.02, "subs": 0.01,
 }
 
@@ -197,9 +197,9 @@ df = df.drop(columns=cols_to_drop)
 # Liste des colonnes dans l’ordre désiré / List of column in the desired order / Lista de columnas en el orden deseado
 ordered_score_cols = ["id_season", "team_id", "season_name", "country", "championship_name", "team_code", "team_logo", "rank_big5",
     "rating","score_goal_scoring_created", "score_finish", "score_set_pieces_off", "score_building", "score_projection","score_crosses",
-    "score_dribble", "score_goal_scoring_conceded", "score_defensive_actions","score_set_pieces_def", "score_efficacity_goalkeeper",
+    "score_dribble", "score_goal_scoring_conceded", "score_defensive_actions","score_set_pieces_def", "score_efficiency_goalkeeper",
     "score_pressing", "score_possession", "score_direct_play","score_counter-attacking", "score_rank_league", "score_ground_duel",
-    "score_aerial_duel", "score_provoked_fouls","score_faults_committed", "score_waste", "score_subs",]
+    "score_aerial", "score_provoked_fouls","score_faults_committed", "score_waste", "score_subs",]
 
 # Conserver l'ordre souhaité puis le reste / Keep desired order then others / Mantener orden deseado y el resto
 exist_ordered = [c for c in ordered_score_cols if c in df.columns]

@@ -98,18 +98,28 @@ country_translation = {
 
 base_stat_translation = {
     "fr": {
+        # Joueurs
         "goal_scoring_created": "Création de buts","goal_scoring_conceded": "Occasions concédées","efficiency": "Efficacité","error_fouls": "Erreurs et fautes",
         "short_clearance": "Relance courte","long_clearance": "Relance longue","positioning": "Positionnement","aerial_defense": "Jeu aérien défensif",
         "finish": "Finition","building": "Construction du jeu","creation": "Création d'occasions","dribble": "Dribbles","projection": "Projection",
         "defensive_actions": "Actions défensives","waste": "Pertes de balle","faults_committed": "Fautes commises","provoked_fouls": "Fautes provoquées",
         "aerial": "Jeu aérien",
+        # Équipes
+        "set_pieces_off": "CPA offensifs","crosses": "Centres","set_pieces_def": "CPA défensifs",
+        "efficiency_goalkeeper": "Efficacité du gardien","pressing": "Pressing","Jeu en possession": "Jeu de possession","direct_play": "Jeu direct",
+        "counter-attacking": "Jeu en contre-attaque","rank_league": "Performance en championnat","ground_duel": "Duels au sol","subs": "Remplacements",
     },
     "es": {
+        # Jugadores
         "goal_scoring_created": "Creación de goles","goal_scoring_conceded": "Ocasiones concedidas","efficiency": "Eficiencia","error_fouls": "Errores y faltas",
         "short_clearance": "Salida en corto","long_clearance": "Salida en largo","positioning": "Posicionamiento","aerial_defense": "Juego aéreo defensivo",
         "finish": "Finalización","building": "Construcción del juego","creation": "Creación de ocasiones","dribble": "Regates","projection": "Proyección",
         "defensive_actions": "Acciones defensivas","waste": "Pérdidas de balón","faults_committed": "Faltas cometidas","provoked_fouls": "Faltas provocadas",
         "aerial": "Juego aéreo",
+        # Equipos
+        "set_pieces_off": "Balones parados ofensivos","crosses": "Centros","set_pieces_def": "Balones parados defensivos","efficiency_goalkeeper": "Eficiencia del portero",
+        "pressing": "Presión","Jeu en possession": "Juego de posesión","direct_play": "Juego directo","counter-attacking": "Juego de contraataque",
+        "rank_league": "Rendimiento en el campeonato","ground_duel": "Duelos en el suelo","subs": "Sustituciones",
     },
 }
 
@@ -195,7 +205,7 @@ position_category = {
 }
 
 # Statistiques par catégorie pour le radar / Statistics by categorie for the radar plot / Estadísticas por categoría para el radar plot
-category_stats = {
+category_stats_player = {
     "Gardiens de but": ["GA_per90", "PSxG_per90", "/90", "Save%", "PSxG+/-", "Err_per90","Launch%", "AvgLen", "Cmp%", "AvgDist", "#OPA_per90", "Stp%"],
     "Défenseurs centraux": ["G-PK_per90", "PrgP_per90","Cmp%","xAG_per90","PrgC_per90","Err_per90","Tkl%","Int_per90","Tkl_per90","CrdY_per90","Won_per90","Won%" ],
     "Défenseurs latéraux": ["G-PK_per90", "PrgP_per90", "Cmp%", "xAG_per90", "Succ_per90", "PrgC_per90", "Err_per90", "Tkl%", "Int_per90", "Tkl_per90", "CrdY_per90", "Won%"],
@@ -213,7 +223,7 @@ def format_stat_name(stat):
     return stat.capitalize() if stat == "rating" else stat
 
 # Fonction pour effectuer un radar plot avec les données / Radar plot function with data / Función para realizar un radar plot con los datos
-def plot_pizza_radar(labels, player_values, median_values, title="Radar",legend_labels=("Joueur", "Médiane")):
+def plot_pizza_radar(labels, data_values, median_values, title="Radar",legend_labels=("Player/Team", "Médiane")):
     # Paramètres de la pizza plot / Parameters of the pizza plot
     pizza = PyPizza(
         params=labels,background_color="#EFF0D1",straight_line_color="#000000",straight_line_lw=1,last_circle_lw=1,
@@ -222,7 +232,7 @@ def plot_pizza_radar(labels, player_values, median_values, title="Radar",legend_
     
     # Mise des couleurs et valeurs sur la pizza plot / Dislay colors and values on the pizza plot / Colores y valores en la pizza plot
     fig, ax = pizza.make_pizza(
-        values=[round(v) for v in player_values], 
+        values=[round(v) for v in data_values], 
         compare_values=[round(v) for v in median_values],
         figsize=(8, 8),
         kwargs_slices=dict(
@@ -246,7 +256,7 @@ def plot_pizza_radar(labels, player_values, median_values, title="Radar",legend_
 
     # Ajustement si valeurs proches / Adjustment if values are close / Ajuste si los valores son cercanos
     threshold = 10
-    params_offset = [abs(p - m) < threshold for p, m in zip(player_values, median_values)]
+    params_offset = [abs(p - m) < threshold for p, m in zip(data_values, median_values)]
     pizza.adjust_texts(params_offset, offset=-0.17, adj_comp_values=True)
 
     # Titre du radar / Radar title / Título del radar
@@ -766,31 +776,78 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
                 # Filtre
                 st.markdown("<p style='text-align:center; margin-bottom:0'>En comparaison avec :</p>", unsafe_allow_html=True)
-
                 c1, c2, c3 = st.columns([1.6, 2, 1])
-
                 with c2:
-                    comparison_filter = st.radio(label="En comparaison avec",options=["Big 5", "Championnat"],
-                    index=0,horizontal=True,label_visibility="collapsed",key="comparison_filter_radio")
+                    comparison_filter = st.radio(label="En comparaison avec",options=["Big 5", "Championnat"],index=0,
+                        horizontal=True,label_visibility="collapsed",key="comparison_filter_radio")
 
                 filter_arg = {"Big 5": None, "Championnat": "championnat"}[comparison_filter]
 
-                # Groupe filtré selon le filtre sélectionné
+                # Groupe filtré selon le filtre sélectionné 
                 if filter_arg is None:
-                    group_df = df  # Pas de filtre
+                    group_df = info_team  # Pas de filtre
                 else:  # "championnat"
-                    group_df = df[df['championship_name'] == team_data['championship_name']]
+                    group_df = info_team[info_team['championship_name'] == team_data['championship_name']]
 
-                similar_df = find_similar_teams(selected_team, df, filter_type=filter_arg)
+                # Colonnes par catégorie
+                pizza_cols_off = ["score_goal_scoring_created", "score_finish", "score_set_pieces_off","score_building", "score_projection", "score_crosses", "score_dribble"]
+                pizza_cols_def = ["score_goal_scoring_conceded", "score_defensive_actions","score_set_pieces_def", "score_efficiency_goalkeeper", "score_pressing"]
+                pizza_cols_style_of_play = ["score_possession", "score_direct_play", "score_counter-attacking"]
+                pizza_cols_other = ["score_rank_league", "score_ground_duel", "score_aerial","score_provoked_fouls", "score_faults_committed", "score_waste", "score_subs"]
 
-                # Affichage du titre et du tableau
+                # On s'assure que st.pyplot reçoit bien une Figure
+                def _fig_only(ret):
+                    if isinstance(ret, tuple):
+                        return ret[0]
+                    return ret
+
+                # On construit le radar
+                def build_radar(cols, title):
+                    use_cols = [c for c in cols if (c in team_score.index) and (c in group_df.columns)]
+                    if not use_cols:
+                        return None
+                    labels = [translate_base_stat(c.replace("score_", ""), lang="fr") for c in use_cols]
+                    team_vals = [team_score[c] for c in use_cols]
+                    group_meds = group_df[use_cols].median(numeric_only=True).tolist()
+
+                    team_scaled = [0 if pd.isna(v) else v for v in team_vals]
+                    median_scaled = [0 if pd.isna(v) else round(v) for v in group_meds]
+
+                    fig = plot_pizza_radar(labels=labels,data_values=team_scaled,median_values=median_scaled,
+                        title=f"{title} de {team_score['team_code']} vs Médiane",legend_labels=(team_score["team_code"], "Médiane"))
+                    return _fig_only(fig)
+
+                # Construit les 4 radars
+                fig_pizza_stat_off    = build_radar(pizza_cols_off, "Statistiques offensives")
+                fig_pizza_stat_def    = build_radar(pizza_cols_def, "Statistiques défensives")
+                fig_pizza_stat_style  = build_radar(pizza_cols_style_of_play, "Style de jeu")
+                fig_pizza_stat_others = build_radar(pizza_cols_other, "Autres statistiques")
+
+                # Affichage 2 x 2
+                col1, col2 = st.columns(2)
+                with col1:
+                    if fig_pizza_stat_off is not None:
+                        st.pyplot(fig_pizza_stat_off)
+                with col2:
+                    if fig_pizza_stat_def is not None:
+                        st.pyplot(fig_pizza_stat_def)
+
+                col3, col4 = st.columns(2)
+                with col3:
+                    if fig_pizza_stat_style is not None:
+                        st.pyplot(fig_pizza_stat_style)
+                with col4:
+                    if fig_pizza_stat_others is not None:
+                        st.pyplot(fig_pizza_stat_others)
+
+                # Construction du tableau des Équipes similaires
+                similar_df = find_similar_teams(selected_team, info_team, filter_type=filter_arg)
                 if not similar_df.empty:
-                    st.markdown(f"<h4 style='text-align:center;'>Équipes similaires à {team_data['team_code']}</h4>",unsafe_allow_html=True) # Titre centré
-
-                    # DataFrame centré
-                    d1, d2, d3 = st.columns([0.1, 0.8, 0.1])  # ajuste les ratios si besoin
+                    st.markdown(f"<h4 style='text-align:center;'>Équipes similaires à {team_data['team_code']}</h4>", unsafe_allow_html=True)
+                    d1, d2, d3 = st.columns([0.1, 0.8, 0.1])
                     with d2:
                         st.dataframe(similar_df, use_container_width=True)
+
         else:
             st.info("Autre langues")
 
@@ -1125,8 +1182,8 @@ else:
                             - **Dis_per90** : Ballons perdus par 90 minutes  
                             """)
 
-                if poste_cat and poste_cat in category_stats:
-                    stats_cols = [col for col in category_stats[poste_cat] if col in df.columns]
+                if poste_cat and poste_cat in category_stats_player:
+                    stats_cols = [col for col in category_stats_player[poste_cat] if col in df.columns]
                     player_rating = player_data.get("rating", None)
 
                     # Groupe filtré selon le filtre sélectionné par l'utilisateur
@@ -1197,7 +1254,7 @@ else:
 
                         # Construction de la pizza plot (joueur-médiane à son poste) pour les statistiques avancées
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,player_values=player_norm * 100,median_values=group_median * 100,
+                            labels=stats_cols,data_values=player_norm * 100,median_values=group_median * 100,
                             title=f"Statistiques avancées de {player_data['player_name']} de vs Médiane à son poste",
                             legend_labels=(player_data['player_name'], "Médiane poste")
                         )
@@ -1231,7 +1288,7 @@ else:
 
                                 # Construction de la pizza plot (joueur-médiane) pour les statistiques de base
                                 fig_pizza_stat_basis = plot_pizza_radar(
-                                    labels=pizza_labels,player_values=player_scaled,median_values=median_scaled,
+                                    labels=pizza_labels,data_values=player_scaled,median_values=median_scaled,
                                     title=f"Statistiques de base de {player_data['player_name']} vs Médiane à son poste",
                                     legend_labels=(player_data['player_name'], "Médiane poste")
                                 )
@@ -1434,8 +1491,8 @@ else:
                             - **Dis_per90**: Dispossessions per 90 minutes 
                             """)
 
-                if poste_cat and poste_cat in category_stats:
-                    stats_cols = [col for col in category_stats[poste_cat] if col in df.columns]
+                if poste_cat and poste_cat in category_stats_player:
+                    stats_cols = [col for col in category_stats_player[poste_cat] if col in df.columns]
                     player_rating = player_data.get("rating", None)
 
                     # Group filtered according to the selected filter by the user
@@ -1503,7 +1560,7 @@ else:
                         
                         # Bulding the pizza plot (player-median) for the advanced statistics
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,player_values=player_norm * 100,median_values=group_median * 100,
+                            labels=stats_cols,data_values=player_norm * 100,median_values=group_median * 100,
                             title=f"Advanced statistics of {player_data['player_name']} vs. median at the same position",
                             legend_labels=(player_data['player_name'], "Median position")
                         )
@@ -1534,7 +1591,7 @@ else:
 
                                 # Bulding the pizza plot (player-median) for the basic statistics
                                 fig_pizza_stat_basis = plot_pizza_radar(
-                                    labels=pizza_labels,player_values=player_scaled,median_values=median_scaled,
+                                    labels=pizza_labels,data_values=player_scaled,median_values=median_scaled,
                                     title=f"Basic statistics of {player_data['player_name']} vs. median at the same position",
                                     legend_labels=(player_data['player_name'], "Median position")
                                 )
@@ -1564,7 +1621,7 @@ else:
                                 median_scaled = [round(v) for v in group_median]
 
                                 fig_pizza_stat_basis = plot_pizza_radar(
-                                    labels=pizza_labels,player_values=player_scaled,median_values=median_scaled,
+                                    labels=pizza_labels,data_values=player_scaled,median_values=median_scaled,
                                     title="Basic statistics vs. median at the same position",
                                     legend_labels=(player_data['player_name'], "Median position")
                                 )
@@ -1770,8 +1827,8 @@ else:
                             - **Dis_per90**: Balones perdidos por 90 minutos  
                             """)
 
-                if poste_cat and poste_cat in category_stats:
-                    stats_cols = [col for col in category_stats[poste_cat] if col in df.columns]
+                if poste_cat and poste_cat in category_stats_player:
+                    stats_cols = [col for col in category_stats_player[poste_cat] if col in df.columns]
                     player_rating = player_data.get("rating", None)
 
                     # Grupo filtrado según el filtro seleccionado
@@ -1841,7 +1898,7 @@ else:
 
                         # Radar (avanzadas)
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,player_values=player_norm * 100,median_values=group_median * 100,
+                            labels=stats_cols,data_values=player_norm * 100,median_values=group_median * 100,
                             title=f"Estadísticas avanzadas de {player_data['player_name']} vs Mediana del puesto",
                             legend_labels=(player_data['player_name'], "Mediana del puesto")
                         )
@@ -1871,7 +1928,7 @@ else:
 
                                 # Radar (básicas)
                                 fig_pizza_stat_basis = plot_pizza_radar(
-                                    labels=pizza_labels,player_values=player_scaled,median_values=median_scaled,
+                                    labels=pizza_labels,data_values=player_scaled,median_values=median_scaled,
                                     title=f"Estadísticas básicas de {player_data['player_name']} vs Mediana del puesto",
                                     legend_labels=(player_data['player_name'], "Mediana del puesto")
                                 )
@@ -2084,8 +2141,8 @@ else:
                                 """)
 
                     # Génération du radar
-                    if poste_cat and poste_cat in category_stats:
-                        stats_cols = [col for col in category_stats[poste_cat] if col in df.columns]  # On récupère la catégories de stats selon le poste
+                    if poste_cat and poste_cat in category_stats_player:
+                        stats_cols = [col for col in category_stats_player[poste_cat] if col in df.columns]  # On récupère la catégories de stats selon le poste
 
                         # Filtrer les statistiques des joueurs selon la catégorie de poste
                         if 'poste_cat' not in df.columns:
@@ -2128,7 +2185,7 @@ else:
                         
                         # Création de la la pizza plot des statistiques avancées
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,player_values=player1_norm * 100,median_values=player2_norm * 100,
+                            labels=stats_cols,data_values=player1_norm * 100,median_values=player2_norm * 100,
                             title=f"Statistiques avancées de {player1} vs {player2}",legend_labels=(player1, player2)
                         )
 
@@ -2156,7 +2213,7 @@ else:
 
                             # Création du radar comparatif (pizza plot) pour les statistiques de base
                             fig_pizza_stat_basis = plot_pizza_radar(
-                                labels=pizza_labels,player_values=player1_scaled,median_values=player2_scaled,
+                                labels=pizza_labels,data_values=player1_scaled,median_values=player2_scaled,
                                 title=f"Statistiques de base de {player1} vs {player2}",legend_labels=(player1, player2)
                             )
 
@@ -2354,8 +2411,8 @@ else:
                                 """)
 
                     # Radar generation
-                    if poste_cat and poste_cat in category_stats:
-                        stats_cols = [col for col in category_stats[poste_cat] if col in df.columns]  # We retrieve the stat categories according to position.
+                    if poste_cat and poste_cat in category_stats_player:
+                        stats_cols = [col for col in category_stats_player[poste_cat] if col in df.columns]  # We retrieve the stat categories according to position.
 
                         # Filter player statistics by position category
                         if 'poste_cat' not in df.columns:
@@ -2397,7 +2454,7 @@ else:
                         
                         # Creating the advanced statistics pizza plot
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,player_values=player1_norm * 100,median_values=player2_norm * 100,
+                            labels=stats_cols,data_values=player1_norm * 100,median_values=player2_norm * 100,
                             title=f"Advanced statistics of {player1} vs {player2}",legend_labels=(player1, player2)
                         )
 
@@ -2425,7 +2482,7 @@ else:
 
                             # Creation of comparative radar (pizza plot) for the basic statistics
                             fig_pizza_stat_basis = plot_pizza_radar(
-                                labels=pizza_labels,player_values=player1_scaled,median_values=player2_scaled,
+                                labels=pizza_labels,data_values=player1_scaled,median_values=player2_scaled,
                                 title=f"Basic statistics of {player1} vs {player2}",legend_labels=(player1, player2)
                             )
 
@@ -2623,8 +2680,8 @@ else:
                                 """)
 
                     # Radar comparativo
-                    if poste_cat and poste_cat in category_stats:
-                        stats_cols = [col for col in category_stats[poste_cat] if col in df.columns]
+                    if poste_cat and poste_cat in category_stats_player:
+                        stats_cols = [col for col in category_stats_player[poste_cat] if col in df.columns]
 
                         # Añadir columna poste_cat si no existe
                         if 'poste_cat' not in df.columns:
@@ -2665,7 +2722,7 @@ else:
 
                         # Radar de estadísticas avanzadas
                         fig_pizza_stat_adv = plot_pizza_radar(
-                            labels=stats_cols,player_values=player1_norm * 100,median_values=player2_norm * 100,
+                            labels=stats_cols,data_values=player1_norm * 100,median_values=player2_norm * 100,
                             title=f"Estadísticas avanzadas de {player1} vs {player2}",legend_labels=(player1, {player2})
                         )
 
@@ -2691,7 +2748,7 @@ else:
 
                             # Radar de estadísticas básicas
                             fig_pizza_stat_basis = plot_pizza_radar(
-                                labels=pizza_labels,player_values=player1_scaled,median_values=player2_scaled,
+                                labels=pizza_labels,data_values=player1_scaled,median_values=player2_scaled,
                                 title=f"Estadísticas básicas de {player1} vs {player2}",legend_labels=(player1, player2)
                             )
 
@@ -3183,7 +3240,7 @@ else:
             st.markdown("<h4 style='text-align: center;'>🏆 Classement des joueurs pour les statistiques brutes</h4>", unsafe_allow_html=True) # Affichage du titre de la page
             df = pd.read_csv("../data/player/database_player.csv") # Récupération des données
 
-            all_stats = sorted(set(stat for stats in category_stats.values() for stat in stats if stat in df.columns)) # Liste des statistiques disponibles
+            all_stats = sorted(set(stat for stats in category_stats_player.values() for stat in stats if stat in df.columns)) # Liste des statistiques disponibles
 
             selected_stat = st.sidebar.selectbox("Choisissez une statistique :", [""] + all_stats) # Choix de la statistique dans la sidebar
             
@@ -3439,7 +3496,7 @@ else:
             
             df = pd.read_csv("../data/player/database_player.csv") # Recovering data
 
-            all_stats = sorted(set(stat for stats in category_stats.values() for stat in stats if stat in df.columns)) # List of available statistics
+            all_stats = sorted(set(stat for stats in category_stats_player.values() for stat in stats if stat in df.columns)) # List of available statistics
 
             selected_stat = st.sidebar.selectbox("Choose a metric :", [""] + all_stats) # Choice of statistics in the sidebar
             
@@ -3692,7 +3749,7 @@ else:
             df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
 
             # Lista de estadísticas disponibles
-            all_stats = sorted(set(stat for stats in category_stats.values() for stat in stats if stat in df.columns))
+            all_stats = sorted(set(stat for stats in category_stats_player.values() for stat in stats if stat in df.columns))
 
             # Selección de la estadística en la barra lateral
             selected_stat = st.sidebar.selectbox("Elige una estadística:", [""] + all_stats)
