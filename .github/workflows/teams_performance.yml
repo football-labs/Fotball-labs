@@ -1,0 +1,40 @@
+name: Update Rating Teams
+
+on:
+  schedule:
+    # Every Wednesday at 07:00 UTC
+    - cron: '0 9 * * 3'
+  workflow_dispatch:
+
+jobs:
+  scrape_and_commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Configure Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || echo "⚠️ Error in requirements.txt"
+
+      - name: Run the script
+        run: python scripts/team_scripts/teams_performance.py
+
+      - name: Commit and Push the generated CSV file
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: Update teams_performance.csv"
+          branch: main
+          file_pattern: ./data/team/database_team.csv
+          commit_user_name: GitHub Actions Bot
+          commit_user_email: actions@github.com
+          commit_author: GitHub Actions Bot <actions@github.com>
