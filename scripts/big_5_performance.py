@@ -289,10 +289,8 @@ def find_similar_players(selected_player_name, df, filter_type=None, top_n=5):
     stats_cols = df.columns[14:]
     stats_df = candidates_df[stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
 
-    # Ajouter le joueur sélectionné au début pour calculer les similarités
-    # Add the player selected at the beginning to calculate similarities
+    # Ajouter le joueur sélectionné au début pour calculer les similarités / Add the player selected at the beginning to calculate similarities
     # Añadir el jugador seleccionado al principio para calcular las similitudes
-
     selected_stats = df[df['player_name'] == selected_player_name][stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
     full_stats = pd.concat([selected_stats, stats_df], ignore_index=True)
 
@@ -325,17 +323,26 @@ def find_similar_players(selected_player_name, df, filter_type=None, top_n=5):
     
     candidates_df['marketValue'] = candidates_df['marketValue'].apply(format_market_value) # Formater la colonne de valeur marchande / Formatting market value column / Formatar la columna de valor de mercado
 
-    # Colonnes à afficher / Columns to display / Columnas a mostrar
-    final_cols = [
-        'player_name', 'percentage_similarity', 'Age', 'nationality',  'club_name', 'marketValue', 'contract'
-    ]
+    final_cols = ['player_name', 'percentage_similarity', 'Age', 'nationality',  'club_name', 'marketValue', 'contract'] # Colonnes à afficher / Columns to display / Columnas a mostrar
+
     # Traduction du pays du joueur / Translation of the player's country / Traducción del país del jugador
     if lang == "Français":
         candidates_df['nationality'] = candidates_df['nationality'].apply(lambda x: translate_country(x, lang="fr"))
     elif lang == "Español":
         candidates_df['nationality'] = candidates_df['nationality'].apply(lambda x: translate_country(x, lang="es"))
 
-    return candidates_df[final_cols].head(top_n)
+    # Renommage des colonnes selon la langue / Renaming columns according to language / Renombrar las columnas según el idioma
+    col_labels = {
+        "Français": {"player_name": "Joueur","percentage_similarity": "Similarité (%)","Age": "Âge","nationality": "Nationalité","club_name": "Club","marketValue": "Valeur marchande",
+            "contract": "Contrat"},
+        "Español": {"player_name": "Jugador","percentage_similarity": "Similitud (%)","Age": "Edad","nationality": "Nacionalidad","club_name": "Club","marketValue": "Valor de mercado",
+            "contract": "Contrato"},
+        "English": {"player_name": "Player","percentage_similarity": "Similarity (%)","Age": "Age","nationality": "Country","club_name": "Club","marketValue": "Market value",
+            "contract": "Contract"}}
+
+    out = candidates_df[final_cols].head(top_n).copy()
+    out = out.rename(columns=col_labels.get(lang, col_labels["English"]))
+    return out
 
 # Fonction pour trouver les équipes similaires / Function to find similar teams / Función para encontrar equipos similares
 def find_similar_teams(selected_team_name, df, filter_type=None, top_n=5):
@@ -360,8 +367,7 @@ def find_similar_teams(selected_team_name, df, filter_type=None, top_n=5):
 
     stats_df = candidates_df[stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
 
-    # Ajouter l'équipe sélectionné au début pour calculer les similarités
-    # Add the team selected at the beginning to calculate similarities
+    # Ajouter l'équipe sélectionné au début pour calculer les similarités / Add the team selected at the beginning to calculate similarities
     # Añadir el equipo seleccionado al principio para calcular las similitudes
 
     selected_stats = df[df['team_code'] == selected_team_name][stats_cols].apply(pd.to_numeric, errors='coerce').fillna(0)
@@ -383,16 +389,22 @@ def find_similar_teams(selected_team_name, df, filter_type=None, top_n=5):
 
     candidates_df = candidates_df.sort_values(by='percentage_similarity', ascending=False) # Trier par similarité / Sort by similarity / Ordenar por similitud
     
-    # Colonnes à afficher / Columns to display / Columnas a mostrar
-    final_cols = ['team_code', 'percentage_similarity', 'championship_name', 'country']
+    final_cols = ['team_code', 'percentage_similarity', 'championship_name', 'country'] # Colonnes à afficher / Columns to display / Columnas a mostrar
     # Traduction du pays du joueur / Translation of the player's country / Traducción del país del jugador
     if lang == "Français":
         candidates_df['country'] = candidates_df['country'].apply(lambda x: translate_country(x, lang="fr"))
     elif lang == "Español":
         candidates_df['country'] = candidates_df['country'].apply(lambda x: translate_country(x, lang="es"))
 
+    # Renommage des colonnes selon la langue / Renaming columns according to language / Renombrar las columnas según el idioma
+    col_labels = {
+        "Français": {"team_code": "Équipe","percentage_similarity": "Similarité (%)","championship_name": "Championnat","country": "Pays",},
+        "Español": {"team_code": "Equipo","percentage_similarity": "Similitud (%)","championship_name": "Liga","country": "País",},
+        "English": {"team_code": "Team","percentage_similarity": "Similarity (%)","championship_name": "League","country": "Country"}}
 
-    return candidates_df[final_cols].head(top_n)
+    out = candidates_df[final_cols].head(top_n).copy()
+    out = out.rename(columns=col_labels.get(lang, col_labels["English"]))
+    return out
 
 # Fonction pour estimer le style de jeu offensif et défensif d'une équipe / Function to estimate a team's offensive and defensive playing style / Función para estimar el estilo de juego ofensivo y defensivo de un equipo
 def estimate_team_styles(team_row_or_series):
@@ -791,8 +803,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
                 # Colonnes par catégorie
                 pizza_cols_off = ["score_goal_scoring_created", "score_finish", "score_set_pieces_off","score_building", "score_projection", "score_crosses", "score_dribble"]
-                pizza_cols_def = ["score_goal_scoring_conceded", "score_defensive_actions","score_set_pieces_def", "score_efficiency_goalkeeper", "score_pressing"]
-                pizza_cols_style_of_play = ["score_possession", "score_direct_play", "score_counter-attacking"]
+                pizza_cols_def = ["score_goal_scoring_conceded", "score_defensive_actions","score_set_pieces_def", "score_efficiency_goalkeeper"]
+                pizza_cols_style_of_play = ["score_possession", "score_direct_play", "score_counter-attacking","score_pressing"]
                 pizza_cols_other = ["score_rank_league", "score_ground_duel", "score_aerial","score_provoked_fouls", "score_faults_committed", "score_waste", "score_subs"]
 
                 # On s'assure que st.pyplot reçoit bien une Figure
@@ -820,7 +832,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 # Construit les 4 radars
                 fig_pizza_stat_off    = build_radar(pizza_cols_off, "Statistiques offensives")
                 fig_pizza_stat_def    = build_radar(pizza_cols_def, "Statistiques défensives")
-                fig_pizza_stat_style  = build_radar(pizza_cols_style_of_play, "Style de jeu")
+                fig_pizza_stat_style  = build_radar(pizza_cols_style_of_play, "Performance selon le style de jeu")
                 fig_pizza_stat_others = build_radar(pizza_cols_other, "Autres statistiques")
 
                 # Affichage 2 x 2
@@ -862,9 +874,56 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         st.header("📋 Stats brutes")
         # ...
     elif selected in ["Top"]:
-        st.header("🏅 Power Ranking")
-        # ...
+        if lang == "Français":
+            st.markdown("<h4 style='text-align: center;'>🏅 Power Ranking</h4>", unsafe_allow_html=True) # Afficher le titre
 
+            info_team = pd.read_csv('../data/team/database_team.csv') # Chargement
+
+            st.markdown("<p style='text-align:center; margin-bottom:0'>En comparaison avec :</p>", unsafe_allow_html=True) # Filtre selon le Big 5 ou un championnat spécifique
+            c1, c2, c3 = st.columns([1.6, 2, 1])
+            with c2:
+                comparison_filter = st.radio(label="En comparaison avec",options=["Big 5", "Championnat"],index=0,horizontal=True,label_visibility="collapsed",key="comparison_filter_radio")
+
+            if comparison_filter == "Championnat":  # Filtre championnat
+                champs = info_team["championship_name"].dropna().drop_duplicates().sort_values().tolist()
+                selected_champ = st.selectbox("Sélectionnez un championnat", champs, index=0)
+                group_df = info_team[info_team["championship_name"] == selected_champ].copy()
+            else:
+                group_df = info_team.copy()  # Pas de filtre
+
+            group_df["Pays"] = group_df["country"].map(lambda x: translate_country(x, lang="fr")) # Traduction du pays
+
+            # Estimation du style de jeu Offensif et Défensif pour chaque équipe
+            def _compute_styles_labels(row):
+                styles = estimate_team_styles(row)
+                off_label_fr = translate_style(styles.get("offensive_style", ""), lang="fr")
+                def_label_fr = translate_style(styles.get("defensive_style", ""), lang="fr")
+                return pd.Series({"Style offensif": off_label_fr, "Style défensif": def_label_fr})
+
+            style_cols = group_df.apply(_compute_styles_labels, axis=1)
+            group_df = pd.concat([group_df, style_cols], axis=1)
+
+            # Colonnes de score : renommage en français
+            score_cols = [c for c in group_df.columns if c.startswith("score_")]
+            translated_score_map = {c: translate_base_stat(c.replace("score_", ""), lang="fr") for c in score_cols}
+            group_df = group_df.rename(columns=translated_score_map)
+            translated_score_cols = [translated_score_map[c] for c in score_cols]
+
+            # Liste des colonnes à afficher
+            preferred_cols = ["rank_big5","team_logo","team_code","championship_name","Pays","rank_league","rating","Style offensif","Style défensif"] + translated_score_cols
+            df_display = group_df[preferred_cols].copy()
+
+            df_display = df_display.sort_values(by="rank_big5", ascending=True) # Tri : uniquement par rank_big5 (ascendant)
+
+            # Configuration d'affichage
+            col_config = {"team_logo": st.column_config.ImageColumn("Logo", help="Logo du club", width="small"),"rank_big5": st.column_config.NumberColumn("Rang Big 5", format="%d"),
+                        "team_code": "Équipe","championship_name": "Championnat","rank_league": st.column_config.NumberColumn("Rang Ligue", format="%d"),
+                        "rating": st.column_config.NumberColumn("Note", format="%.0f")}
+
+            st.dataframe(df_display.reset_index(drop=True),hide_index=True,use_container_width=True,column_config=col_config) # Affichage du tableau
+
+        else:
+            st.info("Autre langues")
 else:
     # MENU JOUEURS
     if lang == "Français":
@@ -2922,6 +2981,11 @@ else:
                 final_df = df_stat.rename(columns={selected_stat: 'Statistique'})
                 final_df = final_df[['player_name', 'Statistique', 'Age', 'nationality', 'club_name', 'position','marketValue', 'contract']]
 
+                # Traduction des colonnes en français
+                col_labels_fr = {"player_name": "Joueur","Statistique": "Statistique","Age": "Âge","nationality": "Nationalité","club_name": "Club",
+                    "position": "Poste","marketValue": "Valeur marchande","contract": "Contrat"}
+                final_df = final_df.rename(columns=col_labels_fr)
+
                 st.dataframe(final_df, use_container_width=True)
 
         elif lang == "English":
@@ -3075,6 +3139,11 @@ else:
                 # We display the table with the columns desired
                 final_df = df_stat.rename(columns={selected_stat: 'Statistic'})
                 final_df = final_df[['player_name', 'Statistic', 'Age', 'nationality', 'club_name', 'position', 'marketValue', 'contract']]
+
+                # We clean all the columns
+                col_labels_en = {"player_name": "Player","Statistic": "Statistic","Age": "Age","nationality": "Country","club_name": "Club",
+                    "position": "Position","marketValue": "Market value","contract": "Contract"}
+                final_df = final_df.rename(columns=col_labels_en)
 
                 st.dataframe(final_df, use_container_width=True)
         
@@ -3231,6 +3300,11 @@ else:
                 # Tabla final (renombrar solo la columna de la métrica)
                 final_df = df_stat.rename(columns={selected_stat: 'Estadística'})
                 final_df = final_df[['player_name', 'Estadística', 'Age', 'nationality', 'club_name','position', 'marketValue', 'contract']]
+
+                # Traducción de las columnas al español
+                col_labels_es = {"player_name": "Jugador","Estadística": "Estadística","Age": "Edad","nationality": "Nacionalidad","club_name": "Club",
+                    "position": "Posición","marketValue": "Valor de mercado","contract": "Contrato",}
+                final_df = final_df.rename(columns=col_labels_es)
 
                 st.dataframe(final_df, use_container_width=True)
 
@@ -3489,6 +3563,11 @@ else:
                 final_df = df_stat.rename(columns={selected_stat: 'Statistique'})
                 final_df = final_df[['player_name', 'Statistique', 'Age', 'nationality', 'club_name', 'position','marketValue', 'contract']]
 
+                # Traduction des colonnes en français
+                col_labels_fr = {"player_name": "Joueur","Statistique": "Statistique","Age": "Âge","nationality": "Nationalité","club_name": "Club",
+                    "position": "Poste","marketValue": "Valeur marchande","contract": "Contrat"}
+                final_df = final_df.rename(columns=col_labels_fr)
+
                 st.dataframe(final_df, use_container_width=True)
 
         elif lang == "English":
@@ -3742,6 +3821,11 @@ else:
                 final_df = df_stat.rename(columns={selected_stat: 'Statistic'})
                 final_df = final_df[['player_name', 'Statistic', 'Age', 'nationality', 'club_name', 'marketValue', 'contract']]
 
+                # We clean all the columns
+                col_labels_en = {"player_name": "Player","Statistic": "Statistic","Age": "Age","nationality": "Country","club_name": "Club",
+                    "position": "Position","marketValue": "Market value","contract": "Contract"}
+                final_df = final_df.rename(columns=col_labels_en)
+
                 st.dataframe(final_df, use_container_width=True)
         else:
             # Página en español
@@ -3993,6 +4077,11 @@ else:
                 final_df = df_stat.rename(columns={selected_stat: 'Estadística'})
                 final_df = final_df[['player_name', 'Estadística', 'Age', 'nationality', 'club_name','position', 'marketValue', 'contract']]
 
+                # Traducción de las columnas al español
+                col_labels_es = {"player_name": "Jugador","Estadística": "Estadística","Age": "Edad","nationality": "Nacionalidad","club_name": "Club",
+                    "position": "Posición","marketValue": "Valor de mercado","contract": "Contrato",}
+                final_df = final_df.rename(columns=col_labels_es)
+
                 st.dataframe(final_df, use_container_width=True)
 
     elif selected == "Scout":
@@ -4188,6 +4277,11 @@ else:
                     st.markdown(podium_html, unsafe_allow_html=True)
 
                     final_df = df_stat.drop(columns=["imageUrl"]) # Suppression de image_url pour la table finale
+                    # Traduction des colonnes en français
+                    col_labels_fr = {"player_name": "Joueur","Statistique": "Statistique","Age": "Âge","nationality": "Nationalité","club_name": "Club",
+                        "position": "Poste","marketValue": "Valeur marchande","contract": "Contrat"}
+                    final_df = final_df.rename(columns=col_labels_fr)
+
                     st.dataframe(final_df, use_container_width=True)
 
             # Sidebar résumé
@@ -4467,6 +4561,10 @@ else:
                     st.markdown(podium_html, unsafe_allow_html=True)
 
                     final_df = df_stat.drop(columns=["imageUrl"])
+                    # We clean all the columns
+                    col_labels_en = {"player_name": "Player","Statistic": "Statistic","Age": "Age","nationality": "Country","club_name": "Club",
+                        "position": "Position","marketValue": "Market value","contract": "Contract"}
+                    final_df = final_df.rename(columns=col_labels_en)
                     st.dataframe(final_df, use_container_width=True) # We didsplay the entire list of players asked
 
             # Sidebar summary
@@ -4765,6 +4863,10 @@ else:
                     st.markdown(podium_html, unsafe_allow_html=True)
 
                     final_df = df_stat.drop(columns=["imageUrl"])  # Quitar image_url de la tabla
+                    # Traducción de las columnas al español
+                    col_labels_es = {"player_name": "Jugador","Estadística": "Estadística","Age": "Edad","nationality": "Nacionalidad","club_name": "Club",
+                        "position": "Posición","marketValue": "Valor de mercado","contract": "Contrato",}
+                    final_df = final_df.rename(columns=col_labels_es)
                     st.dataframe(final_df, use_container_width=True)
 
             # Resumen en la barra lateral
