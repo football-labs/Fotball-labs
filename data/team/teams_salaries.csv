@@ -1,49 +1,49 @@
 Rk,Squad,Comp,# Pl,Weekly Wages,Annual Wages,% Estimated
 1,Real Madrid,es La Liga,25,5873077,305400000,43%
-2,Bayern Munich,de Bundesliga,30,4953462,257580000,48%
-3,Manchester City,eng Premier League,33,4944212,257099019,57%
+2,Manchester City,eng Premier League,39,4958710,257852921,61%
+3,Bayern Munich,de Bundesliga,30,4953462,257580000,50%
 4,Barcelona,es La Liga,25,4270000,222040000,35%
-5,Arsenal,eng Premier League,27,4117470,214108454,54%
-6,Liverpool,eng Premier League,28,3839106,199633520,52%
-7,Chelsea,eng Premier League,36,3662809,190466057,56%
-8,Manchester Utd,eng Premier League,34,3546824,184434834,41%
+5,Arsenal,eng Premier League,28,4118630,214168766,52%
+6,Liverpool,eng Premier League,33,3845369,199959206,57%
+7,Chelsea,eng Premier League,39,3675567,191129492,56%
+8,Manchester Utd,eng Premier League,41,3554073,184811784,46%
 9,Paris S-G,fr Ligue 1,25,3361346,174790000,46%
-10,Atletico Madrid,es La Liga,26,3024712,157285000,64%
-11,Tottenham,eng Premier League,33,2963419,154097779,62%
-12,Aston Villa,eng Premier League,28,2745947,142789231,84%
+10,Atletico Madrid,es La Liga,26,3024712,157285000,62%
+11,Tottenham,eng Premier League,40,2964579,154158091,67%
+12,Aston Villa,eng Premier League,35,2808115,146021967,87%
 13,Inter,it Serie A,29,2619231,136200000,8%
 14,Newcastle Utd,eng Premier League,30,2600385,135220045,70%
-15,Juventus,it Serie A,29,2426731,126190000,17%
+15,Juventus,it Serie A,29,2419615,125820000,17%
 16,Dortmund,de Bundesliga,28,2379808,123750000,57%
-17,Napoli,it Serie A,31,2142500,111410000,14%
+17,Napoli,it Serie A,31,2157692,112200000,17%
 18,Roma,it Serie A,32,2097885,109090000,17%
-19,Nott'ham Forest,eng Premier League,32,2079033,108109693,90%
-20,West Ham,eng Premier League,29,1919553,99816760,79%
+19,Nott'ham Forest,eng Premier League,38,2084542,108396176,91%
+20,West Ham,eng Premier League,33,1921409,99913259,80%
 21,Marseille,fr Ligue 1,30,1835000,95420000,81%
-22,Milan,it Serie A,28,1821154,94700000,16%
+22,Milan,it Serie A,28,1821154,94700000,22%
 23,RB Leipzig,de Bundesliga,29,1774615,92280000,80%
-24,Leverkusen,de Bundesliga,28,1763077,91680000,85%
-25,Fulham,eng Premier League,26,1725858,89744613,87%
-26,Everton,eng Premier League,25,1651628,85884631,87%
+24,Leverkusen,de Bundesliga,28,1763077,91680000,88%
+25,Fulham,eng Premier League,29,1729048,89910471,87%
+26,Everton,eng Premier League,29,1681320,87428624,88%
 27,Athletic Club,es La Liga,26,1625962,84550000,83%
-28,Wolves,eng Premier League,32,1613932,83924484,93%
-29,Crystal Palace,eng Premier League,33,1509546,78496378,94%
-30,Sunderland,eng Premier League,38,1502587,78134509,100%
+28,Wolves,eng Premier League,33,1613932,83924484,93%
+29,Sunderland,eng Premier League,44,1517085,78888413,100%
+30,Crystal Palace,eng Premier League,36,1512909,78671284,94%
 31,Lazio,it Serie A,31,1486154,77280000,10%
 32,Betis,es La Liga,26,1461346,75990000,79%
-33,Bournemouth,eng Premier League,30,1380222,71771565,90%
-34,Brighton,eng Premier League,33,1348327,70112978,94%
+33,Bournemouth,eng Premier League,33,1399940,72796872,90%
+34,Brighton,eng Premier League,37,1352676,70339148,94%
 35,Villarreal,es La Liga,27,1345385,69960000,88%
-36,Leeds United,eng Premier League,27,1322810,68786112,92%
-37,Real Sociedad,es La Liga,27,1272692,66180000,100%
-38,Fiorentina,it Serie A,31,1266154,65840000,22%
+36,Leeds United,eng Premier League,28,1322810,68786112,92%
+37,Real Sociedad,es La Liga,27,1296538,67420000,100%
+38,Fiorentina,it Serie A,31,1266154,65840000,21%
 39,Sevilla,es La Liga,27,1252885,65150000,79%
-40,Burnley,eng Premier League,34,1242602,64615288,100%
+40,Burnley,eng Premier League,41,1248401,64916848,100%
 41,Eint Frankfurt,de Bundesliga,28,1233269,64130000,85%
-42,Wolfsburg,de Bundesliga,29,1226538,63780000,93%
-43,Brentford,eng Premier League,32,1201605,62483482,93%
+42,Wolfsburg,de Bundesliga,29,1226538,63780000,92%
+43,Brentford,eng Premier League,36,1211174,62981057,97%
 44,Monaco,fr Ligue 1,29,1196538,62220000,79%
-45,Stuttgart,de Bundesliga,32,1195000,62140000,85%
+45,Stuttgart,de Bundesliga,32,1195000,62140000,88%
 46,Nice,fr Ligue 1,29,1144231,59500000,85%
 47,Atalanta,it Serie A,26,1127692,58640000,4%
 48,Freiburg,de Bundesliga,27,1080385,56180000,96%
@@ -51,32 +51,32 @@ Rk,Squad,Comp,# Pl,Weekly Wages,Annual Wages,% Estimated
 50,Hoffenheim,de Bundesliga,30,1041538,54160000,100%
 51,Rennes,fr Ligue 1,22,1024615,53280000,89%
 52,Lyon,fr Ligue 1,25,994808,51730000,91%
-53,Torino,it Serie A,30,976731,50790000,60%
-54,Girona,es La Liga,25,963558,50105000,91%
+53,Torino,it Serie A,30,976731,50790000,62%
+54,Girona,es La Liga,25,963558,50105000,95%
 55,Lille,fr Ligue 1,29,919038,47790000,92%
 56,Valencia,es La Liga,23,871923,45340000,82%
-57,Bologna,it Serie A,31,860577,44750000,46%
+57,Bologna,it Serie A,31,871154,45300000,46%
 58,Como,it Serie A,30,856154,44520000,88%
-59,Werder Bremen,de Bundesliga,31,852308,44320000,92%
-60,Sassuolo,it Serie A,30,750769,39040000,79%
+59,Werder Bremen,de Bundesliga,31,852308,44320000,88%
+60,Sassuolo,it Serie A,30,750769,39040000,80%
 61,Lens,fr Ligue 1,28,746923,38840000,100%
-62,Celta Vigo,es La Liga,28,740577,38510000,95%
+62,Celta Vigo,es La Liga,28,740577,38510000,91%
 63,Hamburger SV,de Bundesliga,31,738462,38400000,93%
-64,Mainz 05,de Bundesliga,29,722692,37580000,100%
+64,Mainz 05,de Bundesliga,29,726346,37770000,100%
 65,Augsburg,de Bundesliga,31,703654,36590000,100%
 66,Union Berlin,de Bundesliga,28,695385,36160000,100%
 67,Paris FC,fr Ligue 1,29,675192,35110000,100%
 68,Mallorca,es La Liga,26,672308,34960000,100%
 69,Getafe,es La Liga,22,661346,34390000,95%
-70,Koln,de Bundesliga,29,654231,34020000,100%
-71,Cremonese,it Serie A,30,641154,33340000,81%
+70,Koln,de Bundesliga,29,655385,34080000,96%
+71,Cremonese,it Serie A,30,641154,33340000,84%
 72,Strasbourg,fr Ligue 1,28,637885,33170000,100%
 73,Rayo Vallecano,es La Liga,24,605000,31460000,100%
 74,Oviedo,es La Liga,26,586827,30515000,96%
-75,Genoa,it Serie A,28,577692,30040000,86%
+75,Genoa,it Serie A,28,580577,30190000,85%
 76,Nantes,fr Ligue 1,26,569423,29610000,94%
-77,Hellas Verona,it Serie A,29,564231,29340000,83%
-78,Cagliari,it Serie A,28,554231,28820000,77%
+77,Hellas Verona,it Serie A,29,564231,29340000,84%
+78,Cagliari,it Serie A,28,557500,28990000,77%
 79,Osasuna,es La Liga,20,538077,27980000,100%
 80,Brest,fr Ligue 1,25,530769,27600000,100%
 81,Elche,es La Liga,26,518462,26960000,100%
@@ -88,9 +88,9 @@ Rk,Squad,Comp,# Pl,Weekly Wages,Annual Wages,% Estimated
 87,Levante,es La Liga,25,482308,25080000,95%
 88,Heidenheim,de Bundesliga,27,482115,25070000,100%
 89,Lorient,fr Ligue 1,26,456346,23730000,100%
-90,Toulouse,fr Ligue 1,31,415385,21600000,100%
-91,Metz,fr Ligue 1,26,412115,21430000,94%
-92,Pisa,it Serie A,30,381538,19840000,88%
+90,Metz,fr Ligue 1,27,433077,22520000,95%
+91,Toulouse,fr Ligue 1,31,415385,21600000,100%
+92,Pisa,it Serie A,30,381538,19840000,92%
 93,Lecce,it Serie A,34,375962,19550000,84%
 94,Auxerre,fr Ligue 1,22,373462,19420000,95%
 95,Angers,fr Ligue 1,27,345769,17980000,100%
