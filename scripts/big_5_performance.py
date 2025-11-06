@@ -633,15 +633,14 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>📊 Analyse d'une équipe</h4>", unsafe_allow_html=True) # Afficher le titre
             # Charger les données
-            df = pd.read_csv('../data/team/fbref_analyst_joined.csv')
             info_player = pd.read_csv('../data/player/database_player.csv')
             info_team = pd.read_csv('../data/team/database_team.csv')
 
-            championship_names = [''] + sorted(df['championship_name'].dropna().unique().tolist()) # Extraire la liste des championnats
+            championship_names = [''] + sorted(info_team['championship_name'].dropna().unique().tolist()) # Extraire la liste des championnats
 
             selected_championship = st.sidebar.selectbox("Choisissez un championnat :", championship_names) # Sélection de championnat
 
-            championship_data = df[df['championship_name'] == selected_championship]
+            championship_data = info_team[info_team['championship_name'] == selected_championship]
                     
             teams_names = [''] + sorted(championship_data['team_code'].dropna().unique().tolist()) # Extraire la liste des équipes dans le championnat choisi
 
@@ -653,12 +652,11 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 st.image("../image/championship_analysis.jpg") # Utilisation de la 1er bannière en image
                 st.info("Dérouler la barre latérale pour choisir la langue et le championnat à analyser")
             else:
-                team_data = df[df['team_code'] == selected_team].iloc[0] # Filtrer le DataFrame pour l'équipe sélectionnée
-                team_score = info_team[info_team['team_code'] == selected_team].iloc[0] # Filtrer le DataFrame pour l'équipe sélectionnée
+                team_data = info_team[info_team['team_code'] == selected_team].iloc[0] # Filtrer le DataFrame pour l'équipe sélectionnée
                 pays = translate_country(team_data['country'], lang="fr") # On traduit le nom du pays
                 
                 # On indique le noms des colonnes utilisées
-                df_team_col = "team_code"     # dans df
+                df_team_col = "team_code"     # dans info_team
                 club_col = "club_name"     # dans info_player
                 value_col = "marketValue"  # dans info_player
                 name_col = "player_name"      # dans info_player
@@ -702,7 +700,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                     <p><strong>Saison :</strong> {team_data['season_name']}</p>
                     <p><strong>Ligue :</strong> {team_data['championship_name']}</p>
                     <p><strong>Pays :</strong> {pays}</p>
-                    <p><strong>Power Ranking :</strong> {team_score['rank_big5']}</p>
+                    <p><strong>Power Ranking :</strong> {team_data['rank_big5']}</p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
@@ -807,27 +805,21 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 pizza_cols_style_of_play = ["score_possession", "score_direct_play", "score_counter-attacking","score_pressing"]
                 pizza_cols_other = ["score_rank_league", "score_ground_duel", "score_aerial","score_provoked_fouls", "score_faults_committed", "score_waste", "score_subs"]
 
-                # On s'assure que st.pyplot reçoit bien une Figure
-                def _fig_only(ret):
-                    if isinstance(ret, tuple):
-                        return ret[0]
-                    return ret
-
                 # On construit le radar
                 def build_radar(cols, title):
-                    use_cols = [c for c in cols if (c in team_score.index) and (c in group_df.columns)]
+                    use_cols = [c for c in cols if (c in team_data.index) and (c in group_df.columns)]
                     if not use_cols:
                         return None
                     labels = [translate_base_stat(c.replace("score_", ""), lang="fr") for c in use_cols]
-                    team_vals = [team_score[c] for c in use_cols]
+                    team_vals = [team_data[c] for c in use_cols]
                     group_meds = group_df[use_cols].median(numeric_only=True).tolist()
 
                     team_scaled = [0 if pd.isna(v) else v for v in team_vals]
                     median_scaled = [0 if pd.isna(v) else round(v) for v in group_meds]
 
                     fig = plot_pizza_radar(labels=labels,data_values=team_scaled,median_values=median_scaled,
-                        title=f"{title} de {team_score['team_code']} vs Médiane",legend_labels=(team_score["team_code"], "Médiane"))
-                    return _fig_only(fig)
+                        title=f"{title} de {team_data['team_code']} vs Médiane",legend_labels=(team_data["team_code"], "Médiane"))
+                    return fig
 
                 # Construit les 4 radars
                 fig_pizza_stat_off    = build_radar(pizza_cols_off, "Statistiques offensives")
@@ -865,8 +857,304 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
         # ...
     elif selected in ["Duel", "F2F", "Duelo"]:
-        st.header("⚖️ Comparaison entre équipes/compétitions")
-        # ...
+        if lang == "Français":
+            st.markdown("<h4 style='text-align: center;'>🥊 Comparaison de deux équipes</h4>", unsafe_allow_html=True) # Affichage du titre
+            
+            # Charger les données
+            info_player = pd.read_csv('../data/player/database_player.csv')
+            info_team = pd.read_csv('../data/team/database_team.csv')
+
+            teams_names = [''] + sorted(info_team['team_code'].dropna().unique().tolist()) # Extraire la liste des équipes dans le championnat choisi
+
+            team1 = st.sidebar.selectbox("Première équipe :", [''] + teams_names, key="team1") # Sélection de la 1ère équipe
+
+            if not team1:
+                # Aucune équipe sélectionnée → afficher l'image d'intro
+                st.image("../image/team_comparison.jpg")
+                st.info("Dérouler la barre latérale pour choisir la langue et les équipes à analyser")
+
+            if team1:
+                # Nous stockons les informations de la 1ère équipe
+                team1_data = info_team[info_team['team_code'] == team1].iloc[0] # Récupération des informations de la 1ère équipe
+
+                team2_names = sorted(info_team['team_code'].dropna().unique().tolist())
+                team2_names = [t for t in team2_names if t != team1]
+
+                team2 = st.sidebar.selectbox("Seconde équipe :", [''] + team2_names, key="team2") # Sélection de la 2ème équipe
+                
+                if not team2:
+                    # Aucune équipe sélectionnée → afficher l'image d'intro
+                    st.image("../image/team_comparison.jpg")
+                    st.info("Dérouler la barre latérale pour choisir la langue et les équipes à analyser")
+
+                if team2:
+                    team2_data = info_team[info_team['team_code'] == team2].iloc[0] # Récupération des informationsde la 2ème équipe
+                    
+                    # On affiche le profil des équipes
+                    st.markdown("<h5 style='text-align: center;'>Présentations des équipes</h4>", unsafe_allow_html=True)
+
+                    # Colonnes
+                    df_team_col = "team_code"
+                    club_col    = "club_name"
+                    value_col   = "marketValue"
+                    name_col    = "player_name"
+                    rating_col  = "rating"
+
+                    # Regrouper les deux équipes
+                    team_datas = [team1_data, team2_data]
+                    team_codes = [str(td[df_team_col]) for td in team_datas]
+                    team_names = [df_to_info.get(code, code) for code in team_codes]
+
+                    # Joueurs des deux équipes
+                    both_teams_players = info_player[info_player[club_col].isin(team_names)].copy()
+
+                    # Agrégats par club
+                    if both_teams_players.empty:
+                        vals_by_team = {name: {"valeur_effectif_fmt": "Non connu", "valeur_par_joueur_fmt": "Non connu"}
+                                        for name in team_names}
+                    else:
+                        tmp = (
+                            both_teams_players.groupby(club_col, dropna=False)
+                            .agg(total_value=(value_col, "sum"), n_players=(value_col, "size"))
+                            .reset_index()
+                        )
+                        def fmt_or_unknown(v):
+                            return "Non connu" if pd.isna(v) else format_market_value(v)
+                        tmp["valeur_effectif_fmt"]   = tmp["total_value"].apply(fmt_or_unknown)
+                        tmp["valeur_par_joueur_fmt"] = (tmp["total_value"] / tmp["n_players"]).apply(
+                            lambda v: "Non connu" if not np.isfinite(v) else format_market_value(v)
+                        )
+                        vals_by_team = {
+                            row[club_col]: {
+                                "valeur_effectif_fmt": row["valeur_effectif_fmt"],
+                                "valeur_par_joueur_fmt": row["valeur_par_joueur_fmt"],
+                            } for _, row in tmp.iterrows()
+                        }
+                        for name in team_names:
+                            vals_by_team.setdefault(name, {"valeur_effectif_fmt": "Non connu", "valeur_par_joueur_fmt": "Non connu"})
+
+                    # Styles par équipe
+                    styles_by_team = {}
+                    for td, club_name in zip(team_datas, team_names):
+                        style_dict = estimate_team_styles(td)
+                        styles_by_team[club_name] = {
+                            "off": translate_style(style_dict["offensive_style"], lang="fr"),
+                            "def": translate_style(style_dict["defensive_style"], lang="fr"),
+                        }
+
+                    # Affichage
+                    for td in team_datas:
+                        key = str(td[df_team_col])
+
+                        pays = translate_country(td["country"], lang="fr")
+                        club_name = df_to_info.get(key, key)
+
+                        valeur_par_joueur_fmt = vals_by_team.get(club_name, {}).get("valeur_par_joueur_fmt", "Non connu")
+                        off_label = styles_by_team.get(club_name, {}).get("off", "Non connu")
+                        def_label = styles_by_team.get(club_name, {}).get("def", "Non connu")
+
+                        pts_league = int(td["pts_league"]) if pd.notna(td["pts_league"]) else "-"
+                        taille_effectif = int(td["#_Pl__std"]) if pd.notna(td["#_Pl__std"]) else "-"
+                        salaire_annuel = format_market_value(td["Annual Wages"]) if "Annual Wages" in td else "Non connu"
+
+                        st.markdown(f"""
+                        <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 2rem; flex-wrap: nowrap; align-items: center; overflow-x: auto; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;">
+
+                        <div style="flex: 1; text-align: center; min-width: 180px;">
+                            <img src="{td['team_logo']}" style="width: 100%; max-width: 150px; border-radius: 10px;">
+                        </div>
+
+                        <div style="flex: 2; min-width: 280px;">
+                            <p><strong>Nom :</strong> {td['team_code']}</p>
+                            <p><strong>Championnat :</strong> {td['championship_name']}</p>
+                            <p><strong>Pays :</strong> {pays}</p>
+                            <p><strong>Power Ranking :</strong> {td['rank_big5']}</p>
+                        </div>
+
+                        <div style="flex: 2; min-width: 280px;">
+                            <p><strong>Classement :</strong> {td['rank_league']}</p>
+                            <p><strong>Pts :</strong> {pts_league}</p>
+                            <p><strong>Style de jeu Offensif :</strong> {off_label}</p>
+                            <p><strong>Style de jeu Défensif :</strong> {def_label}</p>
+                        </div>
+
+                        <div style="flex: 2; min-width: 280px;">
+                            <p><strong>Âge moyen :</strong> {td['Age__std']}</p>
+                            <p><strong>Taille effectif :</strong> {taille_effectif}</p>
+                            <p><strong>Valeur par joueur :</strong> {valeur_par_joueur_fmt}</p>
+                            <p><strong>Salaire annuel :</strong> {salaire_annuel}</p>
+                        </div>
+
+                        </div>
+                        """, unsafe_allow_html=True)
+
+                    # Construction des tops par équipe
+                    results_by_team = {}
+
+                    for td, club_map_name in zip(team_datas, team_names):
+                        # Nom affiché et clé de filtre
+                        team_code = str(td[df_team_col])
+                        club_name = df_to_info.get(team_code, team_code)
+
+                        # Par défaut
+                        top5_rating = ["Non disponible"]
+                        top5_value  = ["Non disponible"]
+
+                        df_team = both_teams_players[both_teams_players[club_col] == club_name].copy()
+                        if not df_team.empty and {name_col, rating_col, value_col}.issubset(df_team.columns):
+
+                            # Top 5 rating
+                            df_team["rating_num"] = pd.to_numeric(df_team[rating_col], errors="coerce")
+                            top_rating_df = (
+                                df_team.dropna(subset=["rating_num"])
+                                    .sort_values("rating_num", ascending=False)
+                                    .head(5)
+                            )
+                            if not top_rating_df.empty:
+                                top5_rating = [
+                                    f"{row[name_col]} ({int(round(row['rating_num']))})"
+                                    for _, row in top_rating_df.iterrows()
+                                ]
+
+                            # Top 5 valeur sur le marché
+                            df_team["mv_num"] = pd.to_numeric(df_team[value_col], errors="coerce")
+                            if df_team["mv_num"].notna().any():
+                                top_value_df = (
+                                    df_team.dropna(subset=["mv_num"])
+                                        .sort_values("mv_num", ascending=False)
+                                        .head(5)
+                                )
+                                items = []
+                                for _, row in top_value_df.iterrows():
+                                    s = format_market_value(int(round(row["mv_num"])))
+                                    s = re.sub(r'(\d+)\.0(?=\s*[A-Za-z€])', r'\1', s)
+                                    items.append(f"{row[name_col]} ({s})")
+                                top5_value = items if items else ["Non disponible"]
+                            else:
+                                top_value_df = df_team.sort_values(value_col, ascending=False).head(5)
+                                if not top_value_df.empty:
+                                    items = []
+                                    for _, row in top_value_df.iterrows():
+                                        s = format_market_value(row[value_col])
+                                        s = re.sub(r'(\d+)\.0(?=\s*[A-Za-z€])', r'\1', s)
+                                        items.append(f"{row[name_col]} ({s})")
+                                    top5_value = items
+
+                        results_by_team[club_name] = {"display_name": team_code,"top_rating": top5_rating,"top_value": top5_value}
+
+                    col_left, col_right = st.columns(2) # Affichage comparatif côte à côte
+
+                    # Top 5 joueurs de la saison
+                    st.markdown("""<h5 style='text-align:center;'>🏅 Top 5 joueurs de la saison</h5>""", unsafe_allow_html=True)
+
+                    col_left, col_right = st.columns(2)
+
+                    with col_left:
+                        club1_display = results_by_team[team_names[0]]["display_name"]
+                        items = results_by_team[team_names[0]]["top_rating"]
+                        st.markdown(f"<h6 style='text-align:center;'>{club1_display}</h6>", unsafe_allow_html=True)
+                        if items == ["Non disponible"]:
+                            st.markdown("<p style='text-align:center;'>Non disponible</p>", unsafe_allow_html=True)
+                        else:
+                            st.markdown(
+                                "<div style='text-align:center;'>" + "<br>".join([f"• {x}" for x in items]) + "</div>",
+                                unsafe_allow_html=True
+                            )
+
+                    with col_right:
+                        club2_display = results_by_team[team_names[1]]["display_name"]
+                        items = results_by_team[team_names[1]]["top_rating"]
+                        st.markdown(f"<h6 style='text-align:center;'>{club2_display}</h6>", unsafe_allow_html=True)
+                        if items == ["Non disponible"]:
+                            st.markdown("<p style='text-align:center;'>Non disponible</p>", unsafe_allow_html=True)
+                        else:
+                            st.markdown(
+                                "<div style='text-align:center;'>" + "<br>".join([f"• {x}" for x in items]) + "</div>",
+                                unsafe_allow_html=True
+                            )
+
+                    st.markdown("<hr>", unsafe_allow_html=True)
+
+                    # Top 5 joueurs les plus valorisés
+                    st.markdown("""<h5 style='text-align:center;'>💎 Top 5 joueurs les plus valorisés</h5>""", unsafe_allow_html=True)
+
+                    col_left, col_right = st.columns(2)
+
+                    with col_left:
+                        items = results_by_team[team_names[0]]["top_value"]
+                        st.markdown(f"<h6 style='text-align:center;'>{club1_display}</h6>", unsafe_allow_html=True)
+                        if items == ["Non disponible"]:
+                            st.markdown("<p style='text-align:center;'>Non disponible</p>", unsafe_allow_html=True)
+                        else:
+                            st.markdown(
+                                "<div style='text-align:center;'>" + "<br>".join([f"• {x}" for x in items]) + "</div>",
+                                unsafe_allow_html=True
+                            )
+
+                    with col_right:
+                        items = results_by_team[team_names[1]]["top_value"]
+                        st.markdown(f"<h6 style='text-align:center;'>{club2_display}</h6>", unsafe_allow_html=True)
+                        if items == ["Non disponible"]:
+                            st.markdown("<p style='text-align:center;'>Non disponible</p>", unsafe_allow_html=True)
+                        else:
+                            st.markdown(
+                                "<div style='text-align:center;'>" + "<br>".join([f"• {x}" for x in items]) + "</div>",
+                                unsafe_allow_html=True
+                            )
+
+                    # Colonnes par catégorie
+                    pizza_cols_off = ["score_goal_scoring_created", "score_finish", "score_set_pieces_off","score_building", "score_projection", "score_crosses", "score_dribble"]
+                    pizza_cols_def = ["score_goal_scoring_conceded", "score_defensive_actions","score_set_pieces_def", "score_efficiency_goalkeeper"]
+                    pizza_cols_style_of_play = ["score_possession", "score_direct_play", "score_counter-attacking","score_pressing"]
+                    pizza_cols_other = ["score_rank_league", "score_ground_duel", "score_aerial","score_provoked_fouls", "score_faults_committed", "score_waste", "score_subs"]
+
+                    def build_radar_vs_team(cols, title, team1_s, team2_s):
+                        use_cols = [c for c in cols if (c in team1_s.index) and (c in team2_s.index)]
+                        if not use_cols:
+                            return None
+
+                        labels = [translate_base_stat(c.replace("score_", ""), lang="fr") for c in use_cols]
+
+                        t1_vals = pd.to_numeric(team1_s[use_cols], errors="coerce").tolist()
+                        t2_vals = pd.to_numeric(team2_s[use_cols], errors="coerce").tolist()
+
+                        t1_vals = [0 if pd.isna(v) else float(v) for v in t1_vals]
+                        t2_vals = [0 if pd.isna(v) else float(v) for v in t2_vals]
+
+                        t1_code = str(team1_s["team_code"])
+                        t2_code = str(team2_s["team_code"])
+
+                        fig = plot_pizza_radar(labels=labels,data_values=t1_vals,median_values=t2_vals,
+                            title=f"{title}: {t1_code} vs {t2_code}",legend_labels=(t1_code, t2_code))
+                        return fig
+
+                    # Constructions des 4 radars
+                    fig_pizza_stat_off    = build_radar_vs_team(pizza_cols_off, "Statistiques offensives", team1_data, team2_data)
+                    fig_pizza_stat_def    = build_radar_vs_team(pizza_cols_def, "Statistiques defensives", team1_data, team2_data)
+                    fig_pizza_stat_style  = build_radar_vs_team(pizza_cols_style_of_play, "Performance selon le style de jeu", team1_data, team2_data)
+                    fig_pizza_stat_others = build_radar_vs_team(pizza_cols_other, "Autres statistiques", team1_data, team2_data)
+
+                    st.markdown("<div style='margin-top: 40px;'></div>", unsafe_allow_html=True)
+                    st.markdown(f"<h5 style='text-align:center;'>Comparaison graphique</h4>", unsafe_allow_html=True)
+
+                    # Affichage 2 x 2
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if fig_pizza_stat_off is not None:
+                            st.pyplot(fig_pizza_stat_off)
+                    with col2:
+                        if fig_pizza_stat_def is not None:
+                            st.pyplot(fig_pizza_stat_def)
+
+                    col3, col4 = st.columns(2)
+                    with col3:
+                        if fig_pizza_stat_style is not None:
+                            st.pyplot(fig_pizza_stat_style)
+                    with col4:
+                        if fig_pizza_stat_others is not None:
+                            st.pyplot(fig_pizza_stat_others)
+
+
     elif selected == "Stats +":
         st.header("📈 Stats aggrégées par catégorie")
         # ...
