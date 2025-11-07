@@ -20,6 +20,7 @@ from mplsoccer import PyPizza, FontManager
 from matplotlib.patches import Patch
 import base64
 import re
+from itertools import chain
 
 
 # Affichage du titre et du logo de l'application web / Display of web application title and logo / Visualización del título y el logotipo de la aplicación web
@@ -106,7 +107,7 @@ base_stat_translation = {
         "aerial": "Jeu aérien",
         # Équipes
         "set_pieces_off": "CPA offensifs","crosses": "Centres","set_pieces_def": "CPA défensifs",
-        "efficiency_goalkeeper": "Efficacité du gardien","pressing": "Pressing","Jeu en possession": "Jeu de possession","direct_play": "Jeu direct",
+        "efficiency_goalkeeper": "Efficacité du gardien","pressing": "Pressing","possession": "Jeu de possession","direct_play": "Jeu direct",
         "counter-attacking": "Jeu en contre-attaque","rank_league": "Performance en championnat","ground_duel": "Duels au sol","subs": "Remplacements",
     },
     "es": {
@@ -118,7 +119,7 @@ base_stat_translation = {
         "aerial": "Juego aéreo",
         # Equipos
         "set_pieces_off": "Balones parados ofensivos","crosses": "Centros","set_pieces_def": "Balones parados defensivos","efficiency_goalkeeper": "Eficiencia del portero",
-        "pressing": "Presión","Jeu en possession": "Juego de posesión","direct_play": "Juego directo","counter-attacking": "Juego de contraataque",
+        "pressing": "Presión","possession": "Juego de posesión","direct_play": "Juego directo","counter-attacking": "Juego de contraataque",
         "rank_league": "Rendimiento en el campeonato","ground_duel": "Duelos en el suelo","subs": "Sustituciones",
     },
 }
@@ -137,6 +138,20 @@ style_translation = {
         "Direct Play": "Juego directo", "Possession Play": "Juego de posesión","Counter-Attacking": "Juego de contraataque", "Mixed": "Juego mixto",
         "High Press": "Presión alta", "Low Block": "Bloque bajo","Mid Block": "Bloque medio",
     },
+}
+
+
+categories_stats_translation = {
+    "fr": {
+        "Offensive": "Jeu avec ballon","Set-Pieces (Offensive)": "Coup de pied arrêtés (Offensif)","Style of play" : "Style de jeu","Passing" : "Jeu de passe","Pressing": "Pressing",
+        "Defending": "Jeu sans ballon","Set-Pieces (Defensive)": "Coup de pied arrêtés (Défensif)","Penalties": "Penalties", "Foul": "Faute", "Duel": "Duel", "Take-ons": "Dribble", 
+        "Results": "Résultats", "Miscellaneous": "Autre", 
+    },
+    "es": {
+        "Offensive": "Juego con balón","Set-Pieces (Offensive)": "Jugadas a balón parado (Ofensivas)","Style of play": "Estilo de juego","Passing": "Juego de pases",
+        "Pressing": "Presión","Defending": "Juego sin balón","Set-Pieces (Defensive)": "Jugadas a balón parado (Defensivas)","Penalties": "Penaltis",
+        "Foul": "Faltas","Duel": "Duelo","Take-ons": "Regate","Results": "Resultados","Miscellaneous": "Otros",
+    }
 }
 
 # Utilise la traduction si besoin selon la langue de l'application / Use translation if necessary depending on the language of the application
@@ -189,6 +204,12 @@ def translate_style(style_en: str, lang: str = "fr") -> str:
         return lang_map[style_en]
     return style_translation.get("fr", {}).get(style_en, style_en)
 
+def translate_categories_stats(name_en: str, lang: str = "fr") -> str:
+    if not isinstance(name_en, str):
+        return name_en
+    lang_map = categories_stats_translation.get(lang, {})
+    return lang_map.get(name_en, name_en)
+
 # Mapping des noms d'équipe (fbref_opta_join -> database_player) / Mapping of teams name (fbref_opta_join -> database_player) / Asignación de nombres de equipos (fbref_opta_join -> database_player)
 df_to_info = {
     "Sevilla": "Sevilla FC","Betis": "Real Betis","RB Leipzig": "Leipzig","Osasuna": "CA Osasuna","Nott'ham Forest": "Nott'm Forest","Newcastle Utd": "Newcastle",
@@ -215,6 +236,264 @@ category_stats_player = {
 }
 
 invert_stats = {"GA_per90", "PSxG_per90","Err_per90", "CrdY_per90", "Dis_per90"}
+
+stats_team = {
+    "Offensive": [
+        "attacking_overall__goals","attacking_overall__xg","attacking_overall__goals_vs_xg","attacking_overall__shots","attacking_overall__sot","attacking_overall__conv_pct",
+	    "attacking_overall__xg_per_shot","attacking_misc__touches_in_box","attacking_misc__hit_post","attacking_misc__offsides", "attacking_misc__headers__total",
+        "attacking_misc__headers__goals", "Performance_Gls__std","Performance_G_PK__std", "Expected_xG__std","Expected_npxG__std", "Per_90_Minutes_G_PK__std",
+        "Per_90_Minutes_npxG__std",	"Standard_Sh__shoot","Standard_SoT__shoot","Standard_Dist__shoot",
+    ],
+    "Set-Pieces (Offensive)": [
+        "attacking_set_pieces__goals","attacking_set_pieces__shots","attacking_set_pieces__xg","attacking_set_pieces__goal_pct","attacking_set_pieces__shot_pct",
+        "attacking_set_pieces__xg_pct", "attacking_misc__free_kicks__total","attacking_misc__free_kicks__goals",
+    ],
+    "Style of play": [
+        "attacking_misc__fast_breaks__total","attacking_misc__fast_breaks__goals","sequences__ten_plus_passes","sequences__direct_speed","sequences__passes_per_seq",
+        "sequences__sequence_time","sequences__build_ups__total","sequences__build_ups__goals","sequences__direct_attacks__total","sequences__direct_attacks__goals",
+        "direct_attack_prop","build_ups_prop","fast_break_prop",
+    ],
+    "Passing": [
+        "passing__avg_poss","passing__all_passes__pct","passing__final_third_passes__successful","passing__final_third_passes__pct","passing__pass_direction__fwd",
+        "passing__pass_direction__bwd","passing__pass_direction__left","passing__pass_direction__right","passing__crosses__total","passing__crosses__successful",
+        "passing__crosses__pct","passing__through_balls", "Progression_PrgC__std","Progression_PrgP__std", "Carries_Carries__poss", "Carries_1/3__poss",
+        "Carries_Mis__poss","Carries_Dis__poss", "Receiving_PrgR__poss", "Performance_Crs__misc", "Total_Cmp__pass","Short_Cmp__pass","Short_Cmp%__pass","Medium_Cmp__pass",
+        "Medium_Cmp%__pass", "Long_Cmp__pass","Long_Cmp%__pass", "PPA__pass","CrsPA__pass","PrgP__pass", "Long_Att__pass_prop", "Per_90_min_CrsPA__pass",
+        "Per_90_min_Progression_PrgP__std","Per_90_min_Progression_PrgC__std","Per_90_min_Carries_Carries__poss","Per_90_min_Carries_1/3__poss","Per_90_min_Receiving_PrgR__poss",
+        "Per_90_min_Total_Cmp__pass","Per_90_min_Carries_Mis__poss","Per_90_min_Carries_Dis__poss"
+    ],
+    "Pressing": [
+        "pressing__pressed_seqs","pressing__ppda","pressing__start_distance_m", "pressing__high_turnovers__shot_ending","pressing__high_turnovers__goal_ending",
+        "pressing__high_turnovers__pct_end_in_shot",
+    ],
+    "Defending": [
+        "defending_overall__goals","defending_overall__xg","defending_overall__goals_vs_xg","defending_overall__shots","defending_overall__sot",
+        "defending_overall__conv_pct","defending_overall__xg_per_shot","defending_overall__shots_in_box_pct","defending_overall__goals_in_box_pct",
+        "defending_misc__touches_in_box","defending_misc__hit_post","defending_misc__offsides","defending_misc__headers__total","defending_misc__headers__goals",
+        "defending_misc__fast_breaks__total","defending_misc__fast_breaks__goals", "Performance_CS__keeper","Performance_CS%__keeper", "Performance_Int__misc",
+        "Performance_TklW__misc","Performance_Recov__misc", "Tackles_Tkl__def","Blocks_Blocks__def","Clr__def",
+    ],
+    "Set-Pieces (Defensive)": [
+        "defending_set_pieces__goals","defending_set_pieces__shots","defending_set_pieces__xg","defending_set_pieces__goal_pct","defending_set_pieces__shot_pct",
+        "defending_set_pieces__xg_pct","defending_defensive_actions__tackles","defending_defensive_actions__interceptions", "defending_defensive_actions__recoveries",
+        "defending_defensive_actions__blocks","defending_defensive_actions__clearances", "defending_misc__free_kicks__total","defending_misc__free_kicks__goals",
+        
+    ],
+    "Penalties": [
+        "attacking_misc__penalties__total","attacking_misc__penalties__goals", "misc.__pens_conceded", "Performance_PK__std","Performance_PKatt__std",
+    ],
+    "Foul": [
+        "misc.__fouled","misc.__yellows","misc.__reds","misc.__fouls","misc.__opp_yellows","misc.__opp_reds", "Performance_CrdY__std","Performance_CrdR__std",
+        "Performance_Fls__misc","Performance_Fld__misc", 
+    ],
+    "Duel": [
+        "defending_defensive_actions__ground_duels_won","defending_defensive_actions__aerial_duels_won", "Aerial_Duels_Won__misc","Aerial_Duels_Lost__misc",
+         "Per_90_min_Aerial_Duels_Won__misc",
+    ],
+    "Take-ons": [
+        "Take_Ons_Att__poss", "Take_Ons_Succ__poss", "Take_Ons_Succ%__poss", "Per_90_min_Take_Ons_Att__poss","Per_90_min_Take_Ons_Succ__poss",
+    ],
+    "Results": [
+        "Performance_W__keeper", "Performance_D__keeper","Performance_L__keeper", "Team_Success_PPM__ptime", "Team_Success_+/___ptime","Team_Success_+/_90__ptime",
+    ],
+    "Miscellaneous": [
+        "misc.__subs_used","misc.__subs_goals","Subs_Subs__ptime", "misc.__errors_lead_to_shot","misc.__errors_lead_to_goal", "Err__def", 
+    ],
+}
+
+glossary_fr = {
+    # JEU AVEC BALLON
+    "attacking_overall__goals": "Définition",
+    "attacking_overall__xg": "Définition",
+    "attacking_overall__goals_vs_xg": "Définition",
+    "attacking_overall__shots": "Définition",
+    "attacking_overall__sot": "Définition",
+    "attacking_overall__conv_pct": "Définition",
+    "attacking_overall__xg_per_shot": "Définition",
+    "attacking_misc__touches_in_box": "Définition",
+    "attacking_misc__hit_post": "Définition",
+    "attacking_misc__offsides": "Définition",
+    "attacking_misc__headers__total": "Définition",
+    "attacking_misc__headers__goals": "Définition",
+    "Performance_Gls__std": "Définition",
+    "Performance_G_PK__std": "Définition",
+    "Expected_xG__std": "Définition",
+    "Expected_npxG__std": "Définition",
+    "Per_90_Minutes_G_PK__std": "Définition",
+    "Per_90_Minutes_npxG__std": "Définition",
+    "Standard_Sh__shoot": "Définition",
+    "Standard_SoT__shoot": "Définition",
+    "Standard_Dist__shoot": "Définition",
+
+    # COUP DE PIED ARRÊTÉS (OFFENSIF)
+    "attacking_set_pieces__goals": "Définition",
+    "attacking_set_pieces__shots": "Définition",
+    "attacking_set_pieces__xg": "Définition",
+    "attacking_set_pieces__goal_pct": "Définition",
+    "attacking_set_pieces__shot_pct": "Définition",
+    "attacking_set_pieces__xg_pct": "Définition",
+    "attacking_misc__free_kicks__total": "Définition",
+    "attacking_misc__free_kicks__goals": "Définition",
+
+    # STYLE DE JEU
+    "attacking_misc__fast_breaks__total": "Définition",
+    "attacking_misc__fast_breaks__goals": "Définition",
+    "sequences__ten_plus_passes": "Définition",
+    "sequences__direct_speed": "Définition",
+    "sequences__passes_per_seq": "Définition",
+    "sequences__sequence_time": "Définition",
+    "sequences__build_ups__total": "Définition",
+    "sequences__build_ups__goals": "Définition",
+    "sequences__direct_attacks__total": "Définition",
+    "sequences__direct_attacks__goals": "Définition",
+    "direct_attack_prop": "Définition",
+    "build_ups_prop": "Définition",
+    "fast_break_prop": "Définition",
+
+    # JEU DE PASSE
+    "passing__avg_poss": "Définition",
+    "passing__all_passes__pct": "Définition",
+    "passing__final_third_passes__successful": "Définition",
+    "passing__final_third_passes__pct": "Définition",
+    "passing__pass_direction__fwd": "Définition",
+    "passing__pass_direction__bwd": "Définition",
+    "passing__pass_direction__left": "Définition",
+    "passing__pass_direction__right": "Définition",
+    "passing__crosses__total": "Définition",
+    "passing__crosses__successful": "Définition",
+    "passing__crosses__pct": "Définition",
+    "passing__through_balls": "Définition",
+    "Progression_PrgC__std": "Définition",
+    "Progression_PrgP__std": "Définition",
+    "Carries_Carries__poss": "Définition",
+    "Carries_1/3__poss": "Définition",
+    "Carries_Mis__poss": "Définition",
+    "Carries_Dis__poss": "Définition",
+    "Receiving_PrgR__poss": "Définition",
+    "Performance_Crs__misc": "Définition",
+    "Total_Cmp__pass": "Définition",
+    "Short_Cmp__pass": "Définition",
+    "Short_Cmp%__pass": "Définition",
+    "Medium_Cmp__pass": "Définition",
+    "Medium_Cmp%__pass": "Définition",
+    "Long_Cmp__pass": "Définition",
+    "Long_Cmp%__pass": "Définition",
+    "PPA__pass": "Définition",
+    "CrsPA__pass": "Définition",
+    "PrgP__pass": "Définition",
+    "Long_Att__pass_prop": "Définition",
+    "Per_90_min_CrsPA__pass": "Définition",
+    "Per_90_min_Progression_PrgP__std": "Définition",
+    "Per_90_min_Progression_PrgC__std": "Définition",
+    "Per_90_min_Carries_Carries__poss": "Définition",
+    "Per_90_min_Carries_1/3__poss": "Définition",
+    "Per_90_min_Receiving_PrgR__poss": "Définition",
+    "Per_90_min_Total_Cmp__pass": "Définition",
+    "Per_90_min_Carries_Mis__poss": "Définition",
+    "Per_90_min_Carries_Dis__poss": "Définition",
+
+    # PRESSING
+    "pressing__pressed_seqs": "Définition",
+    "pressing__ppda": "Définition",
+    "pressing__start_distance_m": "Définition",
+    "pressing__high_turnovers__shot_ending": "Définition",
+    "pressing__high_turnovers__goal_ending": "Définition",
+    "pressing__high_turnovers__pct_end_in_shot": "Définition",
+
+    # JEU SANS BALLON
+    "defending_overall__goals": "Définition",
+    "defending_overall__xg": "Définition",
+    "defending_overall__goals_vs_xg": "Définition",
+    "defending_overall__shots": "Définition",
+    "defending_overall__sot": "Définition",
+    "defending_overall__conv_pct": "Définition",
+    "defending_overall__xg_per_shot": "Définition",
+    "defending_overall__shots_in_box_pct": "Définition",
+    "defending_overall__goals_in_box_pct": "Définition",
+    "defending_misc__touches_in_box": "Définition",
+    "defending_misc__hit_post": "Définition",
+    "defending_misc__offsides": "Définition",
+    "defending_misc__headers__total": "Définition",
+    "defending_misc__headers__goals": "Définition",
+    "defending_misc__fast_breaks__total": "Définition",
+    "defending_misc__fast_breaks__goals": "Définition",
+    "Performance_CS__keeper": "Définition",
+    "Performance_CS%__keeper": "Définition",
+    "Performance_Int__misc": "Définition",
+    "Performance_TklW__misc": "Définition",
+    "Performance_Recov__misc": "Définition",
+    "Tackles_Tkl__def": "Définition",
+    "Blocks_Blocks__def": "Définition",
+    "Clr__def": "Définition",
+
+    # COUP DE PIED ARRÊTÉS (DEFENSIF)
+    "defending_set_pieces__goals": "Définition",
+    "defending_set_pieces__shots": "Définition",
+    "defending_set_pieces__xg": "Définition",
+    "defending_set_pieces__goal_pct": "Définition",
+    "defending_set_pieces__shot_pct": "Définition",
+    "defending_set_pieces__xg_pct": "Définition",
+    "defending_defensive_actions__tackles": "Définition",
+    "defending_defensive_actions__interceptions": "Définition",
+    "defending_defensive_actions__recoveries": "Définition",
+    "defending_defensive_actions__blocks": "Définition",
+    "defending_defensive_actions__clearances": "Définition",
+    "defending_misc__free_kicks__total": "Définition",
+    "defending_misc__free_kicks__goals": "Définition",
+
+    # PENALTIES
+    "attacking_misc__penalties__total": "Définition",
+    "attacking_misc__penalties__goals": "Définition",
+    "misc.__pens_conceded": "Définition",
+    "Performance_PK__std": "Définition",
+    "Performance_PKatt__std": "Définition",
+
+    # FAUTES
+    "misc.__fouled": "Définition",
+    "misc.__yellows": "Définition",
+    "misc.__reds": "Définition",
+    "misc.__fouls": "Définition",
+    "misc.__opp_yellows": "Définition",
+    "misc.__opp_reds": "Définition",
+    "Performance_CrdY__std": "Définition",
+    "Performance_CrdR__std": "Définition",
+    "Performance_Fls__misc": "Définition",
+    "Performance_Fld__misc": "Définition",
+
+    # DUELS
+    "defending_defensive_actions__ground_duels_won": "Définition",
+    "defending_defensive_actions__aerial_duels_won": "Définition",
+    "Aerial_Duels_Won__misc": "Définition",
+    "Aerial_Duels_Lost__misc": "Définition",
+    "Per_90_min_Aerial_Duels_Won__misc": "Définition",
+
+    # DRIBBLES
+    "Take_Ons_Att__poss": "Définition",
+    "Take_Ons_Succ__poss": "Définition",
+    "Take_Ons_Succ%__poss": "Définition",
+    "Per_90_min_Take_Ons_Att__poss": "Définition",
+    "Per_90_min_Take_Ons_Succ__poss": "Définition",
+
+    # RÉSULTATS
+    "Performance_W__keeper": "Définition",
+    "Performance_D__keeper": "Définition",
+    "Performance_L__keeper": "Définition",
+    "Team_Success_PPM__ptime": "Définition",
+    "Team_Success_+/___ptime": "Définition",
+    "Team_Success_+/_90__ptime": "Définition",
+
+    # AUTRES
+    "misc.__subs_used": "Définition",
+    "misc.__subs_goals": "Définition",
+    "Subs_Subs__ptime": "Définition",
+    "misc.__errors_lead_to_shot": "Définition",
+    "misc.__errors_lead_to_goal": "Définition",
+    "Err__def": "Définition",
+}
+
+
+def get_definition(stat_key: str) -> str:
+    return glossary_fr.get(stat_key, "Définition à ajouter.")
 
 # Fonction pour renommer les noms des catégories / Function for renaming category names / Función para renombrar los nombres de las categorías
 def format_stat_name(stat):
@@ -1156,11 +1435,257 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
 
     elif selected == "Stats +":
-        st.header("📈 Stats aggrégées par catégorie")
-        # ...
+        # Page en français
+        if lang == "Français":
+            st.markdown("<h4 style='text-align: center;'>🏅 Classement des équipes (0-100) pour les statistiques aggrégées par catégorie </h4>", unsafe_allow_html=True) # Affichage du titre de la page
+            df = pd.read_csv("../data/team/database_team.csv") # Récupération des données
+            
+            # Récupération des colonnes "score_" + "rating"
+            all_stats_raw = [col for col in df.columns if col.startswith("score_")]
+            if "rating" in df.columns:
+                all_stats_raw.append("rating")
+
+            # Traduction pour l'affichage
+            fr_map = base_stat_translation.get("fr", {})
+
+            translated_stats = [
+                "Note" if col == "rating"
+                else fr_map.get(col.replace("score_", ""), col)
+                for col in all_stats_raw
+            ]
+            stat_name_mapping = dict(zip(translated_stats, all_stats_raw))
+            
+            selected_stat_display = st.sidebar.selectbox("Choisissez une statistique :", [""] + translated_stats) # Demande à l'utilisateur du choix de statistique
+            
+            selected_stat = stat_name_mapping.get(selected_stat_display, None)
+
+            if not selected_stat:
+                # Si la métrique est selectionné, nous cachons l'image
+                st.image("../image/team_ranking_basis.jpg")
+                st.info("Dérouler la barre latérale pour sélectionner la langue, la métrique et les filtres de votre choix")
+                    
+            if selected_stat:
+                # Début de la sidebar
+                with st.sidebar:
+                    st.markdown("### 🎯 Filtres")
+                    
+                    df_with_stat = df.dropna(subset=[selected_stat]) # Filtre selon la statistique sélectionnée
+
+                    filtered_df = df_with_stat.copy()  # Point de départ pour les filtres
+
+                    # Filtre Championnat
+                    championnat_options = sorted(filtered_df["championship_name"].dropna().unique())
+                    championnat = st.selectbox("Championnat", [""] + championnat_options)
+
+                    if championnat:
+                        filtered_df = filtered_df[filtered_df["championship_name"] == championnat]
+
+                    # Filtre Club
+                    club_options = sorted(filtered_df["team_code"].dropna().unique())
+                    club = st.selectbox("Club", [""] + club_options)
+
+                    if club:
+                        filtered_df = filtered_df[filtered_df["team_code"] == club]
+
+                # Liste de colonnes
+                df_stat = filtered_df[['team_code', 'team_logo', 'championship_name', 'country','rank_big5', 'rank_league', selected_stat]].dropna(subset=[selected_stat])
+
+                df_stat['country'] = df_stat['country'].apply(lambda x: translate_country(x, lang="fr")) # Traduction du pays de l'équipe dans la table
+                
+                df_stat = df_stat.sort_values(by=selected_stat, ascending=False) # Ordonner les données du plus grand au plus petit
+
+                top3 = df_stat.head(3).reset_index(drop=True) # Affichage du podium
+
+                # Ordre podium et médailles
+                podium_order = [0, 1, 2]
+                medals = ["🥇","🥈", "🥉"]
+
+                podium_html = "<div style='display: flex; overflow-x: auto; gap: 2rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;'>"
+
+                for display_index, i in enumerate(podium_order):
+                    if i < len(top3):
+                        team = top3.loc[i]
+                        name = team['team_code']
+                        stat = round(team[selected_stat]) if pd.notna(team[selected_stat]) else "-"
+                        image_url = team['team_logo']
+                        image_html = f"<img src='{image_url}' style='width: 100%; max-width: 120px; border-radius: 10px; margin-bottom: 0.5rem;'>" if pd.notna(image_url) else ""
+
+                        team_html = (
+                            "<div style='min-width: 200px; text-align: center;'>"
+                            f"<div style='font-size: 30px;'>{medals[display_index]}</div>"
+                            f"<div style='font-weight: bold; font-size: 18px; margin: 0.5rem 0;'>{name}</div>"
+                            f"{image_html}"
+                            f"<div style='font-size: 16px;'><strong>{selected_stat_display}:</strong> {stat}</div>"
+                            "</div>"
+                        )
+                        podium_html += team_html
+
+                podium_html += "</div>"
+
+                st.markdown(podium_html, unsafe_allow_html=True)
+
+                # Choix des colonnes dans la table
+                final_df = df_stat.rename(columns={selected_stat: 'Statistique'})
+                final_df = final_df[['team_code', 'Statistique', 'championship_name', 'country', 'rank_big5', 'rank_league']]
+
+
+                # Traduction des colonnes en français
+                col_labels_fr = {"team_code": "Équipe","Statistique": "Statistique","championship_name": "Championnat",
+                "country": "Pays","rank_big5": "Power Ranking","rank_league": "Classement (Championnat)"}
+                final_df = final_df.rename(columns=col_labels_fr)
+
+                st.dataframe(final_df, use_container_width=True)
+
     elif selected == "Stats":
-        st.header("📋 Stats brutes")
-        # ...
+        # Page en français
+        if lang == "Français":
+            st.markdown("<h4 style='text-align: center;'>🏆 Classement des équipes pour les statistiques brutes</h4>", unsafe_allow_html=True) # Affichage du titre de la page
+            df = pd.read_csv("../data/team/database_team.csv") # Récupération des données
+            
+            categories_en = list(stats_team.keys()) # Catégories (clés anglaises)
+            categories_fr = [translate_categories_stats(c, "fr") for c in categories_en] # Libellés FR affichés
+            cat_display_to_key = dict(zip(categories_fr, categories_en))
+            display_options = [""] + categories_fr + ["Toutes les catégories"]
+
+            selected_category_display = st.sidebar.selectbox("Choisissez une catégorie :", display_options) # On choisit la catégorie de son choix
+
+            # Déterminer la clé interne choisie
+            if selected_category_display == "":
+                available_stats = []
+            elif selected_category_display == "Toutes les catégories":
+                available_stats = sorted({s for stats in stats_team.values() for s in stats if s in df.columns})
+            else:
+                selected_key = cat_display_to_key[selected_category_display]
+                available_stats = sorted([s for s in stats_team[selected_key] if s in df.columns])
+
+            selected_stat = st.sidebar.selectbox("Choisissez une statistique :", [""] + available_stats) # Sélecteur de statistique
+
+            if not selected_stat:
+                # Si la métrique est selectionné, nous cachons l'image
+                st.image("../image/team_ranking.jpg")
+                st.info("Dérouler la barre latérale pour sélectionner la langue, la métrique et les filtres de votre choix")
+                    
+            if selected_stat:
+                # Début de la sidebar
+                with st.sidebar:
+                    st.markdown("### 🎯 Filtres")
+
+                    df_with_stat = df.dropna(subset=[selected_stat]) # Filtre selon la statistique sélectionnée
+
+                    filtered_df = df_with_stat.copy()  # Point de départ pour les filtres
+
+
+                    # Filtre Championnat
+                    championnat_options = sorted(filtered_df["championship_name"].dropna().unique())
+                    championnat = st.selectbox("Championnat", [""] + championnat_options)
+
+                    if championnat:
+                        filtered_df = filtered_df[filtered_df["championship_name"] == championnat]
+
+                    # Filtre Club
+                    club_options = sorted(filtered_df["team_code"].dropna().unique())
+                    club = st.selectbox("Club", [""] + club_options)
+
+                    if club:
+                        filtered_df = filtered_df[filtered_df["team_code"] == club]
+
+                # Déterminer les catégories à afficher dans le glossaire
+                if selected_category_display == "":
+                    cats_to_show = []
+                elif selected_category_display == "Toutes les catégories":
+                    cats_to_show = list(stats_team.keys())
+                else:
+                    cats_to_show = [cat_display_to_key[selected_category_display]]
+
+                # Affichage du glossaire
+                with st.sidebar.expander("Glossaire des statistiques"):
+                    if selected_category_display == "":
+                        st.markdown("Sélectionnez une catégorie pour afficher le glossaire correspondant.")
+                    else:
+                        cats_to_show = (
+                            list(stats_team.keys())
+                            if selected_category_display == "Toutes les catégories"
+                            else [cat_display_to_key[selected_category_display]]
+                        )
+
+                        for cat_key in cats_to_show:
+                            cat_title_fr = translate_categories_stats(cat_key, "fr").upper()  # ou cat_key si tu ne veux pas traduire
+                            st.markdown(f"### {cat_title_fr}")
+
+                            stats_in_cat = [s for s in stats_team[cat_key] if s in df.columns]
+                            if not stats_in_cat:
+                                st.markdown("_Aucune statistique disponible pour cette catégorie dans les données chargées._")
+                                continue
+
+                            lines = []
+                            for s in stats_in_cat:
+                                definition = get_definition(s)  # renvoie "Définition" par défaut dans ton dict
+                                lines.append(f"- **{s}** : {definition}")
+                            st.markdown("\n".join(lines))
+
+
+                # Liste de colonnes
+                df_stat = filtered_df[['team_code', 'team_logo', 'championship_name', 'country','rank_big5', 'rank_league', selected_stat]].dropna(subset=[selected_stat])
+
+                df_stat['country'] = df_stat['country'].apply(lambda x: translate_country(x, lang="fr")) # Traduction du pays dans la table
+
+                # Filtrage spécial si la statistique sélectionnée est inversée
+                if selected_stat == 'GA_per90':
+                    df_stat = df_stat[df_stat['position'] == 'Goalkeeper']
+                    df_stat = df_stat.sort_values(by=selected_stat, ascending=True)
+                else:
+                    df_stat = df_stat.sort_values(by=selected_stat, ascending=False)
+
+                top3 = df_stat.head(3).reset_index(drop=True) # Affichage du podium
+
+                podium_order = [0, 1, 2]
+                medals = ["🥇", "🥈", "🥉"]
+
+                podium_html = (
+                    "<div style='overflow-x: auto; margin-bottom: 2rem; padding-bottom: 1rem; "
+                    "border-bottom: 1px solid #e0e0e0; width: 100%;'>"
+                    "<div style='display: inline-flex; gap: 2rem; white-space: nowrap;'>"
+                )
+
+                for display_index, i in enumerate(podium_order):
+                    if i < len(top3):
+                        team = top3.loc[i]
+                        name = team['team_code']
+                        image_url = team['team_logo']
+                        stat_val = round(team[selected_stat], 2) if pd.notna(team[selected_stat]) else "-"
+
+                        image_html = (
+                            f"<img src='{image_url}' style='width: 100%; max-width: 120px; "
+                            "border-radius: 10px; margin-bottom: 0.5rem;'>"
+                            if pd.notna(image_url) else ""
+                        )
+
+                        team_html = (
+                            "<div style='display: inline-block; min-width: 200px; max-width: 220px; text-align: center;'>"
+                            f"<div style='font-size: 30px;'>{medals[display_index]}</div>"
+                            f"<div style='font-weight: bold; font-size: 18px; margin: 0.5rem 0;'>{name}</div>"
+                            f"{image_html}"
+                            f"<div style='font-size: 16px;'></strong> {stat_val}</div>"
+                            "</div>"
+                        )
+
+                        podium_html += team_html
+
+                podium_html += "</div></div>"
+
+                st.markdown(podium_html, unsafe_allow_html=True)
+
+                # Choix des colonnes dans la table
+                final_df = df_stat.rename(columns={selected_stat: 'Statistique'})
+                final_df = final_df[['team_code', 'Statistique', 'championship_name', 'country', 'rank_big5', 'rank_league']]
+
+                # Traduction des colonnes en français
+                col_labels_fr = {"team_code": "Équipe","Statistique": "Statistique","championship_name": "Championnat",
+                "country": "Pays","rank_big5": "Power Ranking","rank_league": "Classement (Championnat)"}
+                final_df = final_df.rename(columns=col_labels_fr)
+
+                st.dataframe(final_df, use_container_width=True)
+
     elif selected in ["Top"]:
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>🏅 Power Ranking</h4>", unsafe_allow_html=True) # Afficher le titre
