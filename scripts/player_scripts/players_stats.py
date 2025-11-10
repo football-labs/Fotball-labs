@@ -47,9 +47,8 @@ cols_pct = ["G/Sh", "SoT%", "CS%", "Launch%", "Stp%", "Cmp%", "Tkl%", "Succ%", "
 # Colonnes à transformer en statistiques par 90 minutes / Columns to convert to per-90 stats 
 # Columnas que se convertirán en estadísticas cada 90 minutos
 cols_per_90 = [
-    "Gls", "Ast", "G+A", "G-PK", "PK", "CrdY", "CrdR", "npxG", "xAG","PrgC", "PrgP", "PrgR", "Sh", "SoT", "Cmp","1/3", "PPA", "CrsPA",
-    "Sw", "Crs","Tkl", "Int", "Clr", "Err","Fld", "Touches", "Succ","Carries", "Mis","Dis", "Fls", "PKwon", "PKcon", "Recov", "GA",
-    "SoTA", "Saves", "PKm", "PKsv", "Thr", "Stp", "Won", "#OPA","PSxG","G-xG"]
+    "Gls", "Ast", "G+A", "G-PK", "PK", "CrdY", "CrdR", "npxG", "xAG","PrgC", "PrgP", "PrgR", "Sh", "SoT", "Cmp","1/3", "PPA", "CrsPA","Sw", "Crs","Tkl", "Int", "Clr", "Err","Fld",
+    "Touches", "Succ","Carries", "Mis","Dis", "Fls", "PKwon", "PKcon", "Recov", "GA","SoTA", "Saves", "PKm", "PKsv", "Thr", "Stp", "Won", "#OPA","PSxG","G-xG"]
 
 # Nettoyage des colonnes non présentes / Keep only available columns / Limpieza de columnas no presentes
 cols_fixed = [col for col in cols_fixed if col in fbref_data.columns]
@@ -69,8 +68,7 @@ per90_df = per90_df.fillna(0)
 fbref_df = pd.concat([fbref_data, per90_df], axis=1)
 
 
-# Remplir les % manquants par la moyenne (par ligue puis globale) / Fill missing % by mean (by league then global) /
-# Rellenar % faltantes por la media (por liga y luego global)
+# Remplir les % manquants par la moyenne (par ligue puis globale) / Fill missing % by mean (by league then global) / Rellenar % faltantes por la media (por liga y luego global)
 pct_cols_present = [c for c in cols_pct if c in fbref_df.columns]
 if pct_cols_present:
     if "Comp" in fbref_df.columns:
@@ -86,8 +84,7 @@ if pct_cols_present:
 # Se recupera el máximo número de partidos posibles por campeonato
 MP_max_per_league = fbref_df.assign(MP=lambda d: pd.to_numeric(d["MP"], errors="coerce"))
 
-# On en déduit le nombre maximum de minutes possibles par championnat 
-# From this, we can deduce the maximum number of minutes possible per league
+# On en déduit le nombre maximum de minutes possibles par championnat  / From this, we can deduce the maximum number of minutes possible per league
 # De ello se deduce el número máximo de minutos posibles por campeonato
 comp_max_minutes = MP_max_per_league.groupby("Comp")["MP"].max().mul(90)
 
@@ -351,9 +348,7 @@ final_column_order = [
     "SoTA_per90", "Saves_per90", "PSxG_per90", "PSxG+/-","/90", "PKm_per90","PKsv_per90", "Thr_per90", "Stp_per90","Save%","CS%",
     "AvgLen", "Launch%", "Stp%", "#OPA_per90"
 ]
-
-
-                   
+               
 if 'player_name' in all_matches.columns and 'MP' in all_matches.columns:
     all_matches = all_matches.sort_values('MP', ascending=False)
     all_matches = all_matches.drop_duplicates(subset='player_name', keep='first')
@@ -411,19 +406,9 @@ inverted_stats = ['Err_per90', 'PKcon_per90', 'CrdR_per90', 'CrdY_per90', 'Fls_p
 
 # Catégorie des postes / Position categories / Categoría de puestos
 position_category = {
-    "Goalkeeper": "Goalkeepers",
-    "Centre-Back": "Central Defenders",
-    "Right-Back": "Fullbacks",
-    "Left-Back": "Fullbacks",
-    "Left Midfield": "Midfielders",
-    "Right Midfield": "Midfielders",
-    "Central Midfield": "Midfielders",
-    "Defensive Midfield": "Midfielders",
-    "Attacking Midfield": "Attacking Midfielders / Wingers",
-    "Right Winger": "Attacking Midfielders / Wingers",
-    "Left Winger": "Attacking Midfielders / Wingers",
-    "Second Striker": "Forwards",
-    "Centre-Forward": "Forwards"
+    "Goalkeeper": "Goalkeepers","Centre-Back": "Central Defenders","Right-Back": "Fullbacks","Left-Back": "Fullbacks","Left Midfield": "Midfielders","Right Midfield": "Midfielders",
+    "Central Midfield": "Midfielders","Defensive Midfield": "Midfielders","Attacking Midfield": "Attacking Midfielders / Wingers","Right Winger": "Attacking Midfielders / Wingers",
+    "Left Winger": "Attacking Midfielders / Wingers","Second Striker": "Forwards","Centre-Forward": "Forwards"
 }
 df["position_group"] = df["position"].map(position_category)
 
@@ -445,8 +430,7 @@ normalized_df = (
 )
 df = pd.concat([df, normalized_df], axis=1, copy=False)
 
-# Choix des statistiques et de leurs poids associés / Choice of statistics and their associated weights
-# Selección de las estadísticas y sus ponderaciones asociadas
+# Choix des statistiques et de leurs poids associés / Choice of statistics and their associated weights / Selección de las estadísticas y sus ponderaciones asociadas
 categories = {
     "goal_scoring_created": [(0.6, "npxG"),  (0.3, "npxG_per90"), (0.05, "SoT_per90"), (0.05, "Sh_per90")],
     "finish": [(0.5, "G-PK"), (0.2, "G-PK_per90"), (0.2, "G-xG"), (0.05, "G-xG_per90"),  (0.03, "G/Sh"), (0.02, "SoT%")],
@@ -479,8 +463,7 @@ def compute_category_score(row, stat_list):
 for cat_name, stat_list in {**categories, **goalkeeper_categories}.items():
     df[f"score_{cat_name}_raw"] = df.apply(lambda row: compute_category_score(row, stat_list), axis=1)
 
-# Normaliser les scores des catégories par groupe de postes en utilisant les percentiles (0-100)
-# Normalize category scores per position_group using percentiles (0-100)
+# Normaliser les scores des catégories par groupe de postes en utilisant les percentiles (0-100) / Normalize category scores per position_group using percentiles (0-100)
 # Normalizar las puntuaciones de las categorías por grupo de puestos utilizando percentiles (0-100)
 def percentile_rank(series):
     return 100 * (rankdata(series, method="min") - 1) / (len(series) - 1) if len(series) > 1 else pd.Series([50.0] * len(series), index=series.index)
@@ -575,8 +558,7 @@ df["rating"] = df.apply(compute_rating, axis=1)
 
 df["rating_raw"] = df["rating"]
 
-# Équilibrer la note selon la position du joueur / Balance the rating according to the player's position
-# Equilibrar la nota según la posición del intérprete
+# Équilibrer la note selon la position du joueur / Balance the rating according to the player's position / Equilibrar la nota según la posición del intérprete
 df["rating_raw"] = pd.to_numeric(df["rating"], errors="coerce")
 df["rating_percentile"] = df.groupby("position_group")["rating_raw"].transform(percentile_rank)
 df["rating"] = (0.4 * df["rating_raw"] + 0.6 * df["rating_percentile"]).round(0).astype("Int64")
@@ -618,8 +600,7 @@ df["max_minute_season"] = df["Comp"].map(comp_to_max_minutes)
 df["minute_ratio"] = df["Min"] / df["max_minute_season"]
 
 
-# Pénalité logistique graduelle : pas de pénalité si ratio ≥ 0.6, max 0.8 si ratio ≤ 0.15
-# Graduated logistical penalty: no penalty if ratio ≥ 0.6, max 0.8 if ratio ≤ 0.15
+# Pénalité logistique graduelle : pas de pénalité si ratio ≥ 0.6, max 0.8 si ratio ≤ 0.15 / Graduated logistical penalty: no penalty if ratio ≥ 0.6, max 0.8 if ratio ≤ 0.15
 # Penalización logística gradual: sin penalización si la ratio es ≥ 0,6, máximo 0,8 si la ratio es ≤ 0,15
 def compute_minutes_penalty(ratio):
     if ratio >= 0.6:
@@ -641,12 +622,10 @@ df.drop(columns=["power_ranking_raw", "power_ranking_penalty", "max_minute_seaso
 
 # Liste des colonnes dans l’ordre désiré / List of column in the desired order / Lista de columnas en el orden deseado
 ordered_score_cols = [
-    "player_name", "player_id", "nationality", "Age", "Born", "position", "position_other", "height","foot","shirtNumber",
-    "joinedOn", "contract", "Comp","club_name", "marketValue", "imageUrl","agent_name", "outfitter","status","rating",
-    "score_goal_scoring_created","score_finish", "score_building", "score_creation","score_dribble","score_projection",
-    "score_defensive_actions", "score_waste", "score_faults_committed", "score_provoked_fouls","score_aerial",
-    "score_goal_scoring_conceded", "score_efficiency", "score_error_fouls","score_short_clearance",
-    "score_long_clearance","score_positioning", "score_aerial_defense"
+    "player_name", "player_id", "nationality", "Age", "Born", "position", "position_other", "height","foot","shirtNumber","joinedOn", "contract", "Comp","club_name",
+    "marketValue", "imageUrl","agent_name", "outfitter","status","rating","score_goal_scoring_created","score_finish", "score_building", "score_creation","score_dribble",
+    "score_projection","score_defensive_actions", "score_waste", "score_faults_committed", "score_provoked_fouls","score_aerial","score_goal_scoring_conceded", "score_efficiency",
+    "score_error_fouls","score_short_clearance","score_long_clearance","score_positioning", "score_aerial_defense"
 ]
 
 other_cols = [col for col in df.columns if col not in ordered_score_cols and not col.endswith('_norm') and col != "position_group"]

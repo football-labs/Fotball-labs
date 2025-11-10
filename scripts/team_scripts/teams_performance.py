@@ -37,14 +37,11 @@ stat_cols = list(df.columns[8:])
 # Reversing statistics where a high figure is an indication of underperformance
 # Invertir las estadísticas en las que una cifra elevada es indicativa de un rendimiento inferior al esperado
 inverted_stats = [
-    'defending_overall__goals','defending_overall__xg','defending_overall__shots','defending_overall__sot',
-    'defending_overall__xg_per_shot','defending_misc__touches_in_box','defending_overall__shots_in_box_pct',
-    'defending_overall__goals_in_box_pct','defending_set_pieces__goals','defending_set_pieces__shots',
-    'defending_set_pieces__xg','defending_misc__free_kicks__total','defending_misc__free_kicks__goals',
-    'defending_overall__goals_vs_xg','defending_overall__conv_pct','pressing__ppda','rank_league',
-    'misc.__pens_conceded','attacking_misc__offsides','misc.__yellows','misc.__reds','misc.__fouls',
-    'misc.__errors_lead_to_shot','misc.__errors_lead_to_goal','Per_90_min_Carries_Mis__poss',
-    'Per_90_min_Carries_Dis__poss'
+    'defending_overall__goals','defending_overall__xg','defending_overall__shots','defending_overall__sot','defending_overall__xg_per_shot','defending_misc__touches_in_box',
+    'defending_overall__shots_in_box_pct','defending_overall__goals_in_box_pct','defending_set_pieces__goals','defending_set_pieces__shots','defending_set_pieces__xg',
+    'defending_misc__free_kicks__total','defending_misc__free_kicks__goals','defending_overall__goals_vs_xg','defending_overall__conv_pct','pressing__ppda','rank_league',
+    'misc.__pens_conceded','attacking_misc__offsides','misc.__yellows','misc.__reds','misc.__fouls','misc.__errors_lead_to_shot','misc.__errors_lead_to_goal',
+    'Per_90_min_Carries_Mis__poss','Per_90_min_Carries_Dis__poss'
 ]
 
 # Normalisation / Normalization / Normalización
@@ -63,22 +60,21 @@ normalized_df = norm.add_suffix("_norm")
 df = pd.concat([df, normalized_df], axis=1, copy=False)
 
 
-# Choix des statistiques et de leurs poids associés / Choice of statistics and their associated weights
-# Selección de las estadísticas y sus ponderaciones asociadas
+# Choix des statistiques et de leurs poids associés / Choice of statistics and their associated weights / Selección de las estadísticas y sus ponderaciones asociadas
 categories = {
     ## ON-BALL
-    "goal_scoring_created": [(0.40, "Per_90_Minutes_npxG__std"),(0.15, "attacking_overall__xg"),(0.15, "attacking_overall__shots"),
-        (0.15, "attacking_overall__sot"),(0.15, "attacking_misc__touches_in_box")],
-    "finish": [(0.40, "Per_90_Minutes_G_PK__std"),(0.25, "attacking_overall__goals_vs_xg"),(0.15, "attacking_overall__goals"),
-        (0.10, "attacking_overall__conv_pct"),(0.10, "attacking_overall__xg_per_shot")],
-    "set_pieces_off": [(0.40, "attacking_set_pieces__xg"),(0.30, "attacking_set_pieces__goals"),(0.10, "attacking_set_pieces__shots"),
+    "goal_scoring_created": [(0.50, "Per_90_Minutes_npxG__std"),(0.15, "attacking_overall__shots"),(0.15, "attacking_overall__sot"),
+            (0.15, "attacking_misc__touches_in_box")],(0.05, "attacking_overall__xg"),
+    "finish": [(0.45, "Per_90_Minutes_G_PK__std"),(0.30, "attacking_overall__goals_vs_xg"),(0.10, "attacking_overall__conv_pct"),
+            (0.10, "attacking_overall__xg_per_shot")], (0.05, "attacking_overall__goals"),
+    "set_pieces_off": [(0.45, "attacking_set_pieces__goals"),(0.25, "attacking_set_pieces__xg"),(0.10, "attacking_set_pieces__shots"),
         (0.10, "attacking_misc__free_kicks__total"),(0.10, "attacking_misc__free_kicks__goals")],
-    "building": [(0.30, "Per_90_min_Total_Cmp__pass"),(0.20, "passing__final_third_passes__successful"),(0.20, "passing__all_passes__pct"),
-        (0.15, "Progression_PrgP__std"),(0.15, "Per_90_min_Receiving_PrgR__poss")],
+    "building": [(0.30, "passing__final_third_passes__successful"), (0.20, "Per_90_min_Progression_PrgP__std"),(0.15, "Per_90_min_Total_Cmp__pass"),
+        (0.15, "passing__all_passes__pct"),(0.15, "Per_90_min_Receiving_PrgR__poss")],
     "projection": [(0.50, "Per_90_min_Progression_PrgC__std"),(0.30, "Per_90_min_Carries_1/3__poss"),
                    (0.20, "Per_90_min_Carries_Carries__poss")],
-    "crosses": [(0.25, "passing__crosses__total"),(0.25, "passing__crosses__pct"),(0.20, "attacking_misc__headers__total"),
-        (0.20, "attacking_misc__headers__goals"),(0.10, "Per_90_min_CrsPA__pass")],
+    "crosses": [(0.35, "passing__crosses__total"),(0.3, "passing__crosses__pct"),(0.20, "attacking_misc__headers__goals"),
+                (0.10, "attacking_misc__headers__total"),(0.05, "Per_90_min_CrsPA__pass")],
     "dribble": [(0.70, "Per_90_min_Take_Ons_Att__poss"),(0.30, "Take_Ons_Succ%__poss")],
 
     ## OFF-BALL
@@ -123,8 +119,7 @@ def compute_category_score(row: pd.Series, stat_list) -> float:
 for cat_name, stat_list in categories.items():
     df[f"score_{cat_name}_raw"] = df.apply(lambda row: compute_category_score(row, stat_list), axis=1)
 
-# Normaliser les scores des catégories via percentiles (0-100) sur l'ensemble des équipes
-# Normalize category scores with percentiles (0-100) across all teams
+# Normaliser les scores des catégories via percentiles (0-100) sur l'ensemble des équipes / Normalize category scores with percentiles (0-100) across all teams
 # Normalizar las puntuaciones con percentiles (0-100) en todos los equipos
 def percentile_rank(series: pd.Series):
     s = pd.to_numeric(series, errors="coerce")
@@ -167,8 +162,7 @@ df["rating"] = df.apply(compute_rating, axis=1)
 # Power Ranking par championnat (source Opta Analyst) / Power Ranking by league (according to Opta Analyst) / Clasificación por campeonato (fuente: Opta Analyst)
 power_ranking = {"Premier League": 92.6,"Serie A": 87.0,"LaLiga": 87.0,"Bundesliga": 86.3,"Ligue 1": 85.3,}
 
-# Référence = Power Ranking de Premier League / Benchmark = Power Ranking de Premier League 
-# Referencia = Clasificación de poder de Premier League
+# Référence = Power Ranking de Premier League / Benchmark = Power Ranking de Premier League / Referencia = Clasificación de poder de Premier League
 reference_ranking = power_ranking["Premier League"]
 
 # Appliquer une pénalité relative : ratio entre ranking / référence (max 1) / Apply a relative penalty: ranking/reference ratio (max 1)
@@ -195,11 +189,10 @@ cols_to_drop = [c for c in cols_to_drop if c in df.columns]
 df = df.drop(columns=cols_to_drop)
 
 # Liste des colonnes dans l’ordre désiré / List of column in the desired order / Lista de columnas en el orden deseado
-ordered_score_cols = ["id_season", "team_id", "season_name", "country", "championship_name", "team_code", "team_logo", "rank_big5",
-    "rating","score_goal_scoring_created", "score_finish", "score_set_pieces_off", "score_building", "score_projection","score_crosses",
-    "score_dribble", "score_goal_scoring_conceded", "score_defensive_actions","score_set_pieces_def", "score_efficiency_goalkeeper",
-    "score_pressing", "score_possession", "score_direct_play","score_counter-attacking", "score_rank_league", "score_ground_duel",
-    "score_aerial", "score_provoked_fouls","score_faults_committed", "score_waste", "score_subs",]
+ordered_score_cols = ["id_season", "team_id", "season_name", "country", "championship_name", "team_code", "team_logo", "rank_big5","rating","score_goal_scoring_created",
+    "score_finish", "score_set_pieces_off", "score_building", "score_projection","score_crosses","score_dribble", "score_goal_scoring_conceded", "score_defensive_actions",
+    "score_set_pieces_def", "score_efficiency_goalkeeper","score_pressing", "score_possession", "score_direct_play","score_counter-attacking", "score_rank_league",
+    "score_ground_duel","score_aerial", "score_provoked_fouls","score_faults_committed", "score_waste", "score_subs",]
 
 # Conserver l'ordre souhaité puis le reste / Keep desired order then others / Mantener orden deseado y el resto
 exist_ordered = [c for c in ordered_score_cols if c in df.columns]
