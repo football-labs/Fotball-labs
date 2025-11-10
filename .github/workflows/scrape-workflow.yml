@@ -28,7 +28,7 @@ jobs:
 
       - name: Ejecutar script de Scrape
         # Asegúrate de que la ruta 'scripts/scrape.py' sea correcta
-        run: python scripts/scrape.py
+        run: python scripts/player/scripts/Fbref/player_fbref.py
 
       - name: Commit y Push del archivo CSV generado
         uses: stefanzweifel/git-auto-commit-action@v5 # Acción para hacer commit y push automáticamente
@@ -36,7 +36,7 @@ jobs:
           commit_message: "chore: Actualizar datos scrapeados [skip ci]" # Mensaje del commit
           branch: main # Rama a la que se hará el commit
           # IMPORTANTE: Cambia 'data/scraped_data.csv' si tu script genera un archivo diferente o en otra ubicación
-          file_pattern: ./data/all_leagues_stats.csv
+          file_pattern: ./data/player/all_leagues_stats.csv
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
           commit_author: GitHub Actions Bot <actions@github.com>
