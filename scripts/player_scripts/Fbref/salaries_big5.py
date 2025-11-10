@@ -80,6 +80,6 @@ if dfs:
     df_final['Player'] = df_final['Player'].replace(dicc_reemplazo_nombres)
     # File Location
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    output_dir = os.path.join(root_dir, 'data')
+    output_dir = os.path.join(root_dir, 'data', 'player')
     os.makedirs(output_dir, exist_ok=True)
     df_final.to_csv(os.path.join(output_dir, 'salaries.csv'), index=False)
