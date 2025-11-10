@@ -175,6 +175,6 @@ final_merged_df = final_merged_df.drop_duplicates(subset='PlSqu')
 final_merged_df['Comp'] = final_merged_df['Comp'].replace('Ligue', 'Ligue 1')
 
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-output_dir = os.path.join(root_dir, 'data')
+output_dir = os.path.join(root_dir, 'data', 'player')
 os.makedirs(output_dir, exist_ok=True)
 final_merged_df.to_csv(os.path.join(output_dir, 'player_stats_cleaned_2025_2026.csv'), index=False)
