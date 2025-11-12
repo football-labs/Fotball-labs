@@ -64,15 +64,14 @@ df = pd.concat([df, normalized_df], axis=1, copy=False)
 categories = {
     ## ON-BALL
     "goal_scoring_created": [(0.50, "Per_90_Minutes_npxG__std"),(0.15, "attacking_overall__shots"),(0.15, "attacking_overall__sot"),
-            (0.15, "attacking_misc__touches_in_box")],(0.05, "attacking_overall__xg"),
+            (0.15, "attacking_misc__touches_in_box"),(0.05, "attacking_overall__xg")],
     "finish": [(0.45, "Per_90_Minutes_G_PK__std"),(0.30, "attacking_overall__goals_vs_xg"),(0.10, "attacking_overall__conv_pct"),
-            (0.10, "attacking_overall__xg_per_shot")], (0.05, "attacking_overall__goals"),
+            (0.10, "attacking_overall__xg_per_shot"), (0.05, "attacking_overall__goals")],
     "set_pieces_off": [(0.45, "attacking_set_pieces__goals"),(0.25, "attacking_set_pieces__xg"),(0.10, "attacking_set_pieces__shots"),
         (0.10, "attacking_misc__free_kicks__total"),(0.10, "attacking_misc__free_kicks__goals")],
     "building": [(0.30, "passing__final_third_passes__successful"), (0.20, "Per_90_min_Progression_PrgP__std"),(0.15, "Per_90_min_Total_Cmp__pass"),
         (0.15, "passing__all_passes__pct"),(0.15, "Per_90_min_Receiving_PrgR__poss")],
-    "projection": [(0.50, "Per_90_min_Progression_PrgC__std"),(0.30, "Per_90_min_Carries_1/3__poss"),
-                   (0.20, "Per_90_min_Carries_Carries__poss")],
+    "projection": [(0.50, "Per_90_min_Progression_PrgC__std"),(0.30, "Per_90_min_Carries_1/3__poss"),(0.20, "Per_90_min_Carries_Carries__poss")],
     "crosses": [(0.35, "passing__crosses__total"),(0.3, "passing__crosses__pct"),(0.20, "attacking_misc__headers__goals"),
                 (0.10, "attacking_misc__headers__total"),(0.05, "Per_90_min_CrsPA__pass")],
     "dribble": [(0.70, "Per_90_min_Take_Ons_Att__poss"),(0.30, "Take_Ons_Succ%__poss")],
