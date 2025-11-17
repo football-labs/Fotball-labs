@@ -366,12 +366,12 @@ all_matches.drop(columns=[col for col in cols_to_remove if col in all_matches.co
 final_column_order = [
     #"Player", "Nation", "date_of_birth", "Player_clean", "name_clean", "name_lower", "match_score", "match_pass", "Born_year", "birth_year",
     #"fbref_player_name",tm_player_name","matching_pass","fuzzy_score",
-    "player_name", "player_id", "nationality", "Age", "Born", "position", "position_other", "height","foot","shirtNumber","joinedOn", "contract", "Comp","club_name"
-    "marketValue", "imageUrl","agent_name", "outfitter","status","MP","Starts","Min", "90s", "Gls_per90", "Ast_per90", "G+A_per90", "G-PK", "G-PK_per90", "G-xG_per90","PK_per90",
-    "npxG", "npxG_per90","xAG_per90","PrgC_per90","G-xG", "A-xAG", "Sh_per90", "SoT_per90", "G/Sh", "SoT%","PrgP_per90","PrgR_per90", "Cmp","Cmp_per90", "Cmp%", "1/3_per90",
-    "PPA_per90","CrsPA_per90", "AvgDist","Sw_per90","Crs_per90", "Tkl_per90_Padj","Int_per90_Padj","Clr_per90_Padj","Blocks_stats_defense_per90_Padj","Tkl","Tkl_per90","Int_per90",
-    "Clr_per90", "Err_per90","Fld_per90", "Touches_per90","Succ","Succ_per90","Carries_per90", "Mis_per90","Dis_per90", "Fls_per90","PKwon_per90", "PKcon_per90", "Recov_per90",
-    "Tkl%", "Succ%","Won", "Won_per90", "Won%", "CrdY_per90", "CrdR_per90","GA_per90","SoTA_per90", "Saves_per90", "PSxG_per90", "PSxG+/-","/90", "PKm_per90","PKsv_per90",
+    "player_name", "player_id", "nationality", "Age", "Born", "position", "position_other", "height","foot","shirtNumber","joinedOn", "contract", "Comp","club_name","marketValue",
+    "imageUrl","agent_name", "outfitter","status","MP","Starts","Min", "90s", "Gls_per90", "Ast_per90", "G+A_per90", "G-PK", "G-PK_per90", "G-xG_per90","PK_per90","npxG", "npxG_per90",
+    "xAG_per90","PrgC_per90","G-xG", "A-xAG", "Sh_per90", "SoT_per90", "G/Sh", "SoT%","PrgP_per90","PrgR_per90", "Cmp","Cmp_per90", "Cmp%", "1/3_per90","PPA_per90","CrsPA_per90",
+    "AvgDist","Sw_per90","Crs_per90", "Tkl_per90_Padj","Int_per90_Padj","Clr_per90_Padj","Blocks_stats_defense_per90_Padj","Tkl","Tkl_per90","Int_per90","Clr_per90",
+    "Blocks_stats_defense_per90","Err_per90","Fld_per90", "Touches_per90","Succ","Succ_per90","Carries_per90", "Mis_per90","Dis_per90", "Fls_per90","PKwon_per90","PKcon_per90",
+    "Recov_per90","Tkl%", "Succ%","Won", "Won_per90", "Won%", "CrdY_per90", "CrdR_per90","GA_per90","SoTA_per90", "Saves_per90", "PSxG_per90", "PSxG+/-","/90","PKm_per90","PKsv_per90",
     "Thr_per90", "Stp_per90","Save%","CS%","AvgLen", "Launch%", "Stp%", "#OPA_per90"
 ]
                
