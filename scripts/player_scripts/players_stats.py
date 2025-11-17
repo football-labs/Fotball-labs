@@ -38,8 +38,7 @@ tm_data = pd.read_csv(tm_path)
 cols_fixed = ["Player", "Nation", "Age", "Born", "Comp", "Pos"]
 
 # Colonnes numérique / Digital columns / Columnas digitales
-cols_num = ["MP", "Starts", "Min", "90s", "Tkl", "Won", "Succ","Cmp", "A-xAG", "PSxG+/-","G-PK", "npxG", "AvgLen",
-            "/90", "AvgDist"]
+cols_num = ["MP", "Starts", "Min", "90s", "Tkl", "Won", "Succ","Cmp", "A-xAG", "PSxG+/-","G-PK", "npxG", "AvgLen","/90", "AvgDist"]
 
 # Colonne contenant un pourcentage / Column containing a percentage / Columna que contiene un porcentaje
 cols_pct = ["G/Sh", "SoT%", "CS%", "Launch%", "Stp%", "Cmp%", "Tkl%", "Succ%", "Won%", "Save%"] 
@@ -67,6 +66,46 @@ per90_df = per90_df.fillna(0)
 # On concatène les données / We concatenate the data / Se concatenan los datos
 fbref_df = pd.concat([fbref_data, per90_df], axis=1)
 
+# Récupération de la possession moyenne par équipe / Get average team possession / Recuperar la posesión media del equipo
+data_team_dir = (script_dir.parent.parent / "data" / "team").resolve()
+team_path = data_team_dir / "fbref_analyst_joined.csv"
+team_df = pd.read_csv(team_path)
+team_df = team_df[["team_code", "passing__avg_poss"]].copy()
+
+# Moyenne de la possession par équipe / Average possession per team / Media de posesión por equipo
+team_poss = (
+    team_df
+    .groupby("team_code", as_index=False)["passing__avg_poss"]
+    .mean()
+)
+
+# Mapping des noms d équipe / Mapping team names / Asignación de nombres de equipos
+df_to_info = {
+    "Sevilla": "Sevilla FC","Betis": "Real Betis","RB Leipzig": "Leipzig","Osasuna": "CA Osasuna","Nott'ham Forest": "Nott'm Forest","Newcastle Utd": "Newcastle","Milan": "AC Milan",
+    "Manchester Utd": "Man Utd","Manchester City": "Man City","Mallorca": "RCD Mallorca","Mainz 05": "Mainz","Leeds United": "Leeds","Köln": "1.FC Köln","Hamburger FC": "Hamburg",
+    "Gladbach": "Mönchengladbach","Elche": "Elche CF","Eint Frankfurt": "Frankfurt","Celta Vigo": "Celta de Vigo","Atlético Madrid": "Atlético"}
+
+fbref_df["team_code"] = fbref_df["Squad"].map(df_to_info).fillna(fbref_df["Squad"]) # Création du code équipe à partir de Squad / Build team_code from Squad / Crear team_code a partir de Squad
+
+fbref_df = fbref_df.merge(team_poss, on="team_code", how="left") # Jointure de la possession moyenne sur fbref_df / Merge average possession into fbref_df / Unir la posesión media en fbref_df
+
+# Calcul des statistiques ajustées à la possession / Compute possession adjusted statistics / Calcular estadísticas ajustadas por posesión
+
+# On évite la division par zéro pour 100 % de possession / Avoid division by zero for 100 percent possession / Evitar división por cero cuando la posesión es 100 por ciento
+denom = 100 - fbref_df["passing__avg_poss"]
+denom = denom.replace(0, np.nan)
+
+facteur_possession = 50 / denom # Facteur d ajustement / Adjustment factor / Factor de ajuste
+
+cols_def_per90 = ["Tkl_per90","Int_per90","Clr_per90","Blocks_stats_defense_per90"] # Colonnes per90 à ajuster / Per90 columns to adjust / Columnas per90 a ajustar
+
+# Création des colonnes ajustées _Padj / Create _Padj adjusted columns / Crear columnas ajustadas _Padj
+for col in cols_def_per90:
+    fbref_df[col + "_Padj"] = (fbref_df[col] * facteur_possession).round(2)
+
+# Remplacement des NaN restants par 0 / Replace remaining NaN values with 0 / Reemplazar los valores NaN restantes por 0
+padj_cols = [c + "_Padj" for c in cols_def_per90]
+fbref_df[padj_cols] = fbref_df[padj_cols].fillna(0)
 
 # Remplir les % manquants par la moyenne (par ligue puis globale) / Fill missing % by mean (by league then global) / Rellenar % faltantes por la media (por liga y luego global)
 pct_cols_present = [c for c in cols_pct if c in fbref_df.columns]
@@ -117,33 +156,26 @@ fbref_df["Player_clean"] = fbref_df["Player"].apply(normalize_name)
 tm_data["name_clean"] = tm_data["player_name"].apply(normalize_name)
 
 # Récupération des championnats / League mapping / Recuperación de los campeonatos
-club_mapping = {'Köln': '1.FC Köln','Milan': 'AC Milan','Alavés': 'Alavés','Arsenal': 'Arsenal','Aston Villa': 'Aston Villa',
-    'Atalanta': 'Atalanta','Athletic Club': 'Athletic Club','Atlético Madrid': 'Atlético','Augsburg': 'Augsburg',
-    'Barcelona': 'Barcelona','Bayern Munich': 'Bayern Munich','Bologna': 'Bologna','Bournemouth': 'Bournemouth',
-    'Brentford': 'Brentford','Brighton': 'Brighton','Burnley': 'Burnley','Osasuna': 'CA Osasuna','Cagliari': 'Cagliari',
-    'Celta Vigo': 'Celta de Vigo','Chelsea': 'Chelsea','Como': 'Como','Cremonese': 'Cremonese','Crystal Palace': 'Crystal Palace',
-    'Dortmund': 'Dortmund','Elche': 'Elche CF','Espanyol': 'Espanyol','Everton': 'Everton','Fiorentina': 'Fiorentina',
-    'Eint Frankfurt': 'Frankfurt','Freiburg': 'Freiburg','Fulham': 'Fulham','Genoa': 'Genoa','Getafe': 'Getafe','Girona': 'Girona',
-    'Hamburger SV': 'Hamburg','Heidenheim': 'Heidenheim','Hellas Verona': 'Hellas Verona','Hoffenheim': 'Hoffenheim','Inter': 'Inter',
-    'Juventus': 'Juventus','Lazio': 'Lazio','Lecce': 'Lecce','Leeds United': 'Leeds','RB Leipzig': 'Leipzig','Levante': 'Levante',
-    'Leverkusen': 'Leverkusen','Liverpool': 'Liverpool','Mainz 05': 'Mainz','Manchester City': 'Man City','Manchester Utd': 'Man Utd',
-    'Gladbach': 'Mönchengladbach','Napoli': 'Napoli','Newcastle Utd': 'Newcastle', "Nott'ham Forest": "Nott'm Forest",
-    'Parma': 'Parma','Rayo Vallecano': 'Rayo Vallecano','Mallorca': 'RCD Mallorca','Betis': 'Real Betis','Real Madrid': 'Real Madrid',
-    'Real Sociedad': 'Real Sociedad','Roma': 'Roma','Sassuolo': 'Sassuolo','Sevilla': 'Sevilla FC','St. Pauli': 'St. Pauli','Stuttgart': 'Stuttgart',
-    'Sunderland': 'Sunderland','Torino': 'Torino','Tottenham': 'Tottenham','Udinese': 'Udinese','Union Berlin': 'Union Berlin',
-    'Valencia': 'Valencia','Villarreal': 'Villarreal','Werder Bremen': 'Werder Bremen','West Ham': 'West Ham',
+club_mapping = {'Köln': '1.FC Köln','Milan': 'AC Milan','Alavés': 'Alavés','Arsenal': 'Arsenal','Aston Villa': 'Aston Villa','Atalanta': 'Atalanta','Athletic Club': 'Athletic Club',
+    'Atlético Madrid': 'Atlético','Augsburg': 'Augsburg','Barcelona': 'Barcelona','Bayern Munich': 'Bayern Munich','Bologna': 'Bologna','Bournemouth': 'Bournemouth',
+    'Brentford': 'Brentford','Brighton': 'Brighton','Burnley': 'Burnley','Osasuna': 'CA Osasuna','Cagliari': 'Cagliari','Celta Vigo': 'Celta de Vigo','Chelsea': 'Chelsea',
+    'Como': 'Como','Cremonese': 'Cremonese','Crystal Palace': 'Crystal Palace','Dortmund': 'Dortmund','Elche': 'Elche CF','Espanyol': 'Espanyol','Everton': 'Everton',
+    'Fiorentina': 'Fiorentina','Eint Frankfurt': 'Frankfurt','Freiburg': 'Freiburg','Fulham': 'Fulham','Genoa': 'Genoa','Getafe': 'Getafe','Girona': 'Girona','Hamburger SV': 'Hamburg',
+    'Heidenheim': 'Heidenheim','Hellas Verona': 'Hellas Verona','Hoffenheim': 'Hoffenheim','Inter': 'Inter','Juventus': 'Juventus','Lazio': 'Lazio','Lecce': 'Lecce',
+    'Leeds United': 'Leeds','RB Leipzig': 'Leipzig','Levante': 'Levante','Leverkusen': 'Leverkusen','Liverpool': 'Liverpool','Mainz 05': 'Mainz','Manchester City': 'Man City',
+    'Manchester Utd': 'Man Utd','Gladbach': 'Mönchengladbach','Napoli': 'Napoli','Newcastle Utd': 'Newcastle', "Nott'ham Forest": "Nott'm Forest",'Parma': 'Parma',
+    'Rayo Vallecano': 'Rayo Vallecano','Mallorca': 'RCD Mallorca','Betis': 'Real Betis','Real Madrid': 'Real Madrid','Real Sociedad': 'Real Sociedad','Roma': 'Roma',
+    'Sassuolo': 'Sassuolo','Sevilla': 'Sevilla FC','St. Pauli': 'St. Pauli','Stuttgart': 'Stuttgart','Sunderland': 'Sunderland','Torino': 'Torino','Tottenham': 'Tottenham',
+    'Udinese': 'Udinese','Union Berlin': 'Union Berlin','Valencia': 'Valencia','Villarreal': 'Villarreal','Werder Bremen': 'Werder Bremen','West Ham': 'West Ham',
     'Wolfsburg': 'Wolfsburg','Wolves': 'Wolves',
 
     # Équipe manquante pour l’instant
     'Pisa': 'Pisa Sporting Club','Oviedo': 'Real Oviedo',
     # Ligue 1
-    'Paris S-G': 'Paris Saint-Germain','Marseille': 'Olympique de Marseille','Monaco': 'AS Monaco','Strasbourg': 'RC Strasbourg Alsace',
-    'Lille': 'LOSC Lille','Lyon': 'Olympique Lyonnais','Nice': 'OGC Nice','Rennes': 'Stade Rennais FC','Paris FC': 'Paris FC',
-    'Lens': 'RC Lens','Toulouse': 'Toulouse FC','Brest': 'Stade Brestois 29','Nantes': 'FC Nantes','Auxerre': 'AJ Auxerre',
-    'Lorient': 'FC Lorient','Metz': 'FC Metz','Le Havre': 'Le Havre AC','Angers': 'Angers SCO',
+    'Paris S-G': 'Paris Saint-Germain','Marseille': 'Olympique de Marseille','Monaco': 'AS Monaco','Strasbourg': 'RC Strasbourg Alsace','Lille': 'LOSC Lille',
+    'Lyon': 'Olympique Lyonnais','Nice': 'OGC Nice','Rennes': 'Stade Rennais FC','Paris FC': 'Paris FC','Lens': 'RC Lens','Toulouse': 'Toulouse FC','Brest': 'Stade Brestois 29',
+    'Nantes': 'FC Nantes','Auxerre': 'AJ Auxerre','Lorient': 'FC Lorient','Metz': 'FC Metz','Le Havre': 'Le Havre AC','Angers': 'Angers SCO',
 }
-
-
 
 # Fonction pour associer les joueurs entre eux /  Function to pair players with each other / Función para asociar a los jugadores entre sí
 def exact_match(fbref_df, tm_data, club_mapping):
@@ -292,7 +324,6 @@ manual_links = {
     "almoatasem al musrati" : "moatasem almusrati",
     "djene" : "dakonam djene",
     "jonny castro" : "jonny otto",
-
 }
 
 manual_matches = []
@@ -319,7 +350,6 @@ for fbref_name, tm_name in manual_links.items():
 remaining_fbref = remaining_fbref[~remaining_fbref["Player_clean"].isin(manual_matched_fbref)]
 remaining_tm = remaining_tm[~remaining_tm["name_clean"].isin(manual_matched_tm)]
 
-
 # Combiner tous les matchs / Combine all matches / Combinar todos los partidos
 all_matches = pd.concat(matches_name + matches_90 + matches_75 + matches_90noyear + matches_65 +
                         matches_80noyear + matches_60 + manual_matches, ignore_index=True)
@@ -328,25 +358,21 @@ all_matches = pd.concat(matches_name + matches_90 + matches_75 + matches_90noyea
 
 # Enlever les colonnes inutiles / Drop unwanted columns / Eliminar columnas no deseadas
 cols_to_remove = [
-    "Player", "Nation", "date_of_birth", "Player_clean", "name_clean", "name_lower", "match_score", "match_pass", "Born_year",
-    "birth_year","fbref_player_name","matching_pass","fuzzy_score","dateOfBirth","age","tm_player_name", "club_id", 
-    "Unnamed: 0","Rk","Pos","Squad",
-]
+    "Player", "Nation", "date_of_birth", "Player_clean", "name_clean", "name_lower", "match_score", "match_pass", "Born_year","birth_year","fbref_player_name",
+    "matching_pass","fuzzy_score","dateOfBirth","age","tm_player_name", "club_id", "Unnamed: 0","Rk","Pos","Squad"]
 all_matches.drop(columns=[col for col in cols_to_remove if col in all_matches.columns], inplace=True)
 
 # Réarrangement des colonnes / Rearrange columns / Reordenación de columnas
 final_column_order = [
     #"Player", "Nation", "date_of_birth", "Player_clean", "name_clean", "name_lower", "match_score", "match_pass", "Born_year", "birth_year",
     #"fbref_player_name",tm_player_name","matching_pass","fuzzy_score",
-    "player_name", "player_id", "nationality", "Age", "Born", "position", "position_other", "height","foot","shirtNumber",
-    "joinedOn", "contract", "Comp","club_name", "marketValue", "imageUrl","agent_name", "outfitter","status","MP","Starts",
-    "Min", "90s", "Gls_per90", "Ast_per90", "G+A_per90", "G-PK", "G-PK_per90", "G-xG_per90","PK_per90", "npxG", "npxG_per90",
-    "xAG_per90","PrgC_per90","G-xG", "A-xAG", "Sh_per90", "SoT_per90", "G/Sh", "SoT%","PrgP_per90","PrgR_per90", "Cmp",
-    "Cmp_per90", "Cmp%", "1/3_per90", "PPA_per90","CrsPA_per90", "AvgDist","Sw_per90","Crs_per90","Tkl","Tkl_per90","Int_per90",
-    "Clr_per90", "Err_per90","Fld_per90", "Touches_per90","Succ","Succ_per90","Carries_per90", "Mis_per90","Dis_per90", "Fls_per90",
-    "PKwon_per90", "PKcon_per90", "Recov_per90","Tkl%", "Succ%","Won", "Won_per90", "Won%", "CrdY_per90", "CrdR_per90","GA_per90",
-    "SoTA_per90", "Saves_per90", "PSxG_per90", "PSxG+/-","/90", "PKm_per90","PKsv_per90", "Thr_per90", "Stp_per90","Save%","CS%",
-    "AvgLen", "Launch%", "Stp%", "#OPA_per90"
+    "player_name", "player_id", "nationality", "Age", "Born", "position", "position_other", "height","foot","shirtNumber","joinedOn", "contract", "Comp","club_name"
+    "marketValue", "imageUrl","agent_name", "outfitter","status","MP","Starts","Min", "90s", "Gls_per90", "Ast_per90", "G+A_per90", "G-PK", "G-PK_per90", "G-xG_per90","PK_per90",
+    "npxG", "npxG_per90","xAG_per90","PrgC_per90","G-xG", "A-xAG", "Sh_per90", "SoT_per90", "G/Sh", "SoT%","PrgP_per90","PrgR_per90", "Cmp","Cmp_per90", "Cmp%", "1/3_per90",
+    "PPA_per90","CrsPA_per90", "AvgDist","Sw_per90","Crs_per90", "Tkl_per90_Padj","Int_per90_Padj","Clr_per90_Padj","Blocks_stats_defense_per90_Padj","Tkl","Tkl_per90","Int_per90",
+    "Clr_per90", "Err_per90","Fld_per90", "Touches_per90","Succ","Succ_per90","Carries_per90", "Mis_per90","Dis_per90", "Fls_per90","PKwon_per90", "PKcon_per90", "Recov_per90",
+    "Tkl%", "Succ%","Won", "Won_per90", "Won%", "CrdY_per90", "CrdR_per90","GA_per90","SoTA_per90", "Saves_per90", "PSxG_per90", "PSxG+/-","/90", "PKm_per90","PKsv_per90",
+    "Thr_per90", "Stp_per90","Save%","CS%","AvgLen", "Launch%", "Stp%", "#OPA_per90"
 ]
                
 if 'player_name' in all_matches.columns and 'MP' in all_matches.columns:
@@ -392,14 +418,11 @@ print(f"Non appariés (tm) : {len(unmatched_tm_final)}")
 
 ## Rating / Notation
 
-# Chargement du fichier / Load file / Cargando el archivo
-df = all_matches
+df = all_matches # Chargement du fichier / Load file / Cargando el archivo
 
-# Définir la liste de colonne / Define columns / Definir la lista de columnas
-stat_cols = df.columns[23:]
+stat_cols = df.columns[23:] # Définir la liste de colonne / Define columns / Definir la lista de columnas
 
-# Inverser les statistiques où un chiffre élevé est une indication d'une sous-performance
-# Reversing statistics where a high figure is an indication of underperformance
+# Inverser les statistiques où un chiffre élevé est une indication d'une sous-performance / Reversing statistics where a high figure is an indication of underperformance
 # Invertir las estadísticas en las que una cifra elevada es indicativa de un rendimiento inferior al esperado
 inverted_stats = ['Err_per90', 'PKcon_per90', 'CrdR_per90', 'CrdY_per90', 'Fls_per90', 'Mis_per90', 'Dis_per90',
                   'GA_per90', 'SoTA_per90', 'PSxG/SoT', 'PKm_per90','PSxG_per_90','PSxG', 'Pkm_per90']
@@ -441,7 +464,7 @@ categories = {
     "projection": [(0.6, "PrgC_per90"), (0.4, "Carries_per90")],
     "provoked_fouls": [(0.8, "Fld_per90"), (0.2, "PKwon_per90")],
     "waste": [(0.7, "Err_per90"), (0.15, "Mis_per90"), (0.15, "Dis_per90")],
-    "defensive_actions": [(0.3, "Tkl%"), (0.3, "Int_per90"), (0.3, "Tkl_per90"), (0.05, "Recov_per90"), (0.05, "Clr_per90")],
+    "defensive_actions": [(0.6, "Tkl%"), (0.15, "Int_per90_Padj"), (0.10, "Tkl_per90_Padj"), (0.05, "Recov_per90"), (0.05, "Clr_per90_Padj"),  (0.05, "Blocks_stats_defense_per90_Padj")], 
     "faults_committed": [(0.4, "CrdY_per90"), (0.3, "CrdR_per90"),  (0.2, "Fls_per90"), (0.1, "PKcon_per90")],
     "aerial": [(0.7, "Won_per90"), (0.3, "Won%")]
 }
@@ -479,71 +502,57 @@ for cat_name in categories.keys() | goalkeeper_categories.keys():
 # Peso asociado a las categorías estadísticas según la posición del jugador
 position_weights = {
     "Centre-Back": {
-        "goal_scoring_created": 0.06, "finish": 0.03, "building": 0.13, "creation": 0.06,
-        "dribble": 0.02, "projection": 0.12, "provoked_fouls": 0.03, "waste": 0.05,
-        "defensive_actions": 0.2, "faults_committed": 0.2, "aerial": 0.1
+        "goal_scoring_created": 0.06, "finish": 0.03, "building": 0.13, "creation": 0.06,"dribble": 0.02, "projection": 0.12, 
+        "provoked_fouls": 0.03, "waste": 0.05,"defensive_actions": 0.2, "faults_committed": 0.2, "aerial": 0.1
     },
     "Right-Back": {
-        "goal_scoring_created": 0.14, "finish": 0.07, "building": 0.12, "creation": 0.09,
-        "dribble": 0.02, "projection": 0.10, "provoked_fouls": 0.04, "waste": 0.05,
-        "defensive_actions": 0.17, "faults_committed": 0.17, "aerial": 0.03
+        "goal_scoring_created": 0.14, "finish": 0.07, "building": 0.12, "creation": 0.09,"dribble": 0.02, "projection": 0.10,
+        "provoked_fouls": 0.04, "waste": 0.05,"defensive_actions": 0.17, "faults_committed": 0.17, "aerial": 0.03
     },
     "Left-Back": {
-        "goal_scoring_created": 0.14, "finish": 0.07, "building": 0.12, "creation": 0.09,
-        "dribble": 0.02, "projection": 0.10, "provoked_fouls": 0.04, "waste": 0.05,
-        "defensive_actions": 0.17, "faults_committed": 0.17, "aerial": 0.03
+        "goal_scoring_created": 0.14, "finish": 0.07, "building": 0.12, "creation": 0.09,"dribble": 0.02, "projection": 0.10,
+        "provoked_fouls": 0.04, "waste": 0.05,"defensive_actions": 0.17, "faults_committed": 0.17, "aerial": 0.03
     },
     "Right Midfield": {
-        "goal_scoring_created": 0.16, "finish": 0.08, "building": 0.12, "creation": 0.10,
-        "dribble": 0.02, "projection": 0.12, "provoked_fouls": 0.05, "waste": 0.05,
-        "defensive_actions": 0.125, "faults_committed": 0.125, "aerial": 0.05
+        "goal_scoring_created": 0.16, "finish": 0.08, "building": 0.12, "creation": 0.10,"dribble": 0.02, "projection": 0.12,
+        "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.125, "faults_committed": 0.125, "aerial": 0.05
     },
     "Left Midfield": {
-        "goal_scoring_created": 0.16, "finish": 0.08, "building": 0.12, "creation": 0.10,
-        "dribble": 0.02, "projection": 0.12, "provoked_fouls": 0.05, "waste": 0.05,
-        "defensive_actions": 0.125, "faults_committed": 0.125, "aerial": 0.05
+        "goal_scoring_created": 0.16, "finish": 0.08, "building": 0.12, "creation": 0.10,"dribble": 0.02, "projection": 0.12,
+        "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.125, "faults_committed": 0.125, "aerial": 0.05
     },
     "Defensive Midfield": {
-        "goal_scoring_created": 0.1, "finish": 0.05, "building": 0.14, "creation": 0.09,
-        "dribble": 0.02, "projection": 0.13, "provoked_fouls": 0.05, "waste": 0.05,
-        "defensive_actions": 0.16, "faults_committed": 0.16, "aerial": 0.06
+        "goal_scoring_created": 0.1, "finish": 0.05, "building": 0.14, "creation": 0.09,"dribble": 0.02, "projection": 0.13,
+        "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.16, "faults_committed": 0.16, "aerial": 0.06
     },
     "Central Midfield": {
-        "goal_scoring_created": 0.2, "finish": 0.1, "building": 0.10, "creation": 0.10,
-        "dribble": 0.02, "projection": 0.10, "provoked_fouls": 0.04, "waste": 0.04,
-        "defensive_actions": 0.125, "faults_committed": 0.125, "aerial": 0.05
+        "goal_scoring_created": 0.2, "finish": 0.1, "building": 0.10, "creation": 0.10,"dribble": 0.02, "projection": 0.10,
+        "provoked_fouls": 0.04, "waste": 0.04,"defensive_actions": 0.125, "faults_committed": 0.125, "aerial": 0.05
     },
     "Attacking Midfield": {
-        "goal_scoring_created": 0.35, "finish": 0.15, "building": 0.08, "creation": 0.12,
-        "dribble": 0.04, "projection": 0.08, "provoked_fouls": 0.06, "waste": 0.05,
-        "defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
+        "goal_scoring_created": 0.35, "finish": 0.15, "building": 0.08, "creation": 0.12,"dribble": 0.04, "projection": 0.08,
+        "provoked_fouls": 0.06, "waste": 0.05,"defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
     },
     "Right Winger": {
-        "goal_scoring_created": 0.35, "finish": 0.15, "building": 0.06, "creation": 0.10,
-        "dribble": 0.10, "projection": 0.06, "provoked_fouls": 0.06, "waste": 0.05,
-        "defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
+        "goal_scoring_created": 0.35, "finish": 0.15, "building": 0.06, "creation": 0.10,"dribble": 0.10, "projection": 0.06,
+        "provoked_fouls": 0.06, "waste": 0.05,"defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
     },
     "Left Winger": {
-        "goal_scoring_created": 0.35, "finish": 0.15, "building": 0.06, "creation": 0.10,
-        "dribble": 0.10, "projection": 0.06, "provoked_fouls": 0.06, "waste": 0.05,
-        "defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
+        "goal_scoring_created": 0.35, "finish": 0.15, "building": 0.06, "creation": 0.10,"dribble": 0.10, "projection": 0.06,
+        "provoked_fouls": 0.06, "waste": 0.05,"defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
     },
     "Second Striker": {
-        "goal_scoring_created": 0.4, "finish": 0.15, "building": 0.08, "creation": 0.13,
-        "dribble": 0.03, "projection": 0.08, "provoked_fouls": 0.04, "waste": 0.03,
-        "defensive_actions": 0.025, "faults_committed": 0.025, "aerial": 0.01
+        "goal_scoring_created": 0.4, "finish": 0.15, "building": 0.08, "creation": 0.13,"dribble": 0.03, "projection": 0.08,
+        "provoked_fouls": 0.04, "waste": 0.03,"defensive_actions": 0.025, "faults_committed": 0.025, "aerial": 0.01
     },
     "Centre-Forward": {
-        "goal_scoring_created": 0.5, "finish": 0.2, "building": 0.03, "creation": 0.08,
-        "dribble": 0.03, "projection": 0.03, "provoked_fouls": 0.04, "waste": 0.03,
-        "defensive_actions": 0.025, "faults_committed": 0.025, "aerial": 0.01
+        "goal_scoring_created": 0.5, "finish": 0.2, "building": 0.03, "creation": 0.08,"dribble": 0.03, "projection": 0.03,
+        "provoked_fouls": 0.04, "waste": 0.03,"defensive_actions": 0.025, "faults_committed": 0.025, "aerial": 0.01
     }
 }
 
 goalkeeper_weights = {
-    "goal_scoring_conceded": 0.01, "efficiency": 0.74, "error_fouls": 0.18, "short_clearance": 0.01,
-    "long_clearance": 0.01, "positioning": 0.01, "aerial_defense": 0.02
-}
+    "goal_scoring_conceded": 0.01, "efficiency": 0.74, "error_fouls": 0.18, "short_clearance": 0.01,"long_clearance": 0.01, "positioning": 0.01, "aerial_defense": 0.02}
 
 # Calcul de la note finale / Compute final rating / Cálculo de la nota final
 def compute_rating(row):
@@ -563,22 +572,14 @@ df["rating_raw"] = pd.to_numeric(df["rating"], errors="coerce")
 df["rating_percentile"] = df.groupby("position_group")["rating_raw"].transform(percentile_rank)
 df["rating"] = (0.4 * df["rating_raw"] + 0.6 * df["rating_percentile"]).round(0).astype("Int64")
 
-
 # Arrondir les scores et la note / Round scores and rating / Redondear las puntuaciones y la nota
 score_cols = [col for col in df.columns if col.startswith("score_")]
 df[score_cols + ["rating"]] = df[score_cols + ["rating"]].round(0).astype("Int64")
 
 # Power Ranking par championnat (source Opta Analyst) / Power Ranking by league (according to Opta Analyst) / Clasificación por campeonato (fuente: Opta Analyst)
-power_ranking = {
-    "GB1": 92.6,
-    "IT1": 87,
-    "ES1": 87,
-    "L1": 86.3,
-    "FR1": 85.3
-}
+power_ranking = {"GB1": 92.6,"IT1": 87,"ES1": 87,"L1": 86.3,"FR1": 85.3}
 
-# Référence = Power Ranking de GB1 / Benchmark = Power Ranking de GB1 / Referencia = Clasificación de poder de GB1
-reference_ranking = power_ranking["GB1"]
+reference_ranking = power_ranking["GB1"] # Référence = Power Ranking de GB1 / Benchmark = Power Ranking de GB1 / Referencia = Clasificación de poder de GB1
 
 # Appliquer une pénalité relative : ratio entre ranking / référence (max 1) / Apply a relative penalty: ranking/reference ratio (max 1)
 # Aplicar una penalización relativa: relación entre clasificación y referencia (máximo 1).
@@ -586,8 +587,7 @@ df["power_ranking_raw"] = df["Comp"].map(power_ranking).fillna(85)
 #df["power_ranking_penalty"] = df["power_ranking_raw"] / reference_ranking
 df["power_ranking_penalty"] = 1 - (1 - (df["power_ranking_raw"] / reference_ranking)) / 3
 
-# Maximum de minutes selon la ligue / Maximum minutes depending on the league / Máximo de minutos según la liga
-comp_to_max_minutes = comp_max_minutes.astype(float).to_dict()
+comp_to_max_minutes = comp_max_minutes.astype(float).to_dict() # Maximum de minutes selon la ligue / Maximum minutes depending on the league / Máximo de minutos según la liga
 
 # Calcule du % de minutes jouées / Calculation of the % of minutes played / Cálculo del porcentaje de minutos jugados
 df = df.copy()
@@ -598,7 +598,6 @@ df["max_minute_season"] = df["Comp"].map(comp_to_max_minutes)
 
 # Calcule du ratio du minutes jouées par joueur / Calculation of the ratio of minutes played per player / Cálculo del ratio de minutos jugados por jugador
 df["minute_ratio"] = df["Min"] / df["max_minute_season"]
-
 
 # Pénalité logistique graduelle : pas de pénalité si ratio ≥ 0.6, max 0.8 si ratio ≤ 0.15 / Graduated logistical penalty: no penalty if ratio ≥ 0.6, max 0.8 if ratio ≤ 0.15
 # Penalización logística gradual: sin penalización si la ratio es ≥ 0,6, máximo 0,8 si la ratio es ≤ 0,15
@@ -617,8 +616,7 @@ df["rating"] = (df["rating"] * df["power_ranking_penalty"] * df["minutes_penalty
 
 # Sauvegarde du dataframe final / Save final DataFrame / Guardar el marco de datos final
 df = df[[col for col in df.columns if not col.endswith('_norm') and col != "position_group"]]
-df.drop(columns=["power_ranking_raw", "power_ranking_penalty", "max_minute_season", "minute_ratio",
-                 "minutes_penalty", "rating_raw", "rating_percentile"  ], inplace=True)
+df.drop(columns=["power_ranking_raw", "power_ranking_penalty", "max_minute_season", "minute_ratio","minutes_penalty", "rating_raw", "rating_percentile"  ], inplace=True)
 
 # Liste des colonnes dans l’ordre désiré / List of column in the desired order / Lista de columnas en el orden deseado
 ordered_score_cols = [
