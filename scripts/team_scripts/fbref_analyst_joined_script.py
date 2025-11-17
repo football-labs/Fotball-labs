@@ -119,5 +119,14 @@ per90_df = opta_merged[per90_cols].apply(pd.to_numeric, errors="coerce").mul(fac
 per90_df.columns = [f"Per_90_min_{c}" for c in per90_df.columns]
 opta_merged[per90_df.columns] = per90_df.round(2)
 
+# Liste des colonnes à ajuster / List of columns to adjust / Lista de columnas que hay que ajustar
+cols_to_adjust = ["pressing__pressed_seqs","defending_defensive_actions__tackles","defending_defensive_actions__interceptions",
+    "defending_defensive_actions__blocks","defending_defensive_actions__clearances"]
+
+# Boucle pour créer les colonnes ajustées / Loop to create the adjusted columns / Bucle para crear columnas ajustadas
+for col in cols_to_adjust:
+    new_col = f"{col}_Padj"
+    opta_merged[new_col] = opta_merged[col] * (50 / (100 - opta_merged["passing__avg_poss"]))
+
 # Enregistrer le fichier csv final / Save the final merged CSV / Guardar el archivo CSV final
 opta_merged.to_csv(out_path, index=False, encoding="utf-8")
