@@ -18,23 +18,17 @@ def _get_script_dir():
 script_dir = _get_script_dir()
 data_team_dir = script_dir.parent.parent / "data" / "team"
 
-# Chemins des fichiers / path of this files / La ruta de acceso a este archivos
-team_path = data_team_dir / "fbref_analyst_joined.csv"
+team_path = data_team_dir / "fbref_analyst_joined.csv" # Chemins des fichiers / path of this files / La ruta de acceso a este archivos
 
-# Chemins de sortie / Exit paths / Salidas
-out_db = data_team_dir / "database_team.csv"
+out_db = data_team_dir / "database_team.csv" # Chemins de sortie / Exit paths / Salidas
 
-# Récupération des données / Data recovery / Recuperación de datos
-team_data = pd.read_csv(team_path)
+team_data = pd.read_csv(team_path) # Récupération des données / Data recovery / Recuperación de datos
 
-# Chargement du fichier / Load file / Cargando el archivo
-df = team_data
+df = team_data # Chargement du fichier / Load file / Cargando el archivo
 
-# Définir la liste de colonne / Define columns / Definir la lista de columnas
-stat_cols = list(df.columns[8:])
+stat_cols = list(df.columns[8:]) # Définir la liste de colonne / Define columns / Definir la lista de columnas
 
-# Inverser les statistiques où un chiffre élevé est une indication d'une sous-performance
-# Reversing statistics where a high figure is an indication of underperformance
+# Inverser les statistiques où un chiffre élevé est une indication d'une sous-performance / Reversing statistics where a high figure is an indication of underperformance
 # Invertir las estadísticas en las que una cifra elevada es indicativa de un rendimiento inferior al esperado
 inverted_stats = [
     'defending_overall__goals','defending_overall__xg','defending_overall__shots','defending_overall__sot','defending_overall__xg_per_shot','defending_misc__touches_in_box',
@@ -59,7 +53,6 @@ if invert_cols:
 normalized_df = norm.add_suffix("_norm")
 df = pd.concat([df, normalized_df], axis=1, copy=False)
 
-
 # Choix des statistiques et de leurs poids associés / Choice of statistics and their associated weights / Selección de las estadísticas y sus ponderaciones asociadas
 categories = {
     ## ON-BALL
@@ -80,9 +73,9 @@ categories = {
     "goal_scoring_conceded": [(0.30, "defending_overall__xg"),(0.20, "defending_overall__goals"),(0.10, "defending_overall__shots"),
         (0.10, "defending_overall__sot"),(0.10, "defending_misc__touches_in_box"),(0.10, "defending_overall__xg_per_shot"),
         (0.05, "defending_overall__shots_in_box_pct"),(0.05, "defending_overall__goals_in_box_pct")],
-    "defensive_actions": [(0.40, "Challenges_Tkl%__def"),(0.20, "defending_defensive_actions__tackles"),
-        (0.20, "defending_defensive_actions__interceptions"),(0.10, "defending_defensive_actions__recoveries"),
-        (0.05, "defending_defensive_actions__blocks"),(0.05, "defending_defensive_actions__clearances")],
+    "defensive_actions": [(0.40, "Challenges_Tkl%__def"),(0.20, "defending_defensive_actions__tackles_Padj"),
+        (0.20, "defending_defensive_actions__interceptions_Padj"),(0.10, "defending_defensive_actions__recoveries"),
+        (0.05, "defending_defensive_actions__blocks_Padj"),(0.05, "defending_defensive_actions__clearances_Padj")],
     "set_pieces_def": [(0.40, "defending_set_pieces__xg"),(0.30, "defending_set_pieces__goals"),(0.10, "defending_set_pieces__shots"),
         (0.10, "defending_misc__free_kicks__total"),(0.10, "defending_misc__free_kicks__goals")],
     "efficiency_goalkeeper": [(0.60, "defending_overall__goals_vs_xg"),(0.15, "Performance_Save%__keeper"),
@@ -137,19 +130,13 @@ for cat_name in categories.keys():
 # Poids associé aux catégories de statistique / Weight associated with statistical categories / Peso asociado a las categorías estadísticas
 stats_weights = {
     ## ON-BALL
-    "goal_scoring_created": 0.10, "finish": 0.05, "set_pieces_off": 0.03, "building": 0.05, "projection": 0.03,
-    "crosses": 0.03, "dribble": 0.03,
-
+    "goal_scoring_created": 0.10, "finish": 0.05, "set_pieces_off": 0.03, "building": 0.05, "projection": 0.03, "crosses": 0.03, "dribble": 0.03,
     ## OFF-BALL
-    "goal_scoring_conceded": 0.10, "defensive_actions": 0.03, "set_pieces_def": 0.03, "efficiency_goalkeeper": 0.05,
-    "pressing": 0.10,
-
+    "goal_scoring_conceded": 0.10, "defensive_actions": 0.03, "set_pieces_def": 0.03, "efficiency_goalkeeper": 0.05,"pressing": 0.10,
     ## STYLE OF PLAY
     "possession": 0.03, "direct_play": 0.03, "counter-attacking": 0.03,
-
     ## OTHER
-    "rank_league": 0.15, "ground_duel": 0.03, "aerial": 0.03, "provoked_fouls": 0.02, "faults_committed": 0.02,
-    "waste": 0.02, "subs": 0.01,
+    "rank_league": 0.15, "ground_duel": 0.03, "aerial": 0.03, "provoked_fouls": 0.02, "faults_committed": 0.02, "waste": 0.02, "subs": 0.01,
 }
 
 # Calcul de la note finale / Compute final rating / Cálculo de la nota final
@@ -182,8 +169,7 @@ df["rank_big5"] = df["rating_cont"].rank(method="min", ascending=False).astype("
 
 # Retirer les colonnes _norm et les colonnes intermédiaires inutiles / Remove the _norm columns and unnecessary intermediate columns
 # Eliminar las columnas _norm y las columnas intermedias innecesarias
-cols_to_drop = [c for c in df.columns if c.endswith("_norm")] + ["power_ranking_raw", "power_ranking_penalty", "rating_raw",
-                                                                 "rating_percentile", "rating_cont"]
+cols_to_drop = [c for c in df.columns if c.endswith("_norm")] + ["power_ranking_raw", "power_ranking_penalty", "rating_raw","rating_percentile", "rating_cont"]
 cols_to_drop = [c for c in cols_to_drop if c in df.columns]
 df = df.drop(columns=cols_to_drop)
 
@@ -191,12 +177,11 @@ df = df.drop(columns=cols_to_drop)
 ordered_score_cols = ["id_season", "team_id", "season_name", "country", "championship_name", "team_code", "team_logo", "rank_big5","rating","score_goal_scoring_created",
     "score_finish", "score_set_pieces_off", "score_building", "score_projection","score_crosses","score_dribble", "score_goal_scoring_conceded", "score_defensive_actions",
     "score_set_pieces_def", "score_efficiency_goalkeeper","score_pressing", "score_possession", "score_direct_play","score_counter-attacking", "score_rank_league",
-    "score_ground_duel","score_aerial", "score_provoked_fouls","score_faults_committed", "score_waste", "score_subs",]
+    "score_ground_duel","score_aerial", "score_provoked_fouls","score_faults_committed", "score_waste", "score_subs"]
 
 # Conserver l'ordre souhaité puis le reste / Keep desired order then others / Mantener orden deseado y el resto
 exist_ordered = [c for c in ordered_score_cols if c in df.columns]
 other_cols = [c for c in df.columns if c not in exist_ordered]
 df = df[exist_ordered + other_cols]
 
-# Sauvegarde du dataframe final / Save final DataFrame / Guardar el marco de datos final
-df.to_csv(out_db, index=False)
+df.to_csv(out_db, index=False) # Sauvegarde du dataframe final / Save final DataFrame / Guardar el marco de datos final
