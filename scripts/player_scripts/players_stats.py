@@ -46,8 +46,8 @@ cols_pct = ["G/Sh", "SoT%", "CS%", "Launch%", "Stp%", "Cmp%", "Tkl%", "Succ%", "
 # Colonnes à transformer en statistiques par 90 minutes / Columns to convert to per-90 stats 
 # Columnas que se convertirán en estadísticas cada 90 minutos
 cols_per_90 = [
-    "Gls", "Ast", "G+A", "G-PK", "PK", "CrdY", "CrdR", "npxG", "xAG","PrgC", "PrgP", "PrgR", "Sh", "SoT", "Cmp","1/3", "PPA", "CrsPA","Sw", "Crs","Tkl", "Int", "Clr", "Err","Fld",
-    "Touches", "Succ","Carries", "Mis","Dis", "Fls", "PKwon", "PKcon", "Recov", "GA","SoTA", "Saves", "PKm", "PKsv", "Thr", "Stp", "Won", "#OPA","PSxG","G-xG"]
+    "Gls", "Ast", "G+A", "G-PK", "PK", "CrdY", "CrdR", "npxG", "xAG","PrgC", "PrgP", "PrgR", "Sh", "SoT", "Cmp","1/3", "PPA", "CrsPA","Sw", "Crs","Tkl", "Int", "Clr", "Blocks_stats_defense",
+    "Err","Fld","Touches", "Succ","Carries", "Mis","Dis", "Fls", "PKwon", "PKcon", "Recov", "GA","SoTA", "Saves", "PKm", "PKsv", "Thr", "Stp", "Won", "#OPA","PSxG","G-xG"]
 
 # Nettoyage des colonnes non présentes / Keep only available columns / Limpieza de columnas no presentes
 cols_fixed = [col for col in cols_fixed if col in fbref_data.columns]
