@@ -15,7 +15,6 @@ from pprint import pprint
 from pathlib import Path
 import os
 
-
 ## Partie servant pour le scraping des données / Part used for data scraping / Parte utilizada para el scraping de datos
 
 # Fermeture de la page des cookies / Closing the cookies page / Cierre de la página de cookies
@@ -306,79 +305,29 @@ def scrape_table(driver, timeout: int = 6, section: str = "OVERALL"):
         s = (s or "").strip().lower()
         mapping = {
             # Attacking
-            "conv %": "conv_pct",
-            "goals vs xg": "goals_vs_xg",
-            "xg per shot": "xg_per_shot",
-            "sot": "sot",
-            "name": "name",
-            "goal %": "goal_pct",
-            "shot %": "shot_pct",
-            "xg %": "xg_pct",
-            "played": "played",
-            "hit post": "hit_post",
-            "offsides": "offsides",
-            "tou in box": "touches_in_box",
-            "free-kicks": "free_kicks",
-            "fast breaks": "fast_breaks",
-            "headers": "headers",
-            "penalties": "penalties",
-            "total": "total",
-            "goals": "goals",
+            "conv %": "conv_pct","goals vs xg": "goals_vs_xg","xg per shot": "xg_per_shot","sot": "sot","name": "name","goal %": "goal_pct","shot %": "shot_pct","xg %": "xg_pct",
+            "played": "played","hit post": "hit_post","offsides": "offsides","tou in box": "touches_in_box","free-kicks": "free_kicks","fast breaks": "fast_breaks",
+            "headers": "headers","penalties": "penalties","total": "total","goals": "goals",
             
             # Passing
-            "avg poss": "avg_poss",
-            "%": "pct",
-            "fwd": "fwd",
-            "bwd": "bwd",
-            "left": "left",
-            "right": "right",
-            "through balls": "through_balls",
-            "all passes": "all_passes",
-            "final third passes": "final_third_passes",
-            "pass direction": "pass_direction",
-            "crosses": "crosses",
+            "avg poss": "avg_poss","%": "pct","fwd": "fwd","bwd": "bwd","left": "left","right": "right","through balls": "through_balls","all passes": "all_passes",
+            "final third passes": "final_third_passes","pass direction": "pass_direction","crosses": "crosses",
 
             # Pressing
-            "pressed seqs": "pressed_seqs",
-            "ppda": "ppda",
-            "start distance (m)": "start_distance_m",
-            "high turnovers": "high_turnovers",
-            "shot ending": "shot_ending",
-            "goal ending": "goal_ending",
-            "% end in shot": "pct_end_in_shot",
+            "pressed seqs": "pressed_seqs","ppda": "ppda","start distance (m)": "start_distance_m","high turnovers": "high_turnovers",
+            "shot ending": "shot_ending","goal ending": "goal_ending","% end in shot": "pct_end_in_shot",
 
             # Sequences
-            "build-ups": "build_ups",
-            "direct attacks": "direct_attacks",
-            "10+ passes": "ten_plus_passes",
-            "direct speed": "direct_speed",
-            "passes per seq": "passes_per_seq",
-            "sequence time": "sequence_time",
+            "build-ups": "build_ups","direct attacks": "direct_attacks","10+ passes": "ten_plus_passes","direct speed": "direct_speed",
+            "passes per seq": "passes_per_seq","sequence time": "sequence_time",
 
             # Misc
-            "subs used": "subs_used",
-            "subs goals": "subs_goals",
-            "errors lead to shot": "errors_lead_to_shot",
-            "errors lead to goal": "errors_lead_to_goal",
-            "fouled": "fouled",
-            "fouls": "fouls",
-            "yellows": "yellows",
-            "reds": "reds",
-            "pens won": "pens_won",
-            "pens conceded": "pens_conceded",
-            "opp yellows": "opp_yellows",
-            "opp reds": "opp_reds",
+            "subs used": "subs_used","subs goals": "subs_goals","errors lead to shot": "errors_lead_to_shot","errors lead to goal": "errors_lead_to_goal","fouled": "fouled",
+            "fouls": "fouls","yellows": "yellows","reds": "reds","pens won": "pens_won","pens conceded": "pens_conceded","opp yellows": "opp_yellows","opp reds": "opp_reds",
 
             # Defending
-            "shots in box %": "shots_in_box_pct",
-            "goals in box %": "goals_in_box_pct",
-            "ints": "interceptions",
-            "recs": "recoveries",
-            "blks": "blocks",
-            "clrs": "clearances",
-            "ground duels won": "ground_duels_won",
-            "aerial duels won": "aerial_duels_won",
-
+            "shots in box %": "shots_in_box_pct","goals in box %": "goals_in_box_pct","ints": "interceptions","recs": "recoveries",
+            "blks": "blocks","clrs": "clearances","ground duels won": "ground_duels_won","aerial duels won": "aerial_duels_won",
         }
         return mapping.get(s, s.replace(" ", "_").replace("-", "_"))
 
@@ -474,11 +423,7 @@ def scrape_table(driver, timeout: int = 6, section: str = "OVERALL"):
                     team_id = None
 
         # On stocke les informations sur l'équipe / We store the information on the team / Almacenamos la información sobre el equipo
-        teams_rows.append({
-            "team_id": team_id,
-            "team_code": team_code,
-            "team_logo": team_logo,
-        })
+        teams_rows.append({"team_id": team_id,"team_code": team_code,"team_logo": team_logo})
 
         # On récolte ensuite le reste des colonnes numériques / We then collect the rest of the numeric columns / Recopilamos el resto de las columnas numéricas
         row_vals: Dict[str, Any] = {}
@@ -487,11 +432,7 @@ def scrape_table(driver, timeout: int = 6, section: str = "OVERALL"):
             txt = td.get_text(strip=True)
             row_vals[key] = parse_num(txt)
 
-        row_vals.update({
-            "team_id": team_id,
-            "team_code": team_code,
-            "section": section,  # nom de la section (OVERALL, SET-PIECES,MISC...) / name of the section (OVERALL, SET-PIECES,MISC...) / nombre de la sección (OVERALL, SET-PIECES,MISC...)
-        })
+        row_vals.update({"team_id": team_id,"team_code": team_code,"section": section})
         stats_rows.append(row_vals)
 
     return stats_rows, teams_rows
@@ -540,7 +481,6 @@ def extract_attacking(driver, id_season):
 
     return stats, teams
 
-
 # Fonction pour extraire les données ayant un tableau unique : Passing, Pressing... (sans section) / Function to extract the data of a unique table: Passing, Pressing... (without section) / Función para extraer los datos de una tabla única: Passing, Pressing... (sin sección)
 def extract_table_for_category(driver, category_label: str = "Passing", from_label: str = "Attacking"):
     # Initialisation des variables pour stocker les données / Initialization of the variables to store the data / Inicialización de las variables para almacenar los datos
@@ -579,12 +519,7 @@ def extract_defending(driver, from_label: str = "Misc."):
         return stats, teams
 
     # On parcourt les sections disponibles associées / We traverse the available sections associated / Recorremos las secciones disponibles asociadas
-    defending_sections = [
-        ("OVERALL", ["OVERALL"]),
-        ("SET-PIECES", ["SET-PIECES"]),
-        ("DEFENSIVE_ACTIONS", ["DEFENSIVE ACTIONS"]),
-        ("MISC", ["MISC"]),
-    ]
+    defending_sections = [("OVERALL", ["OVERALL"]),("SET-PIECES", ["SET-PIECES"]),("DEFENSIVE_ACTIONS", ["DEFENSIVE ACTIONS"]),("MISC", ["MISC"])]
 
     # On clique sur les sections de notre choix / We click on the sections of our choice / Hacemos clic en las secciones de nuestro choice
     for canonical, label_variants in defending_sections:
@@ -627,11 +562,7 @@ def aggregate_stats_by_team(
         tid = t.get("team_id")
         if tid is None:
             continue
-        by_team_meta[tid] = {
-            "team_id": tid,
-            "team_code": t.get("team_code"),
-            "team_logo": t.get("team_logo"),
-        }
+        by_team_meta[tid] = {"team_id": tid,"team_code": t.get("team_code"),"team_logo": t.get("team_logo"),}
 
     # agrégation des données / aggregation of the data / agregación de los datos
     agg: Dict[Any, Dict[str, Any]] = {}
@@ -646,10 +577,7 @@ def aggregate_stats_by_team(
         if tid not in agg:
             base = {"team_id": tid}
             if tid in by_team_meta:
-                base.update({
-                    "team_code": by_team_meta[tid].get("team_code"),
-                    "team_logo": by_team_meta[tid].get("team_logo"),
-                })
+                base.update({"team_code": by_team_meta[tid].get("team_code"),"team_logo": by_team_meta[tid].get("team_logo")})
             agg[tid] = base
 
         # Complèter les données par des valeurs None si non disponible / Complete the data by None values if not available / Completar los datos por valores None si no están disponibles
@@ -673,7 +601,6 @@ def aggregate_stats_by_team(
 ## Partie pour choisir les saisons à scraper / Partie pour choisir les saisons à scraper / Parte para elegir las saisons a scrapear
 
 # On trouve le chemin de la racine du projet / We find the path of the project root / Encontramos la ruta de la raíz del proyecto
-
 ROOT_DIR  = Path(__file__).resolve().parents[2]
 DATA_DIR  = ROOT_DIR / "data"
 TEAM_DIR  = DATA_DIR / "team"
@@ -681,7 +608,6 @@ TEAM_DIR  = DATA_DIR / "team"
 SEASON_CSV  = TEAM_DIR / "season.csv"
 
 SEASON_COLS = ["country", "championship_name", "season_name", "id_season", "link_url_opta", "link_url_whoscored"]
-
 
 # Récupération des indices de son choix / Retrieval of the indices of son choice / Recuperación de los índices de son choice
 def _parse_multi_indices(raw: str, n: int) -> List[int]:
@@ -743,7 +669,6 @@ def choose_all_seasons() -> List[Tuple[int, str, pd.Series]]:
         selections.append((id_season, link_url, row))
     return selections
 
-
 # Fonction pour mettre à jour la base de données / Function to update the database / Función para actualizar la base de datos
 def upsert_csv_by_keys(path: Path, df_new: pd.DataFrame, keys: list[str]) -> pd.DataFrame:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -787,7 +712,6 @@ def run_scrape_the_analyst(headed: bool = True, all_seasons: bool = True):
         return
 
     # On crée le driver en ajoutant les options désirées / We create the driver adding the desired options / Creamos el driver añadiendo las opciones deseadas
-
     chrome_options = Options()
     if not headed:
         chrome_options.add_argument("--headless=new")
@@ -823,29 +747,19 @@ def run_scrape_the_analyst(headed: bool = True, all_seasons: bool = True):
                 stats_list, teams_list = extract_attacking(driver, id_season)
 
                 # PASSING (depuis Attacking) / PASSING (from Attacking) / PASSING (desde Attacking) 
-                stats_passing, teams_passing = extract_table_for_category(
-                    driver, category_label="Passing", from_label="Attacking"
-                )
+                stats_passing, teams_passing = extract_table_for_category(driver, category_label="Passing", from_label="Attacking")
 
                 # PRESSING (depuis Passing) / PRESSING (from Passing) / PRESSING (desde Passing)
-                stats_pressing, teams_pressing = extract_table_for_category(
-                    driver, category_label="Pressing", from_label="Passing"
-                )
+                stats_pressing, teams_pressing = extract_table_for_category(driver, category_label="Pressing", from_label="Passing")
 
                 # SEQUENCES (depuis Pressing) / SEQUENCES (from Pressing) / SEQUENCES (desde Pressing)
-                stats_sequences, teams_sequences = extract_table_for_category(
-                    driver, category_label="Sequences", from_label="Pressing"
-                )
+                stats_sequences, teams_sequences = extract_table_for_category(driver, category_label="Sequences", from_label="Pressing")
 
                 # MISC. (depuis Sequences) / Misc. (from Sequences) / Misc. (desde Sequences)
-                stats_misc, teams_misc = extract_table_for_category(
-                    driver, category_label="Misc.", from_label="Sequences"
-                )
+                stats_misc, teams_misc = extract_table_for_category(driver, category_label="Misc.", from_label="Sequences")
 
                 # DEFENDING (depuis 'Sequences') / DEFENDING (from 'Sequences') / DEFENDING (desde 'Sequences')
-                stats_defending, teams_defending = extract_defending(
-                    driver, from_label="Misc."
-                )
+                stats_defending, teams_defending = extract_defending(driver, from_label="Misc.")
 
                 # Fusionner stats / Merge stats / Fusionar stats
                 stats_list.extend(stats_passing)
@@ -880,13 +794,11 @@ def run_scrape_the_analyst(headed: bool = True, all_seasons: bool = True):
                     df_agg.insert(2, "country", _row.get("country"))
                     df_agg.insert(3, "championship_name", _row.get("championship_name"))
                     
-                    # On fait la liste des colonnes à enlever, et on les supprime / We make the list of the columns to remove, and we remove them / Hacemos la lista de las columnas a eliminar, y las eliminamos
-                    drop_cols = ["attacking_set_pieces__played","attacking_misc__played", "passing__played","passing__all_passes__total",
-                                 "passing__all_passes__successful","passing__final_third_passes__total","pressing__played",
-                                 "sequences__played","defending_overall__played","defending_set_pieces__played",
-                                 "defending_defensive_actions__played","defending_misc__played",
-                                 
-                    ]
+                    # On fait la liste des colonnes à enlever, et on les supprime / We make the list of the columns to remove, and we remove them 
+                    # Hacemos la lista de las columnas a eliminar, y las eliminamos
+                    drop_cols = ["attacking_set_pieces__played","attacking_misc__played", "passing__played","passing__all_passes__total","passing__all_passes__successful",
+                                "passing__final_third_passes__total","pressing__played","sequences__played","defending_overall__played","defending_set_pieces__played",
+                                "defending_defensive_actions__played","defending_misc__played"]
                     
                     df_agg = df_agg.drop(columns=drop_cols, errors="ignore")
                     out_path = TEAM_DIR / "teams_stats.csv" # Chemin du fichier de sortie / Path of the output file / Ruta del archivo de salida

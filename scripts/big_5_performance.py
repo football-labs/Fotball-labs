@@ -228,9 +228,9 @@ position_category = {
 # Statistiques par catégorie pour le radar / Statistics by categorie for the radar plot / Estadísticas por categoría para el radar plot
 category_stats_player = {
     "Gardiens de but": ["GA_per90", "PSxG_per90", "/90", "Save%", "PSxG+/-", "Err_per90","Launch%", "AvgLen", "Cmp%", "AvgDist", "#OPA_per90", "Stp%"],
-    "Défenseurs centraux": ["G-PK_per90", "PrgP_per90","Cmp%","xAG_per90","PrgC_per90","Err_per90","Tkl%","Int_per90","Tkl_per90","CrdY_per90","Won_per90","Won%" ],
-    "Défenseurs latéraux": ["G-PK_per90", "PrgP_per90", "Cmp%", "xAG_per90", "Succ_per90", "PrgC_per90", "Err_per90", "Tkl%", "Int_per90", "Tkl_per90", "CrdY_per90", "Won%"],
-    "Milieux de terrain": ["G-PK_per90", "PrgP_per90", "PrgR_per90", "Cmp%", "xAG_per90", "PrgC_per90", "Fld_per90", "Err_per90", "Tkl%", "Int_per90", "CrdY_per90", "Won%"],
+    "Défenseurs centraux": ["G-PK_per90", "PrgP_per90","Cmp%","xAG_per90","PrgC_per90","Err_per90","Tkl%","Int_per90_Padj","Tkl_per90_Padj","CrdY_per90","Won_per90","Won%" ],
+    "Défenseurs latéraux": ["G-PK_per90", "PrgP_per90", "Cmp%", "xAG_per90", "Succ_per90", "PrgC_per90", "Err_per90", "Tkl%", "Int_per90_Padj", "Tkl_per90_Padj", "CrdY_per90", "Won%"],
+    "Milieux de terrain": ["G-PK_per90", "PrgP_per90", "PrgR_per90", "Cmp%", "xAG_per90", "PrgC_per90", "Fld_per90", "Err_per90", "Tkl%", "Int_per90_Padj", "CrdY_per90", "Won%"],
     "Milieux offensifs / Ailiers": ["npxG_per90","G-PK_per90", "G-xG_per90", "PrgP_per90", "PrgR_per90", "Cmp%", "xAG_per90", "Succ_per90", "Succ%", "PrgC_per90", "Fld_per90", "Dis_per90"],
     "Attaquants": ["npxG_per90","Sh_per90", "G-PK_per90", "G-xG_per90", "G/Sh", "PrgP_per90", "PrgR_per90", "Cmp%", "xAG_per90","Succ_per90", "PrgC_per90", "Dis_per90"    ]
 }
@@ -263,21 +263,22 @@ stats_team = {
         "Per_90_min_Total_Cmp__pass","Per_90_min_Carries_Mis__poss","Per_90_min_Carries_Dis__poss"
     ],
     "Pressing": [
-        "pressing__pressed_seqs","pressing__ppda","pressing__start_distance_m", "pressing__high_turnovers__shot_ending","pressing__high_turnovers__goal_ending",
-        "pressing__high_turnovers__pct_end_in_shot",
+        "pressing__pressed_seqs","pressing__pressed_seqs_Padj","pressing__ppda","pressing__start_distance_m", "pressing__high_turnovers__shot_ending",
+        "pressing__high_turnovers__goal_ending","pressing__high_turnovers__pct_end_in_shot",
     ],
     "Defending": [
         "defending_overall__goals","defending_overall__xg","defending_overall__goals_vs_xg","defending_overall__shots","defending_overall__sot",
         "defending_overall__conv_pct","defending_overall__xg_per_shot","defending_overall__shots_in_box_pct","defending_overall__goals_in_box_pct",
         "defending_misc__touches_in_box","defending_misc__hit_post","defending_misc__offsides","defending_misc__headers__total","defending_misc__headers__goals",
         "defending_misc__fast_breaks__total","defending_misc__fast_breaks__goals", "Performance_CS__keeper","Performance_CS%__keeper", "Performance_Int__misc",
-        "Performance_TklW__misc","Performance_Recov__misc", "Tackles_Tkl__def","Blocks_Blocks__def","Clr__def",
+        "Performance_TklW__misc","Performance_Recov__misc", "Tackles_Tkl__def","Blocks_Blocks__def","Clr__def", "defending_defensive_actions__tackles",
+        "defending_defensive_actions__interceptions", "defending_defensive_actions__recoveries","defending_defensive_actions__blocks","defending_defensive_actions__clearances",
+        "defending_defensive_actions__tackles_Padj","defending_defensive_actions__interceptions_Padj","defending_defensive_actions__blocks_Padj",
+        "defending_defensive_actions__clearances_Padj"
     ],
     "Set-Pieces (Defensive)": [
         "defending_set_pieces__goals","defending_set_pieces__shots","defending_set_pieces__xg","defending_set_pieces__goal_pct","defending_set_pieces__shot_pct",
-        "defending_set_pieces__xg_pct","defending_defensive_actions__tackles","defending_defensive_actions__interceptions", "defending_defensive_actions__recoveries",
-        "defending_defensive_actions__blocks","defending_defensive_actions__clearances", "defending_misc__free_kicks__total","defending_misc__free_kicks__goals",
-        
+        "defending_set_pieces__xg_pct", "defending_misc__free_kicks__total","defending_misc__free_kicks__goals",
     ],
     "Penalties": [
         "attacking_misc__penalties__total","attacking_misc__penalties__goals", "misc.__pens_conceded", "Performance_PK__std","Performance_PKatt__std",
@@ -352,9 +353,10 @@ glossary = {
         "Per_90_min_Carries_Dis__poss": "Nombre de pertes de balle sur portées par 90 minutes",
 
         # PRESSING
-        "pressing__pressed_seqs": "Nombre de séquences de pressing par 90 minutes","pressing__ppda": "Passes permises par action défensive dans les deux tiers défensifs",
-        "pressing__start_distance_m": "Distance moyenne de début du pressing","pressing__high_turnovers__shot_ending": "Pressings hauts menant à un tir par 90 minutes",
-        "pressing__high_turnovers__goal_ending": "Pressings hauts menant à un but par 90 minutes","pressing__high_turnovers__pct_end_in_shot": "Pourcentage de pressings hauts débouchant sur un tir",
+        "pressing__pressed_seqs": "Nombre de séquences de pressing par 90 minutes", "pressing__pressed_seqs_Padj": "Nombre de séquences de pressing par 90 minutes ajustées à la possession",
+        "pressing__ppda": "Passes permises par action défensive dans les deux tiers défensifs","pressing__start_distance_m": "Distance moyenne de début du pressing",
+        "pressing__high_turnovers__shot_ending": "Pressings hauts menant à un tir par 90 minutes","pressing__high_turnovers__goal_ending": "Pressings hauts menant à un but par 90 minutes",
+        "pressing__high_turnovers__pct_end_in_shot": "Pourcentage de pressings hauts débouchant sur un tir",
 
         # JEU SANS BALLON
         "defending_overall__goals": "Nombre de buts encaissés par 90 minutes","defending_overall__xg": "Nombre de buts attendus concédés par 90 minutes",
@@ -366,10 +368,13 @@ glossary = {
         "defending_misc__headers__total": "Tirs de tête concédés par 90 minutes","defending_misc__headers__goals": "Buts de tête concédés par 90 minutes",
         "defending_misc__fast_breaks__total": "Contre-attaques subies par 90 minutes","defending_misc__fast_breaks__goals": "Buts encaissés sur contre-attaques par 90 minutes",
         "Performance_CS__keeper": "Matchs sans encaisser de buts","Performance_CS%__keeper": "Pourcentage de clean sheets","Performance_Int__misc": "Interceptions",
-        "Performance_TklW__misc": "Tacles gagnés","Performance_Recov__misc": "Récupérations de balle","Tackles_Tkl__def": "Tacles effectués","Blocks_Blocks__def": "Contres et blocs",
+        "Performance_TklW__misc": "Tacles gagnés","Performance_Recov__misc": "Récupérations de balle","Tackles_Tkl__def": "Tacles effectués","Blocks_Blocks__def": "Nombre de blocs",
         "Clr__def": "Dégagements","defending_defensive_actions__tackles": "Tacles par 90 minutes","defending_defensive_actions__interceptions": "Interceptions par 90 minutes",
         "defending_defensive_actions__recoveries": "Récupérations par 90 minutes","defending_defensive_actions__blocks": "Blocs par 90 minutes",
-        "defending_defensive_actions__clearances": "Dégagements",
+        "defending_defensive_actions__clearances": "Dégagements par 90 minutes", "defending_defensive_actions__tackles_Padj": "Tacles par 90 minutes ajustées à la possession",
+        "defending_defensive_actions__interceptions_Padj": "Interceptions par 90 minutes ajustées à la possession",
+        "defending_defensive_actions__blocks_Padj": "Blocs par 90 minutes ajustées à la possession",
+        "defending_defensive_actions__clearances_Padj": "Dégagements par 90 minutes ajustées à la possession",
 
         # COUP DE PIED ARRÊTÉS (DEFENSIF)
         "defending_set_pieces__goals": "Buts concédés sur coup de pied arrêté par 90 minutes","defending_set_pieces__shots": "Tirs concédés sur coup de pied arrêté par 90 minutes",
@@ -450,8 +455,9 @@ glossary = {
         "Per_90_min_Carries_Mis__poss": "Controles fallidos por 90 minutos","Per_90_min_Carries_Dis__poss": "Pérdidas en conducción por 90 minutos",
 
         # PRESIÓN
-        "pressing__pressed_seqs": "Secuencias de presión por 90 minutos","pressing__ppda": "Pases permitidos por acción defensiva en dos tercios defensivos",
-        "pressing__start_distance_m": "Distancia media de inicio de la presión","pressing__high_turnovers__shot_ending": "Recuperaciones altas que acaban en tiro por 90 minutos",
+        "pressing__pressed_seqs": "Secuencias de presión por 90 minutos", "pressing__pressed_seqs_Padj": "Número de secuencias de presión por 90 minutos ajustadas a la posesión",
+        "pressing__ppda": "Pases permitidos por acción defensiva en dos tercios defensivos","pressing__start_distance_m": "Distancia media de inicio de la presión",
+        "pressing__high_turnovers__shot_ending": "Recuperaciones altas que acaban en tiro por 90 minutos",
         "pressing__high_turnovers__goal_ending": "Recuperaciones altas que acaban en gol por 90 minutos",
         "pressing__high_turnovers__pct_end_in_shot": "Porcentaje de presiones altas que acaban en tiro",
 
@@ -468,7 +474,10 @@ glossary = {
         "Performance_TklW__misc": "Entradas ganadas","Performance_Recov__misc": "Recuperaciones","Tackles_Tkl__def": "Entradas realizadas","Blocks_Blocks__def": "Bloqueos",
         "Clr__def": "Despejes","defending_defensive_actions__tackles": "Entradas por 90 minutos","defending_defensive_actions__interceptions": "Intercepciones por 90 minutos",
         "defending_defensive_actions__recoveries": "Recuperaciones por 90 minutos","defending_defensive_actions__blocks": "Bloqueos por 90 minutos",
-        "defending_defensive_actions__clearances": "Despejes",
+        "defending_defensive_actions__clearances": "Despejes por 90 minutos", "defending_defensive_actions__tackles_Padj": "Entradas por 90 minutos ajustadas a la posesión",
+        "defending_defensive_actions__interceptions_Padj": "Intercepciones por 90 minutos ajustadas a la posesión",
+        "defending_defensive_actions__blocks_Padj": "Bloqueos por cada 90 minutos ajustados a la posesión",
+        "defending_defensive_actions__clearances_Padj": "Despejes por cada 90 minutos ajustados a la posesión",
 
         # A BALÓN PARADO (DEFENSIVO)
         "defending_set_pieces__goals": "Goles encajados a balón parado por 90 minutos","defending_set_pieces__shots": "Tiros concedidos a balón parado por 90 minutos",
@@ -547,8 +556,9 @@ glossary = {
         "Per_90_min_Carries_Mis__poss": "Miscontrols per 90 minutes","Per_90_min_Carries_Dis__poss": "Dispossessions on carries per 90 minutes",
 
         # PRESSING
-        "pressing__pressed_seqs": "Pressing sequences per 90 minutes","pressing__ppda": "Passes allowed per defensive action in defensive two-thirds",
-        "pressing__start_distance_m": "Average pressing start distance","pressing__high_turnovers__shot_ending": "High turnovers leading to a shot per 90 minutes",
+        "pressing__pressed_seqs": "Pressing sequences per 90 minutes","pressing__pressed_seqs_Padj": "Number of pressing sequences per 90 minutes adjusted for possession",
+        "pressing__ppda": "Passes allowed per defensive action in defensive two-thirds","pressing__start_distance_m": "Average pressing start distance",
+        "pressing__high_turnovers__shot_ending": "High turnovers leading to a shot per 90 minutes",
         "pressing__high_turnovers__goal_ending": "High turnovers leading to a goal per 90 minutes","pressing__high_turnovers__pct_end_in_shot": "Share of high turnovers ending in a shot",
 
         # OFF-BALL
@@ -564,7 +574,10 @@ glossary = {
         "Performance_Recov__misc": "Ball recoveries","Tackles_Tkl__def": "Tackles made","Blocks_Blocks__def": "Blocks","Clr__def": "Clearances",
         "defending_defensive_actions__tackles": "Tackles per 90 minutes","defending_defensive_actions__interceptions": "Interceptions per 90 minutes",
         "defending_defensive_actions__recoveries": "Recoveries per 90 minutes","defending_defensive_actions__blocks": "Blocks per 90 minutes",
-        "defending_defensive_actions__clearances": "Clearances",
+        "defending_defensive_actions__clearances": "Clearances per 90 minute", "defending_defensive_actions__tackles_Padj": "Tackles per 90 minutes adjusted for possession",
+        "defending_defensive_actions__interceptions_Padj": "Interceptions per 90 minutes adjusted for possession",
+        "defending_defensive_actions__blocks_Padj": "Blocks per 90 minutes adjusted for possession",
+        "defending_defensive_actions__clearances_Padj": "Clearances per 90 minutes adjusted for possession",
 
         # SET-PIECES (DEFENSE)
         "defending_set_pieces__goals": "Set-piece goals conceded per 90 minutes","defending_set_pieces__shots": "Set-piece shots conceded per 90 minutes",
@@ -635,9 +648,9 @@ stat_display_names = {
     "Per_90_min_Carries_Mis__poss": "miscontrols_per90","Per_90_min_Carries_Dis__poss": "dispossessed_per90",
 
     # PRESSING
-    "pressing__pressed_seqs": "pressed_seq_per90","pressing__ppda": "ppda","pressing__start_distance_m": "pressing_start_distance_m",
-    "pressing__high_turnovers__shot_ending": "pressing_shot_endings","pressing__high_turnovers__goal_ending": "pressing_goal_ending",
-    "pressing__high_turnovers__pct_end_in_shot": "pressing_pct_end_in_shot",
+    "pressing__pressed_seqs": "pressed_seq_per90", "pressing__pressed_seqs_Padj": "pressed_seq_per90_Padj", "pressing__ppda": "ppda",
+    "pressing__start_distance_m": "pressing_start_distance_m","pressing__high_turnovers__shot_ending": "pressing_shot_endings",
+    "pressing__high_turnovers__goal_ending": "pressing_goal_ending","pressing__high_turnovers__pct_end_in_shot": "pressing_pct_end_in_shot",
 
     # JEU SANS BALLON
     "defending_overall__goals": "goals_conceded_per90","defending_overall__xg": "xG_conceded_per90","defending_overall__goals_vs_xg": "goals-xG_conceded_per90",
@@ -650,7 +663,9 @@ stat_display_names = {
     "Performance_Int__misc": "interceptions","Performance_TklW__misc": "tackles_won","Performance_Recov__misc": "recoveries",
     "Tackles_Tkl__def": "tackles","Blocks_Blocks__def": "blocks","Clr__def": "clearance","defending_defensive_actions__tackles": "tackles_per90",
     "defending_defensive_actions__interceptions": "interceptions_per90","defending_defensive_actions__recoveries": "recoveries_per90",
-    "defending_defensive_actions__blocks": "blocks_per90","defending_defensive_actions__clearances": "clearances_per90",
+    "defending_defensive_actions__blocks": "blocks_per90","defending_defensive_actions__clearances": "clearances_per90", "defending_defensive_actions__tackles_Padj": "tackles_per90_Padj",
+    "defending_defensive_actions__interceptions_Padj": "interceptions_per90_Padj","defending_defensive_actions__blocks_Padj": "blocks_per90_Padj",
+    "defending_defensive_actions__clearances_Padj": "clearances_per90_Padj",
 
     # COUP DE PIED ARRÊTÉS (DEFENSIF)
     "defending_set_pieces__goals": "goals_set_pieces_conceded_per90","defending_set_pieces__shots": "shots_set_pieces_conceded_per90",
@@ -743,8 +758,7 @@ def plot_pizza_radar(labels, data_values, median_values, title="Radar",legend_la
     params_offset = [abs(p - m) < threshold for p, m in zip(data_values, median_values)]
     pizza.adjust_texts(params_offset, offset=-0.17, adj_comp_values=True)
 
-    # Titre du radar / Radar title / Título del radar
-    fig.text(0.5, 1.00, title,ha="center", fontsize=14, fontweight="bold", color="#000000")
+    fig.text(0.5, 1.00, title,ha="center", fontsize=14, fontweight="bold", color="#000000") # Titre du radar / Radar title / Título del radar
 
     # Légende personnalisée / Custom legend / Légende personnalisée
     legend_elements = [Patch(facecolor="#7FBFFF", edgecolor='black', label=legend_labels[0]),Patch(facecolor="#e63946", edgecolor='black', label=legend_labels[1])]
@@ -843,9 +857,9 @@ def find_similar_teams(selected_team_name, df, filter_type=None, top_n=5):
     # Colonnes de stats à comparer / Columns of statistics to compare  / Columnas de estadísticas para comparar
     stats_cols = [col for col in [
         "attacking_set_pieces__xg_pct","passing__avg_poss","passing__pass_direction__fwd","passing__pass_direction__left","passing__pass_direction__right","passing__crosses__pct",
-        "pressing__pressed_seqs","pressing__ppda","pressing__start_distance_m","sequences__ten_plus_passes","sequences__direct_speed","sequences__passes_per_seq",
+        "pressing__pressed_seqs_Padj","pressing__ppda","pressing__start_distance_m","sequences__ten_plus_passes","sequences__direct_speed","sequences__passes_per_seq",
         "sequences__sequence_time","sequences__build_ups__total","sequences__direct_attacks__total", "attacking_misc__fast_breaks__total","misc.__fouled","misc.__fouls",
-        "defending_set_pieces__xg_pct","defending_defensive_actions__clearances","defending_defensive_actions__ground_duels_won","defending_defensive_actions__aerial_duels_won",
+        "defending_set_pieces__xg_pct","defending_defensive_actions__clearancess_Padj","defending_defensive_actions__ground_duels_won","defending_defensive_actions__aerial_duels_won",
         "defending_misc__offsides","Long_Att__pass_prop","direct_attack_prop","build_ups_prop","fast_break_prop"
     ] if col in df.columns]
 
@@ -911,10 +925,10 @@ def estimate_team_styles(team_row_or_series):
         ("attacking_misc__fast_breaks__total", ">", 1.25),("fast_break_prop", ">", 25), ("sequences__sequence_time", "<", 10)
     ]
     high_press_rules = [
-        ("pressing__pressed_seqs", ">", 12),("pressing__ppda", "<", 10),("pressing__start_distance_m", ">", 45),
+        ("pressing__pressed_seqs_Padj", ">", 15),("pressing__ppda", "<", 10),("pressing__start_distance_m", ">", 45),
     ]
     low_block_rules = [
-        ("pressing__pressed_seqs", "<", 8),("pressing__ppda", ">", 15),("pressing__start_distance_m", "<", 40),
+        ("pressing__pressed_seqs_Padj", "<", 8),("pressing__ppda", ">", 15),("pressing__start_distance_m", "<", 40),
     ]
 
     # Fonction pour déterminer le style / Function to determine style / Función para determinar el estilo
@@ -1809,8 +1823,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 if team2:
                     team2_data = info_team[info_team['team_code'] == team2].iloc[0] # Récupération des informations de la 2ème équipe
                     
-                    # On affiche le profil des équipes
-                    st.markdown("<h5 style='text-align: center;'>Présentations des équipes</h4>", unsafe_allow_html=True)
+                    st.markdown("<h5 style='text-align: center;'>Présentations des équipes</h4>", unsafe_allow_html=True) # On affiche le profil des équipes
 
                     # Colonnes
                     df_team_col = "team_code"
@@ -3821,8 +3834,8 @@ else:
                             - **PrgC_per90** : Conduites progressives par 90 minutes
                             - **Err_per90** : Erreurs menant à un tir adverse
                             - **Tkl%** : Pourcentage de tacles effectués
-                            - **Int_per90** : Interceptions par 90 minutes
-                            - **Tkl_per90** : Tacles par 90 minutes
+                            - **Int_per90_Padj** : Interceptions par 90 minutes ajustées à la possession
+                            - **Tkl_per90_Padj** : Tacles par 90 minutes ajustées à la possession
                             - **CrdY_per90** : Cartons jaunes par 90 minutes
                             - **Won_per90** : Duels aériens gagnés par 90 minutes
                             - **Won%** : Pourcentage de duels aériens gagnés
@@ -3837,8 +3850,8 @@ else:
                             - **PrgC_per90** : Conduites progressives par 90 minutes
                             - **Err_per90** : Erreurs menant à un tir adverse
                             - **Tkl%** : Pourcentage de tacles effectués 
-                            - **Int_per90** : Interceptions par 90 minutes
-                            - **Tkl_per90** : Tacles par 90 minutes
+                            - **Int_per90_Padj** : Interceptions par 90 minutes ajustées à la possession
+                            - **Tkl_per90_Padj** : Tacles par 90 minutes ajustées à la possession
                             - **CrdY_per90** : Cartons jaunes par 90 minutes
                             - **Won_per90** : Duels aériens gagnés par 90 minutes
                             - **Won%** : Pourcentage de duels aériens gagnés 
@@ -3855,7 +3868,7 @@ else:
                             - **Fld_per90** : Fautes subies par 90 minutes
                             - **Err_per90** : Erreurs menant à un tir adverse
                             - **Tkl%** : Pourcentage de tacles effectués 
-                            - **Int_per90** : Interceptions par 90 minutes
+                            - **Int_per90_Padj** : Interceptions par 90 minutes ajustées à la possession
                             - **CrdY_per90** : Cartons jaunes par 90 minutes
                             - **Won%** : Pourcentage de duels aériens gagnés 
                             """)
@@ -4127,8 +4140,8 @@ else:
                             - **PrgC_per90**: Progressive carries per 90 minutes  
                             - **Err_per90**: Errors leading to a shot  
                             - **Tkl%**: Tackle success rate  
-                            - **Int_per90**: Interceptions per 90 minutes  
-                            - **Tkl_per90**: Tackles per 90 minutes  
+                            - **Int_per90_Padj**: Interceptions per 90 minutes adjusted for possession
+                            - **Tkl_per90_Padj**: Tackles per 90 minutes adjusted for possession
                             - **CrdY_per90**: Yellow cards per 90 minutes  
                             - **Won_per90**: Aerial duels won per 90 minutes  
                             - **Won%**: Aerial duel success rate  
@@ -4143,8 +4156,8 @@ else:
                             - **PrgC_per90**: Progressive carries per 90 minutes  
                             - **Err_per90**: Errors leading to a shot  
                             - **Tkl%**: Tackle success rate  
-                            - **Int_per90**: Interceptions per 90 minutes  
-                            - **Tkl_per90**: Tackles per 90 minutes  
+                            - **Int_per90_Padj**: Interceptions per 90 minutes adjusted for possession
+                            - **Tkl_per90_Padj**: Tackles per 90 minutes adjusted for possession
                             - **CrdY_per90**: Yellow cards per 90 minutes  
                             - **Won_per90**: Aerial duels won per 90 minutes  
                             - **Won%**: Aerial duel success rate  
@@ -4161,7 +4174,7 @@ else:
                             - **Fld_per90**: Fouls drawn per 90 minutes  
                             - **Err_per90**: Errors leading to a shot  
                             - **Tkl%**: Tackle success rate  
-                            - **Int_per90**: Interceptions per 90 minutes  
+                            - **Int_per90_Padj**: Interceptions per 90 minutes adjusted for possession
                             - **CrdY_per90**: Yellow cards per 90 minutes  
                             - **Won%**: Aerial duel success rate 
                             """)
@@ -4334,7 +4347,6 @@ else:
                                     st.pyplot(fig_pizza_stat_basis)
                                 with col2:
                                     st.pyplot(fig_pizza_stat_adv)
-
                     else:
                         st.info("Not enough players in this group to generate a radar (minimum requirement: 5).")
 
@@ -4457,8 +4469,8 @@ else:
                             - **PrgC_per90**: Conducciones progresivas por 90 minutos  
                             - **Err_per90**: Errores que conducen a un tiro rival  
                             - **Tkl%**: Porcentaje de éxito en entradas  
-                            - **Int_per90**: Intercepciones por 90 minutos  
-                            - **Tkl_per90**: Entradas por 90 minutos  
+                            - **Int_per90_Padj**: Intercepciones por 90 minutos ajustadas a la posesión
+                            - **Tkl_per90_Padj**: Entradas por 90 minutos ajustadas a la posesión
                             - **CrdY_per90**: Tarjetas amarillas por 90 minutos  
                             - **Won_per90**: Duelos aéreos ganados por 90 minutos  
                             - **Won%**: Porcentaje de duelos aéreos ganados  
@@ -4473,8 +4485,8 @@ else:
                             - **PrgC_per90**: Conducciones progresivas por 90 minutos  
                             - **Err_per90**: Errores que conducen a un tiro rival  
                             - **Tkl%**: Porcentaje de éxito en entradas  
-                            - **Int_per90**: Intercepciones por 90 minutos  
-                            - **Tkl_per90**: Entradas por 90 minutos  
+                            - **Int_per90_Padj**: Intercepciones por 90 minutos ajustadas a la posesión
+                            - **Tkl_per90_Padj**: Entradas por 90 minutos ajustadas a la posesión
                             - **CrdY_per90**: Tarjetas amarillas por 90 minutos  
                             - **Won_per90**: Duelos aéreos ganados por 90 minutos  
                             - **Won%**: Porcentaje de duelos aéreos ganados  
@@ -4491,7 +4503,7 @@ else:
                             - **Fld_per90**: Faltas recibidas por 90 minutos  
                             - **Err_per90**: Errores que conducen a un tiro rival  
                             - **Tkl%**: Porcentaje de éxito en entradas  
-                            - **Int_per90**: Intercepciones por 90 minutos  
+                            - **Int_per90_Padj**: Intercepciones por 90 minutos ajustadas a la posesión
                             - **CrdY_per90**: Tarjetas amarillas por 90 minutos  
                             - **Won%**: Porcentaje de duelos aéreos ganados  
                             """)
@@ -4763,8 +4775,8 @@ else:
                                 - **PrgC_per90** : Conduites progressives par 90 minutes
                                 - **Err_per90** : Erreurs menant à un tir adverse
                                 - **Tkl%** : Pourcentage de tacles effectués
-                                - **Int_per90** : Interceptions par 90 minutes
-                                - **Tkl_per90** : Tacles par 90 minutes
+                                - **Int_per90_Padj** : Interceptions par 90 minutes ajustées à la possession
+                                - **Tkl_per90_Padj** : Tacles par 90 minutes ajustées à la possession
                                 - **CrdY_per90** : Cartons jaunes par 90 minutes
                                 - **Won_per90** : Duels aériens gagnés par 90 minutes
                                 - **Won%** : Pourcentage de duels aériens gagnés
@@ -4779,8 +4791,8 @@ else:
                                 - **PrgC_per90** : Conduites progressives par 90 minutes
                                 - **Err_per90** : Erreurs menant à un tir adverse
                                 - **Tkl%** : Pourcentage de tacles effectués 
-                                - **Int_per90** : Interceptions par 90 minutes
-                                - **Tkl_per90** : Tacles par 90 minutes
+                                - **Int_per90_Padj** : Interceptions par 90 minutes ajustées à la possession
+                                - **Tkl_per90_Padj** : Tacles par 90 minutes ajustées à la possession
                                 - **CrdY_per90** : Cartons jaunes par 90 minutes
                                 - **Won_per90** : Duels aériens gagnés par 90 minutes
                                 - **Won%** : Pourcentage de duels aériens gagnés 
@@ -4797,7 +4809,7 @@ else:
                                 - **Fld_per90** : Fautes subies par 90 minutes
                                 - **Err_per90** : Erreurs menant à un tir adverse
                                 - **Tkl%** : Pourcentage de tacles effectués 
-                                - **Int_per90** : Interceptions par 90 minutes
+                                - **Int_per90_Padj** : Interceptions par 90 minutes ajustées à la possession
                                 - **CrdY_per90** : Cartons jaunes par 90 minutes
                                 - **Won%** : Pourcentage de duels aériens gagnés 
                                 """)
@@ -5030,8 +5042,8 @@ else:
                                 - **PrgC_per90**: Progressive carries per 90 minutes  
                                 - **Err_per90**: Errors leading to a shot  
                                 - **Tkl%**: Tackle success rate  
-                                - **Int_per90**: Interceptions per 90 minutes  
-                                - **Tkl_per90**: Tackles per 90 minutes  
+                                - **Int_per90_Padj**: Interceptions per 90 minutes adjusted for possession
+                                - **Tkl_per90_Padj**: Tackles per 90 minutes adjusted for possession
                                 - **CrdY_per90**: Yellow cards per 90 minutes  
                                 - **Won_per90**: Aerial duels won per 90 minutes  
                                 - **Won%**: Aerial duel success rate  
@@ -5046,8 +5058,8 @@ else:
                                 - **PrgC_per90**: Progressive carries per 90 minutes  
                                 - **Err_per90**: Errors leading to a shot  
                                 - **Tkl%**: Tackle success rate  
-                                - **Int_per90**: Interceptions per 90 minutes  
-                                - **Tkl_per90**: Tackles per 90 minutes  
+                                - **Int_per90_Padj**: Interceptions per 90 minutes adjusted for possession
+                                - **Tkl_per90_Padj**: Tackles per 90 minutes adjusted for possession
                                 - **CrdY_per90**: Yellow cards per 90 minutes  
                                 - **Won_per90**: Aerial duels won per 90 minutes  
                                 - **Won%**: Aerial duel success rate  
@@ -5064,7 +5076,7 @@ else:
                                 - **Fld_per90**: Fouls drawn per 90 minutes  
                                 - **Err_per90**: Errors leading to a shot  
                                 - **Tkl%**: Tackle success rate  
-                                - **Int_per90**: Interceptions per 90 minutes  
+                                - **Int_per90_Padj**: Interceptions per 90 minutes adjusted for possession
                                 - **CrdY_per90**: Yellow cards per 90 minutes  
                                 - **Won%**: Aerial duel success rate
                                 """)
@@ -5312,8 +5324,8 @@ else:
                                 - **PrgC_per90**: Conducciones progresivas por 90 minutos
                                 - **Err_per90**: Errores que conducen a un tiro rival
                                 - **Tkl%**: Porcentaje de éxito en entradas 
-                                - **Int_per90**: Intercepciones por 90 minutos
-                                - **Tkl_per90**: Entradas por 90 minutos
+                                - **Int_per90_Padj**: Intercepciones por 90 minutos ajustadas a la posesión
+                                - **Tkl_per90_Padj**: Entradas por 90 minutos ajustadas a la posesión
                                 - **CrdY_per90**: Tarjetas amarillas por 90 minutos
                                 - **Won_per90**: Duelos aéreos ganados por 90 minutos
                                 - **Won%**: Porcentaje de duelos aéreos ganados 
@@ -5329,8 +5341,7 @@ else:
                                 - **PrgC_per90**: Conducciones progresivas por 90 minutos
                                 - **Fld_per90**: Faltas recibidas por 90 minutos
                                 - **Err_per90**: Errores que conducen a un tiro rival
-                                - **Tkl%**: Porcentaje de éxito en entradas 
-                                - **Int_per90**: Intercepciones por 90 minutos
+                                - **Int_per90_Padj**: Intercepciones por 90 minutos ajustadas a la posesión
                                 - **CrdY_per90**: Tarjetas amarillas por 90 minutos
                                 - **Won%**: Porcentaje de duelos aéreos ganados 
                                 """)
@@ -6047,6 +6058,8 @@ else:
                     - **Tkl%** : Pourcentage de tacles effectués
                     - **Int_per90** : Interceptions par 90 minutes
                     - **Tkl_per90** : Tacles par 90 minutes
+                    - **Int_per90_Padj** : Interceptions par 90 minutes ajustées à la possession
+                    - **Tkl_per90_Padj** : Tacles par 90 minutes ajustées à la possession
                     - **CrdY_per90** : Cartons jaunes par 90 minutes
                     - **Won_per90** : Duels aériens gagnés par 90 minutes
                     - **Won%** : Pourcentage de duels aériens gagnés
@@ -6058,9 +6071,11 @@ else:
                     - **xAG_per90** : Expected Assisted Goals par 90 minutes
                     - **PrgC_per90** : Conduites progressives par 90 minutes
                     - **Err_per90** : Erreurs menant à un tir adverse
-                    - **Tkl%** : Pourcentage de tacles effectués 
+                    - **Tkl%** : Pourcentage de tacles effectués
                     - **Int_per90** : Interceptions par 90 minutes
                     - **Tkl_per90** : Tacles par 90 minutes
+                    - **Int_per90_Padj** : Interceptions par 90 minutes ajustées à la possession
+                    - **Tkl_per90_Padj** : Tacles par 90 minutes ajustées à la possession
                     - **CrdY_per90** : Cartons jaunes par 90 minutes
                     - **Won_per90** : Duels aériens gagnés par 90 minutes
                     - **Won%** : Pourcentage de duels aériens gagnés 
@@ -6074,8 +6089,9 @@ else:
                     - **PrgC_per90** : Conduites progressives par 90 minutes
                     - **Fld_per90** : Fautes subies par 90 minutes
                     - **Err_per90** : Erreurs menant à un tir adverse
-                    - **Tkl%** : Pourcentage de tacles effectués 
+                    - **Tkl%** : Pourcentage de tacles effectués
                     - **Int_per90** : Interceptions par 90 minutes
+                    - **Int_per90_Padj** : Interceptions par 90 minutes ajustées à la possession
                     - **CrdY_per90** : Cartons jaunes par 90 minutes
                     - **Won%** : Pourcentage de duels aériens gagnés 
 
@@ -6299,9 +6315,11 @@ else:
                     - **xAG_per90**: Expected Assisted Goals per 90 minutes  
                     - **PrgC_per90**: Progressive carries per 90 minutes  
                     - **Err_per90**: Errors leading to a shot  
-                    - **Tkl%**: Tackle success rate  
-                    - **Int_per90**: Interceptions per 90 minutes  
-                    - **Tkl_per90**: Tackles per 90 minutes  
+                    - **Tkl%**: Tackle success rate
+                    - **Int_per90**: Interceptions per 90 minutes
+                    - **Tkl_per90**: Tackles per 90 minutes
+                    - **Int_per90_Padj**: Interceptions per 90 minutes adjusted for possession
+                    - **Tkl_per90_Padj**: Tackles per 90 minutes adjusted for possession
                     - **CrdY_per90**: Yellow cards per 90 minutes  
                     - **Won_per90**: Aerial duels won per 90 minutes  
                     - **Won%**: Aerial duel success rate  
@@ -6315,7 +6333,9 @@ else:
                     - **Err_per90**: Errors leading to a shot  
                     - **Tkl%**: Tackle success rate  
                     - **Int_per90**: Interceptions per 90 minutes  
-                    - **Tkl_per90**: Tackles per 90 minutes  
+                    - **Tkl_per90**: Tackles per 90 minutes
+                    - **Int_per90_Padj**: Interceptions per 90 minutes adjusted for possession
+                    - **Tkl_per90_Padj**: Tackles per 90 minutes adjusted for possession
                     - **CrdY_per90**: Yellow cards per 90 minutes  
                     - **Won_per90**: Aerial duels won per 90 minutes  
                     - **Won%**: Aerial duel success rate  
@@ -6330,7 +6350,8 @@ else:
                     - **Fld_per90**: Fouls drawn per 90 minutes  
                     - **Err_per90**: Errors leading to a shot  
                     - **Tkl%**: Tackle success rate  
-                    - **Int_per90**: Interceptions per 90 minutes  
+                    - **Int_per90**: Interceptions per 90 minutes
+                    - **Int_per90_Padj**: Interceptions per 90 minutes adjusted for possession
                     - **CrdY_per90**: Yellow cards per 90 minutes  
                     - **Won%**: Aerial duel success rate
 
@@ -6561,7 +6582,9 @@ else:
                     - **Err_per90**: Errores que conducen a un tiro rival  
                     - **Tkl%**: Porcentaje de éxito en entradas  
                     - **Int_per90**: Intercepciones por 90 minutos  
-                    - **Tkl_per90**: Entradas por 90 minutos  
+                    - **Tkl_per90**: Entradas por 90 minutos
+                    - **Int_per90_Padj**: Intercepciones por 90 minutos ajustadas a la posesión
+                    - **Tkl_per90_Padj**: Entradas por 90 minutos ajustadas a la posesión
                     - **CrdY_per90**: Tarjetas amarillas por 90 minutos  
                     - **Won_per90**: Duelos aéreos ganados por 90 minutos  
                     - **Won%**: Porcentaje de duelos aéreos ganados  
@@ -6575,7 +6598,9 @@ else:
                     - **Err_per90**: Errores que conducen a un tiro rival  
                     - **Tkl%**: Porcentaje de éxito en entradas  
                     - **Int_per90**: Intercepciones por 90 minutos  
-                    - **Tkl_per90**: Entradas por 90 minutos  
+                    - **Tkl_per90**: Entradas por 90 minutos
+                    - **Int_per90_Padj**: Intercepciones por 90 minutos ajustadas a la posesión
+                    - **Tkl_per90_Padj**: Entradas por 90 minutos ajustadas a la posesión
                     - **CrdY_per90**: Tarjetas amarillas por 90 minutos  
                     - **Won_per90**: Duelos aéreos ganados por 90 minutos  
                     - **Won%**: Porcentaje de duelos aéreos ganados  
@@ -6590,7 +6615,8 @@ else:
                     - **Fld_per90**: Faltas recibidas por 90 minutos  
                     - **Err_per90**: Errores que conducen a un tiro rival  
                     - **Tkl%**: Porcentaje de éxito en entradas  
-                    - **Int_per90**: Intercepciones por 90 minutos  
+                    - **Int_per90**: Intercepciones por 90 minutos
+                    - **Int_per90_Padj**: Intercepciones por 90 minutos ajustadas a la posesión
                     - **CrdY_per90**: Tarjetas amarillas por 90 minutos  
                     - **Won%**: Porcentaje de duelos aéreos ganados  
 
@@ -6769,7 +6795,7 @@ else:
                     step=1
                 )
 
-            # Statistiques avancées (à partir de la 30e colonne)
+            # Statistiques avancées
             selected_adv_stats, adv_stat_limits = [], {}
             adv_columns = df.columns[42:]
             selected_adv_stats = st.multiselect("Statistiques brutes", list(adv_columns), placeholder="")
@@ -6995,6 +7021,11 @@ else:
                 - **Tkl_per90** : Nombre de tacles effectués par 90 minutes
                 - **Int_per90** : Nombre d'interceptions effectués par 90 minutes
                 - **Clr_per90** : Nombre de dégagements effectués par 90 minutes
+                - **Blocks_stats_defense_per90** : Nombre de blocs effectués par 90 minutes
+                - **Int_per90_Padj** : Interceptions par 90 minutes ajustées à la possession
+                - **Tkl_per90_Padj** : Tacles par 90 minutes ajustées à la possession
+                - **Clr_per90_Padj** : Nombre de dégagements effectués par 90 minutes ajustées à la possession
+                - **Blocks_stats_defense_per90_Padj** : Nombre de blocs effectués par 90 minutes ajustées à la possession
                 - **Err_per90** : Erreurs menant à un tir adverse par 90 minutes
                 - **Fld_per90** : Fautes subies par 90 minutes
                 - **Touches_per90** : Nombre de touches du ballon par 90 minutes
@@ -7058,9 +7089,9 @@ else:
                 min_val, max_val = int(df[stat].min()), int(df[stat].max())
                 base_stat_limits[stat] = st.slider(f"{display_name} (min / max)", min_val, max_val, (min_val, max_val), step=1)
 
-            # Advanced statistics (from column 30)
+            # Advanced statistics
             selected_adv_stats, adv_stat_limits = [], {}
-            adv_columns = df.columns[30:]
+            adv_columns = df.columns[42:]
             selected_adv_stats = st.multiselect("Raw statistics", list(adv_columns), placeholder="")
             for stat in selected_adv_stats:
                 if stat in df.columns:
@@ -7277,6 +7308,11 @@ else:
                 - **Tkl_per90** : Tackles per 90 minutes 
                 - **Int_per90** : Interceptions per 90 minutes 
                 - **Clr_per90** : Number of clearances made per 90 minutes
+                - **Blocks_stats_defense_per90**: Número de bloqueos realizados por cada 90 minutos
+                - **Int_per90_Padj**: Intercepciones por cada 90 minutos ajustadas a la posesión
+                - **Tkl_per90_Padj**: Entradas por cada 90 minutos ajustadas a la posesión
+                - **Clr_per90_Padj**: Número de despejes realizados por cada 90 minutos ajustados a la posesión
+                - **Blocks_stats_defense_per90_Padj**: Número de bloqueos realizados por cada 90 minutos ajustados a la posesión
                 - **Err_per90** : Errors leading to a shot per 90 minutes  
                 - **Fld_per90** : Fouls drawn per 90 minutes 
                 - **Touches_per90** : Number of touches of the ball per 90 minutes
@@ -7356,9 +7392,9 @@ else:
                     step=1
                 )
 
-            # Estadísticas avanzadas (a partir de la columna 30)
+            # Estadísticas avanzadas
             selected_adv_stats, adv_stat_limits = [], {}
-            adv_columns = df.columns[30:]
+            adv_columns = df.columns[42:]
             selected_adv_stats = st.multiselect("Estadísticas brutas", list(adv_columns), placeholder="")
             for stat in selected_adv_stats:
                 if stat in df.columns:
@@ -7578,6 +7614,11 @@ else:
                 - **Tkl_per90**: Entradas por 90 minutos
                 - **Int_per90**: Intercepciones por 90 minutos
                 - **Clr_per90**: Despejes por 90 minutos
+                - **Blocks_stats_defense_per90**: Number of blocks per 90 minutes
+                - **Int_per90_Padj**: Interceptions per 90 minutes adjusted for possession
+                - **Tkl_per90_Padj**: Tackles per 90 minutes adjusted for possession
+                - **Clr_per90_Padj**: Number of clearances made per 90 minutes adjusted for possession
+                - **Blocks_stats_defense_per90_Padj**: Number of blocks made per 90 minutes adjusted for possession
                 - **Err_per90**: Errores que conducen a tiro por 90 minutos
                 - **Fld_per90**: Faltas recibidas por 90 minutos
                 - **Touches_per90**: Toques por 90 minutos

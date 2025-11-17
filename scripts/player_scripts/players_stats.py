@@ -19,7 +19,6 @@ def _get_script_dir():
 script_dir = _get_script_dir()
 data_player_dir = (script_dir.parent.parent / "data" / "player").resolve()
 
-
 # Chemins des fichiers / path of this files / La ruta de acceso a este archivos
 fbref_path = data_player_dir / "light2025-2026.csv"
 tm_path = data_player_dir / "players_tm.csv"
@@ -43,8 +42,7 @@ cols_num = ["MP", "Starts", "Min", "90s", "Tkl", "Won", "Succ","Cmp", "A-xAG", "
 # Colonne contenant un pourcentage / Column containing a percentage / Columna que contiene un porcentaje
 cols_pct = ["G/Sh", "SoT%", "CS%", "Launch%", "Stp%", "Cmp%", "Tkl%", "Succ%", "Won%", "Save%"] 
 
-# Colonnes à transformer en statistiques par 90 minutes / Columns to convert to per-90 stats 
-# Columnas que se convertirán en estadísticas cada 90 minutos
+# Colonnes à transformer en statistiques par 90 minutes / Columns to convert to per-90 stats / Columnas que se convertirán en estadísticas cada 90 minutos
 cols_per_90 = [
     "Gls", "Ast", "G+A", "G-PK", "PK", "CrdY", "CrdR", "npxG", "xAG","PrgC", "PrgP", "PrgR", "Sh", "SoT", "Cmp","1/3", "PPA", "CrsPA","Sw", "Crs","Tkl", "Int", "Clr", "Blocks_stats_defense",
     "Err","Fld","Touches", "Succ","Carries", "Mis","Dis", "Fls", "PKwon", "PKcon", "Recov", "GA","SoTA", "Saves", "PKm", "PKsv", "Thr", "Stp", "Won", "#OPA","PSxG","G-xG"]
@@ -134,7 +132,7 @@ fbref_df = MP_max_per_league.loc[
     MP_max_per_league["MP"] >= 0.33 * MP_max_per_league.groupby("Comp")["MP"].transform("max")
 ].copy()
 
-## Merging tables / Fusion des tables / Fusionar tablas
+## Fusion des tables / Merging tables / Fusionar tablas
 
 # Normaliser les noms / Normalize names / Normalizar los nombres
 def normalize_name(text):
@@ -283,7 +281,6 @@ remaining_tm = remaining_tm[~remaining_tm["name_clean"].isin(matched_tm_75)]
 
 matches_90noyear, matched_fbref_90noyear, matched_tm_90noyear = fuzzy_match(remaining_fbref, remaining_tm, 90, False, "90%_no_year")
 
-
 matches_65, matched_fbref_65, matched_tm_65 = fuzzy_match(remaining_fbref, remaining_tm, 65, True, "65%_year")
 remaining_fbref = remaining_fbref[~remaining_fbref["Player_clean"].isin(matched_fbref_65)]
 remaining_tm = remaining_tm[~remaining_tm["name_clean"].isin(matched_tm_65)]
@@ -294,7 +291,6 @@ matches_60, matched_fbref_60, matched_tm_60 = fuzzy_match(remaining_fbref, remai
 
 remaining_fbref = remaining_fbref[~remaining_fbref["Player_clean"].isin(matched_fbref_60)]
 remaining_tm = remaining_tm[~remaining_tm["name_clean"].isin(matched_tm_60)]
-
 
 manual_links = {
     "cucho": "cucho hernandez",
@@ -372,8 +368,7 @@ final_column_order = [
     "AvgDist","Sw_per90","Crs_per90", "Tkl_per90_Padj","Int_per90_Padj","Clr_per90_Padj","Blocks_stats_defense_per90_Padj","Tkl","Tkl_per90","Int_per90","Clr_per90",
     "Blocks_stats_defense_per90","Err_per90","Fld_per90", "Touches_per90","Succ","Succ_per90","Carries_per90", "Mis_per90","Dis_per90", "Fls_per90","PKwon_per90","PKcon_per90",
     "Recov_per90","Tkl%", "Succ%","Won", "Won_per90", "Won%", "CrdY_per90", "CrdR_per90","GA_per90","SoTA_per90", "Saves_per90", "PSxG_per90", "PSxG+/-","/90","PKm_per90","PKsv_per90",
-    "Thr_per90", "Stp_per90","Save%","CS%","AvgLen", "Launch%", "Stp%", "#OPA_per90"
-]
+    "Thr_per90", "Stp_per90","Save%","CS%","AvgLen", "Launch%", "Stp%", "#OPA_per90"]
                
 if 'player_name' in all_matches.columns and 'MP' in all_matches.columns:
     all_matches = all_matches.sort_values('MP', ascending=False)
@@ -420,8 +415,7 @@ print(f"Non appariés (tm) : {len(unmatched_tm_final)}")
 
 df = all_matches  # Chargement du fichier / Load file / Cargando el archivo
 
-# Sélection des colonnes de statistiques uniquement numériques / Select only numeric stat columns / Seleccionar solo columnas de estadísticas numéricas
-raw_stat_cols = df.columns[23:]
+raw_stat_cols = df.columns[23:] # Sélection des colonnes de statistiques uniquement numériques / Select only numeric stat columns / Seleccionar solo columnas de estadísticas numéricas
 
 # Conversion en numérique pour ces colonnes / Convert these columns to numeric / Convertir estas columnas a formato numérico
 df[raw_stat_cols] = df[raw_stat_cols].apply(pd.to_numeric, errors="coerce")
@@ -495,7 +489,6 @@ goalkeeper_categories = {
     "long_clearance": [(0.5, "AvgLen"), (0.3, "Cmp%"), (0.1, "PrgP_per90"), (0.1, "xAG_per90")],
     "positioning": [(0.7, "AvgDist"), (0.3, "#OPA_per90")],
     "aerial_defense": [(0.6, "Stp%"), (0.2, "Won%"), (0.1, "Stp_per90"), (0.1, "Won_per90")]
-
 }
 
 #  Calcul des scores par catégorie / Compute category scores / Cálculo de puntuaciones por categoría
@@ -631,7 +624,6 @@ def compute_minutes_penalty(ratio):
 df["minutes_penalty"] = df["minute_ratio"].apply(compute_minutes_penalty)
 
 df["rating"] = (df["rating"] * df["power_ranking_penalty"] * df["minutes_penalty"]).round(0).astype("Int64")
-
 
 # Sauvegarde du dataframe final / Save final DataFrame / Guardar el marco de datos final
 df = df[[col for col in df.columns if not col.endswith('_norm') and col != "position_group"]]

@@ -35,8 +35,7 @@ inverted_stats = [
     'defending_overall__shots_in_box_pct','defending_overall__goals_in_box_pct','defending_set_pieces__goals','defending_set_pieces__shots','defending_set_pieces__xg',
     'defending_misc__free_kicks__total','defending_misc__free_kicks__goals','defending_overall__goals_vs_xg','defending_overall__conv_pct','pressing__ppda','rank_league',
     'misc.__pens_conceded','attacking_misc__offsides','misc.__yellows','misc.__reds','misc.__fouls','misc.__errors_lead_to_shot','misc.__errors_lead_to_goal',
-    'Per_90_min_Carries_Mis__poss','Per_90_min_Carries_Dis__poss'
-]
+    'Per_90_min_Carries_Mis__poss','Per_90_min_Carries_Dis__poss']
 
 # Normalisation / Normalization / Normalización
 num = df[stat_cols].apply(pd.to_numeric, errors="coerce")
@@ -151,8 +150,8 @@ power_ranking = {"Premier League": 92.6,"Serie A": 87.0,"LaLiga": 87.0,"Bundesli
 # Référence = Power Ranking de Premier League / Benchmark = Power Ranking de Premier League / Referencia = Clasificación de poder de Premier League
 reference_ranking = power_ranking["Premier League"]
 
-# Appliquer une pénalité relative : ratio entre ranking / référence (max 1) / Apply a relative penalty: ranking/reference ratio (max 1)
-# Aplicar una penalización relativa: relación entre clasificación y referencia (máximo 1)
+# Appliquer une pénalité relative : ratio entre ranking / référence / Apply a relative penalty: ranking/reference ratio 
+# Aplicar una penalización relativa: relación entre clasificación y referencia
 df["power_ranking_raw"] = df["championship_name"].map(power_ranking).fillna(85.0)
 df["power_ranking_penalty"] = 1 - (1 - (df["power_ranking_raw"] / reference_ranking)) / 3
 
