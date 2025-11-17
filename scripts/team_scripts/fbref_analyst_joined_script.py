@@ -126,7 +126,7 @@ cols_to_adjust = ["pressing__pressed_seqs","defending_defensive_actions__tackles
 # Boucle pour créer les colonnes ajustées / Loop to create the adjusted columns / Bucle para crear columnas ajustadas
 for col in cols_to_adjust:
     new_col = f"{col}_Padj"
-    opta_merged[new_col] = opta_merged[col] * (50 / (100 - opta_merged["passing__avg_poss"]))
+    opta_merged[new_col] = (opta_merged[col] * (50 / (100 - opta_merged["passing__avg_poss"]))).round(2)
 
 # Enregistrer le fichier csv final / Save the final merged CSV / Guardar el archivo CSV final
 opta_merged.to_csv(out_path, index=False, encoding="utf-8")
