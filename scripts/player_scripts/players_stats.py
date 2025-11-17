@@ -418,39 +418,58 @@ print(f"Non appariés (tm) : {len(unmatched_tm_final)}")
 
 ## Rating / Notation
 
-df = all_matches # Chargement du fichier / Load file / Cargando el archivo
+df = all_matches  # Chargement du fichier / Load file / Cargando el archivo
 
-stat_cols = df.columns[23:] # Définir la liste de colonne / Define columns / Definir la lista de columnas
+# Sélection des colonnes de statistiques uniquement numériques / Select only numeric stat columns / Seleccionar solo columnas de estadísticas numéricas
+raw_stat_cols = df.columns[23:]
 
-# Inverser les statistiques où un chiffre élevé est une indication d'une sous-performance / Reversing statistics where a high figure is an indication of underperformance
-# Invertir las estadísticas en las que una cifra elevada es indicativa de un rendimiento inferior al esperado
-inverted_stats = ['Err_per90', 'PKcon_per90', 'CrdR_per90', 'CrdY_per90', 'Fls_per90', 'Mis_per90', 'Dis_per90',
-                  'GA_per90', 'SoTA_per90', 'PSxG/SoT', 'PKm_per90','PSxG_per_90','PSxG', 'Pkm_per90']
+# Conversion en numérique pour ces colonnes / Convert these columns to numeric / Convertir estas columnas a formato numérico
+df[raw_stat_cols] = df[raw_stat_cols].apply(pd.to_numeric, errors="coerce")
+
+# Garder uniquement les colonnes réellement numériques / Keep only truly numeric columns / Conservar solo las columnas realmente numéricas
+stat_cols = [
+    col for col in raw_stat_cols
+    if pd.api.types.is_numeric_dtype(df[col])
+]
+
+# Inverser les statistiques où un chiffre élevé est une indication d'une sous-performance / Reverse statistics where a high value means underperformance
+# Invertir las estadísticas en las que un valor alto indica bajo rendimiento
+inverted_stats = ['Err_per90', 'PKcon_per90', 'CrdR_per90', 'CrdY_per90', 'Fls_per90','Mis_per90', 'Dis_per90', 'GA_per90',
+                'SoTA_per90', 'PSxG/SoT','PKm_per90', 'PSxG_per_90', 'PSxG', 'Pkm_per90']
 
 # Catégorie des postes / Position categories / Categoría de puestos
 position_category = {
-    "Goalkeeper": "Goalkeepers","Centre-Back": "Central Defenders","Right-Back": "Fullbacks","Left-Back": "Fullbacks","Left Midfield": "Midfielders","Right Midfield": "Midfielders",
-    "Central Midfield": "Midfielders","Defensive Midfield": "Midfielders","Attacking Midfield": "Attacking Midfielders / Wingers","Right Winger": "Attacking Midfielders / Wingers",
-    "Left Winger": "Attacking Midfielders / Wingers","Second Striker": "Forwards","Centre-Forward": "Forwards"
+    "Goalkeeper": "Goalkeepers","Centre-Back": "Central Defenders","Right-Back": "Fullbacks","Left-Back": "Fullbacks","Left Midfield": "Midfielders",
+    "Right Midfield": "Midfielders","Central Midfield": "Midfielders","Defensive Midfield": "Midfielders","Attacking Midfield": "Attacking Midfielders / Wingers",
+    "Right Winger": "Attacking Midfielders / Wingers","Left Winger": "Attacking Midfielders / Wingers","Second Striker": "Forwards","Centre-Forward": "Forwards"
 }
 df["position_group"] = df["position"].map(position_category)
 
 # Fonction de normalisation / Normalization function / Función de normalización
 def min_max_normalize(series, inverse=False):
+    # Filtrer uniquement les valeurs numériques / Filter only numeric values / Filtrar solo valores numéricos
+    series = pd.to_numeric(series, errors="coerce")
+
     min_val = series.min()
     max_val = series.max()
+
+    if pd.isna(min_val) or pd.isna(max_val):
+        # Si la série est entièrement NaN, renvoyer 0.5 partout / If the series is all NaN, return 0.5 everywhere / Si la serie es todo NaN, devolver 0.5 en todas partes
+        return pd.Series([0.5] * len(series), index=series.index)
+
     if max_val == min_val:
         return pd.Series([0.5] * len(series), index=series.index)
+
     norm = (series - min_val) / (max_val - min_val)
     return 1 - norm if inverse else norm
 
-# Application de la normalisation par groupe selon le poste / Apply normalization per position group
-# Aplicación de la normalización por grupo según el puesto
+# Application de la normalisation par groupe selon le poste / Apply normalization per position group / Aplicar la normalización por grupo según el puesto
 normalized_df = (
     df.groupby("position_group")[stat_cols]
       .transform(lambda s: min_max_normalize(s, inverse=(s.name in inverted_stats)))
       .add_suffix("_norm")
 )
+
 df = pd.concat([df, normalized_df], axis=1, copy=False)
 
 # Choix des statistiques et de leurs poids associés / Choice of statistics and their associated weights / Selección de las estadísticas y sus ponderaciones asociadas
