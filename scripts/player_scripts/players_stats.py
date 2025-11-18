@@ -208,7 +208,7 @@ def exact_match(fbref_df, tm_data, club_mapping):
             row_df["fuzzy_score"] = 100
             matches.append(pd.concat([row_df.reset_index(drop=True), best_df.reset_index(drop=True)], axis=1))
             matched_fbref.add(name)
-            matched_tm.add(name)
+            matched_tm.add(best_row["name_clean"])
 
     return matches, matched_fbref, matched_tm
 
@@ -648,4 +648,7 @@ df["agent_name"] = (
 
 df.to_csv(out_db, index=False)
 
+print("Écriture unmatched_fbref dans :", out_fbref.resolve())
+print("Écriture unmatched_tm dans :", out_tm.resolve())
+print("Écriture database_player dans :", out_db.resolve())
 print("Fichier mis à jour")

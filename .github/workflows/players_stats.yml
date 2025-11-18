@@ -2,7 +2,7 @@ name: Scrape and commit players stats
 
 on:
   schedule:
-    # Every Wednesday at 07:00 UTC
+    # Every Wednesday at 08:00 UTC
     - cron: '0 8 * * 3'
   workflow_dispatch:
 
@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configure Python
         uses: actions/setup-python@v5
@@ -29,15 +31,28 @@ jobs:
       - name: Run the script
         run: python scripts/player_scripts/players_stats.py
 
+      - name: Debug generated CSV files
+        run: |
+          echo "Listing data/player content:"
+          ls -l data/player
+          echo ""
+          echo "MD5 hashes of generated files:"
+          md5sum data/player/database_player.csv
+          md5sum data/player/unmatched_fbref.csv
+          md5sum data/player/unmatched_tm.csv
+          echo ""
+          echo "Git status:"
+          git status
+
       - name: Commit and Push the generated CSV file
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: Update player CSVs"
           branch: main
           file_pattern: |
-            ./data/player/database_player.csv
-            ./data/player/unmatched_fbref.csv
-            ./data/player/unmatched_tm.csv
+            data/player/database_player.csv
+            data/player/unmatched_fbref.csv
+            data/player/unmatched_tm.csv
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
           commit_author: GitHub Actions Bot <actions@github.com>
