@@ -81,7 +81,9 @@ team_poss = (
 df_to_info = {
     "Sevilla": "Sevilla FC","Betis": "Real Betis","RB Leipzig": "Leipzig","Osasuna": "CA Osasuna","Nott'ham Forest": "Nott'm Forest","Newcastle Utd": "Newcastle","Milan": "AC Milan",
     "Manchester Utd": "Man Utd","Manchester City": "Man City","Mallorca": "RCD Mallorca","Mainz 05": "Mainz","Leeds United": "Leeds","Köln": "1.FC Köln","Hamburger FC": "Hamburg",
-    "Gladbach": "Mönchengladbach","Elche": "Elche CF","Eint Frankfurt": "Frankfurt","Celta Vigo": "Celta de Vigo","Atlético Madrid": "Atlético"}
+    "Gladbach": "Mönchengladbach","Elche": "Elche CF","Eint Frankfurt": "Frankfurt","Celta Vigo": "Celta de Vigo","Atlético Madrid": "Atlético", 'Oviedo': 'Real Oviedo',
+    "Paris S-G" : "PSG",'Strasbourg': 'R. Strasbourg','Rennes': 'Stade Rennais','Brest': 'Stade Brestois','Nantes': 'FC Nantes','Auxerre': 'AJ Auxerre','Lorient': 'FC Lorient',
+    'Metz': 'FC Metz','Le Havre': 'Le Havre AC','Angers': 'Angers SCO'}
 
 fbref_df["team_code"] = fbref_df["Squad"].map(df_to_info).fillna(fbref_df["Squad"]) # Création du code équipe à partir de Squad / Build team_code from Squad / Crear team_code a partir de Squad
 

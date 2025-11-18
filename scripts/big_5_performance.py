@@ -215,7 +215,9 @@ def translate_categories_stats(name_en: str, lang: str = "fr") -> str:
 df_to_info = {
     "Sevilla": "Sevilla FC","Betis": "Real Betis","RB Leipzig": "Leipzig","Osasuna": "CA Osasuna","Nott'ham Forest": "Nott'm Forest","Newcastle Utd": "Newcastle","Milan": "AC Milan",
     "Manchester Utd": "Man Utd","Manchester City": "Man City","Mallorca": "RCD Mallorca","Mainz 05": "Mainz","Leeds United": "Leeds","Köln": "1.FC Köln","Hamburger FC": "Hamburg",
-    "Gladbach": "Mönchengladbach","Elche": "Elche CF","Eint Frankfurt": "Frankfurt","Celta Vigo": "Celta de Vigo","Atlético Madrid": "Atlético",
+    "Gladbach": "Mönchengladbach","Elche": "Elche CF","Eint Frankfurt": "Frankfurt","Celta Vigo": "Celta de Vigo","Atlético Madrid": "Atlético", 'Oviedo': 'Real Oviedo',
+    "Paris S-G" : "PSG",'Strasbourg': 'R. Strasbourg','Rennes': 'Stade Rennais','Brest': 'Stade Brestois','Nantes': 'FC Nantes','Auxerre': 'AJ Auxerre','Lorient': 'FC Lorient',
+    'Metz': 'FC Metz','Le Havre': 'Le Havre AC','Angers': 'Angers SCO',
 }
 
 # Catégorie des postes pour le radar / Position category for the radar plot / Categoría de posiciones para el radar plot
