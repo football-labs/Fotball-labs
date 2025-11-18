@@ -288,33 +288,13 @@ remaining_fbref = remaining_fbref[~remaining_fbref["Player_clean"].isin(matched_
 remaining_tm = remaining_tm[~remaining_tm["name_clean"].isin(matched_tm_60)]
 
 manual_links = {
-    "cucho": "cucho hernandez",
-    "raul": "raul garcia",
-    "đorđe petrovic": "djordje petrovic",
-    "kike": "kike garcia",
-    "toti gomes": "toti",
-    "catena": "alejandro catena",
-    "łukasz skorupski": "lukasz skorupski",
-    "peque": "peque fernandez",
-    "obite ndicka": "evan ndicka",
-    "carmona": "jose angel carmona",
-    "alfon": "alfon gonzalez",
-    "andrefrank zambo anguissa": "frank anguissa",
-    "jose luis garcia vaya": "pepelu",
-    "ezequiel avila": "chimy avila",
-    "milan đuric": "milan djuric",
-    "jofre": "jofre carreras",
-    "abel": "abel bretones",
-    "musa altaamari": "mousa tamari",
-    "souleymane toure": "isaak toure",
-    
-    "abdoul coulibaly" : "karim coulibaly",
-    "chema" : "chema andres",
-    "alexandre alemao" : "alemao",
-    "brugui" : "roger brugue",
-    "almoatasem al musrati" : "moatasem almusrati",
-    "djene" : "dakonam djene",
-    "jonny castro" : "jonny otto",
+    "cucho": "cucho hernandez","raul": "raul garcia","đorđe petrovic": "djordje petrovic","kike": "kike garcia","toti gomes": "toti","catena": "alejandro catena",
+    "łukasz skorupski": "lukasz skorupski","peque": "peque fernandez","obite ndicka": "evan ndicka","carmona": "jose angel carmona","alfon": "alfon gonzalez",
+    "andrefrank zambo anguissa": "frank anguissa","jose luis garcia vaya": "pepelu","ezequiel avila": "chimy avila","milan đuric": "milan djuric","jofre": "jofre carreras",
+    "abel": "abel bretones","musa altaamari": "mousa tamari","souleymane toure": "isaak toure","abdoul coulibaly" : "karim coulibaly","chema" : "chema andres",
+    "alexandre alemao" : "alemao","brugui" : "roger brugue","almoatasem al musrati" : "moatasem almusrati","djene" : "dakonam djene","jonny castro" : "jonny otto",
+    "dehmaine assoumani" : "dehmaine tabibou", "rahim bonkano" : "rahim alhassane", "igor carioca" : "igor silva", "emanuel emegha" : "emmanuel emegha",
+    "bahereba guirassy" : "herba guirassy", "danny loader" : "danny namaso", "mohamed meite" : "kader meite", "oliver nielsen" : "oliver provstgaard"
 }
 
 manual_matches = []
@@ -391,7 +371,6 @@ unmatched_tm_final = tm_data[~tm_data["name_clean"].isin(all_matched_tm)]
 
 unmatched_fbref_final.to_csv(out_fbref, index=False)
 unmatched_tm_final.to_csv(out_tm, index=False)
-
 
 # Résumé / Summary / Resumen
 print(f"Noms identique (même année, ligue, poste gardien) : {len(matches_name)}")
@@ -648,7 +627,4 @@ df["agent_name"] = (
 
 df.to_csv(out_db, index=False)
 
-print("Écriture unmatched_fbref dans :", out_fbref.resolve())
-print("Écriture unmatched_tm dans :", out_tm.resolve())
-print("Écriture database_player dans :", out_db.resolve())
 print("Fichier mis à jour")
