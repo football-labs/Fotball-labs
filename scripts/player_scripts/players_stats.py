@@ -165,13 +165,8 @@ club_mapping = {'Köln': '1.FC Köln','Milan': 'AC Milan','Alavés': 'Alavés','
     'Rayo Vallecano': 'Rayo Vallecano','Mallorca': 'RCD Mallorca','Betis': 'Real Betis','Real Madrid': 'Real Madrid','Real Sociedad': 'Real Sociedad','Roma': 'Roma',
     'Sassuolo': 'Sassuolo','Sevilla': 'Sevilla FC','St. Pauli': 'St. Pauli','Stuttgart': 'Stuttgart','Sunderland': 'Sunderland','Torino': 'Torino','Tottenham': 'Tottenham',
     'Udinese': 'Udinese','Union Berlin': 'Union Berlin','Valencia': 'Valencia','Villarreal': 'Villarreal','Werder Bremen': 'Werder Bremen','West Ham': 'West Ham',
-    'Wolfsburg': 'Wolfsburg','Wolves': 'Wolves',
-
-    # Équipe manquante pour l’instant
-    'Pisa': 'Pisa Sporting Club','Oviedo': 'Real Oviedo',
-    # Ligue 1
-    'Paris S-G': 'Paris Saint-Germain','Marseille': 'Olympique de Marseille','Monaco': 'AS Monaco','Strasbourg': 'RC Strasbourg Alsace','Lille': 'LOSC Lille',
-    'Lyon': 'Olympique Lyonnais','Nice': 'OGC Nice','Rennes': 'Stade Rennais FC','Paris FC': 'Paris FC','Lens': 'RC Lens','Toulouse': 'Toulouse FC','Brest': 'Stade Brestois 29',
+    'Wolfsburg': 'Wolfsburg','Wolves': 'Wolves','Pisa': 'Pisa','Oviedo': 'Real Oviedo','Paris S-G': 'PSG','Marseille': 'Marseille','Monaco': 'Monaco','Strasbourg': 'R. Strasbourg',
+    'Lille': 'Lille','Lyon': 'Lyon','Nice': 'Nice','Rennes': 'Stade Rennais','Paris FC': 'Paris FC','Lens': 'Lens','Toulouse': 'Toulouse','Brest': 'Stade Brestois',
     'Nantes': 'FC Nantes','Auxerre': 'AJ Auxerre','Lorient': 'FC Lorient','Metz': 'FC Metz','Le Havre': 'Le Havre AC','Angers': 'Angers SCO',
 }
 
