@@ -41,18 +41,23 @@ jobs:
           md5sum data/player/unmatched_fbref.csv
           md5sum data/player/unmatched_tm.csv
           echo ""
-          echo "Git status:"
+          echo "Git status BEFORE manual add/commit:"
           git status
 
-      - name: Commit and Push the generated CSV file
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: Update player CSVs"
-          branch: main
-          file_pattern: |
-            data/player/database_player.csv
-            data/player/unmatched_fbref.csv
-            data/player/unmatched_tm.csv
-          commit_user_name: GitHub Actions Bot
-          commit_user_email: actions@github.com
-          commit_author: GitHub Actions Bot <actions@github.com>
+      - name: Commit and push generated CSV files
+        run: |
+          # Config Git pour le bot
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+          git add data/player/database_player.csv data/player/unmatched_fbref.csv data/player/unmatched_tm.csv
+
+          echo "Git status AFTER git add:"
+          git status
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: Update player CSVs"
+            git push origin main
+          fi
