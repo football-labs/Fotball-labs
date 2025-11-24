@@ -1,0 +1,33 @@
+name: Run leagues scrape
+
+on:
+  workflow_dispatch:  # 🔹 Se ejecuta solo manualmente desde la pestaña "Actions"
+
+jobs:
+  scrape-leagues:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'  # puedes cambiar la versión si lo necesitas
+
+      - name: Install dependencies (if requirements.txt exists)
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+      - name: Run leagues scrape script
+        run: |
+          python scripts/team_scripts/leagues_scrape.py
+
+      - name: Upload grouped_stats.csv as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: grouped_stats
+          path: Fotball-labs/data/team/grouped_stats.csv
