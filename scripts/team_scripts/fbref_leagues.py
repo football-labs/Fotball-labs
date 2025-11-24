@@ -12,7 +12,7 @@ def load_dataframes() -> dict:
     """
 
     # ---------- Standard ----------
-    df_standard = pd.read_csv(r"C:\Users\Joseg\Documents\Fbref\Clubs\Stardard.csv")
+    df_standard = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Stardard.csv")
     df_standard.columns = [
         "rk","squad","comp","players","age","poss",
         "playing_time_mp","playing_time_starts","playing_time_min","playing_time_90s",
@@ -28,7 +28,7 @@ def load_dataframes() -> dict:
     df_standard = df_standard.iloc[1:].reset_index(drop=True)
 
     # ---------- Goalkeepers ----------
-    df_gk = pd.read_csv(r"C:\Users\Joseg\Downloads\Goalkeeping.csv")
+    df_gk = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Goalkeeping.csv")
     df_gk.columns = [
         "rk","squad","comp","players",
         "playing_time_mp","playing_time_starts","playing_time_min","playing_time_90s",
@@ -41,7 +41,7 @@ def load_dataframes() -> dict:
     df_gk = df_gk.iloc[1:].reset_index(drop=True)
 
     # ---------- Advanced GK ----------
-    df_gk_advanced = pd.read_csv(r"C:\Users\Joseg\Downloads\Advanced Goalkeeping.csv")
+    df_gk_advanced = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Advanced%20Goalkeeping.csv")
     df_gk_advanced.columns = [
         "rk","squad","comp","players",
         "gk_90s","goals_ga","goals_pka","goals_fk","goals_ck","goals_og",
@@ -55,7 +55,7 @@ def load_dataframes() -> dict:
     df_gk_advanced = df_gk_advanced.iloc[1:].reset_index(drop=True)
 
     # ---------- Shooting ----------
-    df_shooting = pd.read_csv(r"C:\Users\Joseg\Downloads\Shooting.csv")
+    df_shooting = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Shooting.csv")
     df_shooting.columns = [
         "rk","squad","comp","players",
         "shooting_90s","shooting_gls","shooting_sh","shooting_sot",
@@ -68,7 +68,7 @@ def load_dataframes() -> dict:
     df_shooting = df_shooting.iloc[1:].reset_index(drop=True)
 
     # ---------- Passing ----------
-    df_passing = pd.read_csv(r"C:\Users\Joseg\Downloads\Passing.csv")
+    df_passing = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Passing.csv")
     df_passing.columns = [
         "rk","squad","comp","players",
         "passing_90s","passing_cmp","passing_att","passing_cmp_pct",
@@ -82,7 +82,7 @@ def load_dataframes() -> dict:
     df_passing = df_passing.iloc[1:].reset_index(drop=True)
 
     # ---------- Passing Types ----------
-    df_passing_types = pd.read_csv(r"C:\Users\Joseg\Downloads\Passing Types.csv")
+    df_passing_types = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Passing%20Types.csv")
     df_passing_types.columns = [
         "rk","squad","comp","players",
         "pass_types_90s","pass_types_att","pass_types_live","pass_types_dead",
@@ -93,7 +93,7 @@ def load_dataframes() -> dict:
     df_passing_types = df_passing_types.iloc[1:].reset_index(drop=True)
 
     # ---------- Goal & Shot Creation ----------
-    df_goal_shot_creation = pd.read_csv(r"C:\Users\Joseg\Downloads\Goal&ShotCreation.csv")
+    df_goal_shot_creation = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Goal%26ShotCreation.csv")
     df_goal_shot_creation.columns = [
         "rk","squad","comp","players",
         "sca_90s","sca","sca_per90","sca_passlive","sca_passdead",
@@ -104,7 +104,7 @@ def load_dataframes() -> dict:
     df_goal_shot_creation = df_goal_shot_creation.iloc[1:].reset_index(drop=True)
 
     # ---------- Defensive Actions ----------
-    df_defensive = pd.read_csv(r"C:\Users\Joseg\Downloads\Defensive actions.csv")
+    df_defensive = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Defensive%20actions.csv")
     df_defensive.columns = [
         "rk","squad","comp","players",
         "def_90s","tackles_tkl","tackles_tklw",
@@ -116,7 +116,7 @@ def load_dataframes() -> dict:
     df_defensive = df_defensive.iloc[1:].reset_index(drop=True)
 
     # ---------- Possession ----------
-    df_possession = pd.read_csv(r"C:\Users\Joseg\Downloads\Possesion.csv")
+    df_possession = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Possesion.csv")
     df_possession.columns = [
         "rk","squad","comp","players",
         "poss","poss_90s","touches_total","touches_def_pen","touches_def_3rd",
@@ -130,7 +130,7 @@ def load_dataframes() -> dict:
     df_possession = df_possession.iloc[1:].reset_index(drop=True)
 
     # ---------- Playing time ----------
-    df_playing_time = pd.read_csv(r"C:\Users\Joseg\Downloads\playing_time.csv")
+    df_playing_time = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Playing_Time.csv")
     df_playing_time.columns = [
         "rk","squad","comp","players",
         "age","playing_time_mp","playing_time_min",
@@ -145,7 +145,7 @@ def load_dataframes() -> dict:
     df_playing_time = df_playing_time.iloc[1:].reset_index(drop=True)
 
     # ---------- Misc ----------
-    df_misc = pd.read_csv(r"C:\Users\Joseg\Downloads\Misc.csv", header=None)
+    df_misc = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Misc.csv")
     df_misc.columns = df_misc.iloc[0]
     df_misc = df_misc.iloc[1:].reset_index(drop=True)
     df_misc = df_misc.iloc[:, :-5]
