@@ -262,14 +262,12 @@ def main():
     df_all = build_joined_dataframe(dfs)
     df_all = clean_comp_column(df_all)
 
-    # Exportar al path que indicaste
-    output_path = r"Fotball-labs/data/team/grouped_stats.csv"
+    # Exportar al path dentro del repo (SIN prefijo Fotball-labs)
+    output_path = "data/team/grouped_stats.csv"
 
-    # 🔥 Crear directorios si no existen (GitHub Actions los necesita)
     import os
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-    # Guardar CSV final
     df_all.to_csv(output_path, index=False, encoding="utf-8")
 
     print("Archivo exportado a:", output_path)
@@ -279,4 +277,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
