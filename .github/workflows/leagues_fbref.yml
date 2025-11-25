@@ -1,33 +1,38 @@
-name: Run leagues scrape
+name: Ejecutar script de Scrape
 
 on:
-  workflow_dispatch:  # 🔹 Se ejecuta solo manualmente desde la pestaña "Actions"
+  workflow_dispatch:  
 
 jobs:
-  scrape-leagues:
+  scrape_and_commit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-      - name: Checkout repository
+      - name: Checkout del repositorio
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11' 
+          python-version: '3.10'
 
-      - name: Install dependencies (if requirements.txt exists)
+      - name: Instalar dependencias
         run: |
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          fi
+          python -m pip install --upgrade pip
+          pip install pandas cloudscraper bs4 requests
 
-      - name: Run leagues scrape script
+      - name: Ejecutar script de Scrape
         run: |
           python scripts/team_scripts/fbref_leagues.py
 
-      - name: Upload grouped_stats.csv as artifact
-        uses: actions/upload-artifact@v4
+      - name: Commit y Push del archivo CSV generado
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          name: grouped_stats
-          path: Fotball-labs/data/team/grouped_stats.csv
+          commit_message: "chore: Actualizar grouped_stats.csv"
+          branch: main
+          file_pattern: data/team/grouped_stats.csv
+          commit_user_name: GitHub Actions Bot
+          commit_user_email: actions@github.com
+          commit_author: GitHub Actions Bot <actions@github.com>
