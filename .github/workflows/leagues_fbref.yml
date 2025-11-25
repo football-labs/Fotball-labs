@@ -1,5 +1,4 @@
-name: Ejecutar script de Scrape
-
+name: Fbref Execute Leagues Grouped
 on:
   workflow_dispatch:  
 
