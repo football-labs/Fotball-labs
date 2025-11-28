@@ -1,0 +1,31 @@
+name: Run Fbref player script
+# Execute Fbref player script manually / Exécuter le script Fbref manuellement
+
+on:
+  workflow_dispatch:  # Manual trigger from GitHub UI / Déclenchement manuel
+
+jobs:
+  run-fbref-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        # Checkout repo code / Récupérer le code du dépôt
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        # Set up Python environment / Configurer l'environnement Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'   # Puedes cambiar la versión si quieres
+
+      - name: Install dependencies
+        # Install required Python packages / Installer les dépendances Python nécessaires
+        run: |
+          pip install --upgrade pip
+          pip install pandas numpy
+
+      - name: Run Fbref player script
+        # Execute your script / Exécuter ton script
+        run: |
+          python scripts/player_scripts/Fbref/fbref.py
