@@ -1,31 +1,37 @@
-name: Run Fbref player script
-# Execute Fbref player script manually / Exécuter le script Fbref manuellement
-
+name: Fbref Execute Players
 on:
-  workflow_dispatch:  # Manual trigger from GitHub UI / Déclenchement manuel
+  workflow_dispatch:  # Manual trigger
 
 jobs:
-  run-fbref-script:
+  scrape_and_commit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Needed to push changes
 
     steps:
-      - name: Checkout repository
-        # Checkout repo code / Récupérer le code du dépôt
+      - name: Checkout del repositorio
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        # Set up Python environment / Configurer l'environnement Python
+      - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'   # Puedes cambiar la versión si quieres
+          python-version: '3.10'
 
-      - name: Install dependencies
-        # Install required Python packages / Installer les dépendances Python nécessaires
+      - name: Instalar dependencias
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install pandas numpy
 
-      - name: Run Fbref player script
-        # Execute your script / Exécuter ton script
+      - name: Ejecutar script Fbref players
         run: |
           python scripts/player_scripts/Fbref/fbref.py
+
+      - name: Commit y Push del archivo CSV generado
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: Actualizar fbref_players_2026.csv"
+          branch: main
+          file_pattern: data/players/fbref/fbref_players_2026.csv
+          commit_user_name: GitHub Actions Bot
+          commit_user_email: actions@github.com
+          commit_author: GitHub Actions Bot <actions@github.com>
