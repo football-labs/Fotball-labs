@@ -94,7 +94,7 @@ categories = {
     "faults_committed": [(0.50, "misc.__fouls"),(0.20, "misc.__yellows"),(0.15, "misc.__pens_conceded"),(0.10, "misc.__reds"),
         (0.05, "attacking_misc__offsides")],
     "waste": [(0.65, "misc.__errors_lead_to_goal"),(0.15, "misc.__errors_lead_to_shot"), (0.10, "Per_90_min_Carries_Mis__poss"),(0.10, "Per_90_min_Carries_Dis__poss")],
-    "subs": [(0.65, "misc.__subs_goals"),(0.20, "Subs_Subs__ptime")(0.15, "misc.__subs_used")], 
+    "subs": [(0.65, "misc.__subs_goals"),(0.20, "Subs_Subs__ptime"),(0.15, "misc.__subs_used")], 
 }
 
 #  Calcul des scores par catégorie / Compute category scores / Cálculo de puntuaciones por categoría
