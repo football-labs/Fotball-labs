@@ -74,7 +74,7 @@ categories = {
     "defensive_actions": [(0.65, "Challenges_Tkl%__def"),(0.15, "defending_defensive_actions__interceptions_Padj"), (0.05, "defending_defensive_actions__tackles_Padj"),
         (0.05, "defending_defensive_actions__recoveries"), (0.05, "defending_defensive_actions__blocks_Padj"),(0.05, "defending_defensive_actions__clearances_Padj")],
     "set_pieces_def": [(0.50, "defending_set_pieces__goals"),(0.25, "defending_set_pieces__xg"),(0.10, "defending_misc__free_kicks__total"),
-        (0.10, "defending_misc__free_kicks__goals")], (0.05, "defending_set_pieces__shots"),
+        (0.10, "defending_misc__free_kicks__goals"), (0.05, "defending_set_pieces__shots")],
     "efficiency_goalkeeper": [(0.60, "defending_overall__goals_vs_xg"),(0.35, "Performance_Save%__keeper"),(0.05, "Per_90_min_Performance_Saves__keeper")],
     "pressing": [(0.40, "pressing__ppda"),(0.30, "pressing__pressed_seqs"),(0.15, "pressing__start_distance_m"),
         (0.05, "pressing__high_turnovers__shot_ending"),(0.05, "pressing__high_turnovers__goal_ending"),
