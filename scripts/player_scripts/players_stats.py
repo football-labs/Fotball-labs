@@ -445,25 +445,24 @@ df = pd.concat([df, normalized_df], axis=1, copy=False)
 # Choix des statistiques et de leurs poids associés / Choice of statistics and their associated weights / Selección de las estadísticas y sus ponderaciones asociadas
 categories = {
     "goal_scoring_created": [(0.6, "npxG"),  (0.3, "npxG_per90"), (0.05, "SoT_per90"), (0.05, "Sh_per90")],
-    "finish": [(0.5, "G-PK"), (0.2, "G-PK_per90"), (0.2, "G-xG"), (0.05, "G-xG_per90"),  (0.03, "G/Sh"), (0.02, "SoT%")],
+    "finish": [(0.4, "G-PK"), (0.25, "G-PK_per90"), (0.15, "G-xG"), (0.1, "G-xG_per90"),  (0.05, "G/Sh"), (0.05, "SoT%")], 
     "building": [(0.4, "PrgP_per90"), (0.25, "Cmp_per90"), (0.15, "PrgR_per90"), (0.15, "Cmp%"), (0.025, "Sw_per90"), (0.025, "Crs_per90")],
-    "creation": [(0.8, "xAG_per90"), (0.12, "Ast_per90"), (0.02, "1/3_per90"), (0.02, "PPA_per90"),
-                 (0.02, "CrsPA_per90"), (0.02, "A-xAG")],
-    "dribble": [(0.7, "Succ_per90"), (0.3, "Succ%")],
+    "creation": [(0.65, "xAG_per90"), (0.15, "Ast_per90"), (0.05, "1/3_per90"), (0.05, "PPA_per90"), (0.05, "CrsPA_per90"), (0.05, "A-xAG")],
+    "dribble": [(0.65, "Succ_per90"), (0.35, "Succ%")],
     "projection": [(0.6, "PrgC_per90"), (0.4, "Carries_per90")],
     "provoked_fouls": [(0.8, "Fld_per90"), (0.2, "PKwon_per90")],
     "waste": [(0.7, "Err_per90"), (0.15, "Mis_per90"), (0.15, "Dis_per90")],
-    "defensive_actions": [(0.6, "Tkl%"), (0.15, "Int_per90_Padj"), (0.10, "Tkl_per90_Padj"), (0.05, "Recov_per90"), (0.05, "Clr_per90_Padj"),  (0.05, "Blocks_stats_defense_per90_Padj")], 
+    "defensive_actions": [(0.65, "Tkl%"), (0.15, "Int_per90"), (0.05, "Tkl_per90"), (0.05, "Recov_per90"), (0.05, "Clr_per90"),  (0.05, "Blocks_stats_defense_per90")], 
     "faults_committed": [(0.4, "CrdY_per90"), (0.3, "CrdR_per90"),  (0.2, "Fls_per90"), (0.1, "PKcon_per90")],
-    "aerial": [(0.7, "Won_per90"), (0.3, "Won%")]
+    "aerial": [(0.65, "Won_per90"), (0.35, "Won%")]
 }
 goalkeeper_categories = {
-    "goal_scoring_conceded": [(0.45, "GA_per90"), (0.25, "PSxG_per90"), (0.15, "PSxG"), (0.05, "SoTA_per90"), (0.05, "PSxG/SoT"), (0.05, "PKm_per90")],
-    "efficiency": [(0.45, "/90"), (0.25, "Save%"), (0.15, "PSxG+/-"), (0.05, "Saves_per90"), (0.05, "PKsv_per90"), (0.05, "CS%")],
-    "error_fouls": [(0.6, "Err_per90"), (0.2, "PKcon_per90"), (0.1, "CrdR_per90"), (0.05, "CrdY_per90"), (0.05, "Fls_per90")],
+    "goal_scoring_conceded": [(0.5, "GA_per90"), (0.3, "PSxG_per90"), (0.1, "PSxG"), (0.05, "SoTA_per90"), (0.05, "PSxG/SoT")], 
+    "efficiency": [(0.5, "/90"), (0.3, "Save%"), (0.1, "PSxG+/-"), (0.05, "Saves_per90"), (0.05, "PKsv_per90")], 
+    "error_fouls": [(0.65, "Err_per90"), (0.2, "CrdR_per90"), (0.1, "CrdY_per90"), (0.05, "Fls_per90")], 
     "short_clearance": [(1.0, "Launch%")],
-    "long_clearance": [(0.5, "AvgLen"), (0.3, "Cmp%"), (0.1, "PrgP_per90"), (0.1, "xAG_per90")],
-    "positioning": [(0.7, "AvgDist"), (0.3, "#OPA_per90")],
+    "long_clearance": [(0.55, "AvgLen"), (0.35, "Cmp%"), (0.05, "PrgP_per90"), (0.05, "xAG_per90")], 
+    "positioning": [(0.55, "AvgDist"), (0.45, "#OPA_per90")],
     "aerial_defense": [(0.6, "Stp%"), (0.2, "Won%"), (0.1, "Stp_per90"), (0.1, "Won_per90")]
 }
 
@@ -490,57 +489,58 @@ for cat_name in categories.keys() | goalkeeper_categories.keys():
 # Peso asociado a las categorías estadísticas según la posición del jugador
 position_weights = {
     "Centre-Back": {
-        "goal_scoring_created": 0.06, "finish": 0.03, "building": 0.13, "creation": 0.06,"dribble": 0.02, "projection": 0.12, 
-        "provoked_fouls": 0.03, "waste": 0.05,"defensive_actions": 0.2, "faults_committed": 0.2, "aerial": 0.1
+        "goal_scoring_created": 0.06, "finish": 0.03, "building": 0.12, "creation": 0.06,"dribble": 0.02, "projection": 0.12,
+        "provoked_fouls": 0.03,"waste": 0.06,"defensive_actions": 0.25, "faults_committed": 0.15, "aerial": 0.1
     },
     "Right-Back": {
-        "goal_scoring_created": 0.14, "finish": 0.07, "building": 0.12, "creation": 0.09,"dribble": 0.02, "projection": 0.10,
-        "provoked_fouls": 0.04, "waste": 0.05,"defensive_actions": 0.17, "faults_committed": 0.17, "aerial": 0.03
+        "goal_scoring_created": 0.14, "finish": 0.07, "building": 0.12, "creation": 0.1,"dribble": 0.02, "projection": 0.10,
+        "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.2, "faults_committed": 0.12, "aerial": 0.03
     },
     "Left-Back": {
-        "goal_scoring_created": 0.14, "finish": 0.07, "building": 0.12, "creation": 0.09,"dribble": 0.02, "projection": 0.10,
-        "provoked_fouls": 0.04, "waste": 0.05,"defensive_actions": 0.17, "faults_committed": 0.17, "aerial": 0.03
+        "goal_scoring_created": 0.14, "finish": 0.07, "building": 0.12, "creation": 0.1,"dribble": 0.02, "projection": 0.10,
+        "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.2, "faults_committed": 0.12, "aerial": 0.03
     },
     "Right Midfield": {
-        "goal_scoring_created": 0.16, "finish": 0.08, "building": 0.12, "creation": 0.10,"dribble": 0.02, "projection": 0.12,
-        "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.125, "faults_committed": 0.125, "aerial": 0.05
+       "goal_scoring_created": 0.16, "finish": 0.08, "building": 0.12, "creation": 0.10,"dribble": 0.02, "projection": 0.12,
+       "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.15, "faults_committed": 0.15, "aerial": 0.05
     },
     "Left Midfield": {
-        "goal_scoring_created": 0.16, "finish": 0.08, "building": 0.12, "creation": 0.10,"dribble": 0.02, "projection": 0.12,
-        "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.125, "faults_committed": 0.125, "aerial": 0.05
+       "goal_scoring_created": 0.16, "finish": 0.08, "building": 0.12, "creation": 0.10,"dribble": 0.02, "projection": 0.12,
+       "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.15, "faults_committed": 0.15, "aerial": 0.05
     },
     "Defensive Midfield": {
-        "goal_scoring_created": 0.1, "finish": 0.05, "building": 0.14, "creation": 0.09,"dribble": 0.02, "projection": 0.13,
-        "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.16, "faults_committed": 0.16, "aerial": 0.06
+        "goal_scoring_created": 0.1, "finish": 0.05, "building": 0.14, "creation": 0.1,"dribble": 0.02, "projection": 0.14,
+        "provoked_fouls": 0.05, "waste": 0.05,"defensive_actions": 0.2, "faults_committed": 0.1, "aerial": 0.06
     },
     "Central Midfield": {
         "goal_scoring_created": 0.2, "finish": 0.1, "building": 0.10, "creation": 0.10,"dribble": 0.02, "projection": 0.10,
-        "provoked_fouls": 0.04, "waste": 0.04,"defensive_actions": 0.125, "faults_committed": 0.125, "aerial": 0.05
+        "provoked_fouls": 0.04, "waste": 0.04,"defensive_actions": 0.15, "faults_committed": 0.1, "aerial": 0.05
     },
     "Attacking Midfield": {
-        "goal_scoring_created": 0.35, "finish": 0.15, "building": 0.08, "creation": 0.12,"dribble": 0.04, "projection": 0.08,
-        "provoked_fouls": 0.06, "waste": 0.05,"defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
+        "goal_scoring_created": 0.3, "finish": 0.15, "building": 0.1, "creation": 0.12,"dribble": 0.06, "projection": 0.08,
+        "provoked_fouls": 0.06, "waste": 0.06,"defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
     },
     "Right Winger": {
-        "goal_scoring_created": 0.35, "finish": 0.15, "building": 0.06, "creation": 0.10,"dribble": 0.10, "projection": 0.06,
-        "provoked_fouls": 0.06, "waste": 0.05,"defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
+        "goal_scoring_created": 0.3, "finish": 0.15, "building": 0.06, "creation": 0.12,"dribble": 0.12, "projection": 0.06,
+        "provoked_fouls": 0.06, "waste": 0.06,"defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
     },
     "Left Winger": {
-        "goal_scoring_created": 0.35, "finish": 0.15, "building": 0.06, "creation": 0.10,"dribble": 0.10, "projection": 0.06,
-        "provoked_fouls": 0.06, "waste": 0.05,"defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
+        "goal_scoring_created": 0.3, "finish": 0.15, "building": 0.06, "creation": 0.12,"dribble": 0.12, "projection": 0.06,
+        "provoked_fouls": 0.06, "waste": 0.06,"defensive_actions": 0.03, "faults_committed": 0.03, "aerial": 0.01
     },
     "Second Striker": {
-        "goal_scoring_created": 0.4, "finish": 0.15, "building": 0.08, "creation": 0.13,"dribble": 0.03, "projection": 0.08,
-        "provoked_fouls": 0.04, "waste": 0.03,"defensive_actions": 0.025, "faults_committed": 0.025, "aerial": 0.01
+        "goal_scoring_created": 0.4, "finish": 0.2, "building": 0.08, "creation": 0.12,"dribble": 0.02, "projection": 0.06,
+        "provoked_fouls": 0.04, "waste": 0.02,"defensive_actions": 0.02, "faults_committed": 0.02, "aerial": 0.02
     },
     "Centre-Forward": {
-        "goal_scoring_created": 0.5, "finish": 0.2, "building": 0.03, "creation": 0.08,"dribble": 0.03, "projection": 0.03,
-        "provoked_fouls": 0.04, "waste": 0.03,"defensive_actions": 0.025, "faults_committed": 0.025, "aerial": 0.01
+        "goal_scoring_created": 0.5, "finish": 0.25, "building": 0.04, "creation": 0.08,"dribble": 0.02, "projection": 0.04,
+        "provoked_fouls": 0.04, "waste": 0.02,"defensive_actions": 0.02, "faults_committed": 0.02, "aerial": 0.02
     }
 }
 
 goalkeeper_weights = {
-    "goal_scoring_conceded": 0.01, "efficiency": 0.74, "error_fouls": 0.18, "short_clearance": 0.01,"long_clearance": 0.01, "positioning": 0.01, "aerial_defense": 0.02}
+    "goal_scoring_conceded": 0.01, "efficiency": 0.75, "error_fouls": 0.2, "short_clearance": 0.01,"long_clearance": 0.01, "positioning": 0.01, "aerial_defense": 0.01
+}
 
 # Calcul de la note finale / Compute final rating / Cálculo de la nota final
 def compute_rating(row):
@@ -627,6 +627,5 @@ df["agent_name"] = (
       .str.strip()
 )
 
-df.to_csv(out_db, index=False)
-
+df.to_csv(out_db, index=False) # Sauvegarde du dataframe final / Save final DataFrame / Guardar el marco de datos final
 print("Fichier mis à jour")
