@@ -1135,8 +1135,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>📊 Analyse d'une équipe</h4>", unsafe_allow_html=True) # Afficher le titre
             # Charger les données
-            info_player = pd.read_csv('../data/player/database_player.csv')
-            info_team = pd.read_csv('../data/team/database_team.csv')
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            info_player = pd.read_csv(player_path)
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            info_team = pd.read_csv(team_path)
 
             championship_names = [''] + sorted(info_team['championship_name'].dropna().unique().tolist()) # Extraire la liste des championnats
 
@@ -1359,8 +1361,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>📊 Team analysis</h4>", unsafe_allow_html=True) # Display title
             # Load data
-            info_player = pd.read_csv('../data/player/database_player.csv')
-            info_team = pd.read_csv('../data/team/database_team.csv')
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            info_player = pd.read_csv(player_path)
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            info_team = pd.read_csv(team_path)
 
             championship_names = [''] + sorted(info_team['championship_name'].dropna().unique().tolist()) # Extract championship list
 
@@ -1582,8 +1586,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         else:
             st.markdown("<h4 style='text-align: center;'>📊 Análisis de un equipo</h4>", unsafe_allow_html=True) # Mostrar título
             # Cargar datos
-            info_player = pd.read_csv('../data/player/database_player.csv')
-            info_team = pd.read_csv('../data/team/database_team.csv')
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            info_player = pd.read_csv(player_path)
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            info_team = pd.read_csv(team_path)
 
             championship_names = [''] + sorted(info_team['championship_name'].dropna().unique().tolist()) # Extraer la lista de campeonatos
 
@@ -1808,8 +1814,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
             st.markdown("<h4 style='text-align: center;'>🥊 Comparaison de deux équipes</h4>", unsafe_allow_html=True) # Affichage du titre
             
             # Charger les données
-            info_player = pd.read_csv('../data/player/database_player.csv')
-            info_team = pd.read_csv('../data/team/database_team.csv')
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            info_player = pd.read_csv(player_path)
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            info_team = pd.read_csv(team_path)
 
             teams_names = [''] + sorted(info_team['team_code'].dropna().unique().tolist()) # Extraire la liste des équipes dans le championnat choisi
 
@@ -2105,8 +2113,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
             st.markdown("<h4 style='text-align: center;'>🥊 Comparison of two teams</h4>", unsafe_allow_html=True) # Display title
             
             # Load the data
-            info_player = pd.read_csv('../data/player/database_player.csv')
-            info_team = pd.read_csv('../data/team/database_team.csv')
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            info_player = pd.read_csv(player_path)
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            info_team = pd.read_csv(team_path)
 
             teams_names = [''] + sorted(info_team['team_code'].dropna().unique().tolist()) # Extract the list of teams in the selected league
 
@@ -2401,8 +2411,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
             st.markdown("<h4 style='text-align: center;'>🥊 Comparación entre dos equipos</h4>", unsafe_allow_html=True) # Visualización del título
             
             # Cargar los datos
-            info_player = pd.read_csv('../data/player/database_player.csv')
-            info_team = pd.read_csv('../data/team/database_team.csv')
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            info_player = pd.read_csv(player_path)
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            info_team = pd.read_csv(team_path)
 
             teams_names = [''] + sorted(info_team['team_code'].dropna().unique().tolist()) # Extraer la lista de equipos de la liga seleccionada
 
@@ -2696,8 +2708,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
     elif selected == "Stats +":
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>🏅 Classement des équipes (0-100) pour les statistiques aggrégées par catégorie </h4>", unsafe_allow_html=True) # Affichage du titre de la page
-            df = pd.read_csv("../data/team/database_team.csv") # Récupération des données
-            
+            # Récupération des données
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            df = pd.read_csv(team_path)
             # Récupération des colonnes "score_" + "rating"
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
             if "rating" in df.columns:
@@ -2795,8 +2808,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>🏅 Team rankings (0-100) for aggregated statistics by category </h4>", unsafe_allow_html=True) # Displaying the page title
-            df = pd.read_csv("../data/team/database_team.csv") # Load the data
-            
+            # Load the data
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            df = pd.read_csv(team_path)
             # Retrieval of the ‘score_’ + ‘rating’ columns
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
             if "rating" in df.columns:
@@ -2889,8 +2903,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
         else:
             st.markdown("<h4 style='text-align: center;'>🏅 Clasificación de equipos (0-100) para estadísticas agregadas por categoría </h4>", unsafe_allow_html=True) # Mostrar el título de la página
-            df = pd.read_csv("../data/team/database_team.csv") # Recuperación de datos
-            
+            # Recuperación de datos
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            df = pd.read_csv(team_path)
             # Recuperación de las columnas «score_» + «rating»
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
             if "rating" in df.columns:
@@ -2985,8 +3000,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
     elif selected == "Stats":
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>🏆 Classement des équipes pour les statistiques brutes</h4>", unsafe_allow_html=True) # Affichage du titre de la page
-            df = pd.read_csv("../data/team/database_team.csv") # Récupération des données
-            
+            # Récupération des données
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            df = pd.read_csv(team_path)
+
             categories_en = list(stats_team.keys()) # Catégories
             categories_fr = [translate_categories_stats(c, "fr") for c in categories_en] # Libellés FR affichés
             cat_display_to_key = dict(zip(categories_fr, categories_en))
@@ -3150,8 +3167,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>🏆 Team rankings for raw statistics</h4>", unsafe_allow_html=True) # Displaying the page title
-            df = pd.read_csv("../data/team/database_team.csv") # Data recovery
-            
+            # Data recovery
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            df = pd.read_csv(team_path)
+
             categories_en = list(stats_team.keys()) # Category
             cat_display_to_key = dict(zip(categories_en, categories_en))
             display_options = [""] + categories_en + ["All categories"]
@@ -3309,8 +3328,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
         else:
             st.markdown("<h4 style='text-align: center;'>🏆 Clasificación de equipos según estadísticas brutas</h4>", unsafe_allow_html=True) # Mostrar el título de la página
-            df = pd.read_csv("../data/team/database_team.csv") # Recuperación de datos
-            
+            # Recuperación de datos
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            df = pd.read_csv(team_path)
+
             categories_en = list(stats_team.keys()) # Categorías
             categories_es = [translate_categories_stats(c, "es") for c in categories_en] # Etiquetas ES mostradas
             cat_display_to_key = dict(zip(categories_es, categories_en))
@@ -3475,7 +3496,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>🏅 Power Ranking</h4>", unsafe_allow_html=True) # Afficher le titre
 
-            info_team = pd.read_csv('../data/team/database_team.csv') # Chargement
+            # Chargement
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            info_team = pd.read_csv(team_path)
 
             st.markdown("<p style='text-align:center; margin-bottom:0'>En comparaison avec :</p>", unsafe_allow_html=True) # Filtre selon le Big 5 ou un championnat spécifique
             c1, c2, c3 = st.columns([1.6, 2, 1])
@@ -3523,7 +3546,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>🏅 Power Ranking</h4>", unsafe_allow_html=True) # Title display
 
-            info_team = pd.read_csv('../data/team/database_team.csv') # Loading
+            # Loading
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            info_team = pd.read_csv(team_path)
 
             st.markdown("<p style='text-align:center; margin-bottom:0'>Compared to :</p>", unsafe_allow_html=True) # Filter by the Big 5 or a specific championship
             c1, c2, c3 = st.columns([1.6, 2, 1])
@@ -3569,7 +3594,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         else:
             st.markdown("<h4 style='text-align: center;'>🏅 Power Ranking</h4>", unsafe_allow_html=True) # Visualización del título
 
-            info_team = pd.read_csv('../data/team/database_team.csv') # Chargement / Cargando
+            # Cargando
+            team_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_team.csv")
+            info_team = pd.read_csv(team_path)
 
             st.markdown("<p style='text-align:center; margin-bottom:0'>En comparación con :</p>", unsafe_allow_html=True) # Filtrar según los Big 5 o una liga específica
             c1, c2, c3 = st.columns([1.6, 2, 1])
@@ -3754,8 +3781,9 @@ else:
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>📊 Analyse d'un joueur</h4>", unsafe_allow_html=True) # Afficher le titre
 
-            df = pd.read_csv('../data/player/database_player.csv') # Charger les données
-
+            # Charger les données
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             player_names = [''] + sorted(df['player_name'].dropna().unique().tolist()) # Extraire la liste des joueurs
 
             selected_player = st.sidebar.selectbox("Choisissez un joueur :", player_names) # Sélection de joueur
@@ -4066,7 +4094,9 @@ else:
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>📊 Player analysis</h4>", unsafe_allow_html=True) # Display the title
 
-            df = pd.read_csv('../data/player/database_player.csv') # Collect the data
+            # Collect the data
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
 
             player_names = [''] + sorted(df['player_name'].dropna().unique().tolist()) # Extract the list of players
 
@@ -4392,7 +4422,9 @@ else:
         else:
             st.markdown("<h4 style='text-align: center;'>📊 Análisis de un jugador</h4>", unsafe_allow_html=True) # Título
 
-            df = pd.read_csv('../data/player/database_player.csv')  # Cargar datos
+            # Cargar datos
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
 
             player_names = [''] + sorted(df['player_name'].dropna().unique().tolist())  # Lista de jugadores
 
@@ -4697,7 +4729,9 @@ else:
     elif selected in ["Duel", "F2F", "Duelo"]:
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>🥊 Comparaison de deux joueurs</h4>", unsafe_allow_html=True) # Affichage du titre
-            df = pd.read_csv("../data/player/database_player.csv") # Récupérer les données
+            # Récupérer les données
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             player_names = sorted(df['player_name'].dropna().unique().tolist()) # Ordonner par le nom du joueur
 
             st.sidebar.markdown("### Sélection des joueurs") # Sélection dans la sidebar
@@ -4968,7 +5002,9 @@ else:
 
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>🥊 Player Comparison</h4>", unsafe_allow_html=True) # Display the title
-            df = pd.read_csv("../data/player/database_player.csv") # Recover the data
+            # Recover the data
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             player_names = sorted(df['player_name'].dropna().unique().tolist()) # Order by data 
 
             st.sidebar.markdown("### Player selection") # Selection in the sidebar
@@ -5236,7 +5272,9 @@ else:
         
         else:
             st.markdown("<h4 style='text-align: center;'>🥊 Comparación de dos jugadores</h4>", unsafe_allow_html=True)
-            df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
+            # Cargar datos
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             player_names = sorted(df['player_name'].dropna().unique().tolist())  # Ordenar por nombre
 
             st.sidebar.markdown("### Selección de jugadores")  # Selección en la barra lateral
@@ -5500,8 +5538,9 @@ else:
     elif selected == "Stats +":
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>🏅 Classement des joueurs (0-100) pour les statistiques aggrégées par catégorie selon leur poste</h4>", unsafe_allow_html=True) # Affichage du titre de la page
-            df = pd.read_csv("../data/player/database_player.csv") # Récupération des données
-            
+            # Récupération des données
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             # Récupération des colonnes "score_" + "rating"
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
             if "rating" in df.columns:
@@ -5667,8 +5706,9 @@ else:
         elif lang == "English":
 
             st.markdown("<h4 style='text-align: center;'>🏅 Player rankings (0-100) for aggregate statistics by category according to their position</h4>", unsafe_allow_html=True) # Display title
-            df = pd.read_csv("../data/player/database_player.csv") # Collect the data
-            
+            # Collect the data
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             # Retrieve “score_” + “rating” columns
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
             if "rating" in df.columns:
@@ -5827,8 +5867,9 @@ else:
         else:
             # Página en español
             st.markdown("<h4 style='text-align: center;'>🏅 Clasificación de jugadores (0-100) para estadísticas agregadas por categoría según su posición</h4>", unsafe_allow_html=True)
-            df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
-
+            # Cargar datos
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             # Columnas "score_" + "rating"
             all_stats_raw = [col for col in df.columns if col.startswith("score_")]
             if "rating" in df.columns:
@@ -5990,8 +6031,9 @@ else:
         # Page en français
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'>🏆 Classement des joueurs pour les statistiques brutes</h4>", unsafe_allow_html=True) # Affichage du titre de la page
-            df = pd.read_csv("../data/player/database_player.csv") # Récupération des données
-
+            # Récupération des données
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             all_stats = sorted(set(stat for stats in category_stats_player.values() for stat in stats if stat in df.columns)) # Liste des statistiques disponibles
 
             selected_stat = st.sidebar.selectbox("Choisissez une statistique :", [""] + all_stats) # Choix de la statistique dans la sidebar
@@ -6257,7 +6299,9 @@ else:
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>🏆 Player rankings for raw statistics</h4>", unsafe_allow_html=True) # Display the title
             
-            df = pd.read_csv("../data/player/database_player.csv") # Recovering data
+            # Recovering data
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
 
             all_stats = sorted(set(stat for stats in category_stats_player.values() for stat in stats if stat in df.columns)) # List of available statistics
 
@@ -6520,8 +6564,9 @@ else:
         else:
             # Página en español
             st.markdown("<h4 style='text-align: center;'>🏆 Clasificación de jugadores por estadísticas brutas</h4>", unsafe_allow_html=True)
-            df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
-
+             # Cargar datos
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             # Lista de estadísticas disponibles
             all_stats = sorted(set(stat for stats in category_stats_player.values() for stat in stats if stat in df.columns))
 
@@ -6783,8 +6828,9 @@ else:
     elif selected == "Scout":
         if lang == "Français":
             st.markdown("<h4 style='text-align: center;'> 🔎 Scouting </h4>", unsafe_allow_html=True) # Affichage du titre de la page
-            df = pd.read_csv("../data/player/database_player.csv") # Récupération des données
-            
+            # Récupération des données
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)            
             # Caractéristiques générales (avec traductions lorsque cela est nécéssaire)
             pays_options_raw = sorted(df["nationality"].dropna().unique())
             pays_options_fr = [translate_country(p, lang="fr") for p in pays_options_raw]
@@ -7094,8 +7140,9 @@ else:
 
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'> 🔎 Scouting </h4>", unsafe_allow_html=True) # Display the title
-            df = pd.read_csv("../data/player/database_player.csv") # Recover the data 
-
+            # Recover the data 
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             # General Characteristics
             country_options = sorted(df["nationality"].dropna().unique())
             country = st.multiselect("Country", country_options, placeholder="")
@@ -7381,8 +7428,9 @@ else:
         
         else:
             st.markdown("<h4 style='text-align: center;'> 🔎 Scouting </h4>", unsafe_allow_html=True)
-            df = pd.read_csv("../data/player/database_player.csv")  # Cargar datos
-
+            # Cargar datos
+            player_path = os.path.join(os.path.dirname(__file__), "..", "data", "team", "database_player.csv")
+            df = pd.read_csv(player_path)
             # Características generales (con traducciones cuando es necesario)
             pais_options_raw = sorted(df["nationality"].dropna().unique())
             pais_options_es = [translate_country(p, lang="es") for p in pais_options_raw]
