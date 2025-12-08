@@ -1010,7 +1010,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         if lang == "Français":
             st.markdown("<h3 style='text-align: center;'>Visualisation des performances des équipes sur la saison 25/26</h3>", unsafe_allow_html=True) # Titre de la page
 
-            st.image("../image/logo_team_performance.png") # Utilisation de la 1er bannière en image
+            st.image("../image/logo_team_performance.jpg") # Utilisation de la 1er bannière en image
 
             st.markdown("<h4 style='text-align: center;'>Présentation</h4>", unsafe_allow_html=True) # Sous-titre
 
@@ -1051,7 +1051,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         elif lang == "English":
             st.markdown("<h3 style='text-align: center;'>Visualization of team performance over the 25/26 season</h3>", unsafe_allow_html=True) # Page title
 
-            st.image("../image/logo_team_performance.png") # Using the 1st image banner
+            st.image("../image/logo_team_performance.jpg") # Using the 1st image banner
 
             st.markdown("<h4 style='text-align: center;'>Presentation</h4>", unsafe_allow_html=True) # Subtitle
 
@@ -1089,7 +1089,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         else :
             st.markdown("<h3 style='text-align: center;'>Visualización del rendimiento de los equipos durante la temporada 25/26</h3>", unsafe_allow_html=True) # Título de la página
 
-            st.image("../image/logo_team_performance.png") # Usando el primer banner de imagen
+            st.image("../image/logo_team_performance.jpg") # Usando el primer banner de imagen
 
             st.markdown("<h4 style='text-align: center;'>Presentación</h4>", unsafe_allow_html=True) # Subtítulo
 
@@ -3606,7 +3606,7 @@ else:
         if lang == "Français":
             st.markdown("<h3 style='text-align: center;'>Visualisation des performances des joueurs sur la saison 25/26</h3>", unsafe_allow_html=True) # Titre de la page
 
-            st.image("../image/logo_player_performance.png") # Utilisation de la 1er bannière en image
+            st.image("../image/logo_player_performance.jpg") # Utilisation de la 1er bannière en image
 
             st.markdown("<h4 style='text-align: center;'>Présentation</h4>", unsafe_allow_html=True) # Sous-titre
 
@@ -3647,7 +3647,7 @@ else:
         elif lang == "English":
             st.markdown("<h3 style='text-align: center;'>Visualization of player performance over the 25/26 season</h3>", unsafe_allow_html=True) # Page title
 
-            st.image("../image/logo_player_performance.png") # Using the 1st image banner
+            st.image("../image/logo_player_performance.jpg") # Using the 1st image banner
 
             st.markdown("<h4 style='text-align: center;'>Presentation</h4>", unsafe_allow_html=True) # Subtitle
 
@@ -3685,7 +3685,7 @@ else:
         else:
             st.markdown("<h3 style='text-align: center;'>Visualización del rendimiento de los jugadores durante la temporada 25/26</h3>", unsafe_allow_html=True) # Título de la página
 
-            st.image("../image/logo_player_performance.png") # Usando el primer banner de imagen
+            st.image("../image/logo_player_performance.jpg") # Usando el primer banner de imagen
 
             st.markdown("<h4 style='text-align: center;'>Presentación</h4>", unsafe_allow_html=True) # Subtítulo
 
