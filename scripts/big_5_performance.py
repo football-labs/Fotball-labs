@@ -1009,8 +1009,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
     if selected in ["Menu", "Home", "Inicio"]:
         if lang == "Français":
             st.markdown("<h3 style='text-align: center;'>Visualisation des performances des équipes sur la saison 25/26</h3>", unsafe_allow_html=True) # Titre de la page
-
-            st.image("../image/logo_team_performance.jpg") # Utilisation de la 1er bannière en image
+            
+            # Utilisation de la 1er bannière en image
+            image_path = os.path.join(os.path.dirname(__file__), "..", "image", "logo_team_performance.jpg")
+            st.image(image_path)
 
             st.markdown("<h4 style='text-align: center;'>Présentation</h4>", unsafe_allow_html=True) # Sous-titre
 
@@ -1050,8 +1052,10 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
         elif lang == "English":
             st.markdown("<h3 style='text-align: center;'>Visualization of team performance over the 25/26 season</h3>", unsafe_allow_html=True) # Page title
-
-            st.image("../image/logo_team_performance.jpg") # Using the 1st image banner
+            
+            # Using the 1st image banner
+            image_path = os.path.join(os.path.dirname(__file__), "..", "image", "logo_team_performance.jpg")
+            st.image(image_path)
 
             st.markdown("<h4 style='text-align: center;'>Presentation</h4>", unsafe_allow_html=True) # Subtitle
 
@@ -1089,7 +1093,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
         else :
             st.markdown("<h3 style='text-align: center;'>Visualización del rendimiento de los equipos durante la temporada 25/26</h3>", unsafe_allow_html=True) # Título de la página
 
-            st.image("../image/logo_team_performance.jpg") # Usando el primer banner de imagen
+            # Usando el primer banner de imagen
+            image_path = os.path.join(os.path.dirname(__file__), "..", "image", "logo_team_performance.jpg")
+            st.image(image_path)
 
             st.markdown("<h4 style='text-align: center;'>Presentación</h4>", unsafe_allow_html=True) # Subtítulo
 
@@ -1145,7 +1151,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
             # Si un championnat est sélectionné, on cache l’image   
             if not selected_championship or not selected_team:
                 # Aucun championnat sélectionné, on affiche l'image d'intro
-                st.image("../image/championship_analysis.jpg") # Utilisation de la 1er bannière en image
+                # Utilisation de la 1er bannière en image
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "championship_analysis.jpg")
+                st.image(image_path)
                 st.info("Dérouler la barre latérale pour choisir la langue et le championnat à analyser")
             else:
                 team_data = info_team[info_team['team_code'] == selected_team].iloc[0] # Filtrer le DataFrame pour l'équipe sélectionnée
@@ -1367,7 +1375,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
             # If a championship is selected, the image is hidden.   
             if not selected_championship or not selected_team:
                 # No league selected, intro image displayed
-                st.image("../image/championship_analysis.jpg") # Use of the first banner in image
+                # Use of the first banner in image
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "championship_analysis.jpg")
+                st.image(image_path)
                 st.info("Expand the sidebar to select the language and league to analyze")
             else:
                 team_data = info_team[info_team['team_code'] == selected_team].iloc[0] # Filter the DataFrame for the selected team
@@ -1588,7 +1598,9 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
             # Si se selecciona un campeonato, se oculta la imagen.     
             if not selected_championship or not selected_team:
                 # No se ha seleccionado ningún campeonato, se muestra la imagen de introducción.
-                st.image("../image/championship_analysis.jpg") # Uso del primer banner en imagen
+                # Uso del primer banner en imagen
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "championship_analysis.jpg")
+                st.image(image_path)
                 st.info("Despliega la barra lateral para seleccionar el idioma y la liga que deseas analizar.")
             else:
                 team_data = info_team[info_team['team_code'] == selected_team].iloc[0] # Filtrar el DataFrame para el equipo seleccionado
@@ -1805,7 +1817,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
             if not team1:
                 # Aucune équipe sélectionnée → afficher l'image d'intro
-                st.image("../image/team_comparison.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_comparison.jpg")
+                st.image(image_path)
                 st.info("Dérouler la barre latérale pour choisir la langue et les équipes à analyser")
 
             if team1:
@@ -1819,7 +1832,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 
                 if not team2:
                     # Aucune équipe sélectionnée → afficher l'image d'intro
-                    st.image("../image/team_comparison.jpg")
+                    image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_comparison.jpg")
+                    st.image(image_path)
                     st.info("Dérouler la barre latérale pour choisir la langue et les équipes à analyser")
 
                 if team2:
@@ -2100,7 +2114,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
             if not team1:
                 # No team selected → display intro image
-                st.image("../image/team_comparison.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_comparison.jpg")
+                st.image(image_path)
                 st.info("Expand the sidebar to select the language and teams to analyse")
 
             if team1:
@@ -2114,7 +2129,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 
                 if not team2:
                     # No team selected → display intro image
-                    st.image("../image/team_comparison.jpg")
+                    image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_comparison.jpg")
+                    st.image(image_path)
                     st.info("Expand the sidebar to select the language and teams to analyse.")
 
                 if team2:
@@ -2393,7 +2409,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
             team1 = st.sidebar.selectbox("Primer equipo :", [''] + teams_names, key="team1") # Selección del primer equipo
             if not team1:
                 # No hay ningún equipo seleccionado → mostrar la imagen de introducción
-                st.image("../image/team_comparison.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_comparison.jpg")
+                st.image(image_path)
                 st.info("Despliega la barra lateral para seleccionar el idioma y los equipos que deseas analizar")
 
             if team1:
@@ -2407,7 +2424,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 
                 if not team2:
                     # No hay ningún equipo seleccionado → mostrar la imagen de introducción
-                    st.image("../image/team_comparison.jpg")
+                    image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_comparison.jpg")
+                    st.image(image_path)
                     st.info("Despliega la barra lateral para seleccionar el idioma y los equipos que deseas analizar")
 
                 if team2:
@@ -2700,7 +2718,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
             if not selected_stat:
                 # Si la métrique est selectionné, nous cachons l'image
-                st.image("../image/team_ranking_basis.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_ranking_basis.jpg")
+                st.image(image_path)
                 st.info("Dérouler la barre latérale pour sélectionner la langue, la métrique et les filtres de votre choix")
                     
             if selected_stat:
@@ -2798,7 +2817,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
             if not selected_stat:
                 # If the metric is selected, we hide the image.
-                st.image("../image/team_ranking_basis.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_ranking_basis.jpg")
+                st.image(image_path)
                 st.info("Expand the sidebar to select your preferred language, metric, and filters")
                     
             if selected_stat:
@@ -2891,7 +2911,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
             if not selected_stat:
                 # Si se selecciona la métrica, ocultamos la imagen.
-                st.image("../image/team_ranking_basis.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_ranking_basis.jpg")
+                st.image(image_path)
                 st.info("Despliega la barra lateral para seleccionar el idioma, la métrica y los filtros que desees")
                     
             if selected_stat:
@@ -2996,7 +3017,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
             if not selected_stat:
                 # Si la métrique est selectionné, nous cachons l'image
-                st.image("../image/team_ranking.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_ranking.jpg")
+                st.image(image_path)
                 st.info("Dérouler la barre latérale pour sélectionner la langue, la métrique et les filtres de votre choix")
                     
             if selected_stat:
@@ -3159,7 +3181,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
             if not selected_stat:
                 # If the metric is selected, we hide the image.
-                st.image("../image/team_ranking.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_ranking.jpg")
+                st.image(image_path)
                 st.info("Expand the sidebar to select your preferred language, metric, and filters.")
                     
             if selected_stat:
@@ -3318,7 +3341,8 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
             if not selected_stat:
                 # Si se selecciona la métrica, ocultamos la imagen.
-                st.image("../image/team_ranking.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "team_ranking.jpg")
+                st.image(image_path)
                 st.info("Despliega la barra lateral para seleccionar el idioma, la métrica y los filtros que desees")
                     
             if selected_stat:
@@ -3605,8 +3629,9 @@ else:
     if selected in ["Menu", "Home", "Inicio"]:
         if lang == "Français":
             st.markdown("<h3 style='text-align: center;'>Visualisation des performances des joueurs sur la saison 25/26</h3>", unsafe_allow_html=True) # Titre de la page
-
-            st.image("../image/logo_player_performance.jpg") # Utilisation de la 1er bannière en image
+            # Utilisation de la 1er bannière en image
+            image_path = os.path.join(os.path.dirname(__file__), "..", "image", "logo_player_performance.jpg")
+            st.image(image_path)
 
             st.markdown("<h4 style='text-align: center;'>Présentation</h4>", unsafe_allow_html=True) # Sous-titre
 
@@ -3647,8 +3672,9 @@ else:
         elif lang == "English":
             st.markdown("<h3 style='text-align: center;'>Visualization of player performance over the 25/26 season</h3>", unsafe_allow_html=True) # Page title
 
-            st.image("../image/logo_player_performance.jpg") # Using the 1st image banner
-
+            # Using the 1st image banner
+            image_path = os.path.join(os.path.dirname(__file__), "..", "image", "logo_player_performance.jpg")
+            st.image(image_path)
             st.markdown("<h4 style='text-align: center;'>Presentation</h4>", unsafe_allow_html=True) # Subtitle
 
             # Project description
@@ -3685,7 +3711,9 @@ else:
         else:
             st.markdown("<h3 style='text-align: center;'>Visualización del rendimiento de los jugadores durante la temporada 25/26</h3>", unsafe_allow_html=True) # Título de la página
 
-            st.image("../image/logo_player_performance.jpg") # Usando el primer banner de imagen
+            # Usando el primer banner de imagen
+            image_path = os.path.join(os.path.dirname(__file__), "..", "image", "logo_player_performance.jpg")
+            st.image(image_path)
 
             st.markdown("<h4 style='text-align: center;'>Presentación</h4>", unsafe_allow_html=True) # Subtítulo
 
@@ -3735,7 +3763,9 @@ else:
             # Si un joueur est sélectionnée, on cache l’image   
             if not selected_player:
                 # Aucun joueur sélectionné → afficher l'image d'intro
-                st.image("../image/player_analysis.jpg") # Utilisation de la 1er bannière en image
+                # Utilisation de la 1er bannière en image
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_analysis.jpg")
+                st.image(image_path)
                 st.info("Dérouler la barre latérale pour choisir la langue et le joueur à analyser")
             else:
                 player_data = df[df['player_name'] == selected_player].iloc[0] # Filtrer le DataFrame pour le joueur sélectionné
@@ -4045,7 +4075,8 @@ else:
             # If a player is selected, the image is hidden.   
             if not selected_player:
                 # No player selected → show intro image
-                st.image("../image/player_analysis.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_analysis.jpg")
+                st.image(image_path)
                 st.info("Scroll down the sidebar to select the language and the player you wish to analyze")
             else:
                 player_data = df[df['player_name'] == selected_player].iloc[0] # Filter the DataFrame for the selected player
@@ -4369,7 +4400,9 @@ else:
 
             # Si no hay jugador seleccionado → mostrar imagen de introducción
             if not selected_player:
-                st.image("../image/player_analysis.jpg")  # Banner de introducción
+                # Banner de introducción
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_analysis.jpg")
+                st.image(image_path)
                 st.info("Despliega la barra lateral para elegir el idioma y el jugador a analizar")
             else:
                 player_data = df[df['player_name'] == selected_player].iloc[0]  # Fila del jugador
@@ -4673,7 +4706,8 @@ else:
             
             if not player1:
                 # Aucun joueur sélectionné → afficher l'image d'intro
-                st.image("../image/player_comparison.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_comparison.jpg")
+                st.image(image_path)
                 st.info("Dérouler la barre latérale pour choisir la langue et les joueurs à analyser")
 
             if player1:
@@ -4693,7 +4727,8 @@ else:
                 
                 if not player2:
                     # Aucun joueur sélectionné → afficher l'image d'intro
-                    st.image("../image/player_comparison.jpg")
+                    image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_comparison.jpg")
+                    st.image(image_path)
                     st.info("Dérouler la barre latérale pour choisir la langue et les joueurs à analyser")
 
                 if player2:
@@ -4942,7 +4977,8 @@ else:
             
             if not player1:
                 # If the player is selected, we hide the image
-                st.image("../image/player_comparison.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_comparison.jpg")
+                st.image(image_path)
                 st.info("Scroll down the sidebar to select the language and players for analysis")
 
             if player1:
@@ -4962,7 +4998,8 @@ else:
                 
                 if not player2:
                     # If the player is selected, we hide the image
-                    st.image("../image/player_comparison.jpg")
+                    image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_comparison.jpg")
+                    st.image(image_path)
                     st.info("Scroll down the sidebar to select the language and players for analysis")
                         
                 if player2:
@@ -5208,7 +5245,8 @@ else:
 
             if not player1:
                 # Sin selección → imagen de intro
-                st.image("../image/player_comparison.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_comparison.jpg")
+                st.image(image_path)
                 st.info("Despliega la barra lateral para elegir el idioma y los jugadores a analizar")
 
             if player1:
@@ -5227,7 +5265,8 @@ else:
                 player2 = st.sidebar.selectbox("Segundo jugador (misma posición):", [''] + player2_names, key="player2")  # Jugador 2
 
                 if not player2:
-                    st.image("../image/player_comparison.jpg")
+                    image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_comparison.jpg")
+                    st.image(image_path)
                     st.info("Despliega la barra lateral para elegir el idioma y los jugadores a analizar")
 
                 if player2:
@@ -5483,7 +5522,8 @@ else:
 
             if not selected_stat:
                 # Si la métrique est selectionné, nous cachons l'image
-                st.image("../image/player_ranking_basis.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_ranking_basis.jpg")
+                st.image(image_path)
                 st.info("Dérouler la barre latérale pour sélectionner la langue, la métrique et les filtres de votre choix")
 
                     
@@ -5644,7 +5684,8 @@ else:
 
             if not selected_stat:
                 # If the metric is selected, we hide the image
-                st.image("../image/player_ranking_basis.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_ranking_basis.jpg")
+                st.image(image_path)
                 st.info("Scroll down the sidebar to select the language, metric and filters of your choice")
                     
                     
@@ -5807,7 +5848,8 @@ else:
 
             if not selected_stat:
                 # Imagen e info si no hay métrica seleccionada
-                st.image("../image/player_ranking_basis.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_ranking_basis.jpg")
+                st.image(image_path)
                 st.info("Despliega la barra lateral para seleccionar el idioma, la métrica y los filtros que quieras")
 
             if selected_stat:
@@ -5956,7 +5998,8 @@ else:
             
             if not selected_stat:
                 # Si la métrique est selectionné, nous cachons l'image
-                st.image("../image/player_ranking.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_ranking.jpg")
+                st.image(image_path)
                 st.info("Dérouler la barre latérale pour sélectionner la langue, la métrique et les filtres de votre choix")
                     
             if selected_stat:
@@ -6222,7 +6265,8 @@ else:
             
             if not selected_stat:
                 # If the metric is selected, we hide the image
-                st.image("../image/player_ranking.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_ranking.jpg")
+                st.image(image_path)
                 st.info("Scroll down the sidebar to select the language, metric and filters of your choice")
                     
             if selected_stat:
@@ -6485,7 +6529,8 @@ else:
             selected_stat = st.sidebar.selectbox("Elige una estadística:", [""] + all_stats)
 
             if not selected_stat:
-                st.image("../image/player_ranking.jpg")
+                image_path = os.path.join(os.path.dirname(__file__), "..", "image", "player_ranking.jpg")
+                st.image(image_path)
                 st.info("Despliega la barra lateral para seleccionar el idioma, la métrica y los filtros que quieras")
 
             if selected_stat:
