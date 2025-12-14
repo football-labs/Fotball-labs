@@ -20,7 +20,7 @@ script_dir = _get_script_dir()
 data_player_dir = (script_dir.parent.parent / "data" / "player").resolve()
 
 # Chemins des fichiers / path of this files / La ruta de acceso a este archivos
-fbref_path = data_player_dir / "light2025-2026.csv"
+fbref_path = data_player_dir / "players_data-2025_2026.csv"
 tm_path = data_player_dir / "players_tm.csv"
 
 # Chemins de sortie / Exit paths / Salidas
