@@ -31,7 +31,7 @@ jobs:
         with:
           commit_message: "chore: Actualizar fbref_players_2026.csv"
           branch: main
-          file_pattern: data/players/fbref/fbref_players_2026.csv
+          file_pattern: data/player/fbref_players_2026.csv
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
           commit_author: GitHub Actions Bot <actions@github.com>
