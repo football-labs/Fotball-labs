@@ -145,11 +145,12 @@ def load_dataframes() -> dict:
     df_playing_time = df_playing_time.iloc[1:].reset_index(drop=True)
 
     # ---------- Misc ----------
-    df_misc = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Misc.csv")
+   df_misc = pd.read_csv(
+    "https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Misc.csv")
     df_misc.columns = df_misc.iloc[0]
     df_misc = df_misc.iloc[1:].reset_index(drop=True)
-    df_misc = df_misc.iloc[:, :-5]
-    df_misc = df_misc[df_misc.iloc[:, 0] != "Rk"].reset_index(drop=True)
+    df_misc = df_misc.loc[:, ~df_misc.columns.astype(str).str.match(r"^Unnamed")]
+    df_misc = df_misc[df_misc.iloc[:, 0].astype(str) != "Rk"].reset_index(drop=True)
     df_misc.columns = [
         "rk","squad","comp","players","misc_90s",
         "performance_crdy","performance_crdr","performance_2crdy",
@@ -158,6 +159,7 @@ def load_dataframes() -> dict:
         "performance_pkwon","performance_pkcon","performance_og",
         "performance_recov","aerial_won","aerial_lost","aerial_won_pct",
     ]
+
 
     return {
         "standard": df_standard,
