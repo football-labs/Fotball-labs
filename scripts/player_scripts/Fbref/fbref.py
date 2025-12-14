@@ -82,7 +82,7 @@ df['Nation'] = df['Nation'].replace(nation_mapping)
 # Export final file to data/players/fbref/
 # Exporter le fichier final vers data/players/fbref/
 # ----------------------------------------------------------
-output_dir = "data/players/fbref"
+output_dir = "data/player"
 output_filename = f"{output_dir}/fbref_players_2026.csv"
 
 # Crear directorios si no existen / Create directories / Créer les dossiers
