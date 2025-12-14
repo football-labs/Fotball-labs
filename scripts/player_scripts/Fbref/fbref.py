@@ -5,7 +5,7 @@ import os
 # ----------------------------------------------------------
 # Cargar datos / Load data / Charger les données
 # ----------------------------------------------------------
-df = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/player/fbref/players_data-2026.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/player/players_data-2026.csv")
 
 # ----------------------------------------------------------
 # Mapeo de posiciones / Position mapping / Correspondance des postes
