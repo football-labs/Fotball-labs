@@ -20,7 +20,7 @@ estimated_col = '% Estimated'
 def normalize_name(x):
     return unidecode(str(x)).strip().lower()
 
-df_all_teams_stats["Squad_norm_left"] = df_all_teams_stats["Squad"].apply(normalize_name)
+df_all_teams_stats["Squad_norm_left"] = df_all_teams_stats["squad"].apply(normalize_name)
 df_salaries["Squad_norm_right"] = df_salaries["Squad"].apply(normalize_name)
 
 # Select columns to keep from salary data | Sélectionner les colonnes à conserver depuis salaires | Seleccionar las columnas que se desean conservar de los salarios
