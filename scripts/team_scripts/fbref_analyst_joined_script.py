@@ -17,7 +17,7 @@ opta = pd.read_csv('https://raw.githubusercontent.com/football-labs/Fotball-labs
 
 # Filtrer les données des 5 grands championnats / Filter Big5 leagues / Filtrar los datos de las 5 grandes ligas
 big5 = ['Premier League', 'La Liga', 'Bundesliga', 'Serie A', 'Ligue 1']
-df_big5 = fbref[fbref['Competition'].isin(big5)]
+df_big5 = fbref[fbref['comp'].isin(big5)]
 
 # Charher le mapping des équipes / Load team mapping from JSON / Cargar la asignación de equipos
 with open(mapping_path, "r", encoding="utf-8") as f:
@@ -39,15 +39,15 @@ opta_merged = opta.merge(df_big5,left_on="team_code_clean",right_on="Squad_clean
 opta_merged = opta_merged.drop(columns=["Squad_clean", "team_code_clean","Competition", "Squad"])
 
 # Calcul du nombre de points / Calculation of the number of points / Cálculo del número de puntos
-opta_merged["pts_league"] = (opta_merged["Performance_W__keeper"] * 3 + opta_merged["Performance_D__keeper"])
+opta_merged["pts_league"] = (opta_merged["performance_w"] * 3 + opta_merged["performance_d"])
 
 # Classement / Ranking / Clasificación
 def _rank_season(d: pd.DataFrame) -> pd.DataFrame:
-    d = d.sort_values(["pts_league", "Team_Success_+/___ptime", "Performance_Gls__std"],ascending=[False, False, False]).copy()
+    d = d.sort_values(["pts_league", "team_success_plus_minus", "performance_gls"],ascending=[False, False, False]).copy()
     # Régle pour le classement : pts, diff, buts marqués / Ranking rules: points, goal difference, goals scored / Regla para la clasificación: puntos, diferencia, goles marcados
     d["rank_league_tmp"] = range(1, len(d) + 1)
     d["rank_league"] = d.groupby(
-        ["pts_league", "Team_Success_+/___ptime", "Performance_Gls__std"]
+        ["pts_league", "team_success_plus_minus", "performance_gls"]
     )["rank_league_tmp"].transform("min")
     d.drop(columns=["rank_league_tmp"], inplace=True)
     d["rank_league"] = d["rank_league"].astype(int)
@@ -83,9 +83,9 @@ opta_merged["fast_break_prop"] = ((opta_merged["attacking_misc__fast_breaks__tot
 opta_merged["fast_break_prop"] = (opta_merged["fast_break_prop"] * 100).round(2)
 
 # On passe cette liste de statistiques brutes par 90 minutes / We run this list of raw statistics through 90 minutes / Pasamos esta lista de estadísticas brutas por 90 minutos
-minutes_col = "Playing_Time_Min__ptime"
-per90_cols = ["CrsPA__pass","Progression_PrgP__std","Progression_PrgC__std","Carries_Carries__poss","Carries_1/3__poss","Take_Ons_Att__poss","Take_Ons_Succ__poss",
-    "Performance_Saves__keeper","Aerial_Duels_Won__misc","Receiving_PrgR__poss","Total_Cmp__pass","Carries_Mis__poss","Carries_Dis__poss",]
+minutes_col = "playing_time_min"
+per90_cols = ["passing_crspa","passing_prgp","progression_prgc","carries_total","carries_final_third","takeons_att",
+    "takeons_succ","performance_saves","aerial_won","receiving_prgr","passing_cmp","carries_mis","carries_dis"]
 factor = 90.0 / opta_merged[minutes_col]
 per90_df = opta_merged[per90_cols].apply(pd.to_numeric, errors="coerce").mul(factor, axis=0)
 per90_df.columns = [f"Per_90_min_{c}" for c in per90_df.columns]
