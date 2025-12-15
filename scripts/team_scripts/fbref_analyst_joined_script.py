@@ -36,7 +36,7 @@ opta["team_code_clean"] = opta["team_code"].apply(normalize_name)
 opta_merged = opta.merge(df_big5,left_on="team_code_clean",right_on="Squad_clean",how="left")
 
 # Enlever les colonnes temporaires / Drop helper columns / Eliminar las columnas temporales
-opta_merged = opta_merged.drop(columns=["Squad_clean", "team_code_clean","Competition", "Squad"])
+opta_merged = opta_merged.drop(columns=["Squad_clean", "team_code_clean","competition", "squad"])
 
 # Calcul du nombre de points / Calculation of the number of points / Cálculo del número de puntos
 opta_merged["pts_league"] = (opta_merged["performance_w"] * 3 + opta_merged["performance_d"])
