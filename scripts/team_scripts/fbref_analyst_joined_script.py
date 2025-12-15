@@ -57,7 +57,7 @@ def _rank_season(d: pd.DataFrame) -> pd.DataFrame:
 opta_merged = (
 opta_merged
     .groupby("id_season", group_keys=False)
-    .apply(_rank_season)
+    .apply(_rank_season, include_groups=False)
 )
 
 # Dénominateur du total des passes / Denominator of total passes / Denominador del total de pases
@@ -86,6 +86,13 @@ opta_merged["fast_break_prop"] = (opta_merged["fast_break_prop"] * 100).round(2)
 minutes_col = "playing_time_min"
 per90_cols = ["passing_crspa","passing_prgp","progression_prgc","carries_total","carries_final_third","takeons_att",
     "takeons_succ","performance_saves","aerial_won","receiving_prgr","passing_cmp","carries_mis","carries_dis"]
+opta_merged[minutes_col] = (
+    opta_merged[minutes_col].astype(str)
+    .str.replace(",", "", regex=False)
+    .str.replace(" ", "", regex=False)
+)
+opta_merged[minutes_col] = pd.to_numeric(opta_merged[minutes_col], errors="coerce")
+opta_merged.loc[opta_merged[minutes_col] <= 0, minutes_col] = pd.NA
 factor = 90.0 / opta_merged[minutes_col]
 per90_df = opta_merged[per90_cols].apply(pd.to_numeric, errors="coerce").mul(factor, axis=0)
 per90_df.columns = [f"Per_90_min_{c}" for c in per90_df.columns]
