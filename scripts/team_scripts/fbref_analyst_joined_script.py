@@ -29,7 +29,7 @@ opta["team_code"] = opta["team_code"].replace(mapping) # Appliquer le mapping su
 def normalize_name(x):
     return unidecode(str(x)).strip().lower()
 
-df_big5["Squad_clean"] = df_big5["Squad"].apply(normalize_name)
+df_big5["Squad_clean"] = df_big5["squad"].apply(normalize_name)
 opta["team_code_clean"] = opta["team_code"].apply(normalize_name)
 
 # Associer les colonnes entres elles / Merge using normalized columns / Asociar las columnas entre sí
