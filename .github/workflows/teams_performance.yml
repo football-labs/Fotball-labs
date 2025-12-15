@@ -1,4 +1,4 @@
-name: Update Rating Teams
+name: Evaluate Teams Stats
 
 on:
   schedule:

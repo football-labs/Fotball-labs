@@ -1,4 +1,4 @@
-name: Scrape and commit players stats
+name: Evaluate Players Stats
 
 on:
   schedule:

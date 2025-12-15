@@ -1,4 +1,4 @@
-name: Ejecutar Scraper de FBref Teams Salaries
+name: Run FBref Teams Salaries
 
 on:
   schedule:

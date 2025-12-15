@@ -1,4 +1,4 @@
-name: Scrape and commit teams stats
+name: Run Teams Stats Opta
 
 on:
   schedule:

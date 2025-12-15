@@ -35,7 +35,7 @@ inverted_stats = [
     'defending_overall__shots_in_box_pct','defending_overall__goals_in_box_pct','defending_set_pieces__goals','defending_set_pieces__shots','defending_set_pieces__xg',
     'defending_misc__free_kicks__total','defending_misc__free_kicks__goals','defending_overall__goals_vs_xg','defending_overall__conv_pct','pressing__ppda','rank_league',
     'misc.__pens_conceded','attacking_misc__offsides','misc.__yellows','misc.__reds','misc.__fouls','misc.__errors_lead_to_shot','misc.__errors_lead_to_goal',
-    'Per_90_min_Carries_Mis__poss','Per_90_min_Carries_Dis__poss']
+    'Per_90_min_carries_mis','Per_90_min_carries_dis']
 
 # Normalisation / Normalization / Normalización
 num = df[stat_cols].apply(pd.to_numeric, errors="coerce")
@@ -55,27 +55,27 @@ df = pd.concat([df, normalized_df], axis=1, copy=False)
 # Choix des statistiques et de leurs poids associés / Choice of statistics and their associated weights / Selección de las estadísticas y sus ponderaciones asociadas
 categories = {
     ## ON-BALL
-    "goal_scoring_created": [(0.50, "Per_90_Minutes_npxG__std"),(0.15, "attacking_overall__shots"),(0.15, "attacking_overall__sot"),
+    "goal_scoring_created": [(0.50, "per90_npxg"),(0.15, "attacking_overall__shots"),(0.15, "attacking_overall__sot"),
             (0.15, "attacking_misc__touches_in_box"),(0.05, "attacking_overall__xg")],
-    "finish": [(0.45, "Per_90_Minutes_G_PK__std"),(0.30, "attacking_overall__goals_vs_xg"),(0.10, "attacking_overall__conv_pct"),
+    "finish": [(0.45, "per90_g_minus_pk"),(0.30, "attacking_overall__goals_vs_xg"),(0.10, "attacking_overall__conv_pct"),
             (0.10, "attacking_overall__xg_per_shot"), (0.05, "attacking_overall__goals")],
     "set_pieces_off": [(0.50, "attacking_set_pieces__goals"),(0.25, "attacking_set_pieces__xg"),(0.10, "attacking_misc__free_kicks__total"),
     (0.10, "attacking_misc__free_kicks__goals"), (0.05, "attacking_set_pieces__shots")],
-    "building": [(0.20, "passing__final_third_passes__successful"), (0.25, "passing__through_balls"), (0.20, "Per_90_min_Progression_PrgP__std"),(0.15, "passing__all_passes__pct"),
-        (0.10, "Per_90_min_Total_Cmp__pass"), (0.10, "Per_90_min_Receiving_PrgR__poss")],
-    "projection": [(0.50, "Per_90_min_Progression_PrgC__std"),(0.30, "Per_90_min_Carries_1/3__poss"),(0.20, "Per_90_min_Carries_Carries__poss")],
+    "building": [(0.20, "passing__final_third_passes__successful"), (0.25, "passing__through_balls"), (0.20, "Per_90_min_passing_prgp"),(0.15, "passing__all_passes__pct"),
+        (0.10, "Per_90_min_passing_cmp"), (0.10, "Per_90_min_receiving_prgr")],
+    "projection": [(0.50, "Per_90_min_progression_prgc"),(0.30, "Per_90_min_carries_final_third"),(0.20, "Per_90_min_carries_total")],
     "crosses": [(0.35, "passing__crosses__total"),(0.3, "passing__crosses__pct"),(0.20, "attacking_misc__headers__goals"),
-                (0.10, "attacking_misc__headers__total"),(0.05, "Per_90_min_CrsPA__pass")],
-    "dribble": [(0.55, "Per_90_min_Take_Ons_Att__poss"),(0.45, "Take_Ons_Succ%__poss")],
+                (0.10, "attacking_misc__headers__total"),(0.05, "Per_90_min_passing_crspa")],
+    "dribble": [(0.55, "Per_90_min_takeons_att"),(0.45, "Take_Ons_Succ%__poss")],
 
     ## OFF-BALL
     "goal_scoring_conceded": [(0.40, "defending_overall__goals"),(0.25, "defending_overall__xg"), (0.10, "defending_overall__shots"),(0.10, "defending_overall__sot"),
           (0.05, "defending_misc__touches_in_box"),(0.05, "defending_overall__xg_per_shot"), (0.05, "defending_overall__goals_in_box_pct")],
-    "defensive_actions": [(0.65, "Challenges_Tkl%__def"),(0.15, "defending_defensive_actions__interceptions_Padj"), (0.05, "defending_defensive_actions__tackles_Padj"),
+    "defensive_actions": [(0.65, "challenges_tkl_pct"),(0.15, "defending_defensive_actions__interceptions_Padj"), (0.05, "defending_defensive_actions__tackles_Padj"),
         (0.05, "defending_defensive_actions__recoveries"), (0.05, "defending_defensive_actions__blocks_Padj"),(0.05, "defending_defensive_actions__clearances_Padj")],
     "set_pieces_def": [(0.50, "defending_set_pieces__goals"),(0.25, "defending_set_pieces__xg"),(0.10, "defending_misc__free_kicks__total"),
         (0.10, "defending_misc__free_kicks__goals"), (0.05, "defending_set_pieces__shots")],
-    "efficiency_goalkeeper": [(0.60, "defending_overall__goals_vs_xg"),(0.35, "Performance_Save%__keeper"),(0.05, "Per_90_min_Performance_Saves__keeper")],
+    "efficiency_goalkeeper": [(0.60, "defending_overall__goals_vs_xg"),(0.35, "performance_save_pct"),(0.05, "Per_90_min_performance_saves")],
     "pressing": [(0.40, "pressing__ppda"),(0.30, "pressing__pressed_seqs"),(0.15, "pressing__start_distance_m"),
         (0.05, "pressing__high_turnovers__shot_ending"),(0.05, "pressing__high_turnovers__goal_ending"),
         (0.05, "pressing__high_turnovers__pct_end_in_shot")],
@@ -86,15 +86,15 @@ categories = {
     "counter-attacking": [(0.65, "attacking_misc__fast_breaks__total"),(0.35, "attacking_misc__fast_breaks__goals")],
 
     ## OTHER
-    "rank_league": [(0.50, "rank_league"),(0.40, "Team_Success_PPM__ptime"),(0.10, "Team_Success_+/_90__ptime")],
+    "rank_league": [(0.50, "rank_league"),(0.40, "team_success_ppm"),(0.10, "team_success_plus_minus_per90")],
     "ground_duel": [(1.00, "defending_defensive_actions__ground_duels_won")],
-    "aerial": [(0.65, "defending_defensive_actions__aerial_duels_won"),(0.35, "Per_90_min_Aerial_Duels_Won__misc")],
+    "aerial": [(0.65, "defending_defensive_actions__aerial_duels_won"),(0.35, "Per_90_min_aerial_won")],
     "provoked_fouls": [(0.50, "misc.__fouled"),(0.20, "misc.__opp_yellows"),(0.15, "misc.__pens_won"),(0.10, "misc.__opp_reds"),
         (0.05, "defending_misc__offsides")],
     "faults_committed": [(0.50, "misc.__fouls"),(0.20, "misc.__yellows"),(0.15, "misc.__pens_conceded"),(0.10, "misc.__reds"),
         (0.05, "attacking_misc__offsides")],
-    "waste": [(0.65, "misc.__errors_lead_to_goal"),(0.15, "misc.__errors_lead_to_shot"), (0.10, "Per_90_min_Carries_Mis__poss"),(0.10, "Per_90_min_Carries_Dis__poss")],
-    "subs": [(0.65, "misc.__subs_goals"),(0.20, "Subs_Subs__ptime"),(0.15, "misc.__subs_used")], 
+    "waste": [(0.65, "misc.__errors_lead_to_goal"),(0.15, "misc.__errors_lead_to_shot"), (0.10, "Per_90_min_carries_mis"),(0.10, "Per_90_min_carries_dis")],
+    "subs": [(0.65, "misc.__subs_goals"),(0.20, "subs_min_per_sub"),(0.15, "misc.__subs_used")], 
 }
 
 #  Calcul des scores par catégorie / Compute category scores / Cálculo de puntuaciones por categoría
