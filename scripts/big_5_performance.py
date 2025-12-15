@@ -243,8 +243,8 @@ stats_team = {
     "Offensive": [
         "attacking_overall__goals","attacking_overall__xg","attacking_overall__goals_vs_xg","attacking_overall__shots","attacking_overall__sot","attacking_overall__conv_pct",
 	    "attacking_overall__xg_per_shot","attacking_misc__touches_in_box","attacking_misc__hit_post","attacking_misc__offsides", "attacking_misc__headers__total",
-        "attacking_misc__headers__goals", "Performance_Gls__std","Performance_G_PK__std", "Expected_xG__std","Expected_npxG__std", "Per_90_Minutes_G_PK__std",
-        "Per_90_Minutes_npxG__std",	"Standard_Sh__shoot","Standard_SoT__shoot","Standard_Dist__shoot",
+        "attacking_misc__headers__goals", "performance_gls","performance_g_minus_pk", "expected_xg","expected_npxg", "per90_g_minus_pk","per90_npxg","shooting_sh",
+        "shooting_sot","shooting_dist",
     ],
     "Set-Pieces (Offensive)": [
         "attacking_set_pieces__goals","attacking_set_pieces__shots","attacking_set_pieces__xg","attacking_set_pieces__goal_pct","attacking_set_pieces__shot_pct",
@@ -258,11 +258,10 @@ stats_team = {
     "Passing": [
         "passing__avg_poss","passing__all_passes__pct","passing__final_third_passes__successful","passing__final_third_passes__pct","passing__pass_direction__fwd",
         "passing__pass_direction__bwd","passing__pass_direction__left","passing__pass_direction__right","passing__crosses__total","passing__crosses__successful",
-        "passing__crosses__pct","passing__through_balls", "Progression_PrgC__std","Progression_PrgP__std", "Carries_Carries__poss", "Carries_1/3__poss",
-        "Carries_Mis__poss","Carries_Dis__poss", "Receiving_PrgR__poss", "Performance_Crs__misc", "Total_Cmp__pass","Short_Cmp__pass","Short_Cmp%__pass","Medium_Cmp__pass",
-        "Medium_Cmp%__pass", "Long_Cmp__pass","Long_Cmp%__pass", "PPA__pass","CrsPA__pass","PrgP__pass", "Long_Att__pass_prop", "Per_90_min_CrsPA__pass",
-        "Per_90_min_Progression_PrgP__std","Per_90_min_Progression_PrgC__std","Per_90_min_Carries_Carries__poss","Per_90_min_Carries_1/3__poss","Per_90_min_Receiving_PrgR__poss",
-        "Per_90_min_Total_Cmp__pass","Per_90_min_Carries_Mis__poss","Per_90_min_Carries_Dis__poss"
+        "passing__crosses__pct","passing__through_balls", "progression_prgc","progression_prgp", "carries_total", "carries_final_third","carries_mis","carries_dis",
+        "receiving_prgr", "performance_crs", "passing_cmp","short_cmp","short_cmp_pct","medium_cmp","medium_cmp", "long_cmp","long_cmp_pct", "passing_ppa","passing_crspa",
+        "passing_prgp", "Long_Att__pass_prop", "Per_90_min_passing_crspa","Per_90_min_passing_prgp","Per_90_min_progression_prgc","Per_90_min_carries_total",
+        "Per_90_min_carries_final_third","Per_90_min_receiving_prgr","Per_90_min_passing_cmp","Per_90_min_carries_mis","Per_90_min_carries_dis"
     ],
     "Pressing": [
         "pressing__pressed_seqs","pressing__pressed_seqs_Padj","pressing__ppda","pressing__start_distance_m", "pressing__high_turnovers__shot_ending",
@@ -272,35 +271,32 @@ stats_team = {
         "defending_overall__goals","defending_overall__xg","defending_overall__goals_vs_xg","defending_overall__shots","defending_overall__sot",
         "defending_overall__conv_pct","defending_overall__xg_per_shot","defending_overall__shots_in_box_pct","defending_overall__goals_in_box_pct",
         "defending_misc__touches_in_box","defending_misc__hit_post","defending_misc__offsides","defending_misc__headers__total","defending_misc__headers__goals",
-        "defending_misc__fast_breaks__total","defending_misc__fast_breaks__goals", "Performance_CS__keeper","Performance_CS%__keeper", "Performance_Int__misc",
-        "Performance_TklW__misc","Performance_Recov__misc", "Tackles_Tkl__def","Blocks_Blocks__def","Clr__def", "defending_defensive_actions__tackles",
-        "defending_defensive_actions__interceptions", "defending_defensive_actions__recoveries","defending_defensive_actions__blocks","defending_defensive_actions__clearances",
-        "defending_defensive_actions__tackles_Padj","defending_defensive_actions__interceptions_Padj","defending_defensive_actions__blocks_Padj",
-        "defending_defensive_actions__clearances_Padj"
+        "defending_misc__fast_breaks__total","defending_misc__fast_breaks__goals", "performance_cs","performance_cs_pct", "performance_int","performance_tklw","performance_recov",
+        "tackles_tkl","blocks_blocks","blocks_clr", "defending_defensive_actions__tackles","defending_defensive_actions__interceptions", "defending_defensive_actions__recoveries",
+        "defending_defensive_actions__blocks","defending_defensive_actions__clearances","defending_defensive_actions__tackles_Padj","defending_defensive_actions__interceptions_Padj",
+        "defending_defensive_actions__blocks_Padj","defending_defensive_actions__clearances_Padj"
     ],
     "Set-Pieces (Defensive)": [
         "defending_set_pieces__goals","defending_set_pieces__shots","defending_set_pieces__xg","defending_set_pieces__goal_pct","defending_set_pieces__shot_pct",
         "defending_set_pieces__xg_pct", "defending_misc__free_kicks__total","defending_misc__free_kicks__goals",
     ],
     "Penalties": [
-        "attacking_misc__penalties__total","attacking_misc__penalties__goals", "misc.__pens_conceded", "Performance_PK__std","Performance_PKatt__std",
+        "attacking_misc__penalties__total","attacking_misc__penalties__goals", "misc.__pens_conceded", "performance_pk","performance_pkatt",
     ],
     "Foul": [
-        "misc.__fouled","misc.__yellows","misc.__reds","misc.__fouls","misc.__opp_yellows","misc.__opp_reds", "Performance_CrdY__std","Performance_CrdR__std",
-        "Performance_Fls__misc","Performance_Fld__misc", 
+        "misc.__fouled","misc.__yellows","misc.__reds","misc.__fouls","misc.__opp_yellows","misc.__opp_reds", "performance_crdy","performance_crdr","performance_fls","performance_fld", 
     ],
     "Duel": [
-        "defending_defensive_actions__ground_duels_won","defending_defensive_actions__aerial_duels_won", "Aerial_Duels_Won__misc","Aerial_Duels_Lost__misc",
-         "Per_90_min_Aerial_Duels_Won__misc",
+        "defending_defensive_actions__ground_duels_won","defending_defensive_actions__aerial_duels_won", "aerial_won","aerial_lost","Per_90_min_aerial_won",
     ],
     "Take-ons": [
-        "Take_Ons_Att__poss", "Take_Ons_Succ__poss", "Take_Ons_Succ%__poss", "Per_90_min_Take_Ons_Att__poss","Per_90_min_Take_Ons_Succ__poss",
+        "takeons_att", "takeons_succ", "takeons_succ_pct", "Per_90_min_takeons_att","Per_90_min_takeons_succ",
     ],
     "Results": [
-        "Performance_W__keeper", "Performance_D__keeper","Performance_L__keeper", "Team_Success_PPM__ptime", "Team_Success_+/___ptime","Team_Success_+/_90__ptime",
+        "performance_w", "performance_d","performance_l", "team_success_ppm", "team_success_plus_minus","team_success_plus_minus_per90",
     ],
     "Miscellaneous": [
-        "misc.__subs_used","misc.__subs_goals","Subs_Subs__ptime", "misc.__errors_lead_to_shot","misc.__errors_lead_to_goal", "Err__def", 
+        "misc.__subs_used","misc.__subs_goals","subs_min_per_sub", "misc.__errors_lead_to_shot","misc.__errors_lead_to_goal", "blocks_err", 
     ],
 }
 
@@ -314,10 +310,10 @@ glossary = {
         "attacking_overall__xg_per_shot": "Nombre de buts attendus par tir réalisé","attacking_misc__touches_in_box": "Nombre de touches dans la surface adverse effectués par 90 minutes",
         "attacking_misc__hit_post": "Nombre de poteaux/transversales effectués par 90 minutes","attacking_misc__offsides": "Nombre de hors-jeu commis par 90 minutes",
         "attacking_misc__headers__total": "Nombre de tirs de tête réalisés par 90 minutes","attacking_misc__headers__goals": "Nombre de buts de tête réalisés par 90 minutes",
-        "Performance_Gls__std": "Nombre de buts inscrits","Performance_G_PK__std": "Nombre de buts inscrits moins les penalties marqués",
-        "Expected_xG__std": "Nombre de buts attendus","Expected_npxG__std": "Nombre de buts attendus (hors penalties)",
-        "Per_90_Minutes_G_PK__std": "Nombre de buts inscrits moins les penalties marqués par 90 minutes","Per_90_Minutes_npxG__std": "Nombre de buts attendus réalisés par 90 minutes",
-        "Standard_Sh__shoot": "Nombre de tirs réalisés","Standard_SoT__shoot": "Nombre de tirs cadrés réalisés","Standard_Dist__shoot": "Distance moyenne par tir réalisé",
+        "performance_gls": "Nombre de buts inscrits","performance_g_minus_pk": "Nombre de buts inscrits moins les penalties marqués",
+        "expected_xg": "Nombre de buts attendus","expected_npxg": "Nombre de buts attendus (hors penalties)",
+        "per90_g_minus_pk": "Nombre de buts inscrits moins les penalties marqués par 90 minutes","per90_npxg": "Nombre de buts attendus réalisés par 90 minutes",
+        "shooting_sh": "Nombre de tirs réalisés","shooting_sot": "Nombre de tirs cadrés réalisés","shooting_dist": "Distance moyenne par tir réalisé",
 
         # COUP DE PIED ARRÊTÉS (OFFENSIF)
         "attacking_set_pieces__goals": "Nombre de buts inscrits sur coup de pied arrêté par 90 minutes","attacking_set_pieces__shots": "Nombre de tirs sur coup de pied arrêté par 90 minutes",
@@ -340,19 +336,19 @@ glossary = {
         "passing__pass_direction__bwd": "Pourcentage de passes vers l'arrière","passing__pass_direction__left": "Pourcentage de passes vers la gauche",
         "passing__pass_direction__right": "Pourcentage de passes vers la droite","passing__crosses__total": "Nombre de centres réalisés par 90 minutes",
         "passing__crosses__successful": "Nombre de centres réussis par 90 minutes","passing__crosses__pct": "Pourcentage de centres réussis",
-        "passing__through_balls": "Nombre de passes en profondeur par 90 minutes","Progression_PrgC__std": "Nombre de portées de balle progressives",
-        "Progression_PrgP__std": "Nombre de passes progressives","Carries_Carries__poss": "Nombre de portées de balle",
-        "Carries_1/3__poss": "Nombre de portées de balle dans le dernier tiers adverse","Carries_Mis__poss": "Nombre de contrôles manqués",
-        "Carries_Dis__poss": "Nombre de pertes de balle sur portées","Receiving_PrgR__poss": "Nombre de réceptions progressives","Performance_Crs__misc": "Nombre de centres réalisés",
-        "Total_Cmp__pass": "Nombre de passes réussies","Short_Cmp__pass": "Nombre de passes courtes réussies",
-        "Short_Cmp%__pass": "Pourcentage de passes courtes réussies","Medium_Cmp__pass": "Nombre de passes moyennes réussies","Medium_Cmp%__pass": "Pourcentage de passes moyennes réussies",
-        "Long_Cmp__pass": "Nombre de passes longues réussies","Long_Cmp%__pass": "Pourcentage de passes longues réussies","PPA__pass": "Nombre de passes réussies dans la surface",
-        "CrsPA__pass": "Nombre de centres dans la surface réalisés","PrgP__pass": "Nombre de passes progressives réalisées","Long_Att__pass_prop": "Pourcentage de passes longues tentées",
-        "Per_90_min_CrsPA__pass": "Nombre de centres dans la surface réalisés par 90 minutes","Per_90_min_Progression_PrgP__std": "Nombre de passes progressives par 90 minutes",
-        "Per_90_min_Progression_PrgC__std": "Nombre de portées de balle progressives par 90 minutes","Per_90_min_Carries_Carries__poss": "Nombre de portées de balle par 90 minutes",
-        "Per_90_min_Carries_1/3__poss": "Nombre de portées de balle dans le dernier tiers par 90 minutes","Per_90_min_Receiving_PrgR__poss": "Nombre de réceptions progressives par 90 minutes",
-        "Per_90_min_Total_Cmp__pass": "Nombre de passes réussies par 90 minutes","Per_90_min_Carries_Mis__poss": "Nombre de contrôles manqués par 90 minutes",
-        "Per_90_min_Carries_Dis__poss": "Nombre de pertes de balle sur portées par 90 minutes",
+        "passing__through_balls": "Nombre de passes en profondeur par 90 minutes","progression_prgc": "Nombre de portées de balle progressives",
+        "progression_prgp": "Nombre de passes progressives","carries_total": "Nombre de portées de balle",
+        "carries_final_third": "Nombre de portées de balle dans le dernier tiers adverse","carries_mis": "Nombre de contrôles manqués",
+        "carries_dis": "Nombre de pertes de balle sur portées","receiving_prgr": "Nombre de réceptions progressives","performance_crs": "Nombre de centres réalisés",
+        "passing_cmp": "Nombre de passes réussies","short_cmp": "Nombre de passes courtes réussies",
+        "short_cmp_pct": "Pourcentage de passes courtes réussies","medium_cmp": "Nombre de passes moyennes réussies","medium_cmp_pct": "Pourcentage de passes moyennes réussies",
+        "long_cmp": "Nombre de passes longues réussies","long_cmp_pct": "Pourcentage de passes longues réussies","passing_ppa": "Nombre de passes réussies dans la surface",
+        "passing_crspa": "Nombre de centres dans la surface réalisés","passing_prgp": "Nombre de passes progressives réalisées","Long_Att__pass_prop": "Pourcentage de passes longues tentées",
+        "Per_90_min_passing_crspa": "Nombre de centres dans la surface réalisés par 90 minutes","Per_90_min_passing_prgp": "Nombre de passes progressives par 90 minutes",
+        "Per_90_min_progression_prgc": "Nombre de portées de balle progressives par 90 minutes","Per_90_min_carries_total": "Nombre de portées de balle par 90 minutes",
+        "Per_90_min_carries_final_third": "Nombre de portées de balle dans le dernier tiers par 90 minutes","Per_90_min_receiving_prgr": "Nombre de réceptions progressives par 90 minutes",
+        "Per_90_min_passing_cmp": "Nombre de passes réussies par 90 minutes","Per_90_min_carries_mis": "Nombre de contrôles manqués par 90 minutes",
+        "Per_90_min_carries_dis": "Nombre de pertes de balle sur portées par 90 minutes",
 
         # PRESSING
         "pressing__pressed_seqs": "Nombre de séquences de pressing par 90 minutes", "pressing__pressed_seqs_Padj": "Nombre de séquences de pressing par 90 minutes ajustées à la possession",
@@ -369,9 +365,9 @@ glossary = {
         "defending_misc__hit_post": "Poteaux/transversales concédés par 90 minutes","defending_misc__offsides": "Hors-jeu sifflés contre l'adversaire par 90 minutes",
         "defending_misc__headers__total": "Tirs de tête concédés par 90 minutes","defending_misc__headers__goals": "Buts de tête concédés par 90 minutes",
         "defending_misc__fast_breaks__total": "Contre-attaques subies par 90 minutes","defending_misc__fast_breaks__goals": "Buts encaissés sur contre-attaques par 90 minutes",
-        "Performance_CS__keeper": "Matchs sans encaisser de buts","Performance_CS%__keeper": "Pourcentage de clean sheets","Performance_Int__misc": "Interceptions",
-        "Performance_TklW__misc": "Tacles gagnés","Performance_Recov__misc": "Récupérations de balle","Tackles_Tkl__def": "Tacles effectués","Blocks_Blocks__def": "Nombre de blocs",
-        "Clr__def": "Dégagements","defending_defensive_actions__tackles": "Tacles par 90 minutes","defending_defensive_actions__interceptions": "Interceptions par 90 minutes",
+        "performance_cs": "Matchs sans encaisser de buts","performance_cs_pct": "Pourcentage de clean sheets","performance_int": "Interceptions","performance_tklw": "Tacles gagnés",
+        "performance_recov": "Récupérations de balle","tackles_tkl": "Tacles effectués","blocks_blocks": "Nombre de blocs","blocks_clr": "Dégagements",
+        "defending_defensive_actions__tackles": "Tacles par 90 minutes","defending_defensive_actions__interceptions": "Interceptions par 90 minutes",
         "defending_defensive_actions__recoveries": "Récupérations par 90 minutes","defending_defensive_actions__blocks": "Blocs par 90 minutes",
         "defending_defensive_actions__clearances": "Dégagements par 90 minutes", "defending_defensive_actions__tackles_Padj": "Tacles par 90 minutes ajustées à la possession",
         "defending_defensive_actions__interceptions_Padj": "Interceptions par 90 minutes ajustées à la possession",
@@ -386,30 +382,30 @@ glossary = {
 
         # PENALTIES
         "attacking_misc__penalties__total": "Penalties obtenus par 90 minutes","attacking_misc__penalties__goals": "Penalties marqués par 90 minutes",
-        "misc.__pens_conceded": "Penalties concédés par 90 minutes","Performance_PK__std": "Penalties marqués","Performance_PKatt__std": "Penalties obtenus",
+        "misc.__pens_conceded": "Penalties concédés par 90 minutes","performance_pk": "Penalties marqués","performance_pkatt": "Penalties obtenus",
 
         # FAUTES
         "misc.__fouled": "Fautes subies par 90 minutes","misc.__yellows": "Cartons jaunes reçus par 90 minutes","misc.__reds": "Cartons rouges reçus par 90 minutes",
         "misc.__fouls": "Fautes commises par 90 minutes","misc.__opp_yellows": "Cartons jaunes reçus par l'adversaire par 90 minutes",
-        "misc.__opp_reds": "Cartons rouges reçus par l'adversaire par 90 minutes","Performance_CrdY__std": "Cartons jaunes","Performance_CrdR__std": "Cartons rouges",
-        "Performance_Fls__misc": "Fautes commises","Performance_Fld__misc": "Fautes subies",
+        "misc.__opp_reds": "Cartons rouges reçus par l'adversaire par 90 minutes","performance_crdy": "Cartons jaunes","performance_crdr": "Cartons rouges",
+        "performance_fls": "Fautes commises","performance_fld": "Fautes subies",
 
         # DUELS
         "defending_defensive_actions__ground_duels_won": "Pourcentage de duels au sol gagnés","defending_defensive_actions__aerial_duels_won": "Pourcentage de duels aériens gagnés",
-        "Aerial_Duels_Won__misc": "Duels aériens gagnés","Aerial_Duels_Lost__misc": "Duels aériens perdus","Per_90_min_Aerial_Duels_Won__misc": "Duels aériens gagnés par 90 minutes",
+        "aerial_won": "Duels aériens gagnés","aerial_lost": "Duels aériens perdus","Per_90_min_aerial_won": "Duels aériens gagnés par 90 minutes",
 
         # DRIBBLES
-        "Take_Ons_Att__poss": "Dribbles tentés","Take_Ons_Succ__poss": "Dribbles réussis","Take_Ons_Succ%__poss": "Pourcentage de dribbles réussis",
-        "Per_90_min_Take_Ons_Att__poss": "Dribbles tentés par 90 minutes","Per_90_min_Take_Ons_Succ__poss": "Dribbles réussis par 90 minutes",
+        "takeons_att": "Dribbles tentés","takeons_succ": "Dribbles réussis","takeons_succ_pct": "Pourcentage de dribbles réussis",
+        "Per_90_min_takeons_att": "Dribbles tentés par 90 minutes","Per_90_min_takeons_succ": "Dribbles réussis par 90 minutes",
 
         # RÉSULTATS
-        "Performance_W__keeper": "Victoires","Performance_D__keeper": "Nuls","Performance_L__keeper": "Défaites","Team_Success_PPM__ptime": "Points par match",
-        "Team_Success_+/___ptime": "Différentiel buts pour/contre","Team_Success_+/_90__ptime": "Différentiel buts pour/contre par 90 minutes",
+        "performance_w": "Victoires","performance_d": "Nuls","performance_l": "Défaites","team_success_ppm": "Points par match",
+        "team_success_plus_minus": "Différentiel buts pour/contre","team_success_plus_minus_per90": "Différentiel buts pour/contre par 90 minutes",
 
         # AUTRES
         "misc.__subs_used": "Remplaçants utilisés par 90 minutes","misc.__subs_goals": "Buts marqués par des remplaçants par 90 minutes",
-        "Subs_Subs__ptime": "Temps de jeu moyen des remplaçants","misc.__errors_lead_to_shot": "Erreurs menant à un tir adverse par 90 minutes",
-        "misc.__errors_lead_to_goal": "Erreurs menant à un but adverse par 90 minutes","Err__def": "Erreurs défensives"
+        "subs_min_per_sub": "Temps de jeu moyen des remplaçants","misc.__errors_lead_to_shot": "Erreurs menant à un tir adverse par 90 minutes",
+        "misc.__errors_lead_to_goal": "Erreurs menant à un but adverse par 90 minutes","blocks_err": "Erreurs défensives"
     },
 
     "es": {
@@ -420,9 +416,9 @@ glossary = {
         "attacking_overall__xg_per_shot": "xG por tiro","attacking_misc__touches_in_box": "Toques en el área rival por 90 minutos",
         "attacking_misc__hit_post": "Tiros al poste/travesaño por 90 minutos","attacking_misc__offsides": "Fueras de juego cometidos por 90 minutos",
         "attacking_misc__headers__total": "Remates de cabeza por 90 minutos","attacking_misc__headers__goals": "Goles de cabeza por 90 minutos",
-        "Performance_Gls__std": "Goles","Performance_G_PK__std": "Goles sin penaltis convertidos","Expected_xG__std": "Goles esperados",
-        "Expected_npxG__std": "Goles esperados sin penaltis","Per_90_Minutes_G_PK__std": "Goles sin penaltis por 90 minutos","Per_90_Minutes_npxG__std": "xG sin penaltis por 90 minutos",
-        "Standard_Sh__shoot": "Tiros","Standard_SoT__shoot": "Tiros a puerta","Standard_Dist__shoot": "Distancia media por tiro",
+        "performance_gls": "Goles","performance_g_minus_pk": "Goles sin penaltis convertidos","expected_xg": "Goles esperados",
+        "expected_npxg": "Goles esperados sin penaltis","per90_g_minus_pk": "Goles sin penaltis por 90 minutos","per90_npxg": "xG sin penaltis por 90 minutos",
+        "shooting_sh": "Tiros","shooting_sot": "Tiros a puerta","shooting_dist": "Distancia media por tiro",
 
         # A BALÓN PARADO (OFENSIVO)
         "attacking_set_pieces__goals": "Goles a balón parado por 90 minutos","attacking_set_pieces__shots": "Tiros a balón parado por 90 minutos",
@@ -445,16 +441,16 @@ glossary = {
         "passing__pass_direction__left": "Porcentaje de pases a la izquierda","passing__pass_direction__right": "Porcentaje de pases a la derecha",
         "passing__crosses__total": "Centros por 90 minutos","passing__crosses__successful": "Centros completados por 90 minutos",
         "passing__crosses__pct": "Porcentaje de centros completados","passing__through_balls": "Pases al hueco por 90 minutos",
-        "Progression_PrgC__std": "Conducciones progresivas","Progression_PrgP__std": "Pases progresivos","Carries_Carries__poss": "Conducciones",
-        "Carries_1/3__poss": "Conducciones en el último tercio","Carries_Mis__poss": "Controles fallidos","Carries_Dis__poss": "Pérdidas en conducción",
-        "Receiving_PrgR__poss": "Recepciones progresivas","Performance_Crs__misc": "Centros","Total_Cmp__pass": "Pases completados","Short_Cmp__pass": "Pases cortos completados",
-        "Short_Cmp%__pass": "Porcentaje de pases cortos completados","Medium_Cmp__pass": "Pases medios completados","Medium_Cmp%__pass": "Porcentaje de pases medios completados",
-        "Long_Cmp__pass": "Pases largos completados","Long_Cmp%__pass": "Porcentaje de pases largos completados","PPA__pass": "Pases completados al área","CrsPA__pass": "Centros al área",
-        "PrgP__pass": "Pases progresivos","Long_Att__pass_prop": "Porcentaje de pases largos intentados","Per_90_min_CrsPA__pass": "Centros al área por 90 minutos",
-        "Per_90_min_Progression_PrgP__std": "Pases progresivos por 90 minutos","Per_90_min_Progression_PrgC__std": "Conducciones progresivas por 90 minutos",
-        "Per_90_min_Carries_Carries__poss": "Conducciones por 90 minutos","Per_90_min_Carries_1/3__poss": "Conducciones en el último tercio por 90 minutos",
-        "Per_90_min_Receiving_PrgR__poss": "Recepciones progresivas por 90 minutos","Per_90_min_Total_Cmp__pass": "Pases completados por 90 minutos",
-        "Per_90_min_Carries_Mis__poss": "Controles fallidos por 90 minutos","Per_90_min_Carries_Dis__poss": "Pérdidas en conducción por 90 minutos",
+        "progression_prgc": "Conducciones progresivas","progression_prgp": "Pases progresivos","carries_total": "Conducciones",
+        "carries_final_third": "Conducciones en el último tercio","carries_mis": "Controles fallidos","carries_dis": "Pérdidas en conducción",
+        "receiving_prgr": "Recepciones progresivas","performance_crs": "Centros","passing_cmp": "Pases completados","short_cmp": "Pases cortos completados",
+        "short_cmp_pct": "Porcentaje de pases cortos completados","medium_cmp": "Pases medios completados","medium_cmp_pct": "Porcentaje de pases medios completados",
+        "long_cmp": "Pases largos completados","long_cmp_pct": "Porcentaje de pases largos completados","passing_ppa": "Pases completados al área","passing_crspa": "Centros al área",
+        "passing_prgp": "Pases progresivos","Long_Att__pass_prop": "Porcentaje de pases largos intentados","Per_90_min_passing_crspa": "Centros al área por 90 minutos",
+        "Per_90_min_passing_prgp": "Pases progresivos por 90 minutos","Per_90_min_progression_prgc": "Conducciones progresivas por 90 minutos",
+        "Per_90_min_carries_total": "Conducciones por 90 minutos","Per_90_min_carries_final_third": "Conducciones en el último tercio por 90 minutos",
+        "Per_90_min_receiving_prgr": "Recepciones progresivas por 90 minutos","Per_90_min_passing_cmp": "Pases completados por 90 minutos",
+        "Per_90_min_carries_mis": "Controles fallidos por 90 minutos","Per_90_min_carries_dis": "Pérdidas en conducción por 90 minutos",
 
         # PRESIÓN
         "pressing__pressed_seqs": "Secuencias de presión por 90 minutos", "pressing__pressed_seqs_Padj": "Número de secuencias de presión por 90 minutos ajustadas a la posesión",
@@ -472,9 +468,9 @@ glossary = {
         "defending_misc__hit_post": "Postes/travesaños concedidos por 90 minutos","defending_misc__offsides": "Fueras de juego del rival por 90 minutos",
         "defending_misc__headers__total": "Remates de cabeza concedidos por 90 minutos","defending_misc__headers__goals": "Goles de cabeza encajados por 90 minutos",
         "defending_misc__fast_breaks__total": "Contraataques sufridos por 90 minutos","defending_misc__fast_breaks__goals": "Goles encajados en contraataques por 90 minutos",
-        "Performance_CS__keeper": "Partidos con portería a cero","Performance_CS%__keeper": "Porcentaje de porterías a cero","Performance_Int__misc": "Intercepciones",
-        "Performance_TklW__misc": "Entradas ganadas","Performance_Recov__misc": "Recuperaciones","Tackles_Tkl__def": "Entradas realizadas","Blocks_Blocks__def": "Bloqueos",
-        "Clr__def": "Despejes","defending_defensive_actions__tackles": "Entradas por 90 minutos","defending_defensive_actions__interceptions": "Intercepciones por 90 minutos",
+        "performance_cs": "Partidos con portería a cero","performance_cs_pct": "Porcentaje de porterías a cero","performance_int": "Intercepciones","performance_tklw": "Entradas ganadas",
+        "performance_recov": "Recuperaciones","tackles_tkl": "Entradas realizadas","blocks_blocks": "Bloqueos","blocks_clr": "Despejes",
+        "defending_defensive_actions__tackles": "Entradas por 90 minutos","defending_defensive_actions__interceptions": "Intercepciones por 90 minutos",
         "defending_defensive_actions__recoveries": "Recuperaciones por 90 minutos","defending_defensive_actions__blocks": "Bloqueos por 90 minutos",
         "defending_defensive_actions__clearances": "Despejes por 90 minutos", "defending_defensive_actions__tackles_Padj": "Entradas por 90 minutos ajustadas a la posesión",
         "defending_defensive_actions__interceptions_Padj": "Intercepciones por 90 minutos ajustadas a la posesión",
@@ -489,29 +485,29 @@ glossary = {
 
         # PENALTIS
         "attacking_misc__penalties__total": "Penaltis a favor por 90 minutos","attacking_misc__penalties__goals": "Penaltis convertidos por 90 minutos",
-        "misc.__pens_conceded": "Penaltis en contra por 90 minutos","Performance_PK__std": "Penaltis convertidos","Performance_PKatt__std": "Penaltis a favor",
+        "misc.__pens_conceded": "Penaltis en contra por 90 minutos","performance_pk": "Penaltis convertidos","performance_pkatt": "Penaltis a favor",
 
         # FALTAS
         "misc.__fouled": "Faltas recibidas por 90 minutos","misc.__yellows": "Tarjetas amarillas recibidas por 90 minutos","misc.__reds": "Tarjetas rojas recibidas por 90 minutos",
         "misc.__fouls": "Faltas cometidas por 90 minutos","misc.__opp_yellows": "Amarillas del rival por 90 minutos","misc.__opp_reds": "Rojas del rival por 90 minutos",
-        "Performance_CrdY__std": "Tarjetas amarillas","Performance_CrdR__std": "Tarjetas rojas","Performance_Fls__misc": "Faltas cometidas","Performance_Fld__misc": "Faltas recibidas",
+        "performance_crdy": "Tarjetas amarillas","performance_crdr": "Tarjetas rojas","performance_fls": "Faltas cometidas","performance_fld": "Faltas recibidas",
 
         # DUELOS
         "defending_defensive_actions__ground_duels_won": "Porcentaje de duelos terrestres ganados","defending_defensive_actions__aerial_duels_won": "Porcentaje de duelos aéreos ganados",
-        "Aerial_Duels_Won__misc": "Duelos aéreos ganados","Aerial_Duels_Lost__misc": "Duelos aéreos perdidos","Per_90_min_Aerial_Duels_Won__misc": "Duelos aéreos ganados por 90 minutos",
+        "aerial_won": "Duelos aéreos ganados","aerial_lost": "Duelos aéreos perdidos","Per_90_min_aerial_won": "Duelos aéreos ganados por 90 minutos",
 
         # REGATES
-        "Take_Ons_Att__poss": "Regates intentados","Take_Ons_Succ__poss": "Regates completados","Take_Ons_Succ%__poss": "Porcentaje de regates completados",
-        "Per_90_min_Take_Ons_Att__poss": "Regates intentados por 90 minutos","Per_90_min_Take_Ons_Succ__poss": "Regates completados por 90 minutos",
+        "takeons_att": "Regates intentados","takeons_succ": "Regates completados","takeons_succ_pct": "Porcentaje de regates completados",
+        "Per_90_min_takeons_att": "Regates intentados por 90 minutos","Per_90_min_takeons_succ": "Regates completados por 90 minutos",
 
         # RESULTADOS
-        "Performance_W__keeper": "Victorias","Performance_D__keeper": "Empates","Performance_L__keeper": "Derrotas","Team_Success_PPM__ptime": "Puntos por partido",
-        "Team_Success_+/___ptime": "Diferencial de goles a favor/en contra","Team_Success_+/_90__ptime": "Diferencial de goles por 90 minutos",
+        "performance_w": "Victorias","performance_d": "Empates","performance_l": "Derrotas","team_success_ppm": "Puntos por partido",
+        "team_success_plus_minus": "Diferencial de goles a favor/en contra","team_success_plus_minus_per90": "Diferencial de goles por 90 minutos",
 
         # OTROS
-        "misc.__subs_used": "Suplentes utilizados por 90 minutos","misc.__subs_goals": "Goles de suplentes por 90 minutos","Subs_Subs__ptime": "Tiempo medio de juego de suplentes",
+        "misc.__subs_used": "Suplentes utilizados por 90 minutos","misc.__subs_goals": "Goles de suplentes por 90 minutos","subs_min_per_sub": "Tiempo medio de juego de suplentes",
         "misc.__errors_lead_to_shot": "Errores que acaban en tiro rival por 90 minutos","misc.__errors_lead_to_goal": "Errores que acaban en gol rival por 90 minutos",
-        "Err__def": "Errores defensivos"
+        "blocks_err": "Errores defensivos"
     },
 
     "eng": {
@@ -521,10 +517,10 @@ glossary = {
         "attacking_overall__sot": "Shots on target per 90 minutes","attacking_overall__conv_pct": "Share of shots that become goals",
         "attacking_overall__xg_per_shot": "xG per shot","attacking_misc__touches_in_box": "Touches in opponent box per 90 minutes",
         "attacking_misc__hit_post": "Shots off post/crossbar per 90 minutes","attacking_misc__offsides": "Offsides committed per 90 minutes",
-        "attacking_misc__headers__total": "Header shots per 90 minutes","attacking_misc__headers__goals": "Headed goals per 90 minutes","Performance_Gls__std": "Goals",
-        "Performance_G_PK__std": "Goals excluding penalties scored","Expected_xG__std": "Expected goals","Expected_npxG__std": "Non-penalty expected goals",
-        "Per_90_Minutes_G_PK__std": "Goals excluding penalties per 90 minutes","Per_90_Minutes_npxG__std": "Non-penalty xG per 90 minutes","Standard_Sh__shoot": "Shots",
-        "Standard_SoT__shoot": "Shots on target","Standard_Dist__shoot": "Average shot distance",
+        "attacking_misc__headers__total": "Header shots per 90 minutes","attacking_misc__headers__goals": "Headed goals per 90 minutes","performance_gls": "Goals",
+        "performance_g_minus_pk": "Goals excluding penalties scored","expected_xg": "Expected goals","expected_npxg": "Non-penalty expected goals",
+        "per90_g_minus_pk": "Goals excluding penalties per 90 minutes","per90_npxg": "Non-penalty xG per 90 minutes","shooting_sh": "Shots",
+        "shooting_sot": "Shots on target","shooting_dist": "Average shot distance",
 
         # SET-PIECES (OFFENSE)
         "attacking_set_pieces__goals": "Set-piece goals per 90 minutes","attacking_set_pieces__shots": "Set-piece shots per 90 minutes",
@@ -545,17 +541,17 @@ glossary = {
         "passing__final_third_passes__successful": "Completed passes in final third per 90 minutes","passing__final_third_passes__pct": "Completion rate in final third",
         "passing__pass_direction__fwd": "Share of forward passes","passing__pass_direction__bwd": "Share of backward passes","passing__pass_direction__left": "Share of leftward passes",
         "passing__pass_direction__right": "Share of rightward passes","passing__crosses__total": "Crosses per 90 minutes","passing__crosses__successful": "Completed crosses per 90 minutes",
-        "passing__crosses__pct": "Cross completion percentage","passing__through_balls": "Through balls per 90 minutes","Progression_PrgC__std": "Progressive carries",
-        "Progression_PrgP__std": "Progressive passes","Carries_Carries__poss": "Carries","Carries_1/3__poss": "Carries in final third","Carries_Mis__poss": "Miscontrols",
-        "Carries_Dis__poss": "Dispossessions on carries","Receiving_PrgR__poss": "Progressive receptions","Performance_Crs__misc": "Crosses","Total_Cmp__pass": "Completed passes",
-        "Short_Cmp__pass": "Completed short passes","Short_Cmp%__pass": "Short pass completion percentage","Medium_Cmp__pass": "Completed medium passes",
-        "Medium_Cmp%__pass": "Medium pass completion percentage","Long_Cmp__pass": "Completed long passes","Long_Cmp%__pass": "Long pass completion percentage",
-        "PPA__pass": "Completed passes into the penalty area","CrsPA__pass": "Crosses into the penalty area","PrgP__pass": "Progressive passes",
-        "Long_Att__pass_prop": "Share of long passes attempted","Per_90_min_CrsPA__pass": "Crosses into the penalty area per 90 minutes",
-        "Per_90_min_Progression_PrgP__std": "Progressive passes per 90 minutes","Per_90_min_Progression_PrgC__std": "Progressive carries per 90 minutes",
-        "Per_90_min_Carries_Carries__poss": "Carries per 90 minutes","Per_90_min_Carries_1/3__poss": "Carries in final third per 90 minutes",
-        "Per_90_min_Receiving_PrgR__poss": "Progressive receptions per 90 minutes","Per_90_min_Total_Cmp__pass": "Completed passes per 90 minutes",
-        "Per_90_min_Carries_Mis__poss": "Miscontrols per 90 minutes","Per_90_min_Carries_Dis__poss": "Dispossessions on carries per 90 minutes",
+        "passing__crosses__pct": "Cross completion percentage","passing__through_balls": "Through balls per 90 minutes","progression_prgc": "Progressive carries",
+        "progression_prgp": "Progressive passes","carries_total": "Carries","carries_final_third": "Carries in final third","carries_mis": "Miscontrols",
+        "carries_dis": "Dispossessions on carries","receiving_prgr": "Progressive receptions","performance_crs": "Crosses","passing_cmp": "Completed passes",
+        "short_cmp": "Completed short passes","short_cmp_pct": "Short pass completion percentage","medium_cmp": "Completed medium passes",
+        "medium_cmp_pct": "Medium pass completion percentage","long_cmp": "Completed long passes","long_cmp_pct": "Long pass completion percentage",
+        "passing_ppa": "Completed passes into the penalty area","passing_crspa": "Crosses into the penalty area","passing_prgp": "Progressive passes",
+        "Long_Att__pass_prop": "Share of long passes attempted","Per_90_min_passing_crspa": "Crosses into the penalty area per 90 minutes",
+        "Per_90_min_passing_prgp": "Progressive passes per 90 minutes","Per_90_min_progression_prgc": "Progressive carries per 90 minutes",
+        "Per_90_min_carries_total": "Carries per 90 minutes","Per_90_min_carries_final_third": "Carries in final third per 90 minutes",
+        "Per_90_min_receiving_prgr": "Progressive receptions per 90 minutes","Per_90_min_passing_cmp": "Completed passes per 90 minutes",
+        "Per_90_min_carries_mis": "Miscontrols per 90 minutes","Per_90_min_carries_dis": "Dispossessions on carries per 90 minutes",
 
         # PRESSING
         "pressing__pressed_seqs": "Pressing sequences per 90 minutes","pressing__pressed_seqs_Padj": "Number of pressing sequences per 90 minutes adjusted for possession",
@@ -572,8 +568,8 @@ glossary = {
         "defending_misc__hit_post": "Posts/crossbars conceded per 90 minutes","defending_misc__offsides": "Offsides by opponent per 90 minutes",
         "defending_misc__headers__total": "Header shots conceded per 90 minutes","defending_misc__headers__goals": "Headed goals conceded per 90 minutes",
         "defending_misc__fast_breaks__total": "Counter-attacks faced per 90 minutes","defending_misc__fast_breaks__goals": "Counter-attack goals conceded per 90 minutes",
-        "Performance_CS__keeper": "Clean sheets","Performance_CS%__keeper": "Clean sheet percentage","Performance_Int__misc": "Interceptions","Performance_TklW__misc": "Tackles won",
-        "Performance_Recov__misc": "Ball recoveries","Tackles_Tkl__def": "Tackles made","Blocks_Blocks__def": "Blocks","Clr__def": "Clearances",
+        "performance_cs": "Clean sheets","performance_cs_pct": "Clean sheet percentage","performance_int": "Interceptions","performance_tklw": "Tackles won",
+        "performance_recov": "Ball recoveries","tackles_tkl": "Tackles made","blocks_blocks": "Blocks","blocks_clr": "Clearances",
         "defending_defensive_actions__tackles": "Tackles per 90 minutes","defending_defensive_actions__interceptions": "Interceptions per 90 minutes",
         "defending_defensive_actions__recoveries": "Recoveries per 90 minutes","defending_defensive_actions__blocks": "Blocks per 90 minutes",
         "defending_defensive_actions__clearances": "Clearances per 90 minute", "defending_defensive_actions__tackles_Padj": "Tackles per 90 minutes adjusted for possession",
@@ -589,29 +585,29 @@ glossary = {
 
         # PENALTIES
         "attacking_misc__penalties__total": "Penalties won per 90 minutes","attacking_misc__penalties__goals": "Penalties scored per 90 minutes",
-        "misc.__pens_conceded": "Penalties conceded per 90 minutes","Performance_PK__std": "Penalties scored","Performance_PKatt__std": "Penalties won",
+        "misc.__pens_conceded": "Penalties conceded per 90 minutes","performance_pk": "Penalties scored","performance_pkatt": "Penalties won",
 
         # FOULS
         "misc.__fouled": "Fouls suffered per 90 minutes","misc.__yellows": "Yellow cards received per 90 minutes","misc.__reds": "Red cards received per 90 minutes",
         "misc.__fouls": "Fouls committed per 90 minutes","misc.__opp_yellows": "Opponent yellow cards per 90 minutes","misc.__opp_reds": "Opponent red cards per 90 minutes",
-        "Performance_CrdY__std": "Yellow cards","Performance_CrdR__std": "Red cards","Performance_Fls__misc": "Fouls committed","Performance_Fld__misc": "Fouls suffered",
+        "performance_crdy": "Yellow cards","performance_crdr": "Red cards","performance_fls": "Fouls committed","performance_fld": "Fouls suffered",
 
         # DUELS
         "defending_defensive_actions__ground_duels_won": "Ground duels won percentage","defending_defensive_actions__aerial_duels_won": "Aerial duels won percentage",
-        "Aerial_Duels_Won__misc": "Aerial duels won","Aerial_Duels_Lost__misc": "Aerial duels lost","Per_90_min_Aerial_Duels_Won__misc": "Aerial duels won per 90 minutes",
+        "aerial_won": "Aerial duels won","aerial_lost": "Aerial duels lost","Per_90_min_aerial_won": "Aerial duels won per 90 minutes",
 
         # DRIBBLES
-        "Take_Ons_Att__poss": "Dribbles attempted","Take_Ons_Succ__poss": "Dribbles completed","Take_Ons_Succ%__poss": "Dribble success rate",
-        "Per_90_min_Take_Ons_Att__poss": "Dribbles attempted per 90 minutes","Per_90_min_Take_Ons_Succ__poss": "Dribbles completed per 90 minutes",
+        "takeons_att": "Dribbles attempted","takeons_succ": "Dribbles completed","takeons_succ_pct": "Dribble success rate",
+        "Per_90_min_takeons_att": "Dribbles attempted per 90 minutes","Per_90_min_takeons_succ": "Dribbles completed per 90 minutes",
 
         # RESULTS
-        "Performance_W__keeper": "Wins","Performance_D__keeper": "Draws","Performance_L__keeper": "Losses","Team_Success_PPM__ptime": "Points per match",
-        "Team_Success_+/___ptime": "Goal difference for/against","Team_Success_+/_90__ptime": "Goal difference per 90 minutes",
+        "performance_w": "Wins","performance_d": "Draws","performance_l": "Losses","team_success_ppm": "Points per match",
+        "team_success_plus_minus": "Goal difference for/against","team_success_plus_minus_per90": "Goal difference per 90 minutes",
 
         # OTHER
-        "misc.__subs_used": "Substitutions used per 90 minutes","misc.__subs_goals": "Goals by substitutes per 90 minutes","Subs_Subs__ptime": "Average minutes for substitutes",
+        "misc.__subs_used": "Substitutions used per 90 minutes","misc.__subs_goals": "Goals by substitutes per 90 minutes","subs_min_per_sub": "Average minutes for substitutes",
         "misc.__errors_lead_to_shot": "Errors leading to an opponent shot per 90 minutes","misc.__errors_lead_to_goal": "Errors leading to an opponent goal per 90 minutes",
-        "Err__def": "Defensive errors"
+        "blocks_err": "Defensive errors"
     }
 }
 
@@ -620,9 +616,9 @@ stat_display_names = {
     "attacking_overall__goals": "goals_per90","attacking_overall__xg": "xG_per90","attacking_overall__goals_vs_xg": "goals-xG_per90","attacking_overall__shots": "shots_per90",
     "attacking_overall__sot": "shots_on_target_per90","attacking_overall__conv_pct": "goal/shot","attacking_overall__xg_per_shot": "xG_per_shot",
     "attacking_misc__touches_in_box": "touches_in_box_per90","attacking_misc__hit_post": "hit_post_per90","attacking_misc__offsides": "offsides_off_per90",
-    "attacking_misc__headers__total": "shots_headers_per90","attacking_misc__headers__goals": "goals_headers_per90","Performance_Gls__std": "goals",
-    "Performance_G_PK__std": "goals-penalties","Expected_xG__std": "expected_xG","Expected_npxG__std": "expected_npxG","Per_90_Minutes_G_PK__std": "goals-penalties_per90",
-    "Per_90_Minutes_npxG__std": "expected_npxG_per90","Standard_Sh__shoot": "shots","Standard_SoT__shoot": "shots_on_target","Standard_Dist__shoot": "distance_per_shot",
+    "attacking_misc__headers__total": "shots_headers_per90","attacking_misc__headers__goals": "goals_headers_per90","performance_gls": "goals",
+    "performance_g_minus_pk": "goals-penalties","expected_xg": "expected_xG","expected_npxg": "expected_npxG","per90_g_minus_pk": "goals-penalties_per90",
+    "per90_npxg": "expected_npxG_per90","shooting_sh": "shots","shooting_sot": "shots_on_target","shooting_dist": "distance_per_shot",
 
     # COUP DE PIED ARRÊTÉS (OFFENSIF)
     "attacking_set_pieces__goals": "goals_set_pieces_per90","attacking_set_pieces__shots": "shots_set_pieces_per90","attacking_set_pieces__xg": "xG_set_pieces_per90",
@@ -638,16 +634,15 @@ stat_display_names = {
     # JEU DE PASSE
     "passing__avg_poss": "avg_poss","passing__all_passes__pct": "passes__pct","passing__final_third_passes__successful": "final_third_passes_succ_per90",
     "passing__final_third_passes__pct": "final_third_passes__pct","passing__pass_direction__fwd": "pass_direction_fwd","passing__pass_direction__bwd": "pass_direction_bwd",
-    "passing__pass_direction__left": "pass_direction_left","passing__pass_direction__right": "pass_direction_right",
-    "passing__crosses__total": "crosses_per90","passing__crosses__successful": "crosses_succ_per90","passing__crosses__pct": "crosses_pct","passing__through_balls": "through_balls_per90",
-    "Progression_PrgC__std": "prg_carries","Progression_PrgP__std": "prg_passes","Carries_Carries__poss": "carries",
-    "Carries_1/3__poss": "carries_in_1/3","Carries_Mis__poss": "miscontrols","Carries_Dis__poss": "dispossessed","Receiving_PrgR__poss": "prg_received",
-    "Performance_Crs__misc": "crosses","Total_Cmp__pass": "passes_succ","Short_Cmp__pass": "short_passes_succ","Short_Cmp%__pass": "short_passes_pct",
-    "Medium_Cmp__pass": "medium_passes_succ","Medium_Cmp%__pass": "medium_passes_pct","Long_Cmp__pass": "long_passes_succ","Long_Cmp%__pass": "long_passes_pct",
-    "PPA__pass": "passes_in_box","CrsPA__pass": "crosses_in_box","PrgP__pass": "prgP__pass","Long_Att__pass_prop": "long_pass_att_pct","Per_90_min_CrsPA__pass": "crosses_in_box_per90",
-    "Per_90_min_Progression_PrgP__std": "prg_passes_per90","Per_90_min_Progression_PrgC__std": "prg_carries_per90","Per_90_min_Carries_Carries__poss": "carries_per90",
-    "Per_90_min_Carries_1/3__poss": "carries_in_1/3_per90","Per_90_min_Receiving_PrgR__poss": "prg_received_per90","Per_90_min_Total_Cmp__pass": "pass_succ_per90",
-    "Per_90_min_Carries_Mis__poss": "miscontrols_per90","Per_90_min_Carries_Dis__poss": "dispossessed_per90",
+    "passing__pass_direction__left": "pass_direction_left","passing__pass_direction__right": "pass_direction_right","passing__crosses__total": "crosses_per90",
+    "passing__crosses__successful": "crosses_succ_per90","passing__crosses__pct": "crosses_pct","passing__through_balls": "through_balls_per90","progression_prgc": "prg_carries",
+    "progression_prgp": "prg_passes","carries_total": "carries","carries_final_third": "carries_in_1/3","carries_mis": "miscontrols","carries_dis": "dispossessed",
+    "receiving_prgr": "prg_received","performance_crs": "crosses","passing_cmp": "passes_succ","short_cmp": "short_passes_succ","short_cmp_pct": "short_passes_pct",
+    "medium_cmp": "medium_passes_succ","medium_cmp_pct": "medium_passes_pct","long_cmp": "long_passes_succ","long_cmp_pct": "long_passes_pct","passing_ppa": "passes_in_box",
+    "passing_crspa": "crosses_in_box","passing_prgp": "prgP__pass","Long_Att__pass_prop": "long_pass_att_pct","Per_90_min_passing_crspa": "crosses_in_box_per90",
+    "Per_90_min_passing_prgp": "prg_passes_per90","Per_90_min_progression_prgc": "prg_carries_per90","Per_90_min_carries_total": "carries_per90",
+    "Per_90_min_carries_final_third": "carries_in_1/3_per90","Per_90_min_receiving_prgr": "prg_received_per90","Per_90_min_passing_cmp": "pass_succ_per90",
+    "Per_90_min_carries_mis": "miscontrols_per90","Per_90_min_carries_dis": "dispossessed_per90",
 
     # PRESSING
     "pressing__pressed_seqs": "pressed_seq_per90", "pressing__pressed_seqs_Padj": "pressed_seq_per90_Padj", "pressing__ppda": "ppda",
@@ -661,13 +656,12 @@ stat_display_names = {
     "defending_overall__goals_in_box_pct": "goals_in_box_pct_conceded","defending_misc__touches_in_box": "touches_in_box_conceded_per90",
     "defending_misc__hit_post": "hit_post_conceded_per90","defending_misc__offsides": "offsides_committed_per90","defending_misc__headers__total": "headers_conceded_per90",
     "defending_misc__headers__goals": "goals_headers_conceded_per90","defending_misc__fast_breaks__total": "fast_breaks_conceded_per90",
-    "defending_misc__fast_breaks__goals": "goals_fast_breaks_conceded_per90","Performance_CS__keeper": "clean_sheet","Performance_CS%__keeper": "clean_sheet_pct",
-    "Performance_Int__misc": "interceptions","Performance_TklW__misc": "tackles_won","Performance_Recov__misc": "recoveries",
-    "Tackles_Tkl__def": "tackles","Blocks_Blocks__def": "blocks","Clr__def": "clearance","defending_defensive_actions__tackles": "tackles_per90",
-    "defending_defensive_actions__interceptions": "interceptions_per90","defending_defensive_actions__recoveries": "recoveries_per90",
-    "defending_defensive_actions__blocks": "blocks_per90","defending_defensive_actions__clearances": "clearances_per90", "defending_defensive_actions__tackles_Padj": "tackles_per90_Padj",
-    "defending_defensive_actions__interceptions_Padj": "interceptions_per90_Padj","defending_defensive_actions__blocks_Padj": "blocks_per90_Padj",
-    "defending_defensive_actions__clearances_Padj": "clearances_per90_Padj",
+    "defending_misc__fast_breaks__goals": "goals_fast_breaks_conceded_per90","performance_cs": "clean_sheet","performance_cs_pct": "clean_sheet_pct",
+    "performance_int": "interceptions","performance_tklw": "tackles_won","performance_recov": "recoveries","tackles_tkl": "tackles","blocks_blocks": "blocks",
+    "blocks_clr": "clearance","defending_defensive_actions__tackles": "tackles_per90","defending_defensive_actions__interceptions": "interceptions_per90",
+    "defending_defensive_actions__recoveries": "recoveries_per90","defending_defensive_actions__blocks": "blocks_per90","defending_defensive_actions__clearances": "clearances_per90",
+    "defending_defensive_actions__tackles_Padj": "tackles_per90_Padj","defending_defensive_actions__interceptions_Padj": "interceptions_per90_Padj",
+    "defending_defensive_actions__blocks_Padj": "blocks_per90_Padj","defending_defensive_actions__clearances_Padj": "clearances_per90_Padj",
 
     # COUP DE PIED ARRÊTÉS (DEFENSIF)
     "defending_set_pieces__goals": "goals_set_pieces_conceded_per90","defending_set_pieces__shots": "shots_set_pieces_conceded_per90",
@@ -676,29 +670,28 @@ stat_display_names = {
     "defending_misc__free_kicks__total": "free_kicks_conceded_per90","defending_misc__free_kicks__goals": "goals_free_kicks_conceded_per90",
 
     # PENALTIES
-    "attacking_misc__penalties__total": "penalties_won_per90","attacking_misc__penalties__goals": "goals_penalties_won_per90","misc.__pens_conceded": "penalties_conceded_per90",
-    "Performance_PK__std": "penalties_scored","Performance_PKatt__std": "penalties_won",
+    "attacking_misc__penalties__total": "penalties_won_per90","attacking_misc__penalties__goals": "goals_penalties_won_per90",
+    "misc.__pens_conceded": "penalties_conceded_per90","performance_pk": "penalties_scored","performance_pkatt": "penalties_won",
 
     # FAUTES
-    "misc.__fouled": "fouled_per90","misc.__yellows": "yellows_per90","misc.__reds": "reds_per90","misc.__fouls": "fouls_per90",
-    "misc.__opp_yellows": "opp_yellows_per90","misc.__opp_reds": "opp_reds_per90","Performance_CrdY__std": "yellows","Performance_CrdR__std": "reds",
-    "Performance_Fls__misc": "fouls","Performance_Fld__misc": "fouled",
+    "misc.__fouled": "fouled_per90","misc.__yellows": "yellows_per90","misc.__reds": "reds_per90","misc.__fouls": "fouls_per90","misc.__opp_yellows": "opp_yellows_per90",
+    "misc.__opp_reds": "opp_reds_per90","performance_crdy": "yellows","performance_crdr": "reds","performance_fls": "fouls","performance_fld": "fouled",
 
     # DUELS
     "defending_defensive_actions__ground_duels_won": "ground_duels_won_pct","defending_defensive_actions__aerial_duels_won": "aerial_duels_won_pct",
-    "Aerial_Duels_Won__misc": "aerial_duels_won","Aerial_Duels_Lost__misc": "aerial_duels_lost","Per_90_min_Aerial_Duels_Won__misc": "aerial_duels_won_per90",
+    "aerial_won": "aerial_duels_won","aerial_lost": "aerial_duels_lost","Per_90_min_aerial_won": "aerial_duels_won_per90",
 
     # DRIBBLES
-    "Take_Ons_Att__poss": "take_ons_att","Take_Ons_Succ__poss": "take_ons_succ","Take_Ons_Succ%__poss": "take_ons_succ_pct",
-    "Per_90_min_Take_Ons_Att__poss": "take_ons_att_per90","Per_90_min_Take_Ons_Succ__poss": "take_ons_succ_per90",
+    "takeons_att": "take_ons_att","takeons_succ": "take_ons_succ","takeons_succ_pct": "take_ons_succ_pct",
+    "Per_90_min_takeons_att": "take_ons_att_per90","Per_90_min_takeons_succ": "take_ons_succ_per90",
 
     # RÉSULTATS
-    "Performance_W__keeper": "wins","Performance_D__keeper": "draws","Performance_L__keeper": "looses","Team_Success_PPM__ptime": "points_per_match",
-    "Team_Success_+/___ptime": "goals_scored-conceded","Team_Success_+/_90__ptime": "goals_scored-conceded_per90",
+    "performance_w": "wins","performance_d": "draws","performance_l": "looses","team_success_ppm": "points_per_match",
+    "team_success_plus_minus": "goals_scored-conceded","team_success_plus_minus_per90": "goals_scored-conceded_per90",
 
     # AUTRES
-    "misc.__subs_used": "subs_used_per90","misc.__subs_goals": "subs_goals_per90","Subs_Subs__ptime": "subs_mean_time","misc.__errors_lead_to_shot": "errors_lead_to_shot_per90",
-    "misc.__errors_lead_to_goal": "errors_lead_to_goal_per90","Err__def": "errors",
+    "misc.__subs_used": "subs_used_per90","misc.__subs_goals": "subs_goals_per90","subs_min_per_sub": "subs_mean_time",
+    "misc.__errors_lead_to_shot": "errors_lead_to_shot_per90","misc.__errors_lead_to_goal": "errors_lead_to_goal_per90","blocks_err": "errors",
 }
 
 # Fonctions pour récupérer la définition de chaque statistique / Functions to retrieve the definition of each statistic + Funciones para recuperar la definición de cada estadística
@@ -1212,14 +1205,14 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 <div style="flex: 2; min-width: 280px;">
                     <p><strong>Classement :</strong> {team_data['rank_league']}</p>
                     <p><strong>Pts :</strong> {int(team_data['pts_league'])}</p>
-                    <p><strong>Différence de buts :</strong> {int(team_data['Team_Success_+/___ptime'])}</p>
+                    <p><strong>Différence de buts :</strong> {int(team_data['team_success_plus_minus'])}</p>
                     <p><strong>Style de jeu Offensif :</strong> {off_label}</p>
                     <p><strong>Style de jeu Défensif :</strong> {def_label}</p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Âge moyen :</strong> {team_data['Age__std']}</p>
-                    <p><strong>Taille effectif :</strong> {int(team_data['#_Pl__std']) if pd.notna(team_data['#_Pl__std']) else "-"}</p>
+                    <p><strong>Âge moyen :</strong> {team_data['age']}</p>
+                    <p><strong>Taille effectif :</strong> {int(team_data['players']) if pd.notna(team_data['players']) else "-"}</p>
                     <p><strong>Valeur effectif :</strong> {valeur_effectif_fmt}</p>
                     <p><strong>Valeur par joueur :</strong> {valeur_par_joueur_fmt}</p>
                     <p><strong>Salaire annuel :</strong> {format_market_value(team_data['Annual Wages'])}</p>
@@ -1437,14 +1430,14 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 <div style="flex: 2; min-width: 280px;">
                     <p><strong>Ranking :</strong> {team_data['rank_league']}</p>
                     <p><strong>Pts :</strong> {int(team_data['pts_league'])}</p>
-                    <p><strong>Goal average :</strong> {int(team_data['Team_Success_+/___ptime'])}</p>
+                    <p><strong>Goal average :</strong> {int(team_data['team_success_plus_minus'])}</p>
                     <p><strong>Offensive playing style :</strong> {off_label}</p>
                     <p><strong>Defensive playing style :</strong> {def_label}</p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Average age :</strong> {team_data['Age__std']}</p>
-                    <p><strong>Effective size :</strong> {int(team_data['#_Pl__std']) if pd.notna(team_data['#_Pl__std']) else "-"}</p>
+                    <p><strong>Average age :</strong> {team_data['age']}</p>
+                    <p><strong>Effective size :</strong> {int(team_data['players']) if pd.notna(team_data['players']) else "-"}</p>
                     <p><strong>Value of squad :</strong> {valeur_effectif_fmt}</p>
                     <p><strong>Value per player :</strong> {valeur_par_joueur_fmt}</p>
                     <p><strong>Annual salary :</strong> {format_market_value(team_data['Annual Wages'])}</p>
@@ -1663,14 +1656,14 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 <div style="flex: 2; min-width: 280px;">
                     <p><strong>Clasificación :</strong> {team_data['rank_league']}</p>
                     <p><strong>Pts :</strong> {int(team_data['pts_league'])}</p>
-                    <p><strong>Diferencia de goles :</strong> {int(team_data['Team_Success_+/___ptime'])}</p>
+                    <p><strong>Diferencia de goles :</strong> {int(team_data['team_success_plus_minus'])}</p>
                     <p><strong>Estilo de juego Ofensivo :</strong> {off_label}</p>
                     <p><strong>Estilo de juego Defensivo :</strong> {def_label}</p>
                 </div>
 
                 <div style="flex: 2; min-width: 280px;">
-                    <p><strong>Edad media :</strong> {team_data['Age__std']}</p>
-                    <p><strong>Tamaño efectivo :</strong> {int(team_data['#_Pl__std']) if pd.notna(team_data['#_Pl__std']) else "-"}</p>
+                    <p><strong>Edad media :</strong> {team_data['age']}</p>
+                    <p><strong>Tamaño efectivo :</strong> {int(team_data['players']) if pd.notna(team_data['players']) else "-"}</p>
                     <p><strong>Valor efectivo :</strong> {valeur_effectif_fmt}</p>
                     <p><strong>Valor por jugador :</strong> {valeur_par_joueur_fmt}</p>
                     <p><strong>Salario anual :</strong> {format_market_value(team_data['Annual Wages'])}</p>
@@ -1909,7 +1902,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                         def_label = styles_by_team.get(club_name, {}).get("def", "Non connu")
 
                         pts_league = int(td["pts_league"]) if pd.notna(td["pts_league"]) else "-"
-                        taille_effectif = int(td["#_Pl__std"]) if pd.notna(td["#_Pl__std"]) else "-"
+                        taille_effectif = int(td["players"]) if pd.notna(td["players"]) else "-"
                         salaire_annuel = format_market_value(td["Annual Wages"]) if "Annual Wages" in td else "Non connu"
 
                         st.markdown(f"""
@@ -1934,7 +1927,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                         </div>
 
                         <div style="flex: 2; min-width: 280px;">
-                            <p><strong>Âge moyen :</strong> {td['Age__std']}</p>
+                            <p><strong>Âge moyen :</strong> {td['age']}</p>
                             <p><strong>Taille effectif :</strong> {taille_effectif}</p>
                             <p><strong>Valeur par joueur :</strong> {valeur_par_joueur_fmt}</p>
                             <p><strong>Salaire annuel :</strong> {salaire_annuel}</p>
@@ -2207,7 +2200,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                         def_label = styles_by_team.get(club_name, {}).get("def", "Unknown")
 
                         pts_league = int(td["pts_league"]) if pd.notna(td["pts_league"]) else "-"
-                        taille_effectif = int(td["#_Pl__std"]) if pd.notna(td["#_Pl__std"]) else "-"
+                        taille_effectif = int(td["players"]) if pd.notna(td["players"]) else "-"
                         salaire_annuel = format_market_value(td["Annual Wages"]) if "Annual Wages" in td else "Unknown"
 
                         st.markdown(f"""
@@ -2232,7 +2225,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                         </div>
 
                         <div style="flex: 2; min-width: 280px;">
-                            <p><strong>Average age :</strong> {td['Age__std']}</p>
+                            <p><strong>Average age :</strong> {td['age']}</p>
                             <p><strong>Effective size :</strong> {taille_effectif}</p>
                             <p><strong>Value of squad :</strong> {valeur_par_joueur_fmt}</p>
                             <p><strong>Annual salary :</strong> {salaire_annuel}</p>
@@ -2505,7 +2498,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                         def_label = styles_by_team.get(club_name, {}).get("def", "Desconocido")
 
                         pts_league = int(td["pts_league"]) if pd.notna(td["pts_league"]) else "-"
-                        taille_effectif = int(td["#_Pl__std"]) if pd.notna(td["#_Pl__std"]) else "-"
+                        taille_effectif = int(td["players"]) if pd.notna(td["players"]) else "-"
                         salaire_annuel = format_market_value(td["Annual Wages"]) if "Annual Wages" in td else "Desconocido"
 
                         st.markdown(f"""
@@ -2530,7 +2523,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                         </div>
 
                         <div style="flex: 2; min-width: 280px;">
-                            <p><strong>Edad media :</strong> {td['Age__std']}</p>
+                            <p><strong>Edad media :</strong> {td['age']}</p>
                             <p><strong>Tamaño efectivo :</strong> {taille_effectif}</p>
                             <p><strong>Valor por jugador :</strong> {valeur_par_joueur_fmt}</p>
                             <p><strong>Salario anual :</strong> {salaire_annuel}</p>
@@ -3105,12 +3098,12 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
                 # Métriques à trier du plus petit au plus grand
                 ascending_metrics = {
-                    "Carries_Dis__poss","Carries_Mis__poss","Per_90_min_Carries_Dis__poss","Per_90_min_Carries_Mis__poss","pressing__ppda","defending_set_pieces__goals",
-                    "defending_set_pieces__shots","defending_set_pieces__xg","misc.__pens_conceded","Performance_CrdR__std","Performance_CrdY__std","Performance_Fls__misc",
-                    "misc.__fouls","misc.__reds","misc.__yellows","Performance_L__keeper","Err__de","misc.__errors_lead_to_goal","misc.__errors_lead_to_shot",
-                    "defending_misc__fast_breaks__goals","defending_misc__fast_breaks__total","defending_misc__headers__goals","defending_misc__headers__total",
-                    "hit_post_conceded_per90","defending_misc__offsides","defending_misc__touches_in_box","defending_overall__conv_pct","defending_overall__goals",
-                    "defending_overall__goals_vs_xg","defending_overall__shots","defending_overall__sot","defending_overall__xg","defending_overall__xg_per_shot",
+                    "carries_dis","carries_mis","Per_90_min_carries_dis","Per_90_min_carries_mis","pressing__ppda","defending_set_pieces__goals","defending_set_pieces__shots",
+                    "defending_set_pieces__xg","misc.__pens_conceded","performance_crdr","performance_crdy","performance_fls","misc.__fouls","misc.__reds","misc.__yellows",
+                    "performance_l","blocks_err","misc.__errors_lead_to_goal","misc.__errors_lead_to_shot","defending_misc__fast_breaks__goals","defending_misc__fast_breaks__total",
+                    "defending_misc__headers__goals","defending_misc__headers__total","hit_post_conceded_per90","defending_misc__offsides","defending_misc__touches_in_box",
+                    "defending_overall__conv_pct","defending_overall__goals","defending_overall__goals_vs_xg","defending_overall__shots","defending_overall__sot","defending_overall__xg",
+                    "defending_overall__xg_per_shot",
                 }
 
                 ascending = selected_stat in ascending_metrics
@@ -3268,12 +3261,12 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
                 # Metrics to sort from smallest to largest
                 ascending_metrics = {
-                    "Carries_Dis__poss","Carries_Mis__poss","Per_90_min_Carries_Dis__poss","Per_90_min_Carries_Mis__poss","pressing__ppda","defending_set_pieces__goals",
-                    "defending_set_pieces__shots","defending_set_pieces__xg","misc.__pens_conceded","Performance_CrdR__std","Performance_CrdY__std","Performance_Fls__misc",
-                    "misc.__fouls","misc.__reds","misc.__yellows","Performance_L__keeper","Err__de","misc.__errors_lead_to_goal","misc.__errors_lead_to_shot",
-                    "defending_misc__fast_breaks__goals","defending_misc__fast_breaks__total","defending_misc__headers__goals","defending_misc__headers__total",
-                    "hit_post_conceded_per90","defending_misc__offsides","defending_misc__touches_in_box","defending_overall__conv_pct","defending_overall__goals",
-                    "defending_overall__goals_vs_xg","defending_overall__shots","defending_overall__sot","defending_overall__xg","defending_overall__xg_per_shot",
+                    "carries_dis","carries_mis","Per_90_min_carries_dis","Per_90_min_carries_mis","pressing__ppda","defending_set_pieces__goals","defending_set_pieces__shots",
+                    "defending_set_pieces__xg","misc.__pens_conceded","performance_crdr","performance_crdy","performance_fls","misc.__fouls","misc.__reds","misc.__yellows",
+                    "performance_l","blocks_err","misc.__errors_lead_to_goal","misc.__errors_lead_to_shot","defending_misc__fast_breaks__goals","defending_misc__fast_breaks__total",
+                    "defending_misc__headers__goals","defending_misc__headers__total","hit_post_conceded_per90","defending_misc__offsides","defending_misc__touches_in_box",
+                    "defending_overall__conv_pct","defending_overall__goals","defending_overall__goals_vs_xg","defending_overall__shots","defending_overall__sot","defending_overall__xg",
+                    "defending_overall__xg_per_shot",
                 }
 
                 ascending = selected_stat in ascending_metrics
@@ -3433,12 +3426,12 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
                 # Métricas ordenadas de menor a mayor
                 ascending_metrics = {
-                    "Carries_Dis__poss","Carries_Mis__poss","Per_90_min_Carries_Dis__poss","Per_90_min_Carries_Mis__poss","pressing__ppda","defending_set_pieces__goals",
-                    "defending_set_pieces__shots","defending_set_pieces__xg","misc.__pens_conceded","Performance_CrdR__std","Performance_CrdY__std","Performance_Fls__misc",
-                    "misc.__fouls","misc.__reds","misc.__yellows","Performance_L__keeper","Err__de","misc.__errors_lead_to_goal","misc.__errors_lead_to_shot",
-                    "defending_misc__fast_breaks__goals","defending_misc__fast_breaks__total","defending_misc__headers__goals","defending_misc__headers__total",
-                    "hit_post_conceded_per90","defending_misc__offsides","defending_misc__touches_in_box","defending_overall__conv_pct","defending_overall__goals",
-                    "defending_overall__goals_vs_xg","defending_overall__shots","defending_overall__sot","defending_overall__xg","defending_overall__xg_per_shot",
+                    "carries_dis","carries_mis","Per_90_min_carries_dis","Per_90_min_carries_mis","pressing__ppda","defending_set_pieces__goals","defending_set_pieces__shots",
+                    "defending_set_pieces__xg","misc.__pens_conceded","performance_crdr","performance_crdy","performance_fls","misc.__fouls","misc.__reds","misc.__yellows",
+                    "performance_l","blocks_err","misc.__errors_lead_to_goal","misc.__errors_lead_to_shot","defending_misc__fast_breaks__goals","defending_misc__fast_breaks__total",
+                    "defending_misc__headers__goals","defending_misc__headers__total","hit_post_conceded_per90","defending_misc__offsides","defending_misc__touches_in_box",
+                    "defending_overall__conv_pct","defending_overall__goals","defending_overall__goals_vs_xg","defending_overall__shots","defending_overall__sot","defending_overall__xg",
+                    "defending_overall__xg_per_shot",
                 }
 
                 ascending = selected_stat in ascending_metrics
