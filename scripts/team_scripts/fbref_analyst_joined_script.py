@@ -61,10 +61,10 @@ opta_merged
 )
 
 # Dénominateur du total des passes / Denominator of total passes / Denominador del total de pases
-den = (opta_merged["Long_Att__pass"] + opta_merged["Medium_Att__pass"] + opta_merged["Short_Att__pass"])
+den = (opta_merged["long_att"] + opta_merged["medium_att"] + opta_merged["short_att"])
 
 # Proportion de passes longues / Proportion of long passes / Proporción de pases largos
-opta_merged["Long_Att__pass_prop"] = ((opta_merged["Long_Att__pass"] / den).where(den > 0, 0))
+opta_merged["Long_Att__pass_prop"] = ((opta_merged["long_att"] / den).where(den > 0, 0))
 opta_merged["Long_Att__pass_prop"] = (opta_merged["Long_Att__pass_prop"] * 100).round(2)
 
 # Dénominateur du total d'attaque / Denominator of total attack / Denominador del ataque total
