@@ -296,7 +296,9 @@ manual_links = {
     "abel": "abel bretones","musa altaamari": "mousa tamari","souleymane toure": "isaak toure","abdoul coulibaly" : "karim coulibaly","chema" : "chema andres",
     "alexandre alemao" : "alemao","brugui" : "roger brugue","almoatasem al musrati" : "moatasem almusrati","djene" : "dakonam djene","jonny castro" : "jonny otto",
     "dehmaine assoumani" : "dehmaine tabibou", "rahim bonkano" : "rahim alhassane", "igor carioca" : "igor silva", "emanuel emegha" : "emmanuel emegha",
-    "bahereba guirassy" : "herba guirassy", "danny loader" : "danny namaso", "mohamed meite" : "kader meite", "oliver nielsen" : "oliver provstgaard"
+    "bahereba guirassy" : "herba guirassy", "danny loader" : "danny namaso", "mohamed meite" : "kader meite", "oliver nielsen" : "oliver provstgaard", "oliver jensen": "oliver sørensen",
+    "quentin ndjantou mbitcha" : "quentin ndjantou", "asier osambela": "asier osambela", "ze pedro figueiredo": "ze pedro", "ruben": "ruben sanchez"
+
 }
 
 manual_matches = []
