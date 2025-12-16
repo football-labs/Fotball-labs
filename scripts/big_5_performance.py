@@ -1036,7 +1036,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
                 Pour plus de détails sur ce projet, vous avez à votre disposition :
                 <ul>
-                    <li><em>La documentation du projet</em></li>
+                    <li><a href="https://github.com/football-labs/Fotball-labs/blob/main/documentation/Documentation_FR.pdf" target="_blank">La documentation du projet</a></li>
                     <li><a href="https://github.com/football-labs/Fotball-labs" target="_blank">Le code associé à l'application</a></li>
                 </ul>
                 """,
@@ -1078,7 +1078,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
                 For more details about this project, you can refer to:
                 <ul>
-                    <li><em>The project documentation</em></li>
+                    <li><a href="https://github.com/football-labs/Fotball-labs/blob/main/documentation/Documentation_ENG.pdf" target="_blank">The project documentation</a></li>
                     <li><a href="https://github.com/football-labs/Fotball-labs" target="_blank">The code used to build the application</a></li>
                 </ul>
                 """, unsafe_allow_html=True
@@ -1118,7 +1118,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
 
                 Para más detalles sobre este proyecto, puedes consultar:
                 <ul>
-                    <li><em>La documentación del proyecto</em></li>
+                    <li><a href="https://github.com/football-labs/Fotball-labs/blob/main/documentation/Documentation_ES.pdf" target="_blank">La documentación del proyecto</a></li>
                     <li><a href="https://github.com/football-labs/Fotball-labs" target="_blank">El código utilizado para construir la aplicación</a></li>
                 </ul>
                 """, unsafe_allow_html=True
