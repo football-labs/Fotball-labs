@@ -68,18 +68,51 @@ def load_dataframes() -> dict:
     df_shooting = df_shooting.iloc[1:].reset_index(drop=True)
 
     # ---------- Passing ----------
-    df_passing = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Passing.csv")
-    df_passing.columns = [
-        "rk","squad","comp","players",
-        "passing_90s","passing_cmp","passing_att","passing_cmp_pct",
-        "passing_totdist","passing_prgdist",
-        "short_cmp","short_att","short_cmp_pct",
-        "medium_cmp","medium_att","medium_cmp_pct",
-        "long_cmp","long_att","long_cmp_pct",
-        "expected_ast","expected_xag","expected_xa","expected_a_minus_xag",
-        "passing_kp","passing_final_third","passing_ppa","passing_crspa","passing_prgp",
+    # df_passing = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Passing.csv")
+    # df_passing.columns = [
+    #     "rk","squad","comp","players",
+    #     "passing_90s","passing_cmp","passing_att","passing_cmp_pct",
+    #     "passing_totdist","passing_prgdist",
+    #     "short_cmp","short_att","short_cmp_pct",
+    #     "medium_cmp","medium_att","medium_cmp_pct",
+    #     "long_cmp","long_att","long_cmp_pct",
+    #     "expected_ast","expected_xag","expected_xa","expected_a_minus_xag",
+    #     "passing_kp","passing_final_third","passing_ppa","passing_crspa","passing_prgp",
+    # ]
+    # df_passing = df_passing.iloc[1:].reset_index(drop=True)
+
+    # ---------- Passing ----------
+    df_passing = pd.read_csv(
+    "https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Passing.csv"
+)
+
+# eliminar columnas basura tipo "Unnamed"
+    df_passing = df_passing.loc[:, ~df_passing.columns.astype(str).str.match(r"^Unnamed")]
+
+    passing_cols = [
+    "rk","squad","comp","players",
+    "passing_90s","passing_cmp","passing_att","passing_cmp_pct",
+    "passing_totdist","passing_prgdist",
+    "short_cmp","short_att","short_cmp_pct",
+    "medium_cmp","medium_att","medium_cmp_pct",
+    "long_cmp","long_att","long_cmp_pct",
+    "expected_ast","expected_xag","expected_xa","expected_a_minus_xag",
+    "passing_kp","passing_final_third","passing_ppa","passing_crspa","passing_prgp",
     ]
-    df_passing = df_passing.iloc[1:].reset_index(drop=True)
+
+# seguridad contra cambios de FBref
+    if len(df_passing.columns) != len(passing_cols):
+        raise ValueError(
+            f"Passing.csv tiene {len(df_passing.columns)} columnas "
+            f"y el script espera {len(passing_cols)}.\n"
+            f"Columnas actuales: {list(df_passing.columns)}"
+        )
+
+    df_passing.columns = passing_cols
+    
+    # eliminar fila duplicada de encabezados si existe
+    df_passing = df_passing[df_passing.iloc[:, 0].astype(str) != "Rk"].reset_index(drop=True)
+
 
     # ---------- Passing Types ----------
     df_passing_types = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Passing%20Types.csv")
