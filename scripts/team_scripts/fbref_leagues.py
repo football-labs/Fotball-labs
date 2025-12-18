@@ -12,7 +12,7 @@ def load_dataframes() -> dict:
     """
 
     # ---------- Standard ----------
-    df_standard = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Stardard.csv")
+    df_standard = pd.read_csv("https://raw.githubusercontent.com/football-labs/Fotball-labs/refs/heads/main/data/team/fbref_all_stats/Standard.csv")
     df_standard.columns = [
         "rk","squad","comp","players","age","poss",
         "playing_time_mp","playing_time_starts","playing_time_min","playing_time_90s",
