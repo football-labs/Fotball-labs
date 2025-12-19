@@ -9,49 +9,44 @@ df = df[df['Pos'] != 'GK']
 
 df['Pos'].value_counts()
 
-"""#### Replace positions and add primary and secondary positions"""
+"""#### Remplacer les positions et ajouter des positions principales et secondaires / Replace positions and add primary and secondary positions / Reemplazar posiciones y añadir posiciones principales y secundarias."""
 
 pos_map = {
     'DF': 'Defender',
     'MF': 'Midfielder',
     'FW': 'Forward',
-    'GK': 'Goalkeeper'  # por si aparece
+    'GK': 'Goalkeeper'
 }
 
 def expand_positions(pos):
-    # Deja nulos tal cual
     if pd.isna(pos):
         return np.nan
-    # Asegura string
+    # On s'assure de la chaîne de caractère / Secure string / Asegura string
     if not isinstance(pos, str):
         pos = str(pos)
 
-    # Divide por comas, limpia espacios y descarta vacíos
+    # Divisez par des virgules, nettoyez les espaces et supprimez les vides / Divide by commas, clean spaces, and discard empty strings / Divide por comas, limpia espacios y descarta vacíos
     parts = [p.strip() for p in pos.split(',') if p and p.strip()]
-
-    # Corrige el token suelto 'D' -> 'DF' (sin tocar 'CDM', 'LDM', etc.)
     parts = ['DF' if p == 'D' else p for p in parts]
-
-    # Expande usando el diccionario (si no está, deja el original)
     full_parts = [pos_map.get(p, p) for p in parts]
 
-    # Vuelve a string separado por comas (lo espera el código posterior)
+    # Renvoie une chaîne séparée par des virgules / Returns a comma-separated string / Vuelve a string separado por comas
     return ','.join(full_parts)
 
 df['Pos'] = df['Pos'].apply(expand_positions)
 
-# --- Crear columnas de posición primaria y secundaria de forma segura ---
-# Si 'Pos' es <NA>/NaN, las nuevas columnas quedarán como <NA> automáticamente.
+# Créer des colonnes de position primaire et secondaire / Create primary and secondary position columns /Crear columnas de posición primaria y secundaria
+# Si « Pos » est <NA>/NaN, les nouvelles colonnes seront automatiquement définies comme <NA>. / If “Pos” is <NA>/NaN, the new columns will automatically be set to <NA>. / Si 'Pos' es <NA>/NaN, las nuevas columnas quedarán como <NA> automáticamente.
 pos_tokens = df['Pos'].str.split(r'\s*,\s*', regex=True)
 
 df['primary_pos'] = pos_tokens.str[0]
 df['secondary_pos'] = pos_tokens.str[1]
 
-# Opcional: convertir cadenas vacías en NA (por si quedara algún vacío)
+# Convertir les chaînes vides en NA (au cas où il resterait des espaces vides) / Convert empty strings to NA (in case there are any gaps) / Convertir cadenas vacías en NA (por si quedara algún vacío)
 df['primary_pos'].replace('', pd.NA, inplace=True)
 df['secondary_pos'].replace('', pd.NA, inplace=True)
 
-"""#### Replace nations names"""
+"""#### Remplacer les noms de pays / Replace nations names / Reemplazar nombres de países"""
 
 nation_mapping = {
     'ENG': 'England', 'ESP': 'Spain', 'IRL': 'Ireland', 'FRA': 'France', 'MAR': 'Morocco',
@@ -84,19 +79,19 @@ nation_mapping = {
 }
 df['Nation'] = df['Nation'].replace(nation_mapping)
 
-"""#### Merge with Salaries"""
+"""#### Fusionner avec les salaires / Merge with Salaries / Fusionar con los salarios"""
 
 df.shape
 
 salaries = pd.read_csv("https://raw.githubusercontent.com/Josegra/Footlab/refs/heads/main/data/salaries.csv")
 
-# Define las ligas que forman parte del Big 5
+# Définissez les ligues qui font partie du Big 5 / Define the leagues that are part of the Big 5 / Define las ligas que forman parte del Big 5
 big5_leagues = ['Bundesliga', 'La Liga', 'Serie A', 'Premier League', 'Ligue']
 
-# Filtra solo los de Big 5
+# Filtrer uniquement ceux du Big 5 / Filter only those from the Big 5 / Filtra solo los de Big 5
 df_big5 = df[df['Comp'].isin(big5_leagues)]
 
-# Merge solo para Big 5
+# Fusionner uniquement pour les Big 5 / Merge only for Big 5 / Merge solo para Big 5
 df_big5_merged = pd.merge(
     df_big5,
     salaries[['Weekly Wages', 'Annual Wages', 'Notes', 'Player']],
@@ -104,10 +99,10 @@ df_big5_merged = pd.merge(
     how='left'
 )
 
-# Dejar solo una fila por jugador con el salario más alto
+# Ne laisser qu'une seule ligne par joueur avec le salaire le plus élevé / Leave only one row per player with the highest salary / Dejar solo una fila por jugador con el salario más alto
 salaries_clean = salaries.sort_values(by='Annual Wages', ascending=False).drop_duplicates(subset='Player')
 
-# Hacer merge con df_big5
+# Fusionner avec df_big5 / Merge with df_big5 / Hacer merge con df_big5
 df_big5_merged = pd.merge(
     df_big5,
     salaries_clean[['Player', 'Weekly Wages', 'Annual Wages', 'Notes']],
@@ -117,10 +112,10 @@ df_big5_merged = pd.merge(
 
 df.shape
 
-# Dejar solo una fila por jugador con el salario más alto
+# Ne laisser qu'une seule ligne par joueur avec le salaire le plus élevé / Leave only one row per player with the highest salary / Dejar solo una fila por jugador con el salario más alto
 salaries_clean = salaries.sort_values(by='Annual Wages', ascending=False).drop_duplicates(subset='Player')
 
-# Hacer merge con df_big5
+# Faire fusionner avec df_big5 / Merge with df_big5 / Hacer merge con df_big5
 players_merged_salaries = pd.merge(
     df,
     salaries_clean[['Player', 'Weekly Wages', 'Annual Wages', 'Notes']],
@@ -130,7 +125,7 @@ players_merged_salaries = pd.merge(
 
 players_merged_salaries.shape
 
-"""#### Merge with Transfermarkt"""
+"""#### Fusionner avec Transfermarkt / Merge with Transfermarkt / Fusión con Transfermarkt"""
 
 transfermarkt = pd.read_csv("https://raw.githubusercontent.com/Josegra/Footlab/refs/heads/main/players.csv")
 
@@ -171,7 +166,7 @@ final_merged_df = pd.merge(players_merged_salaries,
 
 final_merged_df = final_merged_df.drop_duplicates(subset='PlSqu')
 
-# Replace Ligue for Ligue 1
+# Remplace Ligue 1 par Ligue 1 / Replace Ligue for Ligue 1 / Reemplazar Ligue por Ligue 1
 final_merged_df['Comp'] = final_merged_df['Comp'].replace('Ligue', 'Ligue 1')
 
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

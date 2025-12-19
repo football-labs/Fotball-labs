@@ -58,10 +58,10 @@ def fetch_data(url, league_id, league_name, url_add_str):
     else:
         soup = BeautifulSoup(re.sub("<!--|-->", "", response.text), 'html.parser')
 
-        # Find all tables on the page
+        # Trouver toutes les tables sur la page / Find all tables on the page / Encuentra todas las tablas en la página
         tables = soup.find_all("div", class_="table_container")
 
-        # Select the second table
+        # Choisir la 2nd table / Select the second table / Selecciona la segunda tabla.
         if len(tables) < 2:
             raise ValueError("Second table not found on the page!")
 
@@ -84,7 +84,7 @@ def fetch_data(url, league_id, league_name, url_add_str):
                 continue
             rows.append(cells)
 
-        # Match header and row lengths
+        # Faire correspondre les longueurs d'en-tête et de ligne / Match header and row lengths / Hacer coincidir las longitudes de los encabezados y las filas
         if rows and len(header_row) != len(rows[0]):
             print(f"Header columns: {len(header_row)}, First row cells: {len(rows[0])}")
             min_len = min(len(header_row), len(rows[0]))
@@ -95,32 +95,32 @@ def fetch_data(url, league_id, league_name, url_add_str):
 
     df.dropna(how='all', inplace=True)
 
-    # Edit 'Nation' and 'Comp' columns
+    # Modifier les colonnes « Nation » et « Comp » / Edit 'Nation' and 'Comp' columns / Editar las columnas «Nación» y «Comp».
     df = extract_uppercase(df)
 
-    # Remove 'Matches' column
+    # Enlever la colonne 'Matches' + Remove 'Matches' column / Eliminar la columna «Matches»
     df = df.drop(columns=['Matches'])
 
-    # Extract only age from format '23-190'
+    # Extraire l'âge dans le bon format / Extract only age from format '23-190' / Extraer solo la edad del formato «23-190».
     df['Age'] = df['Age'].str.split('-', expand=True)[0]
 
     print(f"Done! -> URL: {url}")
 
     return df
 
-# This function converts the data of columns 'Nation' and 'Comp' into a new form
+# Cette fonction convertit les données des colonnes « Nation » et « Comp » dans un nouveau format / This function converts the data of columns 'Nation' and 'Comp' into a new form / Esta función convierte los datos de las columnas «Nation» y «Comp» a un nuevo formato.
 def extract_uppercase(df):
-    # Extract the part in uppercase from 'Nation' column
+    # Extraire la partie en majuscules de la colonne « Nation » / Extract the part in uppercase from 'Nation' column / Extraiga la parte en mayúsculas de la columna «Nation»
     if 'Nation' in df.columns:
         df['Nation'] = df['Nation'].str.extract(r'([A-Z]+)')[0]
 
-    # Extract the part starting with uppercase in 'Comp' column
+    # Extraire la partie commençant par une majuscule dans la colonne « Comp » / Extract the part starting with uppercase in 'Comp' column / Extraiga la parte que comienza con mayúscula en la columna «Comp».
     if 'Comp' in df.columns:
         df['Comp'] = df['Comp'].str.extract(r'([A-Z][a-zA-Z\s]*)')[0]
 
     return df
 
-# Leagues
+# Championnats / Leagues / Ligas
 leagues = {
     "Big5": "Big-5-European-Leagues",
     "23": "Eredivisie",
@@ -178,7 +178,8 @@ for league_id, league_name in leagues.items():
             df_merged["Comp"] = league_name
         all_dfs.append(df_merged)
         print(f"Done! -> {league_name}")
-# Merge all DFs
+
+# Fusionner tous les DF / Merge all DFs / Combinar todos los DF
 final_df = pd.concat(all_dfs, axis=0)
 
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

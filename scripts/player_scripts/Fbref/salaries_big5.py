@@ -3,7 +3,7 @@ import re
 import os
 import unidecode
 
-# Lista de enlaces de salarios
+# Liste des liens vers les salaires / List of salary links / Lista de enlaces de salarios
 links = [
     'https://fbref.com/en/comps/20/wages/Bundesliga-Wages',
     'https://fbref.com/en/comps/9/wages/Premier-League-Wages',
@@ -13,7 +13,7 @@ links = [
 ]
 
 def extract_euro_value(val):
-    """Extrae el valor numérico en euros desde una cadena con formato '€ 123,456 (x)'."""
+    """Extrait la valeur numérique en euros d'une chaîne au format « € 123,456 (x) » / Extract the numerical value in euros from a string with the format “€ 123,456 (x)” / Extrae el valor numérico en euros desde una cadena con formato '€ 123,456 (x)'."""
     if isinstance(val, str):
         match = re.search(r'€\s?([\d,]+)', val)
         if match:
@@ -21,7 +21,7 @@ def extract_euro_value(val):
     return None
 
 def process_wage_table(url):
-    """Lee y limpia la tabla de salarios desde un enlace de FBref."""
+    """Lis et nettoie le tableau des salaires à partir d'un lien FBref. / Read and clear the salary table from a FBref link. / Lee y limpia la tabla de salarios desde un enlace de FBref."""
     try:
         df = pd.read_html(url)[1]
         df['Weekly Wages'] = df['Weekly Wages'].apply(extract_euro_value)
@@ -37,48 +37,38 @@ def process_wage_table(url):
 
         return df
     except Exception as e:
-        print(f"Error procesando {url}: {e}")
+        print(f"Erreur lors du traitement / Error processing / Error procesando {url}: {e}")
         return None
 
-# Procesamos todos los enlaces y descartamos resultados vacíos
+# Nous traitons tous les liens et rejetons les résultats vides / We process all links and discard empty results / Procesamos todos los enlaces y descartamos resultados vacíos
 dfs = [process_wage_table(url) for url in links]
 dfs = [df for df in dfs if df is not None and not df.empty]
 
-
-
-# Si hay datos válidos, los procesamos y guardamos
+# Si les données sont valides, nous les traitons et les enregistrons / If there is valid data, we process and store it / Si hay datos válidos, los procesamos y guardamos
 if dfs:
     df_final = pd.concat(dfs, ignore_index=True)
     nombres_fbref = [
-        "Illia Zabarnyi", "Javier Guerra", "Alvaro Garcia", "Nicolas Paz", "Sergi Cardona",
-        "Valentin Atangana Edoa", "Yehor Yarmoliuk", "Alexsandro Ribeiro", "Victor Bernth Kristiansen",
-        "Dailon Livramento", "Pierre Ekwah Elimby", "Manuel Ugarte Ribeiro", "Johnny Cardoso",
-        "Manuel Fuster", "Jon Rowe", "Francisco Perez", "Antoniu", "Peque", "Jean Matteo Bahoya",
-        "Orri Steinn Oskarsson", "Hong Hyunseok", "Alejandro Jimenez", "Ngal'Ayel Mukau",
-        "Abdoulaye Niakhate Ndiaye", "Lucas Oliveira Rosa", "Juan Herzog", "Keke Maximilian Topp",
-        "Jesus Santiago", "Bahereba Guirassy", "Peter Gonzalez", "Urko Gonzalez", "Guimissongui Ouattara",
-        "Carlos Gomez", "Alvaro djalo", "Mohamed Haj", "James Mcatee", "Giorgos Masouras",
-        "Giorgi Mamardashvili"
+        "Illia Zabarnyi", "Javier Guerra", "Alvaro Garcia", "Nicolas Paz", "Sergi Cardona","Valentin Atangana Edoa", "Yehor Yarmoliuk", "Alexsandro Ribeiro", "Victor Bernth Kristiansen",
+        "Dailon Livramento", "Pierre Ekwah Elimby", "Manuel Ugarte Ribeiro", "Johnny Cardoso","Manuel Fuster", "Jon Rowe", "Francisco Perez", "Antoniu", "Peque", "Jean Matteo Bahoya",
+        "Orri Steinn Oskarsson", "Hong Hyunseok", "Alejandro Jimenez", "Ngal'Ayel Mukau","Abdoulaye Niakhate Ndiaye", "Lucas Oliveira Rosa", "Juan Herzog", "Keke Maximilian Topp",
+        "Jesus Santiago", "Bahereba Guirassy", "Peter Gonzalez", "Urko Gonzalez", "Guimissongui Ouattara","Carlos Gomez",
+        "Alvaro djalo", "Mohamed Haj", "James Mcatee", "Giorgos Masouras","Giorgi Mamardashvili"
     ]
     
-    # Nombres con errores (Salarios)
+    # Noms comportant des erreurs (salaires) / Names with errors (Salaries) / Nombres con errores (Salarios)
     nombres_salarios = [
-        "Ilya Zabarnyi", "Javi Guerra", "Alvaro Garcia", "Nico Paz", "Sergi Cardona",
-        "Valentin Atangana", "Yegor Yarmolyuk", "Alexsandro", "Victor Kristiansen",
-        "Dailon Rocha Livramento", "Pierre Ekwah", "Manuel Ugarte", "Johnny",
-        "Manu Fuster", "Jonathan Rowe", "Fran Perez", "Antoniu Roca", "Peque Fernandez",
-        "Jean-Matteo Bahoya", "Orri Oskarsson", "Hyun-seok Hong", "Alex Jimenez", "Ngal'ayel Mukau",
-        "Abdoulaye Ndiaye", "Lucas Rosa", "Juanma Herzog", "Keke Topp", "Yellu Santiago",
-        "Herba Guirassy", "Peter Federico", "Urko Gonzalez de Zarate", "Abdoul Ouattara",
-        "Carlos Andres Gomez", "Alvaro Djalo", "Anas Haj Mohamed", "James McAtee", "Georgios Masouras",
-        "Giorgi Mamardashvili"
+        "Ilya Zabarnyi", "Javi Guerra", "Alvaro Garcia", "Nico Paz", "Sergi Cardona","Valentin Atangana", "Yegor Yarmolyuk", "Alexsandro", "Victor Kristiansen",
+        "Dailon Rocha Livramento", "Pierre Ekwah", "Manuel Ugarte", "Johnny","Manu Fuster", "Jonathan Rowe", "Fran Perez", "Antoniu Roca", "Peque Fernandez",
+        "Jean-Matteo Bahoya", "Orri Oskarsson", "Hyun-seok Hong", "Alex Jimenez", "Ngal'ayel Mukau","Abdoulaye Ndiaye", "Lucas Rosa", "Juanma Herzog", "Keke Topp", "Yellu Santiago",
+        "Herba Guirassy", "Peter Federico", "Urko Gonzalez de Zarate", "Abdoul Ouattara","Carlos Andres Gomez", "Alvaro Djalo",
+        "Anas Haj Mohamed", "James McAtee", "Georgios Masouras","Giorgi Mamardashvili"
     ]
     
-    # Creamos diccionario de reemplazo
+    # Nous créons un dictionnaire de remplacement / We created a replacement dictionary / Creamos diccionario de reemplazo
     dicc_reemplazo_nombres = dict(zip(nombres_salarios, nombres_fbref))
-    # Reemplazar los nombres en la columna 'Jugador'
+    # Remplacer les noms dans la colonne « Joueur » / Replace the names in the “Player” column / Reemplazar los nombres en la columna 'Jugador'
     df_final['Player'] = df_final['Player'].replace(dicc_reemplazo_nombres)
-    # File Location
+    # Position du fichier / File Location / Ubicación del archivo
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     output_dir = os.path.join(root_dir, 'data', 'player')
     os.makedirs(output_dir, exist_ok=True)
