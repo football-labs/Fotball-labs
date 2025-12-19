@@ -1349,7 +1349,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                     st.markdown(f"<h4 style='text-align:center;'>Équipes similaires à {team_data['team_code']}</h4>", unsafe_allow_html=True)
                     d1, d2, d3 = st.columns([0.1, 0.8, 0.1])
                     with d2:
-                        st.dataframe(similar_df, use_container_width=True)
+                        st.dataframe(similar_df, width='stretch')
 
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>📊 Team analysis</h4>", unsafe_allow_html=True) # Display title
@@ -1574,7 +1574,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                     st.markdown(f"<h4 style='text-align:center;'>Teams similar to {team_data['team_code']}</h4>", unsafe_allow_html=True)
                     d1, d2, d3 = st.columns([0.1, 0.8, 0.1])
                     with d2:
-                        st.dataframe(similar_df, use_container_width=True)
+                        st.dataframe(similar_df, width='stretch')
 
         else:
             st.markdown("<h4 style='text-align: center;'>📊 Análisis de un equipo</h4>", unsafe_allow_html=True) # Mostrar título
@@ -1800,7 +1800,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                     st.markdown(f"<h4 style='text-align:center;'>Equipos similares a {team_data['team_code']}</h4>", unsafe_allow_html=True)
                     d1, d2, d3 = st.columns([0.1, 0.8, 0.1])
                     with d2:
-                        st.dataframe(similar_df, use_container_width=True)
+                        st.dataframe(similar_df, width='stretch')
 
     elif selected in ["Duel", "F2F", "Duelo"]:
         if lang == "Français":
@@ -2797,7 +2797,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 "country": "Pays","rank_big5": "Power Ranking","rank_league": "Classement (Championnat)"}
                 final_df = final_df.rename(columns=col_labels_fr)
 
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
 
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>🏅 Team rankings (0-100) for aggregated statistics by category </h4>", unsafe_allow_html=True) # Displaying the page title
@@ -2892,7 +2892,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 col_labels_en = {"team_code": "Team","Statistic": "Statistic","championship_name": "League","country": "Country","rank_big5": "Power Ranking","rank_league": "League Standing"}
                 final_df = final_df.rename(columns=col_labels_en)
 
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
 
         else:
             st.markdown("<h4 style='text-align: center;'>🏅 Clasificación de equipos (0-100) para estadísticas agregadas por categoría </h4>", unsafe_allow_html=True) # Mostrar el título de la página
@@ -2988,7 +2988,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 final_df = final_df[['team_code', 'Estadística', 'championship_name', 'country', 'rank_big5', 'rank_league']]
                 col_labels_es = {"team_code": "Equipo","Estadística": "Estadística","championship_name": "Liga","country": "País","rank_big5": "Power Ranking","rank_league": "Clasificación (Liga)"}
                 final_df = final_df.rename(columns=col_labels_es)
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
 
     elif selected == "Stats":
         if lang == "Français":
@@ -3156,7 +3156,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 # Traduction des colonnes en français
                 col_labels_fr = {"team_code": "Équipe","championship_name": "Championnat","country": "Pays","rank_big5": "Power Ranking","rank_league": "Classement (Championnat)"}
                 final_df = final_df.rename(columns=col_labels_fr)
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
 
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>🏆 Team rankings for raw statistics</h4>", unsafe_allow_html=True) # Displaying the page title
@@ -3317,7 +3317,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 final_df = final_df[['team_code', stat_col_label, 'championship_name', 'country', 'rank_big5', 'rank_league']] # Translation of columns into English
                 col_labels_eng = {"team_code": "Team","championship_name": "League","country": "Country","rank_big5": "Power Ranking","rank_league": "League Standing"}
                 final_df = final_df.rename(columns=col_labels_eng)
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
 
         else:
             st.markdown("<h4 style='text-align: center;'>🏆 Clasificación de equipos según estadísticas brutas</h4>", unsafe_allow_html=True) # Mostrar el título de la página
@@ -3483,7 +3483,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                 # Traducción de columnas al español
                 col_labels_es = {"team_code": "Equipo","championship_name": "Liga","country": "País","rank_big5": "Power Ranking","rank_league": "Clasificación (Liga)"}
                 final_df = final_df.rename(columns=col_labels_es)
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
 
     elif selected in ["Top"]:
         if lang == "Français":
@@ -3534,7 +3534,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                         "team_code": "Équipe","championship_name": "Championnat","rank_league": st.column_config.NumberColumn("Rang Ligue", format="%d"),
                         "rating": st.column_config.NumberColumn("Note", format="%.0f")}
 
-            st.dataframe(df_display.reset_index(drop=True),hide_index=True,use_container_width=True,column_config=col_config) # Affichage du tableau
+            st.dataframe(df_display.reset_index(drop=True),hide_index=True,width='stretch',column_config=col_config) # Affichage du tableau
 
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>🏅 Power Ranking</h4>", unsafe_allow_html=True) # Title display
@@ -3582,7 +3582,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                         "team_code": "Team","championship_name": "League","rank_league": st.column_config.NumberColumn("League ranking", format="%d"),
                         "rating": st.column_config.NumberColumn("Rating", format="%.0f")}
 
-            st.dataframe(df_display.reset_index(drop=True),hide_index=True,use_container_width=True,column_config=col_config) # Displaying the table
+            st.dataframe(df_display.reset_index(drop=True),hide_index=True,width='stretch',column_config=col_config) # Displaying the table
 
         else:
             st.markdown("<h4 style='text-align: center;'>🏅 Power Ranking</h4>", unsafe_allow_html=True) # Visualización del título
@@ -3632,7 +3632,7 @@ if (mode in ["Équipes", "Teams", "Equipos"]):
                         "team_code": "Equipo","championship_name": "Liga","rank_league": st.column_config.NumberColumn("Puesto Liga", format="%d"),
                         "rating": st.column_config.NumberColumn("Nota", format="%.0f")}
 
-            st.dataframe(df_display.reset_index(drop=True),hide_index=True,use_container_width=True,column_config=col_config) # Visualización de la tabla
+            st.dataframe(df_display.reset_index(drop=True),hide_index=True,width='stretch',column_config=col_config) # Visualización de la tabla
 
 else:
     # MENU JOUEURS
@@ -5694,7 +5694,7 @@ else:
                     "position": "Poste","marketValue": "Valeur marchande","contract": "Contrat"}
                 final_df = final_df.rename(columns=col_labels_fr)
 
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
 
         elif lang == "English":
 
@@ -5855,7 +5855,7 @@ else:
                     "position": "Position","marketValue": "Market value","contract": "Contract"}
                 final_df = final_df.rename(columns=col_labels_en)
 
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
         
         else:
             # Página en español
@@ -6018,7 +6018,7 @@ else:
                     "position": "Posición","marketValue": "Valor de mercado","contract": "Contrato",}
                 final_df = final_df.rename(columns=col_labels_es)
 
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
 
     elif selected == "Stats":
         # Page en français
@@ -6287,7 +6287,7 @@ else:
                     "position": "Poste","marketValue": "Valeur marchande","contract": "Contrat"}
                 final_df = final_df.rename(columns=col_labels_fr)
 
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
 
         elif lang == "English":
             st.markdown("<h4 style='text-align: center;'>🏆 Player rankings for raw statistics</h4>", unsafe_allow_html=True) # Display the title
@@ -6553,7 +6553,7 @@ else:
                     "position": "Position","marketValue": "Market value","contract": "Contract"}
                 final_df = final_df.rename(columns=col_labels_en)
 
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
         else:
             # Página en español
             st.markdown("<h4 style='text-align: center;'>🏆 Clasificación de jugadores por estadísticas brutas</h4>", unsafe_allow_html=True)
@@ -6816,7 +6816,7 @@ else:
                     "position": "Posición","marketValue": "Valor de mercado","contract": "Contrato",}
                 final_df = final_df.rename(columns=col_labels_es)
 
-                st.dataframe(final_df, use_container_width=True)
+                st.dataframe(final_df, width='stretch')
 
     elif selected == "Scout":
         if lang == "Français":
@@ -7016,7 +7016,7 @@ else:
                         "position": "Poste","marketValue": "Valeur marchande","contract": "Contrat"}
                     final_df = final_df.rename(columns=col_labels_fr)
 
-                    st.dataframe(final_df, use_container_width=True)
+                    st.dataframe(final_df, width='stretch')
 
             # Sidebar résumé
             with st.sidebar:
@@ -7304,7 +7304,7 @@ else:
                     col_labels_en = {"player_name": "Player","Statistic": "Statistic","Age": "Age","nationality": "Country","club_name": "Club",
                         "position": "Position","marketValue": "Market value","contract": "Contract"}
                     final_df = final_df.rename(columns=col_labels_en)
-                    st.dataframe(final_df, use_container_width=True) # We didsplay the entire list of players asked
+                    st.dataframe(final_df, width='stretch') # We didsplay the entire list of players asked
 
             # Sidebar summary
             with st.sidebar:
@@ -7611,7 +7611,7 @@ else:
                     col_labels_es = {"player_name": "Jugador","Estadística": "Estadística","Age": "Edad","nationality": "Nacionalidad","club_name": "Club",
                         "position": "Posición","marketValue": "Valor de mercado","contract": "Contrato",}
                     final_df = final_df.rename(columns=col_labels_es)
-                    st.dataframe(final_df, use_container_width=True)
+                    st.dataframe(final_df, width='stretch')
 
             # Resumen en la barra lateral
             with st.sidebar:
