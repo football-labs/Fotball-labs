@@ -567,7 +567,7 @@ score_cols = [col for col in df.columns if col.startswith("score_")]
 df[score_cols + ["rating"]] = df[score_cols + ["rating"]].round(0).astype("Int64")
 
 # Power Ranking par championnat (source Opta Analyst) / Power Ranking by league (according to Opta Analyst) / Clasificación por campeonato (fuente: Opta Analyst)
-power_ranking = {"GB1": 92.6,"IT1": 87,"ES1": 87,"L1": 86.3,"FR1": 85.3}
+power_ranking = {"GB1": 90.7,"IT1": 84.9,"ES1": 84.5,"L1": 85.2,"FR1": 83.7,}
 
 reference_ranking = power_ranking["GB1"] # Référence = Power Ranking de GB1 / Benchmark = Power Ranking de GB1 / Referencia = Clasificación de poder de GB1
 

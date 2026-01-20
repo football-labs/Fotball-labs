@@ -140,7 +140,7 @@ def compute_rating(row: pd.Series) -> float:
 df["rating"] = df.apply(compute_rating, axis=1)
 
 # Power Ranking par championnat (source Opta Analyst) / Power Ranking by league (according to Opta Analyst) / Clasificación por campeonato (fuente: Opta Analyst)
-power_ranking = {"Premier League": 92.6,"Serie A": 87.0,"LaLiga": 87.0,"Bundesliga": 86.3,"Ligue 1": 85.3,}
+power_ranking = {"Premier League": 90.7,"Serie A": 84.9,"LaLiga": 84.5,"Bundesliga": 85.2,"Ligue 1": 83.7,}
 
 # Référence = Power Ranking de Premier League / Benchmark = Power Ranking de Premier League / Referencia = Clasificación de poder de Premier League
 reference_ranking = power_ranking["Premier League"]
