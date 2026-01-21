@@ -50,7 +50,7 @@ def _rank_season(d: pd.DataFrame) -> pd.DataFrame:
         ["pts_league", "team_success_plus_minus", "performance_gls"]
     )["rank_league_tmp"].transform("min")
     d.drop(columns=["rank_league_tmp"], inplace=True)
-    d["rank_league"] = d["rank_league"].astype("Int64")
+    d["rank_league"] = d["rank_league"].astype(int)
     return d
 
 # On applique la fonction pour effectuer le classement / The function is applied to perform the classification / Se aplica la función para realizar la clasificación

@@ -19,7 +19,6 @@ matplotlib
 seaborn
 plotly
 mplsoccer
-altair==4.2.2
 
 # App
 streamlit
