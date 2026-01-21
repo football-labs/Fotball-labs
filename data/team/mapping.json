@@ -1,10 +1,10 @@
 {
   "Man City": "Manchester City",
   "Man Utd": "Manchester Utd",
-  "Newcastle United": "Newcastle Utd",
+  "Newcastle": "Newcastle United",
   "Leeds": "Leeds United",
-  "Nottingham Forest": "Nott'ham Forest",
-  "Tottenham Hotspur": "Tottenham",
+  "Nottm Forest": "Nottingham Forest",
+  "Spurs": "Tottenham Hotspur",
 
   "Atlético": "Atlético Madrid",
   "Athletic": "Athletic Club",
@@ -12,7 +12,7 @@
   "Rayo": "Rayo Vallecano",
 
   "Bayern München": "Bayern Munich",
-  "Eintracht Frankfurt": "Eint Frankfurt",
+  "Frankfurt": "Eintracht Frankfurt",
   "M'gladbach": "Gladbach",
   "Bremen": "Werder Bremen",
   "Leipzig": "RB Leipzig",
@@ -20,9 +20,9 @@
 
   "Verona": "Hellas Verona",
 
-  "Paris Saint-Germain": "Paris S-G",
+  "Paris SG": "Paris Saint-Germain",
   "Paris": "Paris FC",
-  "St Pauli" :"St. Pauli",
-  "Real Betis": "Betis",
-  "West Ham United": "West Ham"
+  "St. Pauli" :"St Pauli",
+  "Betis": "RealBetis",
+  "West Ham": "West Ham United"
 }
