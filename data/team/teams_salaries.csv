@@ -1,97 +1,98 @@
 Rk,Squad,Comp,# Pl,Weekly Wages,Annual Wages,% Estimated
-1,Real Madrid,es La Liga,25,5873077,305400000,43%
-2,Manchester City,eng Premier League,39,4958710,257852921,61%
-3,Bayern Munich,de Bundesliga,30,4953462,257580000,50%
-4,Barcelona,es La Liga,25,4270000,222040000,35%
-5,Arsenal,eng Premier League,28,4118630,214168766,52%
-6,Liverpool,eng Premier League,33,3845369,199959206,57%
-7,Chelsea,eng Premier League,39,3675567,191129492,56%
-8,Manchester Utd,eng Premier League,41,3554073,184811784,46%
-9,Paris S-G,fr Ligue 1,25,3361346,174790000,46%
-10,Atletico Madrid,es La Liga,26,3024712,157285000,62%
-11,Tottenham,eng Premier League,40,2964579,154158091,67%
-12,Aston Villa,eng Premier League,35,2808115,146021967,87%
-13,Inter,it Serie A,29,2619231,136200000,8%
-14,Newcastle Utd,eng Premier League,30,2600385,135220045,70%
-15,Juventus,it Serie A,29,2419615,125820000,17%
-16,Dortmund,de Bundesliga,28,2379808,123750000,57%
-17,Napoli,it Serie A,31,2157692,112200000,17%
-18,Roma,it Serie A,32,2097885,109090000,17%
-19,Nott'ham Forest,eng Premier League,38,2084542,108396176,91%
-20,West Ham,eng Premier League,33,1921409,99913259,80%
-21,Marseille,fr Ligue 1,30,1835000,95420000,81%
-22,Milan,it Serie A,28,1821154,94700000,22%
-23,RB Leipzig,de Bundesliga,29,1774615,92280000,80%
-24,Leverkusen,de Bundesliga,28,1763077,91680000,88%
-25,Fulham,eng Premier League,29,1729048,89910471,87%
-26,Everton,eng Premier League,29,1681320,87428624,88%
-27,Athletic Club,es La Liga,26,1625962,84550000,83%
-28,Wolves,eng Premier League,33,1613932,83924484,93%
-29,Sunderland,eng Premier League,44,1517085,78888413,100%
-30,Crystal Palace,eng Premier League,36,1512909,78671284,94%
-31,Lazio,it Serie A,31,1486154,77280000,10%
-32,Betis,es La Liga,26,1461346,75990000,79%
-33,Bournemouth,eng Premier League,33,1399940,72796872,90%
-34,Brighton,eng Premier League,37,1352676,70339148,94%
-35,Villarreal,es La Liga,27,1345385,69960000,88%
-36,Leeds United,eng Premier League,28,1322810,68786112,92%
-37,Real Sociedad,es La Liga,27,1296538,67420000,100%
-38,Fiorentina,it Serie A,31,1266154,65840000,21%
-39,Sevilla,es La Liga,27,1252885,65150000,79%
-40,Burnley,eng Premier League,41,1248401,64916848,100%
-41,Eint Frankfurt,de Bundesliga,28,1233269,64130000,85%
-42,Wolfsburg,de Bundesliga,29,1226538,63780000,92%
-43,Brentford,eng Premier League,36,1211174,62981057,97%
-44,Monaco,fr Ligue 1,29,1196538,62220000,79%
-45,Stuttgart,de Bundesliga,32,1195000,62140000,88%
-46,Nice,fr Ligue 1,29,1144231,59500000,85%
-47,Atalanta,it Serie A,26,1127692,58640000,4%
-48,Freiburg,de Bundesliga,27,1080385,56180000,96%
-49,Gladbach,de Bundesliga,29,1046731,54430000,92%
-50,Hoffenheim,de Bundesliga,30,1041538,54160000,100%
-51,Rennes,fr Ligue 1,22,1024615,53280000,89%
-52,Lyon,fr Ligue 1,25,994808,51730000,91%
-53,Torino,it Serie A,30,976731,50790000,62%
-54,Girona,es La Liga,25,963558,50105000,95%
-55,Lille,fr Ligue 1,29,919038,47790000,92%
-56,Valencia,es La Liga,23,871923,45340000,82%
-57,Bologna,it Serie A,31,871154,45300000,46%
-58,Como,it Serie A,30,856154,44520000,88%
-59,Werder Bremen,de Bundesliga,31,852308,44320000,88%
-60,Sassuolo,it Serie A,30,750769,39040000,80%
-61,Lens,fr Ligue 1,28,746923,38840000,100%
-62,Celta Vigo,es La Liga,28,740577,38510000,91%
-63,Hamburger SV,de Bundesliga,31,738462,38400000,93%
-64,Mainz 05,de Bundesliga,29,726346,37770000,100%
-65,Augsburg,de Bundesliga,31,703654,36590000,100%
-66,Union Berlin,de Bundesliga,28,695385,36160000,100%
-67,Paris FC,fr Ligue 1,29,675192,35110000,100%
-68,Mallorca,es La Liga,26,672308,34960000,100%
-69,Getafe,es La Liga,22,661346,34390000,95%
-70,Koln,de Bundesliga,29,655385,34080000,96%
-71,Cremonese,it Serie A,30,641154,33340000,84%
-72,Strasbourg,fr Ligue 1,28,637885,33170000,100%
-73,Rayo Vallecano,es La Liga,24,605000,31460000,100%
-74,Oviedo,es La Liga,26,586827,30515000,96%
-75,Genoa,it Serie A,28,580577,30190000,85%
-76,Nantes,fr Ligue 1,26,569423,29610000,94%
-77,Hellas Verona,it Serie A,29,564231,29340000,84%
-78,Cagliari,it Serie A,28,557500,28990000,77%
-79,Osasuna,es La Liga,20,538077,27980000,100%
-80,Brest,fr Ligue 1,25,530769,27600000,100%
-81,Elche,es La Liga,26,518462,26960000,100%
-82,Espanyol,es La Liga,24,504231,26220000,94%
-83,Alaves,es La Liga,23,496154,25800000,100%
-84,Parma,it Serie A,32,490000,25480000,95%
-85,St. Pauli,de Bundesliga,28,488846,25420000,95%
-86,Udinese,it Serie A,31,486346,25290000,89%
-87,Levante,es La Liga,25,482308,25080000,95%
-88,Heidenheim,de Bundesliga,27,482115,25070000,100%
-89,Lorient,fr Ligue 1,26,456346,23730000,100%
-90,Metz,fr Ligue 1,27,433077,22520000,95%
-91,Toulouse,fr Ligue 1,31,415385,21600000,100%
-92,Pisa,it Serie A,30,381538,19840000,92%
-93,Lecce,it Serie A,34,375962,19550000,84%
-94,Auxerre,fr Ligue 1,22,373462,19420000,95%
-95,Angers,fr Ligue 1,27,345769,17980000,100%
-96,Le Havre,fr Ligue 1,26,343654,17870000,100%
+1,Real Madrid,es La Liga,48,5953269,309570000,43%
+2,Bayern Munich,de Bundesliga,57,4953462,257580000,49%
+3,Manchester City,eng Premier League,72,4932280,256478567,58%
+4,Barcelona,es La Liga,49,4308462,224040000,36%
+5,Arsenal,eng Premier League,53,4200508,218426414,60%
+6,Liverpool,eng Premier League,62,3865252,200993094,58%
+7,Chelsea,eng Premier League,69,3655976,190110771,55%
+8,Manchester Utd,eng Premier League,75,3601465,187276205,44%
+9,Paris Saint-Germain,fr Ligue 1,49,3361346,174790000,43%
+10,Atletico Madrid,es La Liga,49,3024712,157285000,67%
+11,Tottenham Hotspur,eng Premier League,74,2948777,153336422,65%
+12,Aston Villa,eng Premier League,65,2891209,150342884,88%
+13,Inter,it Serie A,56,2619231,136200000,9%
+14,Newcastle United,eng Premier League,60,2586525,134499319,72%
+15,Juventus,it Serie A,58,2419615,125820000,17%
+16,Dortmund,de Bundesliga,55,2383462,123940000,56%
+17,Napoli,it Serie A,61,2157692,112200000,16%
+18,Roma,it Serie A,61,2097885,109090000,15%
+19,Nottingham Forest,eng Premier League,70,2073431,107818423,88%
+20,West Ham United,eng Premier League,61,1911168,99380722,81%
+21,Marseille,fr Ligue 1,56,1835000,95420000,81%
+22,Milan,it Serie A,53,1821154,94700000,12%
+23,RB Leipzig,de Bundesliga,55,1774615,92280000,80%
+24,Leverkusen,de Bundesliga,55,1763077,91680000,88%
+25,Fulham,eng Premier League,52,1719832,89431250,87%
+26,Everton,eng Premier League,54,1672358,86962629,92%
+27,Athletic Club,es La Liga,52,1625962,84550000,83%
+28,Wolves,eng Premier League,63,1605330,83477164,90%
+29,Sunderland,eng Premier League,83,1508999,78467937,100%
+30,Crystal Palace,eng Premier League,68,1504846,78251971,94%
+31,Lazio,it Serie A,58,1486154,77280000,11%
+32,Real Betis,es La Liga,50,1461346,75990000,79%
+33,Bournemouth,eng Premier League,59,1392478,72408867,89%
+34,Brighton,eng Premier League,71,1351235,70264200,94%
+35,Leeds United,eng Premier League,53,1315759,68419479,92%
+36,Villarreal,es La Liga,52,1309615,68100000,90%
+37,Real Sociedad,es La Liga,50,1296538,67420000,100%
+38,Wolfsburg,de Bundesliga,58,1275577,66330000,91%
+39,Fiorentina,it Serie A,59,1266154,65840000,22%
+40,Sevilla,es La Liga,50,1252885,65150000,79%
+41,Eintracht Frankfurt,de Bundesliga,58,1233269,64130000,85%
+42,Burnley,eng Premier League,72,1224442,63670981,100%
+43,Brentford,eng Premier League,69,1204719,62645366,94%
+44,Monaco,fr Ligue 1,54,1196538,62220000,80%
+45,Stuttgart,de Bundesliga,60,1195000,62140000,85%
+46,Nice,fr Ligue 1,50,1144231,59500000,85%
+47,Atalanta,it Serie A,52,1127692,58640000,4%
+48,Freiburg,de Bundesliga,53,1080385,56180000,96%
+49,Gladbach,de Bundesliga,58,1053846,54800000,93%
+50,Hoffenheim,de Bundesliga,62,1041538,54160000,100%
+51,Lyon,fr Ligue 1,52,1022692,53180000,91%
+52,Rennes,fr Ligue 1,40,996731,51830000,89%
+53,Torino,it Serie A,60,980192,50970000,60%
+54,Girona,es La Liga,49,963558,50105000,91%
+55,Lille,fr Ligue 1,55,919038,47790000,92%
+56,Valencia,es La Liga,45,888077,46180000,82%
+57,Bologna,it Serie A,58,871154,45300000,44%
+58,Como,it Serie A,55,856154,44520000,88%
+59,Werder Bremen,de Bundesliga,57,852308,44320000,88%
+60,Sassuolo,it Serie A,59,757885,39410000,79%
+61,Lens,fr Ligue 1,50,756346,39330000,100%
+62,Celta Vigo,es La Liga,50,751923,39100000,93%
+63,Hamburger SV,de Bundesliga,59,738462,38400000,93%
+64,Mainz 05,de Bundesliga,58,726346,37770000,100%
+65,Augsburg,de Bundesliga,58,703654,36590000,100%
+66,Union Berlin,de Bundesliga,53,695385,36160000,100%
+67,Paris FC,fr Ligue 1,57,675192,35110000,100%
+68,Mallorca,es La Liga,47,672308,34960000,98%
+69,Getafe,es La Liga,43,661346,34390000,95%
+70,Koln,de Bundesliga,55,655385,34080000,96%
+71,Strasbourg,fr Ligue 1,50,646731,33630000,100%
+72,Cremonese,it Serie A,56,641154,33340000,81%
+73,Rayo Vallecano,es La Liga,47,613077,31880000,100%
+74,Oviedo,es La Liga,49,586827,30515000,96%
+75,Genoa,it Serie A,56,580577,30190000,87%
+76,Nantes,fr Ligue 1,47,569423,29610000,95%
+77,Hellas Verona,it Serie A,54,564231,29340000,84%
+78,Cagliari,it Serie A,51,557500,28990000,77%
+79,Osasuna,es La Liga,39,538077,27980000,100%
+80,Brest,fr Ligue 1,46,530769,27600000,100%
+81,Elche,es La Liga,48,518462,26960000,100%
+82,Alaves,es La Liga,45,506154,26320000,100%
+83,Parma,it Serie A,55,504231,26220000,95%
+84,Espanyol,es La Liga,42,504231,26220000,94%
+85,St Pauli,de Bundesliga,51,488846,25420000,95%
+86,Udinese,it Serie A,58,486346,25290000,89%
+87,Heidenheim,de Bundesliga,54,485000,25220000,100%
+88,Levante,es La Liga,45,482308,25080000,95%
+89,Lorient,fr Ligue 1,47,456346,23730000,100%
+90,Metz,fr Ligue 1,46,433077,22520000,100%
+91,Toulouse,fr Ligue 1,47,415385,21600000,100%
+92,Pisa,it Serie A,59,381538,19840000,88%
+93,Lecce,it Serie A,60,375962,19550000,84%
+94,Auxerre,fr Ligue 1,50,373462,19420000,95%
+95,Angers,fr Ligue 1,50,352692,18340000,100%
+96,Le Havre,fr Ligue 1,47,343654,17870000,100%
+
