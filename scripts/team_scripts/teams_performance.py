@@ -59,8 +59,8 @@ categories = {
             (0.15, "attacking_misc__touches_in_box"),(0.05, "attacking_overall__xg")],
     "finish": [(0.45, "per90_g_minus_pk"),(0.30, "attacking_overall__goals_vs_xg"),(0.10, "attacking_overall__conv_pct"),
             (0.10, "attacking_overall__xg_per_shot"), (0.05, "attacking_overall__goals")],
-    "set_pieces_off": [(0.50, "attacking_set_pieces__goals"),(0.25, "attacking_set_pieces__xg"),(0.10, "attacking_misc__free_kicks__total"),
-    (0.10, "attacking_misc__free_kicks__goals"), (0.05, "attacking_set_pieces__shots")],
+    "set_pieces_off": [(0.50, "attacking_set_pieces__goals"),(0.25, "attacking_set_pieces__xg"),(0.10, "attacking_set_pieces__shots")
+    ,(0.10, "attacking_misc__free_kicks__goals"),(0.05, "attacking_misc__free_kicks__total")],
     "building": [(0.20, "passing__final_third_passes__successful"), (0.25, "passing__through_balls"), (0.20, "Per_90_min_passing_prgp"),(0.15, "passing__all_passes__pct"),
         (0.10, "Per_90_min_passing_cmp"), (0.10, "Per_90_min_receiving_prgr")],
     "projection": [(0.50, "Per_90_min_progression_prgc"),(0.30, "Per_90_min_carries_final_third"),(0.20, "Per_90_min_carries_total")],
@@ -73,8 +73,8 @@ categories = {
           (0.05, "defending_misc__touches_in_box"),(0.05, "defending_overall__xg_per_shot"), (0.05, "defending_overall__goals_in_box_pct")],
     "defensive_actions": [(0.65, "challenges_tkl_pct"),(0.15, "defending_defensive_actions__interceptions_Padj"), (0.05, "defending_defensive_actions__tackles_Padj"),
         (0.05, "defending_defensive_actions__recoveries"), (0.05, "defending_defensive_actions__blocks_Padj"),(0.05, "defending_defensive_actions__clearances_Padj")],
-    "set_pieces_def": [(0.50, "defending_set_pieces__goals"),(0.25, "defending_set_pieces__xg"),(0.10, "defending_misc__free_kicks__total"),
-        (0.10, "defending_misc__free_kicks__goals"), (0.05, "defending_set_pieces__shots")],
+    "set_pieces_def": [(0.50, "defending_set_pieces__goals"),(0.25, "defending_set_pieces__xg"), (0.10, "defending_set_pieces__shots")
+    ,(0.10, "defending_misc__free_kicks__goals"),(0.05, "defending_misc__free_kicks__total")],
     "efficiency_goalkeeper": [(0.60, "defending_overall__goals_vs_xg"),(0.35, "performance_save_pct"),(0.05, "Per_90_min_performance_saves")],
     "pressing": [(0.40, "pressing__ppda"),(0.30, "pressing__pressed_seqs"),(0.15, "pressing__start_distance_m"),
         (0.05, "pressing__high_turnovers__shot_ending"),(0.05, "pressing__high_turnovers__goal_ending"),
