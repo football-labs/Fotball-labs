@@ -2,19 +2,14 @@ player_id,player_href,dob,age,current_club,affiliation,position
 465607,/football/player/sc-465607/ansu-fati,31 octobre 2002,23.0,Monaco,Spain,Attacker
 503037,/football/player/sc-503037/emanuel-emegha,03 février 2003,23.0,Strasbourg,Netherlands,Attacker
 531092,/football/player/sc-531092/hamza-igamane,02 novembre 2002,23.0,Lille,Morocco,Attacker
-473389,/football/player/sc-473389/jim-allevinah,,,,,
-634376,/football/player/sc-634376/rayan-fofana,,,,,
 648413,/football/player/sc-648413/julian-vignolo,07 décembre 2006,19.0,Toulouse,Argentina,Attacker
-669409,/football/player/sc-669409/soriba-diaoune,,,,,
 570810,/football/player/sc-570810/desire-doue,03 juin 2005,20.0,Paris SG,France,Attacker
 482616,/football/player/sc-482616/bradley-barcola,02 septembre 2002,23.0,Paris SG,France,Attacker
 531004,/football/player/sc-531004/bamba-dieng,23 mars 2000,25.0,Lorient,Senegal,Attacker
 449980,/football/player/sc-449980/goncalo-ramos,20 juin 2001,24.0,Paris SG,Portugal,Attacker
-652151,/football/player/sc-652151/mohamed-meite,,,,,
 219438,/football/player/sc-219438/ousmane-dembele,15 mai 1997,28.0,Paris SG,France,Attacker
 577107,/football/player/sc-577107/endrick,21 juillet 2006,19.0,Lyon,Brazil,Attacker
 220688,/football/player/sc-220688/mason-greenwood,01 octobre 2001,24.0,Marseille,England,Attacker
-532104,/football/player/sc-532104/sambou-soumano,,,,,
 596761,/football/player/sc-596761/joaquin-panichelli,07 octobre 2002,23.0,Strasbourg,Argentina,Attacker
 631000,/football/player/sc-631000/robinio-vaz,17 février 2007,19.0,Roma,France,Attacker
 54694,/football/player/sc-54694/pierre-emerick-aubameyang,18 juin 1989,36.0,Marseille,Gabon,Attacker
@@ -24,7 +19,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 199670,/football/player/sc-199670/odsonne-edouard,16 janvier 1998,28.0,Lens,France,Attacker
 573062,/football/player/sc-573062/martial-godo,14 mars 2003,23.0,Strasbourg,Côte d'Ivoire,Attacker
 232223,/football/player/sc-232223/folarin-balogun,03 juillet 2001,24.0,Monaco,USA,Attacker
-250182,/football/player/sc-250182/aiyegun-tosin,,,,,
 465954,/football/player/sc-465954/pavel-sulc,29 décembre 2000,25.0,Lyon,Czechia,Midfielder
 468658,/football/player/sc-468658/esteban-lepaul,18 avril 2000,25.0,Rennes,France,Attacker
 477724,/football/player/sc-477724/elye-wahi,02 janvier 2003,23.0,Nice,France,Attacker
@@ -34,18 +28,14 @@ player_id,player_href,dob,age,current_club,affiliation,position
 433771,/football/player/sc-433771/ignatius-ganago,16 février 1999,27.0,Nantes,Cameroon,Attacker
 95434,/football/player/sc-95434/florian-thauvin,26 janvier 1993,33.0,Lens,France,Attacker
 44346,/football/player/sc-44346/olivier-giroud,30 septembre 1986,39.0,Lille,France,Attacker
-696404,/football/player/sc-696404/lanroy-machine,,,,,
 161034,/football/player/sc-161034/wesley-said,19 avril 1995,30.0,Lens,France,Attacker
-551976,/football/player/sc-551976/pablo-pagis,,,,,
 168568,/football/player/sc-168568/corentin-tolisso,03 août 1994,31.0,Lyon,France,Midfielder
 592515,/football/player/sc-592515/remy-labeau-lascary,03 mars 2003,23.0,Brest,France,Attacker
 66957,/football/player/sc-66957/remy-cabella,08 mars 1990,36.0,Nantes,France,Midfielder
-695695,/football/player/sc-695695/prosper-peter,,,,,
 430510,/football/player/sc-430510/mama-balde,06 novembre 1995,30.0,Brest,Guinea-Bissau,Attacker
 484405,/football/player/sc-484405/sebastian-nanasi,16 mai 2002,23.0,Strasbourg,Sweden,Midfielder
 214254,/football/player/sc-214254/habib-diallo,18 juin 1995,30.0,Metz,Senegal,Attacker
 213940,/football/player/sc-213940/ludovic-blas,31 décembre 1997,28.0,Rennes,France,Attacker
-608176,/football/player/sc-608176/george-ilenikhena,,,,,
 219873,/football/player/sc-219873/romain-del-castillo,29 mars 1996,29.0,Brest,France,Midfielder
 440668,/football/player/sc-440668/khvicha-kvaratskhelia,12 février 2001,25.0,Paris SG,Georgia,Attacker
 549940,/football/player/sc-549940/malick-fofana,31 mars 2005,20.0,Lyon,Belgium,Attacker
@@ -55,19 +45,15 @@ player_id,player_href,dob,age,current_club,affiliation,position
 499450,/football/player/sc-499450/ethan-mbappe,29 décembre 2006,19.0,Lille,France,Midfielder
 438309,/football/player/sc-438309/junior-dina-ebimbe,21 novembre 2000,25.0,Brest,Cameroon,Midfielder
 544947,/football/player/sc-544947/marius-broholm,26 décembre 2004,21.0,Lille,Norway,Attacker
-626970,/football/player/sc-626970/mohamed-bamba,,,,,
 168539,/football/player/sc-168539/ludovic-ajorque,25 février 1994,32.0,Brest,France,Attacker
 564579,/football/player/sc-564579/frank-magri,04 septembre 1999,26.0,Toulouse,Cameroon,Attacker
 619025,/football/player/sc-619025/harouna-djibirin,05 novembre 2006,19.0,Angers,Cameroon,Attacker
 549946,/football/player/sc-549946/stanis-idumbo,29 juin 2005,20.0,Monaco,Belgium,Midfielder
-232182,/football/player/sc-232182/gauthier-hein,,,,,
 157882,/football/player/sc-157882/takumi-minamino,16 janvier 1995,31.0,Monaco,Japan,Midfielder
 460267,/football/player/sc-460267/sofiane-diop,09 juin 2000,25.0,Nice,Morocco,Midfielder
 444880,/football/player/sc-444880/mika-biereth,08 février 2003,23.0,Monaco,Denmark,Attacker
-219727,/football/player/sc-219727/joel-asoro,,,,,
 555894,/football/player/sc-555894/maghnes-akliouche,25 février 2002,24.0,Monaco,France,Midfielder
 474120,/football/player/sc-474120/julio-enciso,23 janvier 2004,22.0,Strasbourg,Paraguay,Midfielder
-424920,/football/player/sc-424920/jean-philippe-krasso,,,,,
 484842,/football/player/sc-484842/hakon-haraldsson,10 avril 2003,22.0,Lille,Iceland,Midfielder
 465206,/football/player/sc-465206/nuno-mendes,19 juin 2002,23.0,Paris SG,Portugal,Defender
 613221,/football/player/sc-613221/matias-fernandez-pardo,03 février 2005,21.0,Lille,Spain,Attacker
@@ -79,19 +65,14 @@ player_id,player_href,dob,age,current_club,affiliation,position
 559827,/football/player/sc-559827/kamory-doumbia,18 février 2003,23.0,Brest,Mali,Midfielder
 469169,/football/player/sc-469169/isak-jansson,31 janvier 2002,24.0,Nice,Sweden,Attacker
 424044,/football/player/sc-424044/hamed-traore,16 février 2000,26.0,Marseille,Côte d'Ivoire,Midfielder
-511182,/football/player/sc-511182/ilan-kebbal,,,,,
 448010,/football/player/sc-448010/jacen-russell-rowe,13 septembre 2002,23.0,Toulouse,Canada,Attacker
-209874,/football/player/sc-209874/vincent-marchetti,,,,,
 58926,/football/player/sc-58926/youssef-el-arabi,03 février 1987,39.0,Nantes,Morocco,Attacker
 431245,/football/player/sc-431245/mostafa-mohamed,28 novembre 1997,28.0,Nantes,Egypt,Attacker
 231372,/football/player/sc-231372/tanguy-ndombele,28 décembre 1996,29.0,Nice,France,Midfielder
 626881,/football/player/sc-626881/amady-camara,28 mai 2005,20.0,Nantes,Mali,Attacker
 618259,/football/player/sc-618259/tom-louchet,04 mai 2003,22.0,Nice,France,Midfielder
 209049,/football/player/sc-209049/danny-namaso,28 août 2000,25.0,Auxerre,Cameroon,Attacker
-511603,/football/player/sc-511603/morgan-guilavogui,,,,,
 474843,/football/player/sc-474843/martin-satriano,20 février 2001,25.0,Getafe,Uruguay,Attacker
-564918,/football/player/sc-564918/lohann-doucet,,,,,
-544830,/football/player/sc-544830/julien-le-cardinal,,,,,
 638987,/football/player/sc-638987/ibrahim-mbaye,24 janvier 2008,18.0,Paris SG,Senegal,Attacker
 242893,/football/player/sc-242893/yann-gboho,14 janvier 2001,25.0,Toulouse,France,Attacker
 217487,/football/player/sc-217487/mbwana-samatta,23 décembre 1992,33.0,Le Havre,Tanzania,Attacker
@@ -108,7 +89,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 575453,/football/player/sc-575453/santiago-hidalgo,17 février 2005,21.0,Toulouse,Argentina,Attacker
 161950,/football/player/sc-161950/aleksandr-golovin,30 mai 1996,29.0,Monaco,Russia,Midfielder
 490884,/football/player/sc-490884/mohamed-ali-cho,19 janvier 2004,22.0,Nice,France,Attacker
-624764,/football/player/sc-624764/panos-katseris,,,,,
 509201,/football/player/sc-509201/kevin-carlos,10 avril 2001,24.0,Nice,Spain,Attacker
 462609,/football/player/sc-462609/himad-abdelli,17 novembre 1999,26.0,Marseille,Algeria,Midfielder
 451358,/football/player/sc-451358/lee-kang-in,19 février 2001,25.0,Paris SG,Korea Republic,Midfielder
@@ -116,9 +96,7 @@ player_id,player_href,dob,age,current_club,affiliation,position
 476888,/football/player/sc-476888/sekou-mara,30 juillet 2002,23.0,Auxerre,France,Attacker
 158496,/football/player/sc-158496/abdoulaye-toure,03 mars 1994,32.0,Le Havre,Guinea,Midfielder
 509284,/football/player/sc-509284/josue-casimir,24 septembre 2001,24.0,Auxerre,Haiti,Attacker
-579916,/football/player/sc-579916/kenny-quetant,,,,,
 611134,/football/player/sc-611134/kendry-paez,04 mai 2007,18.0,River,Ecuador,Midfielder
-217597,/football/player/sc-217597/mathieu-cafaro,,,,,
 214245,/football/player/sc-214245/fabien-centonze,16 janvier 1996,30.0,Nantes,France,Defender
 426342,/football/player/sc-426342/mousa-al-ta-mari,10 juin 1997,28.0,Rennes,Jordan,Attacker
 586855,/football/player/sc-586855/ngal-ayel-mukau,03 novembre 2004,21.0,Lille,Congo DR,Midfielder
@@ -129,21 +107,14 @@ player_id,player_href,dob,age,current_club,affiliation,position
 516211,/football/player/sc-516211/abdallah-sima,17 juin 2001,24.0,Lens,Senegal,Attacker
 512759,/football/player/sc-512759/fode-doucoure,03 février 2001,25.0,Le Havre,Mali,Defender
 122775,/football/player/sc-122775/morgan-sanson,18 août 1994,31.0,Nice,France,Midfielder
-199666,/football/player/sc-199666/jean-victor-makengo,,,,,
-458345,/football/player/sc-458345/cheikh-sabaly,,,,,
-446441,/football/player/sc-446441/hyun-seok-hong,,,,,
 532112,/football/player/sc-532112/amine-sbai,05 novembre 2000,25.0,Angers,Morocco,Attacker
 449986,/football/player/sc-449986/tiago-gouveia,18 juin 2001,24.0,Nice,Portugal,Attacker
 235050,/football/player/sc-235050/arnaud-nordin,17 juin 1998,27.0,Rennes,France,Attacker
-482380,/football/player/sc-482380/samir-chergui,,,,,
 220560,/football/player/sc-220560/gaetan-perrin,07 juin 1996,29.0,Lille,France,Attacker
 209041,/football/player/sc-209041/angel-gomes,31 août 2000,25.0,Wolves,England,Midfielder
-681609,/football/player/sc-681609/bernard-nguene,,,,,
 199672,/football/player/sc-199672/jonathan-ikone,02 mai 1998,27.0,Paris FC,France,Attacker
 565877,/football/player/sc-565877/louis-mouton,03 juin 2002,23.0,Angers,France,Midfielder
 619501,/football/player/sc-619501/abdelhamid-ait-boudlal,16 avril 2006,19.0,Rennes,Morocco,Defender
-229225,/football/player/sc-229225/alimami-gory,,,,,
-647560,/football/player/sc-647560/morgan-bokele,,,,,
 572584,/football/player/sc-572584/abdoul-ouattara,22 octobre 2005,20.0,Strasbourg,Côte d'Ivoire,Midfielder
 181441,/football/player/sc-181441/moses-simon,12 juillet 1995,30.0,Paris FC,Nigeria,Attacker
 204188,/football/player/sc-204188/florian-sotoca,25 octobre 1990,35.0,Lens,France,Attacker
@@ -170,7 +141,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 154043,/football/player/sc-154043/ainsley-maitland-niles,29 août 1997,28.0,Lyon,England,Midfielder
 208973,/football/player/sc-208973/francisco-sierralta,06 mai 1997,28.0,Auxerre,Chile,Defender
 604124,/football/player/sc-604124/mamadou-coulibaly,21 avril 2004,21.0,Monaco,France,Midfielder
-725063,/football/player/sc-725063/everton-pereira-da-silva,,,,,
 569020,/football/player/sc-569020/paris-brunner,15 février 2006,20.0,Monaco,Germany,Attacker
 647916,/football/player/sc-647916/louis-leroux,23 janvier 2006,20.0,Nantes,France,Midfielder
 607473,/football/player/sc-607473/lucas-michal,22 juin 2005,20.0,Metz,France,Attacker
@@ -181,7 +151,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 59046,/football/player/sc-59046/ciro-immobile,20 février 1990,36.0,Paris FC,Italy,Attacker
 574193,/football/player/sc-574193/yassin-belkhdim,14 février 2002,24.0,Angers,Morocco,Midfielder
 160987,/football/player/sc-160987/jean-philippe-gbamin,25 septembre 1995,30.0,Metz,Côte d'Ivoire,Midfielder
-624926,/football/player/sc-624926/adama-camara,,,,,
 234516,/football/player/sc-234516/sebastian-szymanski,10 mai 1999,26.0,Rennes,Poland,Midfielder
 465572,/football/player/sc-465572/reda-khadra,04 juillet 2001,24.0,Le Havre,Germany,Midfielder
 695367,/football/player/sc-695367/khalis-merah,24 février 2007,19.0,Lyon,France,Midfielder
@@ -194,13 +163,11 @@ player_id,player_href,dob,age,current_club,affiliation,position
 441240,/football/player/sc-441240/romain-faivre,14 juillet 1998,27.0,Auxerre,France,Midfielder
 244560,/football/player/sc-244560/romain-perraud,22 septembre 1997,28.0,Lille,France,Defender
 585496,/football/player/sc-585496/kassoum-ouattara,14 octobre 2004,21.0,Monaco,France,Defender
-547430,/football/player/sc-547430/joel-mvuka,,,,,
 175794,/football/player/sc-175794/giorgi-kvilitaia,01 octobre 1993,32.0,Metz,Georgia,Attacker
 549737,/football/player/sc-549737/theo-le-bris,01 octobre 2002,23.0,Lorient,France,Midfielder
 475344,/football/player/sc-475344/abner-vinicius,27 mai 2000,25.0,Lyon,Brazil,Defender
 201057,/football/player/sc-201057/thilo-kehrer,21 septembre 1996,29.0,Monaco,Germany,Defender
 585597,/football/player/sc-585597/lamine-camara,01 janvier 2004,22.0,Monaco,Senegal,Midfielder
-424032,/football/player/sc-424032/koffi-kouao,,,,,
 490971,/football/player/sc-490971/warren-kamanzi,11 novembre 2000,25.0,Toulouse,Norway,Defender
 446090,/football/player/sc-446090/cristian-casseres,20 janvier 2000,26.0,Toulouse,Venezuela,Midfielder
 179519,/football/player/sc-179519/orel-mangala,18 mars 1998,28.0,Lyon,Belgium,Midfielder
@@ -211,14 +178,12 @@ player_id,player_href,dob,age,current_club,affiliation,position
 544908,/football/player/sc-544908/lasso-coulibaly,19 octobre 2002,23.0,Auxerre,Côte d'Ivoire,Midfielder
 492975,/football/player/sc-492975/sinaly-diomande,09 avril 2001,24.0,Auxerre,Côte d'Ivoire,Defender
 519343,/football/player/sc-519343/marvin-senaya,28 janvier 2001,25.0,Auxerre,France,Defender
-647907,/football/player/sc-647907/bahmed-deuff,,,,,
 608237,/football/player/sc-608237/kojo-peprah-oppong,04 juin 2004,21.0,Nice,Ghana,Defender
 587583,/football/player/sc-587583/simon-ebonog,16 août 2004,21.0,Le Havre,France,Midfielder
 446682,/football/player/sc-446682/leonardo-balerdi,26 janvier 1999,27.0,Marseille,Argentina,Defender
 634263,/football/player/sc-634263/mahamadou-nagida,28 juin 2005,20.0,Rennes,Cameroon,Defender
 543158,/football/player/sc-543158/valentin-barco,23 juillet 2004,21.0,Strasbourg,Argentina,Midfielder
 578052,/football/player/sc-578052/junior-mwanga,11 mai 2003,22.0,Strasbourg,France,Midfielder
-641216,/football/player/sc-641216/alpha-toure,,,,,
 499724,/football/player/sc-499724/sam-amo-ameyaw,18 juillet 2006,19.0,Strasbourg,England,Attacker
 466117,/football/player/sc-466117/naouirou-ahamada,29 mars 2002,23.0,Auxerre,France,Midfielder
 215473,/football/player/sc-215473/timothy-weah,22 février 2000,26.0,Marseille,USA,Attacker
@@ -232,7 +197,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 606701,/football/player/sc-606701/djaoui-cisse,31 janvier 2004,22.0,Rennes,France,Midfielder
 249956,/football/player/sc-249956/krepin-diatta,25 février 1999,27.0,Monaco,Senegal,Midfielder
 545272,/football/player/sc-545272/kevin-danois,28 juin 2004,21.0,Auxerre,France,Midfielder
-616227,/football/player/sc-616227/alexis-vossah,,,,,
 93264,/football/player/sc-93264/eric-dier,15 janvier 1994,32.0,Monaco,England,Defender
 512253,/football/player/sc-512253/alexsandro-ribeiro,09 août 1999,26.0,Lille,Brazil,Defender
 112580,/football/player/sc-112580/pierrick-capelle,15 avril 1987,38.0,Angers,France,Midfielder
@@ -240,7 +204,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 440148,/football/player/sc-440148/tyler-morton,31 octobre 2002,23.0,Lyon,England,Midfielder
 476502,/football/player/sc-476502/boubacar-traore,20 août 2001,24.0,Metz,Mali,Midfielder
 552015,/football/player/sc-552015/lamine-sy,10 août 2002,23.0,Auxerre,France,Defender
-612579,/football/player/sc-612579/ibou-sane,,,,,
 451017,/football/player/sc-451017/giorgi-tsitaishvili,18 novembre 2000,25.0,Metz,Georgia,Attacker
 489887,/football/player/sc-489887/anthony-rouault,29 mai 2001,24.0,Rennes,France,Defender
 533146,/football/player/sc-533146/noah-cadiou,26 octobre 1998,27.0,Lorient,Guadeloupe,Midfielder
@@ -264,22 +227,17 @@ player_id,player_href,dob,age,current_club,affiliation,position
 477711,/football/player/sc-477711/joris-chotard,24 septembre 2001,24.0,Brest,France,Midfielder
 608246,/football/player/sc-608246/lilian-raolisoa,16 juin 2000,25.0,Angers,France,Defender
 534317,/football/player/sc-534317/beraldo,24 novembre 2003,22.0,Paris SG,Brazil,Defender
-606371,/football/player/sc-606371/arthur-avom,,,,,
 437858,/football/player/sc-437858/vitinha,13 février 2000,26.0,Paris SG,Portugal,Midfielder
 88754,/football/player/sc-88754/geoffrey-kondogbia,15 février 1993,33.0,Marseille,Central African Republic,Midfielder
-634871,/football/player/sc-634871/kyllian-antonio,,,,,
 149736,/football/player/sc-149736/chancel-mbemba,08 août 1994,31.0,Lille,Congo DR,Defender
 219268,/football/player/sc-219268/ayumu-seko,07 juin 2000,25.0,Le Havre,Japan,Defender
-711491,/football/player/sc-711491/enzo-koffi,,,,,
 464984,/football/player/sc-464984/fredrik-oppegard,07 août 2002,23.0,Auxerre,Norway,Defender
 210494,/football/player/sc-210494/nayef-aguerd,30 mars 1996,29.0,Marseille,Morocco,Defender
-202127,/football/player/sc-202127/younes-namli,,,,,
 580671,/football/player/sc-580671/terry-yegbe,25 janvier 2001,25.0,Metz,Ghana,Defender
 632880,/football/player/sc-632880/juma-bah,11 avril 2006,19.0,Nice,Sierra Leone,Defender
 140040,/football/player/sc-140040/przemyslaw-frankowski,12 avril 1995,30.0,Rennes,Poland,Midfielder
 544099,/football/player/sc-544099/bamo-meite,03 décembre 2001,24.0,Lorient,Côte d'Ivoire,Defender
 204727,/football/player/sc-204727/malang-sarr,23 janvier 1999,27.0,Lens,France,Defender
-607126,/football/player/sc-607126/malick-mbaye,,,,,
 141109,/football/player/sc-141109/gautier-lloris,18 juillet 1995,30.0,Le Havre,France,Defender
 550840,/football/player/sc-550840/warren-zaire-emery,08 mars 2006,20.0,Paris SG,France,Midfielder
 465702,/football/player/sc-465702/timothee-pembele,09 septembre 2002,23.0,Le Havre,France,Defender
@@ -292,19 +250,12 @@ player_id,player_href,dob,age,current_club,affiliation,position
 545711,/football/player/sc-545711/mohamed-kaba,27 octobre 2001,24.0,Nantes,France,Midfielder
 184943,/football/player/sc-184943/ulisses-garcia,11 janvier 1996,30.0,Sassuolo,Switzerland,Defender
 476894,/football/player/sc-476894/johann-lepenant,22 octobre 2002,23.0,Nantes,France,Midfielder
-493900,/football/player/sc-493900/darlin-yongwa,,,,,
 638411,/football/player/sc-638411/dayann-methalie,15 février 2006,20.0,Toulouse,France,Defender
-107258,/football/player/sc-107258/laurent-abergel,,,,,
-177020,/football/player/sc-177020/igor-silva,,,,,
 228955,/football/player/sc-228955/rasmus-nicolaisen,16 mars 1997,29.0,Toulouse,Denmark,Defender
-98826,/football/player/sc-98826/thomas-delaine,,,,,
 493357,/football/player/sc-493357/soumaila-coulibaly,14 octobre 2003,22.0,Brest,France,Defender
 501735,/football/player/sc-501735/ruben-kluivert,21 mai 2001,24.0,Lyon,Netherlands,Defender
 245485,/football/player/sc-245485/ali-abdi,20 décembre 1993,32.0,Nice,Tunisia,Defender
-511600,/football/player/sc-511600/yassine-benhattab,,,,,
 162316,/football/player/sc-162316/brendan-chardonnet,22 décembre 1994,31.0,Brest,France,Defender
-86132,/football/player/sc-86132/maxime-colin,,,,,
-80710,/football/player/sc-80710/benjamin-stambouli,,,,,
 222874,/football/player/sc-222874/chidozie-awaziem,01 janvier 1997,29.0,Nantes,Nigeria,Defender
 226451,/football/player/sc-226451/ibrahima-sissoko,27 octobre 1997,28.0,Nantes,Mali,Midfielder
 628017,/football/player/sc-628017/yanis-zouaoui,28 avril 1998,27.0,Le Havre,France,Defender
@@ -316,10 +267,7 @@ player_id,player_href,dob,age,current_club,affiliation,position
 56864,/football/player/sc-56864/francis-coquelin,13 mai 1991,34.0,Nantes,France,Midfielder
 651819,/football/player/sc-651819/arsene-kouassi,11 septembre 2004,21.0,Lorient,Burkina Faso,Defender
 487441,/football/player/sc-487441/abu-francis,27 avril 2001,24.0,Toulouse,Ghana,Midfielder
-422480,/football/player/sc-422480/montassar-talbi,,,,,
 243741,/football/player/sc-243741/hugo-magnetti,30 mai 1998,27.0,Brest,France,Midfielder
-476404,/football/player/sc-476404/moustapha-mbow,,,,,
-530635,/football/player/sc-530635/tuomas-ollila,,,,,
 26894,/football/player/sc-26894/dante,18 octobre 1983,42.0,Nice,Brazil,Defender
 466404,/football/player/sc-466404/andrew-omobamidele,23 juin 2002,23.0,Strasbourg,Republic of Ireland,Defender
 550245,/football/player/sc-550245/rafael-luis,18 février 2005,21.0,Strasbourg,Portugal,Midfielder
@@ -332,37 +280,28 @@ player_id,player_href,dob,age,current_club,affiliation,position
 57266,/football/player/sc-57266/abdoulaye-bamba,25 avril 1990,35.0,Angers,Côte d'Ivoire,Defender
 614167,/football/player/sc-614167/lucas-hogsberg,23 juin 2006,19.0,Strasbourg,Denmark,Defender
 222695,/football/player/sc-222695/jordan-teze,30 septembre 1999,26.0,Monaco,Netherlands,Defender
-213965,/football/player/sc-213965/maxime-lopez,,,,,
-641036,/football/player/sc-641036/hamidou-makalou,,,,,
 587710,/football/player/sc-587710/michel-mboula,30 avril 2003,22.0,Metz,Gabon,Defender
 592507,/football/player/sc-592507/junior-diaz,23 juillet 2003,22.0,Brest,Côte d'Ivoire,Defender
-57136,/football/player/sc-57136/timothee-kolodziejczak,,,,,
 477580,/football/player/sc-477580/illia-zabarnyi,01 septembre 2002,23.0,Paris SG,Ukraine,Defender
 520403,/football/player/sc-520403/vanderson,21 juin 2001,24.0,Monaco,Brazil,Defender
 241059,/football/player/sc-241059/thibault-de-smet,05 juin 1998,27.0,Paris FC,Belgium,Defender
 228289,/football/player/sc-228289/jordan-lefort,09 août 1993,32.0,Angers,France,Defender
-703929,/football/player/sc-703929/tylel-tati,,,,,
 469266,/football/player/sc-469266/lucas-gourna-douath,05 août 2003,22.0,Le Havre,France,Midfielder
 201401,/football/player/sc-201401/mark-mckenzie,25 février 1999,27.0,Toulouse,USA,Defender
 230971,/football/player/sc-230971/caio-henrique,31 juillet 1997,28.0,Monaco,Brazil,Defender
 643307,/football/player/sc-643307/samir-el-mourabet,06 octobre 2005,20.0,Strasbourg,Morocco,Midfielder
 448093,/football/player/sc-448093/otavio,21 avril 2002,23.0,Paris FC,Brazil,Defender
-612589,/football/player/sc-612589/sadibou-sane,,,,,
 209171,/football/player/sc-209171/carlens-arcus,28 juin 1996,29.0,Angers,Haiti,Defender
-691225,/football/player/sc-691225/stephan-zagadou,,,,,
 176501,/football/player/sc-176501/jonathan-gradit,24 novembre 1992,33.0,Lens,France,Defender
 512126,/football/player/sc-512126/ousmane-camara,06 mars 2003,23.0,Angers,Mali,Defender
 511344,/football/player/sc-511344/alidu-seidu,04 juin 2000,25.0,Rennes,Ghana,Defender
-560247,/football/player/sc-560247/nhoa-sangui,,,,,
 584863,/football/player/sc-584863/clement-akpa,24 novembre 2001,24.0,Auxerre,Côte d'Ivoire,Defender
 116406,/football/player/sc-116406/marquinhos,14 mai 1994,31.0,Paris SG,Brazil,Defender
 92527,/football/player/sc-92527/kenny-lala,03 octobre 1991,34.0,Brest,France,Defender
 428989,/football/player/sc-428989/nicolas-cozza,08 janvier 1999,27.0,Nantes,France,Defender
-491844,/football/player/sc-491844/kwon-hyeok-kyu,,,,,
 546635,/football/player/sc-546635/bradley-locko,06 mai 2002,23.0,Brest,France,Defender
 193411,/football/player/sc-193411/haris-belkebla,28 janvier 1994,32.0,Angers,Algeria,Midfielder
 550090,/football/player/sc-550090/diego-coppola,28 décembre 2003,22.0,Paris FC,Italy,Defender
-695285,/football/player/sc-695285/telli-siwe,,,,,
 616923,/football/player/sc-616923/justin-noel-kalumba,25 décembre 2004,21.0,Mallorca,France,Attacker
 199170,/football/player/sc-199170/moussa-niakhate,08 mars 1996,30.0,Lyon,Senegal,Defender
 578612,/football/player/sc-578612/arthur-vermeeren,07 février 2005,21.0,Marseille,Belgium,Midfielder
@@ -378,7 +317,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 578500,/football/player/sc-578500/christian-mawissa,18 avril 2005,20.0,Monaco,France,Defender
 632794,/football/player/sc-632794/aladji-bamba,14 juillet 2006,19.0,Monaco,France,Midfielder
 606929,/football/player/sc-606929/emmanuel-biumla,08 mai 2005,20.0,Angers,France,Midfielder
-476391,/football/player/sc-476391/nathaniel-adjei,,,,,
 634897,/football/player/sc-634897/nidal-celik,17 juillet 2006,19.0,Lens,Bosnia and Herzegovina,Defender
 229670,/football/player/sc-229670/gideon-mensah,18 juillet 1998,27.0,Auxerre,Ghana,Defender
 432711,/football/player/sc-432711/cj-egan-riley,02 janvier 2003,23.0,Marseille,England,Defender
@@ -405,7 +343,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 102836,/football/player/sc-102836/brice-samba,25 avril 1994,31.0,Rennes,France,Goalkeeper
 59957,/football/player/sc-59957/anthony-lopes,01 octobre 1990,35.0,Nantes,Portugal,Goalkeeper
 546172,/football/player/sc-546172/guillaume-restes,11 mars 2005,21.0,Toulouse,France,Goalkeeper
-100952,/football/player/sc-100952/yvon-mvogo,,,,,
 176357,/football/player/sc-176357/mory-diaw,22 juin 1993,32.0,Le Havre,Senegal,Goalkeeper
 242194,/football/player/sc-242194/matvey-safonov,25 février 1999,27.0,Paris SG,Russia,Goalkeeper
 231875,/football/player/sc-231875/yehvann-diouf,16 novembre 1999,26.0,Nice,Senegal,Goalkeeper
@@ -414,7 +351,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 216272,/football/player/sc-216272/jeffrey-de-lange,01 avril 1998,27.0,Marseille,Netherlands,Goalkeeper
 228539,/football/player/sc-228539/radoslaw-majecki,16 novembre 1999,26.0,Brest,Poland,Goalkeeper
 523673,/football/player/sc-523673/theo-de-percin,02 février 2001,25.0,Auxerre,France,Goalkeeper
-502436,/football/player/sc-502436/obed-nkambadio,,,,,
 476882,/football/player/sc-476882/melvin-zinga,16 mars 2002,24.0,Angers,Congo,Goalkeeper
 194188,/football/player/sc-194188/bingourou-kamara,21 octobre 1996,29.0,Lorient,Senegal,Goalkeeper
 78830,/football/player/sc-78830/harry-kane,28 juillet 1993,32.0,Bayern München,England,Attacker
@@ -427,24 +363,20 @@ player_id,player_href,dob,age,current_club,affiliation,position
 551232,/football/player/sc-551232/rodrigo-ribeiro,28 avril 2005,20.0,Augsburg,Portugal,Attacker
 428718,/football/player/sc-428718/stefan-schimmer,28 avril 1994,31.0,Heidenheim,Germany,Attacker
 517052,/football/player/sc-517052/nicolas-jackson,20 juin 2001,24.0,Bayern München,Senegal,Attacker
-168143,/football/player/sc-168143/luca-waldschmidt,,,,,
 244731,/football/player/sc-244731/luis-diaz,13 janvier 1997,29.0,Bayern München,Colombia,Attacker
 546855,/football/player/sc-546855/romulo,08 février 2002,24.0,Leipzig,Brazil,Attacker
 132193,/football/player/sc-132193/haris-tabakovic,20 juin 1994,31.0,M'gladbach,Bosnia and Herzegovina,Attacker
 465209,/football/player/sc-465209/tiago-tomas,16 juin 2002,23.0,Stuttgart,Portugal,Attacker
 244857,/football/player/sc-244857/jamal-musiala,26 février 2003,23.0,Bayern München,Germany,Midfielder
-648252,/football/player/sc-648252/montrell-culbreath,,,,,
 649235,/football/player/sc-649235/said-el-mala,26 août 2006,19.0,Köln,Germany,Midfielder
 683068,/football/player/sc-683068/christian-kofane,26 juillet 2006,19.0,Leverkusen,Cameroon,Attacker
 133798,/football/player/sc-133798/serge-gnabry,14 juillet 1995,30.0,Bayern München,Germany,Attacker
-233325,/football/player/sc-233325/ragnar-ache,,,,,
 454831,/football/player/sc-454831/christoph-baumgartner,01 août 1999,26.0,Leipzig,Austria,Midfielder
 522019,/football/player/sc-522019/dzenan-pejcinovic,15 février 2005,21.0,Wolfsburg,Germany,Attacker
 464104,/football/player/sc-464104/silas-katompa-mvumpa,06 octobre 1998,27.0,Mainz 05,Congo DR,Attacker
 68582,/football/player/sc-68582/andrej-kramaric,19 juin 1991,34.0,Hoffenheim,Croatia,Attacker
 533339,/football/player/sc-533339/mohammed-amoura,09 mai 2000,25.0,Wolfsburg,Algeria,Attacker
 492072,/football/player/sc-492072/ricky-jade-jones,08 novembre 2002,23.0,St. Pauli,England,Attacker
-515180,/football/player/sc-515180/grant-leon-ranos,,,,,
 472965,/football/player/sc-472965/andrej-ilic,03 avril 2000,25.0,Union Berlin,Serbia,Attacker
 627846,/football/player/sc-627846/patrice-covic,25 juin 2007,18.0,Bremen,Croatia,Midfielder
 449655,/football/player/sc-449655/sirlord-conteh,09 juillet 1996,29.0,Heidenheim,Germany,Attacker
@@ -456,7 +388,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 518414,/football/player/sc-518414/nelson-weiper,17 mars 2005,21.0,Mainz 05,Germany,Attacker
 183309,/football/player/sc-183309/nadiem-amiri,27 octobre 1996,29.0,Mainz 05,Germany,Midfielder
 247620,/football/player/sc-247620/oladapo-afolayan,11 septembre 1997,28.0,Blackburn,England,Attacker
-225904,/football/player/sc-225904/samuel-essende,,,,,
 429256,/football/player/sc-429256/ermedin-demirovic,25 mars 1998,27.0,Stuttgart,Bosnia and Herzegovina,Attacker
 465859,/football/player/sc-465859/maximilian-beier,17 octobre 2002,23.0,Dortmund,Germany,Attacker
 137908,/football/player/sc-137908/vincenzo-grifo,07 avril 1993,32.0,Freiburg,Italy,Midfielder
@@ -468,11 +399,9 @@ player_id,player_href,dob,age,current_club,affiliation,position
 196243,/football/player/sc-196243/budu-zivzivadze,10 mars 1994,32.0,Heidenheim,Georgia,Attacker
 62480,/football/player/sc-62480/michael-gregoritsch,18 avril 1994,31.0,Augsburg,Austria,Attacker
 232176,/football/player/sc-232176/martin-terrier,04 mars 1997,29.0,Leverkusen,France,Attacker
-170318,/football/player/sc-170318/robert-glatzel,,,,,
 561060,/football/player/sc-561060/fisnik-asllani,08 août 2002,23.0,Hoffenheim,Kosovo,Attacker
 513433,/football/player/sc-513433/brajan-gruda,31 mai 2004,21.0,Leipzig,Germany,Attacker
 120772,/football/player/sc-120772/raphael-guerreiro,22 décembre 1993,32.0,Bayern München,Portugal,Defender
-477539,/football/player/sc-477539/ransford-konigsdorffer,,,,,
 565380,/football/player/sc-565380/justin-njinmah,15 novembre 2000,25.0,Bremen,Germany,Attacker
 438277,/football/player/sc-438277/ozan-kabak,25 mars 2000,25.0,Hoffenheim,Türkiye,Defender
 492931,/football/player/sc-492931/ansgar-knauff,10 janvier 2002,24.0,Frankfurt,Germany,Attacker
@@ -513,7 +442,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 538980,/football/player/sc-538980/antonio-nusa,17 avril 2005,20.0,Leipzig,Norway,Midfielder
 587831,/football/player/sc-587831/derry-scherhant,10 novembre 2002,23.0,Freiburg,Germany,Attacker
 558522,/football/player/sc-558522/ezechiel-banzuzi,16 février 2005,21.0,Leipzig,Netherlands,Midfielder
-679296,/football/player/sc-679296/wael-mohya,,,,,
 222353,/football/player/sc-222353/jens-stage,08 novembre 1996,29.0,Bremen,Denmark,Midfielder
 466006,/football/player/sc-466006/malik-tillman,28 mai 2002,23.0,Leverkusen,USA,Midfielder
 550661,/football/player/sc-550661/mert-komur,17 juillet 2005,20.0,Augsburg,Germany,Midfielder
@@ -543,7 +471,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 428234,/football/player/sc-428234/robin-hack,27 août 1998,27.0,M'gladbach,Germany,Midfielder
 492368,/football/player/sc-492368/isaac-schmidt,07 décembre 1999,26.0,Bremen,Switzerland,Defender
 192401,/football/player/sc-192401/lucas-holer,10 juillet 1994,31.0,Freiburg,Germany,Attacker
-193423,/football/player/sc-193423/jean-luc-dompe,,,,,
 446215,/football/player/sc-446215/wooyeong-jeong,20 septembre 1999,26.0,Union Berlin,Korea Republic,Midfielder
 477067,/football/player/sc-477067/jakub-kaminski,05 juin 2002,23.0,Köln,Poland,Midfielder
 470836,/football/player/sc-470836/nico-schlotterbeck,01 décembre 1999,26.0,Dortmund,Germany,Defender
@@ -556,7 +483,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 430817,/football/player/sc-430817/nikolas-nartey,22 février 2000,26.0,Stuttgart,Denmark,Midfielder
 225895,/football/player/sc-225895/dan-axel-zagadou,03 juin 1999,26.0,Stuttgart,France,Defender
 248811,/football/player/sc-248811/hiroki-ito,12 mai 1999,26.0,Bayern München,Japan,Defender
-219846,/football/player/sc-219846/linton-maina,,,,,
 80941,/football/player/sc-80941/stefan-bell,24 août 1991,34.0,Mainz 05,Germany,Defender
 560261,/football/player/sc-560261/tidiam-gomis,08 août 2006,19.0,Leipzig,France,Attacker
 120781,/football/player/sc-120781/silvan-widmer,05 mars 1993,33.0,Mainz 05,Switzerland,Defender
@@ -572,7 +498,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 513450,/football/player/sc-513450/tom-rothe,29 octobre 2004,21.0,Union Berlin,Germany,Defender
 614071,/football/player/sc-614071/johan-manzambi,14 octobre 2005,20.0,Freiburg,Switzerland,Midfielder
 457734,/football/player/sc-457734/andras-schafer,13 avril 1999,26.0,Union Berlin,Hungary,Midfielder
-470311,/football/player/sc-470311/jan-thielmann,,,,,
 200850,/football/player/sc-200850/maximilian-eggestein,08 décembre 1996,29.0,Freiburg,Germany,Midfielder
 575415,/football/player/sc-575415/adam-daghim,28 septembre 2005,20.0,Wolfsburg,Denmark,Attacker
 513527,/football/player/sc-513527/bilal-el-khannouss,10 mai 2004,21.0,Stuttgart,Morocco,Midfielder
@@ -593,12 +518,10 @@ player_id,player_href,dob,age,current_club,affiliation,position
 513536,/football/player/sc-513536/samuel-mbangula,16 janvier 2004,22.0,Bremen,Belgium,Attacker
 515675,/football/player/sc-515675/aleksandar-pavlovic,03 mai 2004,21.0,Bayern München,Germany,Midfielder
 442305,/football/player/sc-442305/alexander-prass,26 mai 2001,24.0,Hoffenheim,Austria,Defender
-576786,/football/player/sc-576786/fabio-balde,,,,,
 204561,/football/player/sc-204561/xaver-schlager,28 septembre 1997,28.0,Leipzig,Austria,Midfielder
 628884,/football/player/sc-628884/cyriaque-irie,20 juin 2005,20.0,Freiburg,Burkina Faso,Attacker
 452893,/football/player/sc-452893/adrian-beck,09 juin 1997,28.0,Heidenheim,Germany,Midfielder
 437922,/football/player/sc-437922/angelo-stiller,04 avril 2001,24.0,Stuttgart,Germany,Midfielder
-545664,/football/player/sc-545664/elias-saad,,,,,
 543705,/football/player/sc-543705/julian-niehues,17 avril 2001,24.0,Heidenheim,Germany,Midfielder
 101601,/football/player/sc-101601/willi-orban,03 novembre 1992,33.0,Leipzig,Hungary,Defender
 465953,/football/player/sc-465953/robin-hranac,29 janvier 2000,26.0,Hoffenheim,Czechia,Defender
@@ -609,16 +532,12 @@ player_id,player_href,dob,age,current_club,affiliation,position
 424969,/football/player/sc-424969/edmond-tapsoba,02 février 1999,27.0,Leverkusen,Burkina Faso,Defender
 60307,/football/player/sc-60307/pascal-gross,15 juin 1991,34.0,Brighton,Germany,Midfielder
 232240,/football/player/sc-232240/anthony-caci,01 juillet 1997,28.0,Mainz 05,France,Defender
-531075,/football/player/sc-531075/william-mikelbrencis,,,,,
 243309,/football/player/sc-243309/david-raum,22 avril 1998,27.0,Leipzig,Germany,Defender
 107692,/football/player/sc-107692/jackson-irvine,07 mars 1993,33.0,St. Pauli,Australia,Midfielder
 189791,/football/player/sc-189791/ramy-bensebaini,16 avril 1995,30.0,Dortmund,Algeria,Defender
 219279,/football/player/sc-219279/yukinari-sugawara,28 juin 2000,25.0,Bremen,Japan,Defender
-442340,/football/player/sc-442340/cameron-puertas,,,,,
 219265,/football/player/sc-219265/felix-nmecha,10 octobre 2000,25.0,Dortmund,Germany,Midfielder
-430368,/football/player/sc-430368/andreas-skov-olsen,,,,,
 566438,/football/player/sc-566438/arthur,17 mars 2003,23.0,Leverkusen,Brazil,Defender
-479342,/football/player/sc-479342/isak-bergmann-johannesson,,,,,
 178871,/football/player/sc-178871/aleix-garcia,28 juin 1997,28.0,Leverkusen,Spain,Midfielder
 513033,/football/player/sc-513033/robin-fellhauer,21 janvier 1998,28.0,Augsburg,Germany,Defender
 514116,/football/player/sc-514116/albian-hajdari,18 mai 2003,22.0,Hoffenheim,Kosovo,Defender
@@ -653,16 +572,13 @@ player_id,player_href,dob,age,current_club,affiliation,position
 481237,/football/player/sc-481237/ezequiel-fernandez,25 juillet 2002,23.0,Leverkusen,Argentina,Midfielder
 468236,/football/player/sc-468236/yan-couto,03 juin 2002,23.0,Dortmund,Brazil,Defender
 547187,/football/player/sc-547187/noahkai-banks,01 décembre 2006,19.0,Augsburg,USA,Defender
-487868,/football/player/sc-487868/eric-martel,,,,,
 503724,/football/player/sc-503724/lorenz-assignon,22 juin 2000,25.0,Stuttgart,France,Defender
 521052,/football/player/sc-521052/daniel-svensson,12 février 2002,24.0,Dortmund,Sweden,Defender
 427420,/football/player/sc-427420/giovanni-reyna,13 novembre 2002,23.0,M'gladbach,USA,Midfielder
-513451,/football/player/sc-513451/umut-tohumcu,,,,,
 212509,/football/player/sc-212509/waldemar-anton,20 juillet 1996,29.0,Dortmund,Germany,Defender
 199661,/football/player/sc-199661/dayot-upamecano,27 octobre 1998,27.0,Bayern München,France,Defender
 468657,/football/player/sc-468657/castello-lukeba,17 décembre 2002,23.0,Leipzig,France,Defender
 502821,/football/player/sc-502821/sebastian-sebulonsen,27 janvier 2000,26.0,Köln,Norway,Defender
-584627,/football/player/sc-584627/denis-huseinbasic,,,,,
 551050,/football/player/sc-551050/hugo-larsson,27 juin 2004,21.0,Frankfurt,Sweden,Midfielder
 539142,/football/player/sc-539142/aurele-amenda,31 juillet 2003,22.0,Frankfurt,Switzerland,Defender
 629741,/football/player/sc-629741/max-finkgrafe,27 mars 2004,21.0,Leipzig,Germany,Defender
@@ -671,7 +587,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 476824,/football/player/sc-476824/leonidas-stergiou,03 mars 2002,24.0,Heidenheim,Switzerland,Defender
 433156,/football/player/sc-433156/lennard-maloney,08 octobre 1999,26.0,Mainz 05,USA,Midfielder
 160158,/football/player/sc-160158/phillipp-mwene,29 janvier 1994,32.0,Mainz 05,Austria,Defender
-228316,/football/player/sc-228316/bakery-jatta,,,,,
 193645,/football/player/sc-193645/robin-koch,17 juillet 1996,29.0,Frankfurt,Germany,Defender
 623673,/football/player/sc-623673/louis-oppie,17 mai 2002,23.0,St. Pauli,Germany,Defender
 114549,/football/player/sc-114549/dominik-kohr,31 janvier 1994,32.0,Mainz 05,Germany,Midfielder
@@ -688,7 +603,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 207280,/football/player/sc-207280/mads-pedersen,01 septembre 1996,29.0,Augsburg,Denmark,Defender
 181917,/football/player/sc-181917/manolis-saliakas,12 septembre 1996,29.0,St. Pauli,Greece,Defender
 452461,/football/player/sc-452461/philipp-sander,21 février 1998,28.0,M'gladbach,Germany,Midfielder
-198230,/football/player/sc-198230/miro-muheim,,,,,
 428785,/football/player/sc-428785/jeff-chabot,12 février 1998,28.0,Stuttgart,Germany,Defender
 494865,/football/player/sc-494865/joel-chima-fujita,16 février 2002,24.0,St. Pauli,Japan,Midfielder
 429307,/football/player/sc-429307/elvis-rexhbecaj,01 novembre 1997,28.0,Augsburg,Kosovo,Midfielder
@@ -700,7 +614,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 193494,/football/player/sc-193494/marnon-busch,08 décembre 1994,31.0,Heidenheim,Germany,Defender
 428181,/football/player/sc-428181/atakan-karazor,13 octobre 1996,29.0,Stuttgart,Türkiye,Midfielder
 111453,/football/player/sc-111453/janik-haberer,02 avril 1994,31.0,Union Berlin,Germany,Midfielder
-512843,/football/player/sc-512843/nicolai-remberg,,,,,
 241234,/football/player/sc-241234/tim-siersleben,09 mars 2000,26.0,Heidenheim,Germany,Defender
 522015,/football/player/sc-522015/aaron-zehnter,31 octobre 2004,21.0,Wolfsburg,Germany,Defender
 226858,/football/player/sc-226858/alessio-castro-montes,17 mai 1997,28.0,Köln,Belgium,Midfielder
@@ -709,14 +622,12 @@ player_id,player_href,dob,age,current_club,affiliation,position
 209020,/football/player/sc-209020/andreas-hanche-olsen,17 janvier 1997,29.0,Mainz 05,Norway,Defender
 465189,/football/player/sc-465189/arthur-theate,25 mai 2000,25.0,Frankfurt,Belgium,Defender
 164454,/football/player/sc-164454/jonathan-tah,11 février 1996,30.0,Bayern München,Germany,Defender
-628995,/football/player/sc-628995/karim-coulibaly,,,,,
 235868,/football/player/sc-235868/cedric-zesiger,24 juin 1998,27.0,Augsburg,Switzerland,Defender
 210791,/football/player/sc-210791/josip-juranovic,16 août 1995,30.0,Union Berlin,Croatia,Defender
 225059,/football/player/sc-225059/alphonso-davies,02 novembre 2000,25.0,Bayern München,Canada,Defender
 565518,/football/player/sc-565518/sota-kawasaki,30 juillet 2001,24.0,Mainz 05,Japan,Midfielder
 213783,/football/player/sc-213783/julian-ryerson,17 novembre 1997,28.0,Dortmund,Norway,Defender
 96601,/football/player/sc-96601/leonardo-bittencourt,19 décembre 1993,32.0,Bremen,Germany,Midfielder
-584649,/football/player/sc-584649/daniel-elfadli,,,,,
 191803,/football/player/sc-191803/stefan-posch,14 mai 1997,28.0,Mainz 05,Austria,Defender
 214641,/football/player/sc-214641/moritz-jenz,30 avril 1999,26.0,Wolfsburg,Germany,Defender
 249621,/football/player/sc-249621/min-jae-kim,15 novembre 1996,29.0,Bayern München,Korea Republic,Defender
@@ -730,14 +641,10 @@ player_id,player_href,dob,age,current_club,affiliation,position
 444687,/football/player/sc-444687/senne-lynen,19 février 1999,27.0,Bremen,Belgium,Midfielder
 511536,/football/player/sc-511536/arkadiusz-pyrka,20 septembre 2002,23.0,St. Pauli,Poland,Defender
 519634,/football/player/sc-519634/jenson-seelt,23 mai 2003,22.0,Wolfsburg,Netherlands,Defender
-589895,/football/player/sc-589895/jan-burger,,,,,
 164555,/football/player/sc-164555/vladimir-coufal,22 août 1992,33.0,Hoffenheim,Czechia,Defender
 93683,/football/player/sc-93683/jeffrey-gouweleeuw,10 juillet 1991,34.0,Augsburg,Netherlands,Defender
-487142,/football/player/sc-487142/thomas-keller,,,,,
 182410,/football/player/sc-182410/eric-smith,08 janvier 1997,29.0,St. Pauli,Sweden,Midfielder
-657978,/football/player/sc-657978/alexander-rossing-lelesiit,,,,,
 620667,/football/player/sc-620667/leon-avdullahu,23 février 2004,22.0,Hoffenheim,Kosovo,Midfielder
-512524,/football/player/sc-512524/joel-schmied,,,,,
 166455,/football/player/sc-166455/hauke-wahl,15 avril 1994,31.0,St. Pauli,Germany,Defender
 208559,/football/player/sc-208559/stanley-nsoki,09 avril 1999,26.0,Union Berlin,France,Defender
 449918,/football/player/sc-449918/tom-krauss,22 juin 2001,24.0,Köln,Germany,Midfielder
@@ -758,13 +665,11 @@ player_id,player_href,dob,age,current_club,affiliation,position
 229067,/football/player/sc-229067/maxim-leitsch,18 mai 1998,27.0,Mainz 05,Germany,Defender
 554088,/football/player/sc-554088/finn-jeltsch,17 juillet 2006,19.0,Stuttgart,Germany,Defender
 450067,/football/player/sc-450067/ramon-hendriks,18 juillet 2001,24.0,Stuttgart,Netherlands,Defender
-503732,/football/player/sc-503732/warmed-omari,,,,,
 563987,/football/player/sc-563987/luca-jaquez,02 juin 2003,22.0,Stuttgart,Switzerland,Defender
 449695,/football/player/sc-449695/felix-agu,27 septembre 1999,26.0,Bremen,Nigeria,Defender
 124156,/football/player/sc-124156/adam-dzwigala,25 septembre 1995,30.0,St. Pauli,Poland,Defender
 497889,/football/player/sc-497889/william-boving,01 mars 2003,23.0,Mainz 05,Denmark,Attacker
 162037,/football/player/sc-162037/robert-skov,20 mai 1996,29.0,Union Berlin,Denmark,Midfielder
-561092,/football/player/sc-561092/sael-kumbedi,,,,,
 77244,/football/player/sc-77244/karol-mets,16 mai 1993,32.0,St. Pauli,Estonia,Defender
 161450,/football/player/sc-161450/niklas-sule,03 septembre 1995,30.0,Dortmund,Germany,Defender
 424001,/football/player/sc-424001/vinicius-souza,17 juin 1999,26.0,Wolfsburg,Brazil,Midfielder
@@ -775,16 +680,11 @@ player_id,player_href,dob,age,current_club,affiliation,position
 494600,/football/player/sc-494600/max-rosenfelder,10 février 2003,23.0,Freiburg,Germany,Defender
 62422,/football/player/sc-62422/christopher-trimmel,24 février 1987,39.0,Union Berlin,Austria,Defender
 543921,/football/player/sc-543921/jordy-makengo,03 août 2001,24.0,Freiburg,France,Defender
-107590,/football/player/sc-107590/dominique-heintz,,,,,
 512229,/football/player/sc-512229/rav-van-den-berg,07 juillet 2004,21.0,Köln,Netherlands,Defender
 182157,/football/player/sc-182157/marvin-friedrich,13 décembre 1995,30.0,M'gladbach,Germany,Defender
 241238,/football/player/sc-241238/yannik-keitel,15 février 2000,26.0,Augsburg,Germany,Midfielder
 571642,/football/player/sc-571642/filippo-mane,08 mars 2005,21.0,Dortmund,Italy,Defender
 578545,/football/player/sc-578545/kosta-nedeljkovic,16 décembre 2005,20.0,Leipzig,Serbia,Defender
-218751,/football/player/sc-218751/emir-sahiti,,,,,
-146358,/football/player/sc-146358/jonas-meffert,,,,,
-651875,/football/player/sc-651875/aboubaka-soumahoro,,,,,
-228528,/football/player/sc-228528/timo-hubers,,,,,
 84955,/football/player/sc-84955/daniel-batz,12 janvier 1991,35.0,Mainz 05,Germany,Goalkeeper
 463748,/football/player/sc-463748/karl-hein,13 avril 2002,23.0,Bremen,Estonia,Goalkeeper
 186658,/football/player/sc-186658/alexander-nubel,30 septembre 1996,29.0,Stuttgart,Germany,Goalkeeper
@@ -793,9 +693,7 @@ player_id,player_href,dob,age,current_club,affiliation,position
 215651,/football/player/sc-215651/moritz-nicolas,21 octobre 1997,28.0,M'gladbach,Germany,Goalkeeper
 232904,/football/player/sc-232904/kamil-grabara,08 janvier 1999,27.0,Wolfsburg,Poland,Goalkeeper
 185513,/football/player/sc-185513/gregor-kobel,06 décembre 1997,28.0,Dortmund,Switzerland,Goalkeeper
-183095,/football/player/sc-183095/marvin-schwabe,,,,,
 248866,/football/player/sc-248866/maarten-vandevoordt,26 février 2002,24.0,Leipzig,Belgium,Goalkeeper
-141021,/football/player/sc-141021/daniel-heuer-fernandes,,,,,
 73140,/football/player/sc-73140/oliver-baumann,02 juin 1990,35.0,Hoffenheim,Germany,Goalkeeper
 470306,/football/player/sc-470306/noah-atubolu,25 mai 2002,23.0,Freiburg,Germany,Goalkeeper
 218361,/football/player/sc-218361/finn-dahmen,27 mars 1998,27.0,Augsburg,Germany,Goalkeeper
@@ -817,7 +715,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 224444,/football/player/sc-224444/ferran-torres,29 février 2000,26.0,Barcelona,Spain,Attacker
 219961,/football/player/sc-219961/raphinha,14 décembre 1996,29.0,Barcelona,Brazil,Attacker
 541052,/football/player/sc-541052/jon-karrikaburu,19 septembre 2002,23.0,Real Sociedad,Spain,Attacker
-165375,/football/player/sc-165375/jose-luis-morales,,,,,
 76650,/football/player/sc-76650/antoine-griezmann,21 mars 1991,35.0,Atlético,France,Attacker
 490859,/football/player/sc-490859/raul-garcia,03 novembre 2000,25.0,Osasuna,Spain,Attacker
 433952,/football/player/sc-433952/largie-ramazani,27 février 2001,25.0,Valencia,Belgium,Attacker
@@ -834,7 +731,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 593109,/football/player/sc-593109/lamine-yamal,13 juillet 2007,18.0,Barcelona,Spain,Attacker
 220182,/football/player/sc-220182/gorka-guruzeta,12 septembre 1996,29.0,Athletic,Spain,Attacker
 40270,/football/player/sc-40270/iago-aspas,01 août 1987,38.0,Celta,Spain,Attacker
-484432,/football/player/sc-484432/urko-izeta,,,,,
 566165,/football/player/sc-566165/jones-el-abdellaoui,12 janvier 2006,20.0,Celta,Morocco,Attacker
 205992,/football/player/sc-205992/chimy-avila,06 février 1994,32.0,Betis,Argentina,Attacker
 143877,/football/player/sc-143877/alexander-sorloth,05 décembre 1995,30.0,Atlético,Norway,Attacker
@@ -856,7 +752,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 561245,/football/player/sc-561245/alvaro-rodriguez,14 juillet 2004,21.0,Elche,Uruguay,Attacker
 244855,/football/player/sc-244855/jude-bellingham,29 juin 2003,22.0,Real Madrid,England,Midfielder
 461358,/football/player/sc-461358/julian-alvarez,31 janvier 2000,26.0,Atlético,Argentina,Attacker
-645745,/football/player/sc-645745/carlos-espi,,,,,
 546329,/football/player/sc-546329/iker-benito,10 août 2002,23.0,Osasuna,Spain,Attacker
 439716,/football/player/sc-439716/hugo-duro,10 novembre 1999,26.0,Valencia,Spain,Attacker
 611626,/football/player/sc-611626/maroan-sannadi,01 février 2001,25.0,Athletic,Morocco,Attacker
@@ -869,22 +764,18 @@ player_id,player_href,dob,age,current_club,affiliation,position
 439772,/football/player/sc-439772/oihan-sancet,25 avril 2000,25.0,Athletic,Spain,Midfielder
 461360,/football/player/sc-461360/thiago-almada,26 avril 2001,24.0,Atlético,Argentina,Midfielder
 440077,/football/player/sc-440077/rodrygo,09 janvier 2001,25.0,Real Madrid,Brazil,Attacker
-492872,/football/player/sc-492872/federico-vinas,,,,,
 195735,/football/player/sc-195735/nicolas-pepe,29 mai 1995,30.0,Villarreal,Côte d'Ivoire,Attacker
 467169,/football/player/sc-467169/antony,24 février 2000,26.0,Betis,Brazil,Attacker
 523654,/football/player/sc-523654/nico-williams,12 juillet 2002,23.0,Athletic,Spain,Attacker
 543932,/football/player/sc-543932/williot-swedberg,01 février 2004,22.0,Celta,Sweden,Midfielder
-521508,/football/player/sc-521508/ivan-romero,,,,,
 178867,/football/player/sc-178867/toni-martinez,30 juin 1997,28.0,Alavés,Spain,Attacker
 165682,/football/player/sc-165682/alvaro-garcia,27 octobre 1992,33.0,Rayo,Spain,Midfielder
 537940,/football/player/sc-537940/roberto-fernandez,03 juillet 2002,23.0,Espanyol,Spain,Attacker
 565297,/football/player/sc-565297/mateo-joseph,19 octobre 2003,22.0,Mallorca,Spain,Attacker
-561098,/football/player/sc-561098/roony-bardghji,,,,,
 446969,/football/player/sc-446969/giacomo-raspadori,18 février 2000,26.0,Atalanta,Italy,Attacker
 597355,/football/player/sc-597355/pablo-duran,25 mai 2001,24.0,Celta,Spain,Attacker
 197334,/football/player/sc-197334/inaki-williams,15 juin 1994,31.0,Athletic,Ghana,Attacker
 220307,/football/player/sc-220307/arnaut-danjuma,31 janvier 1997,29.0,Valencia,Netherlands,Attacker
-57134,/football/player/sc-57134/salomon-rondon,,,,,
 437834,/football/player/sc-437834/rodrigo-riquelme,02 avril 2000,25.0,Betis,Spain,Midfielder
 235674,/football/player/sc-235674/manor-solomon,24 juillet 1999,26.0,Fiorentina,Israel,Attacker
 88550,/football/player/sc-88550/portu,21 mai 1992,33.0,Girona,Spain,Attacker
@@ -904,7 +795,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 434078,/football/player/sc-434078/isi-palazon,27 décembre 1994,31.0,Rayo,Spain,Midfielder
 37265,/football/player/sc-37265/alexis-sanchez,19 décembre 1988,37.0,Sevilla,Chile,Attacker
 482652,/football/player/sc-482652/giuliano-simeone,18 décembre 2002,23.0,Atlético,Argentina,Attacker
-439878,/football/player/sc-439878/roger-brugue,,,,,
 178880,/football/player/sc-178880/brais-mendez,07 janvier 1997,29.0,Real Sociedad,Spain,Midfielder
 520250,/football/player/sc-520250/arda-guler,25 février 2005,21.0,Real Madrid,Türkiye,Midfielder
 554653,/football/player/sc-554653/joel-roca,07 juin 2005,20.0,Girona,Spain,Midfielder
@@ -951,15 +841,12 @@ player_id,player_href,dob,age,current_club,affiliation,position
 646142,/football/player/sc-646142/asier-osambela,30 octobre 2004,21.0,Osasuna,Spain,Midfielder
 445087,/football/player/sc-445087/ronald-araujo,07 mars 1999,27.0,Barcelona,Uruguay,Defender
 217593,/football/player/sc-217593/pablo-fornals,22 février 1996,30.0,Betis,Spain,Midfielder
-445998,/football/player/sc-445998/pablo-martinez,,,,,
 519373,/football/player/sc-519373/ramon-terrats,18 octobre 2000,25.0,Espanyol,Spain,Midfielder
-494921,/football/player/sc-494921/carlos-alvarez,,,,,
 554605,/football/player/sc-554605/dean-huijsen,14 avril 2005,20.0,Real Madrid,Spain,Defender
 198381,/football/player/sc-198381/charles-pickel,15 mai 1997,28.0,Espanyol,Congo DR,Midfielder
 179271,/football/player/sc-179271/carles-alena,05 janvier 1998,28.0,Alavés,Spain,Midfielder
 149915,/football/player/sc-149915/diego-llorente,16 août 1993,32.0,Betis,Spain,Defender
 475612,/football/player/sc-475612/arsen-zakharyan,26 mai 2003,22.0,Real Sociedad,Russia,Midfielder
-646190,/football/player/sc-646190/selton-sanchez,,,,,
 546698,/football/player/sc-546698/antoniu-roca,05 septembre 2002,23.0,Espanyol,Spain,Attacker
 218449,/football/player/sc-218449/eder-militao,18 janvier 1998,28.0,Real Madrid,Brazil,Defender
 634328,/football/player/sc-634328/adrian-liso,02 avril 2005,20.0,Getafe,Spain,Attacker
@@ -973,10 +860,8 @@ player_id,player_href,dob,age,current_club,affiliation,position
 179830,/football/player/sc-179830/grady-diangana,19 avril 1998,27.0,Elche,Congo DR,Attacker
 531219,/football/player/sc-531219/carlos-martin,22 avril 2002,23.0,Rayo,Spain,Attacker
 546540,/football/player/sc-546540/javi-guerra,13 mai 2003,22.0,Valencia,Spain,Midfielder
-669962,/football/player/sc-669962/jan-virgili,,,,,
 424622,/football/player/sc-424622/tajon-buchanan,08 février 1999,27.0,Villarreal,Canada,Attacker
 420926,/football/player/sc-420926/tyrhys-dolan,28 décembre 2001,24.0,Espanyol,England,Attacker
-637705,/football/player/sc-637705/oso,,,,,
 550566,/football/player/sc-550566/hugo-alvarez,02 juillet 2003,22.0,Celta,Spain,Midfielder
 216183,/football/player/sc-216183/brahim-diaz,03 août 1999,26.0,Real Madrid,Morocco,Midfielder
 485385,/football/player/sc-485385/samu-costa,27 novembre 2000,25.0,Mallorca,Portugal,Midfielder
@@ -986,7 +871,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 490541,/football/player/sc-490541/pedri,25 novembre 2002,23.0,Barcelona,Spain,Midfielder
 503523,/football/player/sc-503523/pablo-barrios,15 juin 2003,22.0,Atlético,Spain,Midfielder
 115382,/football/player/sc-115382/neal-maupay,14 août 1996,29.0,Sevilla,France,Attacker
-437808,/football/player/sc-437808/adrian-de-la-fuente,,,,,
 547455,/football/player/sc-547455/pablo-marin,03 juillet 2003,22.0,Real Sociedad,Spain,Midfielder
 513945,/football/player/sc-513945/jon-olasagasti,16 août 2000,25.0,Levante,Spain,Midfielder
 146941,/football/player/sc-146941/aymeric-laporte,27 mai 1994,31.0,Athletic,Spain,Defender
@@ -1006,17 +890,13 @@ player_id,player_href,dob,age,current_club,affiliation,position
 420909,/football/player/sc-420909/edu-exposito,01 août 1996,29.0,Espanyol,Spain,Midfielder
 429374,/football/player/sc-429374/luka-ilic,02 juillet 1999,26.0,Oviedo,Serbia,Midfielder
 226541,/football/player/sc-226541/yangel-herrera,07 janvier 1998,28.0,Real Sociedad,Venezuela,Midfielder
-521845,/football/player/sc-521845/yaser-asprilla,,,,,
 244707,/football/player/sc-244707/carlos-benavidez,30 mars 1998,27.0,Alavés,Uruguay,Midfielder
-458310,/football/player/sc-458310/haissem-hassan,,,,,
-199332,/football/player/sc-199332/lucas-ahijado,,,,,
 484702,/football/player/sc-484702/aimar-oroz,27 novembre 2001,24.0,Osasuna,Spain,Midfielder
 633425,/football/player/sc-633425/buba-sangare,06 août 2007,18.0,Elche,Spain,Defender
 434941,/football/player/sc-434941/luis-rioja,16 octobre 1993,32.0,Valencia,Spain,Attacker
 64662,/football/player/sc-64662/leandro-cabrera,17 juin 1991,34.0,Espanyol,Uruguay,Defender
 466543,/football/player/sc-466543/andrei-ratiu,20 juin 1998,27.0,Rayo,Romania,Defender
 475561,/football/player/sc-475561/eduardo-camavinga,10 novembre 2002,23.0,Real Madrid,France,Midfielder
-594611,/football/player/sc-594611/coba-da-costa,,,,,
 223255,/football/player/sc-223255/federico-valverde,22 juillet 1998,27.0,Real Madrid,Uruguay,Midfielder
 435065,/football/player/sc-435065/pedro-diaz,05 juin 1998,27.0,Rayo,Spain,Midfielder
 208380,/football/player/sc-208380/alfonso-pedraza,09 avril 1996,29.0,Villarreal,Spain,Defender
@@ -1027,12 +907,10 @@ player_id,player_href,dob,age,current_club,affiliation,position
 500759,/football/player/sc-500759/copete,10 octobre 1999,26.0,Valencia,Spain,Defender
 178347,/football/player/sc-178347/mariano-diaz,01 août 1993,32.0,Alavés,Dominican Republic,Attacker
 220325,/football/player/sc-220325/jules-kounde,12 novembre 1998,27.0,Barcelona,France,Defender
-522785,/football/player/sc-522785/john-donald,,,,,
 240071,/football/player/sc-240071/dani-raba,29 octobre 1995,30.0,Valencia,Spain,Attacker
 89572,/football/player/sc-89572/denis-suarez,06 janvier 1994,32.0,Alavés,Spain,Midfielder
 495126,/football/player/sc-495126/alejandro-frances,01 août 2002,23.0,Girona,Spain,Defender
 154976,/football/player/sc-154976/adnan-januzaj,05 février 1995,31.0,Sevilla,Belgium,Midfielder
-230598,/football/player/sc-230598/nacho-vidal,,,,,
 154051,/football/player/sc-154051/ovie-ejaria,18 novembre 1997,28.0,Oviedo,England,Attacker
 209712,/football/player/sc-209712/frenkie-de-jong,12 mai 1997,28.0,Barcelona,Netherlands,Midfielder
 50188,/football/player/sc-50188/david-alaba,24 juin 1992,33.0,Real Madrid,Austria,Defender
@@ -1045,14 +923,12 @@ player_id,player_href,dob,age,current_club,affiliation,position
 561243,/football/player/sc-561243/mario-martin,05 mars 2004,22.0,Getafe,Spain,Midfielder
 488026,/football/player/sc-488026/benat-turrientes,31 janvier 2002,24.0,Real Sociedad,Spain,Midfielder
 219286,/football/player/sc-219286/batista-mendy,12 janvier 2000,26.0,Sevilla,France,Midfielder
-199250,/football/player/sc-199250/aleix-febas,,,,,
 439871,/football/player/sc-439871/sergio-carreira,13 octobre 2000,25.0,Celta,Spain,Defender
 544538,/football/player/sc-544538/nelson-deossa,06 février 2000,26.0,Betis,Colombia,Midfielder
 242169,/football/player/sc-242169/filip-ugrinic,05 janvier 1999,27.0,Valencia,Switzerland,Midfielder
 483083,/football/player/sc-483083/martim-neto,14 janvier 2003,23.0,Elche,Portugal,Midfielder
 234370,/football/player/sc-234370/marc-roca,26 novembre 1996,29.0,Betis,Spain,Midfielder
 198221,/football/player/sc-198221/javi-munoz,28 février 1995,31.0,Getafe,Spain,Midfielder
-219885,/football/player/sc-219885/unai-elgezabal,,,,,
 440593,/football/player/sc-440593/aitor-paredes,29 avril 2000,25.0,Athletic,Spain,Defender
 602479,/football/player/sc-602479/miguel-roman,26 décembre 2002,23.0,Celta,Spain,Midfielder
 443967,/football/player/sc-443967/junior-firpo,22 août 1996,29.0,Betis,Dominican Republic,Defender
@@ -1073,26 +949,21 @@ player_id,player_href,dob,age,current_club,affiliation,position
 111232,/football/player/sc-111232/lucas-torro,19 juillet 1994,31.0,Osasuna,Spain,Midfielder
 121145,/football/player/sc-121145/joao-cancelo,27 mai 1994,31.0,Barcelona,Portugal,Defender
 151589,/football/player/sc-151589/leander-dendoncker,15 avril 1995,30.0,Oviedo,Belgium,Midfielder
-218368,/football/player/sc-218368/josip-brekalo,,,,,
 227164,/football/player/sc-227164/manu-morlanes,12 janvier 1999,27.0,Mallorca,Spain,Midfielder
 102380,/football/player/sc-102380/antonio-rudiger,03 mars 1993,33.0,Real Madrid,Germany,Defender
 465689,/football/player/sc-465689/ilaix-moriba,19 janvier 2003,23.0,Celta,Guinea,Midfielder
 645755,/football/player/sc-645755/kareem-tunde,19 août 2005,20.0,Levante II,Spain,Attacker
 494927,/football/player/sc-494927/marc-casado,14 septembre 2003,22.0,Barcelona,Spain,Midfielder
 77359,/football/player/sc-77359/florian-lejeune,20 mai 1991,34.0,Rayo,France,Defender
-435712,/football/player/sc-435712/diego-pampin,,,,,
 620583,/football/player/sc-620583/hugo-rincon,27 janvier 2003,23.0,Girona,Spain,Defender
-631382,/football/player/sc-631382/ali-houary,,,,,
 536642,/football/player/sc-536642/santiago-mourino,13 février 2002,24.0,Villarreal,Uruguay,Defender
 570931,/football/player/sc-570931/valentin-gomez,26 juin 2003,22.0,Betis,Argentina,Defender
 484693,/football/player/sc-484693/sergi-cardona,08 juillet 1999,26.0,Villarreal,Spain,Defender
 437554,/football/player/sc-437554/dani-vivian,05 juillet 1999,26.0,Athletic,Spain,Defender
 581251,/football/player/sc-581251/alan-matturro,11 octobre 2004,21.0,Levante,Uruguay,Defender
-199195,/football/player/sc-199195/josan,,,,,
 451432,/football/player/sc-451432/david-carmo,19 juillet 1999,26.0,Oviedo,Angola,Defender
 603845,/football/player/sc-603845/alex-sancris,18 janvier 1997,29.0,Getafe,Spain,Attacker
 183462,/football/player/sc-183462/unai-lopez,30 octobre 1995,30.0,Rayo,Spain,Midfielder
-665346,/football/player/sc-665346/marc-domenech,,,,,
 458001,/football/player/sc-458001/nicolas-fonseca,19 octobre 1998,27.0,Oviedo,Uruguay,Midfielder
 437458,/football/player/sc-437458/mateu-morey,02 mars 2000,26.0,Mallorca,Spain,Defender
 622127,/football/player/sc-622127/matias-moreno,24 septembre 2003,22.0,Levante,Argentina,Defender
@@ -1106,7 +977,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 589577,/football/player/sc-589577/iker-munoz,05 septembre 2002,23.0,Osasuna,Spain,Midfielder
 464284,/football/player/sc-464284/antonio-sanchez,22 avril 1997,28.0,Mallorca,Spain,Midfielder
 498594,/football/player/sc-498594/abel-bretones,21 août 2000,25.0,Osasuna,Spain,Defender
-169205,/football/player/sc-169205/david-costas,,,,,
 437468,/football/player/sc-437468/sergio-gomez,04 septembre 2000,25.0,Real Sociedad,Spain,Attacker
 422507,/football/player/sc-422507/facundo-garces,05 septembre 1999,26.0,Alavés,Malaysia,Defender
 167742,/football/player/sc-167742/luis-milla,07 octobre 1994,31.0,Getafe,Spain,Midfielder
@@ -1125,13 +995,10 @@ player_id,player_href,dob,age,current_club,affiliation,position
 485374,/football/player/sc-485374/victor-parada,04 avril 2002,23.0,Alavés,Spain,Defender
 72154,/football/player/sc-72154/nemanja-gudelj,16 novembre 1991,34.0,Sevilla,Serbia,Midfielder
 220563,/football/player/sc-220563/leo-petrot,15 avril 1997,28.0,Elche,France,Defender
-91393,/football/player/sc-91393/pedro-bigas,,,,,
 160540,/football/player/sc-160540/jeremy-toljan,08 août 1994,31.0,Levante,Germany,Defender
 242830,/football/player/sc-242830/unai-nunez,30 janvier 1997,29.0,Valencia,Spain,Defender
 468426,/football/player/sc-468426/lucien-agoume,09 février 2002,24.0,Sevilla,France,Midfielder
-242310,/football/player/sc-242310/oriol-rey,,,,,
 197326,/football/player/sc-197326/mikel-vesga,08 avril 1993,32.0,Athletic,Spain,Midfielder
-546812,/football/player/sc-546812/jon-gorrotxategi,,,,,
 466044,/football/player/sc-466044/jesus-vazquez,02 janvier 2003,23.0,Valencia,Spain,Defender
 96736,/football/player/sc-96736/inigo-ruiz-de-galarreta,06 août 1993,32.0,Athletic,Spain,Midfielder
 431644,/football/player/sc-431644/ander-guevara,07 juillet 1997,28.0,Alavés,Spain,Midfielder
@@ -1147,13 +1014,11 @@ player_id,player_href,dob,age,current_club,affiliation,position
 224919,/football/player/sc-224919/robin-le-normand,11 novembre 1996,29.0,Atlético,Spain,Defender
 514204,/football/player/sc-514204/urko-gonzalez,20 mars 2001,25.0,Espanyol,Spain,Midfielder
 200599,/football/player/sc-200599/domingos-duarte,10 mars 1995,31.0,Getafe,Portugal,Defender
-19524,/football/player/sc-19524/santi-cazorla,,,,,
 197024,/football/player/sc-197024/guido-rodriguez,12 avril 1994,31.0,Valencia,Argentina,Midfielder
 545998,/football/player/sc-545998/jose-angel-carmona,29 janvier 2002,24.0,Sevilla,Spain,Defender
 562922,/football/player/sc-562922/andres-castrin,26 mai 2003,22.0,Sevilla,Spain,Defender
 81138,/football/player/sc-81138/marc-bartra,15 janvier 1991,35.0,Betis,Spain,Defender
 429644,/football/player/sc-429644/tete-morente,04 décembre 1996,29.0,Elche,Spain,Attacker
-218298,/football/player/sc-218298/santiago-colombatto,,,,,
 235227,/football/player/sc-235227/andoni-gorosabel,04 août 1996,29.0,Athletic,Spain,Defender
 197314,/football/player/sc-197314/inigo-lekue,04 mai 1993,32.0,Athletic,Spain,Defender
 463001,/football/player/sc-463001/abdel-abqar,10 mars 1999,27.0,Getafe,Morocco,Defender
@@ -1167,12 +1032,10 @@ player_id,player_href,dob,age,current_club,affiliation,position
 105571,/football/player/sc-105571/antonio-raillo,08 octobre 1991,34.0,Mallorca,Spain,Defender
 561554,/football/player/sc-561554/sergi-altimira,25 août 2001,24.0,Betis,Spain,Midfielder
 593110,/football/player/sc-593110/pau-cubarsi,22 janvier 2007,19.0,Barcelona,Spain,Defender
-438339,/football/player/sc-438339/kwasi-sibo,,,,,
 77390,/football/player/sc-77390/koke,08 janvier 1992,34.0,Atlético,Spain,Midfielder
 98745,/football/player/sc-98745/hector-bellerin,19 mars 1995,31.0,Betis,Spain,Defender
 433059,/football/player/sc-433059/marash-kumbulla,08 février 2000,26.0,Mallorca,Albania,Defender
 169187,/football/player/sc-169187/trent-alexander-arnold,07 octobre 1998,27.0,Real Madrid,England,Defender
-442299,/football/player/sc-442299/david-affengruber,,,,,
 172912,/football/player/sc-172912/sofyan-amrabat,21 août 1996,29.0,Betis,Morocco,Midfielder
 498444,/football/player/sc-498444/pep-chavarria,10 avril 1998,27.0,Rayo,Spain,Defender
 488040,/football/player/sc-488040/rafa-marin,19 mai 2002,23.0,Villarreal,Spain,Defender
@@ -1189,8 +1052,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 538671,/football/player/sc-538671/jozhua-vertrouwd,21 août 2004,21.0,Rayo,Netherlands,Defender
 510280,/football/player/sc-510280/calebe,30 avril 2000,25.0,Alavés,Brazil,Midfielder
 449931,/football/player/sc-449931/jon-pacheco,08 janvier 2001,25.0,Alavés,Spain,Defender
-235421,/football/player/sc-235421/oier-luengo,,,,,
-664920,/football/player/sc-664920/ismael-bekhoucha,,,,,
 42670,/football/player/sc-42670/yuri-berchiche,10 février 1990,36.0,Athletic,Spain,Defender
 51952,/football/player/sc-51952/dani-parejo,16 avril 1989,36.0,Villarreal,Spain,Midfielder
 440594,/football/player/sc-440594/alvaro-nunez,07 juillet 2000,25.0,Celta,Spain,Defender
@@ -1217,31 +1078,23 @@ player_id,player_href,dob,age,current_club,affiliation,position
 643134,/football/player/sc-643134/manu-fernandez,23 avril 2001,24.0,Celta,Spain,Defender
 149838,/football/player/sc-149838/djene-dakonam,31 décembre 1991,34.0,Getafe,Togo,Defender
 107594,/football/player/sc-107594/omar-mascarell,02 février 1993,33.0,Mallorca,Equatorial Guinea,Midfielder
-484741,/football/player/sc-484741/marc-aguado,,,,,
 523234,/football/player/sc-523234/gerard-martin,26 février 2002,24.0,Barcelona,Spain,Defender
 492917,/football/player/sc-492917/ugo-raghouber,13 juillet 2003,22.0,Levante,France,Midfielder
 58877,/football/player/sc-58877/daley-blind,09 mars 1990,36.0,Girona,Netherlands,Defender
 629738,/football/player/sc-629738/adama-boiro,22 juin 2002,23.0,Athletic,Spain,Defender
-562061,/football/player/sc-562061/rahim-alhassane,,,,,
 629907,/football/player/sc-629907/pau-navarro,25 avril 2005,20.0,Villarreal III,Spain,Defender
 517929,/football/player/sc-517929/omar-el-hilali,12 septembre 2003,22.0,Espanyol,Morocco,Defender
 439768,/football/player/sc-439768/unai-vencedor,15 novembre 2000,25.0,Levante,Spain,Midfielder
-646149,/football/player/sc-646149/inigo-arguibide,,,,,
 41328,/football/player/sc-41328/cesar-azpilicueta,28 août 1989,36.0,Sevilla,Spain,Defender
 515611,/football/player/sc-515611/jose-salinas,30 septembre 2000,25.0,Espanyol,Spain,Defender
 221306,/football/player/sc-221306/toni-lato,21 novembre 1997,28.0,Mallorca,Spain,Defender
-185650,/football/player/sc-185650/dani-calvo,,,,,
 165804,/football/player/sc-165804/fabio-cardoso,19 avril 1994,31.0,Sevilla,Portugal,Defender
 643133,/football/player/sc-643133/yoel-lago,25 mars 2004,21.0,Celta,Spain,Defender
-562941,/football/player/sc-562941/ramon-martinez,,,,,
-648762,/football/player/sc-648762/jorge-cabello,,,,,
-485098,/football/player/sc-485098/moussa-diarra,,,,,
 121537,/football/player/sc-121537/juan-musso,06 mai 1994,31.0,Atlético,Argentina,Goalkeeper
 449928,/football/player/sc-449928/joan-garcia,04 mai 2001,24.0,Barcelona,Spain,Goalkeeper
 523865,/football/player/sc-523865/pablo-campos,28 avril 2002,23.0,Levante,Spain,Goalkeeper
 77318,/football/player/sc-77318/marc-andre-ter-stegen,30 avril 1992,33.0,Girona,Germany,Goalkeeper
 59936,/football/player/sc-59936/wojciech-szczesny,18 avril 1990,35.0,Barcelona,Poland,Goalkeeper
-176278,/football/player/sc-176278/aaron-escandell,,,,,
 175204,/football/player/sc-175204/david-soria,04 avril 1993,32.0,Getafe,Spain,Goalkeeper
 210341,/football/player/sc-210341/inaki-pena,02 mars 1999,27.0,Elche,Spain,Goalkeeper
 138039,/football/player/sc-138039/sergio-herrera,05 juin 1993,32.0,Osasuna,Spain,Goalkeeper
@@ -1258,7 +1111,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 173209,/football/player/sc-173209/augusto-batalla,30 avril 1996,29.0,Rayo,Argentina,Goalkeeper
 182960,/football/player/sc-182960/pau-lopez,13 décembre 1994,31.0,Betis,Spain,Goalkeeper
 514664,/football/player/sc-514664/luiz-junior,14 janvier 2001,25.0,Villarreal,Brazil,Goalkeeper
-98448,/football/player/sc-98448/matias-dituro,,,,,
 197316,/football/player/sc-197316/alex-remiro,24 mars 1995,30.0,Real Sociedad,Spain,Goalkeeper
 94878,/football/player/sc-94878/stole-dimitrievski,25 décembre 1993,32.0,Valencia,North Macedonia,Goalkeeper
 472194,/football/player/sc-472194/alvaro-valles,25 juillet 1997,28.0,Betis,Spain,Goalkeeper
@@ -1290,7 +1142,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 50175,/football/player/sc-50175/danny-welbeck,26 novembre 1990,35.0,Brighton,England,Attacker
 223541,/football/player/sc-223541/federico-chiesa,25 octobre 1997,28.0,Liverpool,Italy,Attacker
 102057,/football/player/sc-102057/raul-jimenez,05 mai 1991,34.0,Fulham,Mexico,Attacker
-60689,/football/player/sc-60689/chris-wood,,,,,
 463034,/football/player/sc-463034/liam-delap,08 février 2003,23.0,Chelsea,England,Attacker
 232826,/football/player/sc-232826/anthony-gordon,24 février 2001,25.0,Newcastle,England,Attacker
 224117,/football/player/sc-224117/viktor-gyokeres,04 juin 1998,27.0,Arsenal,Sweden,Attacker
@@ -1322,7 +1173,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 118748,/football/player/sc-118748/mohamed-salah,15 juin 1992,33.0,Liverpool,Egypt,Attacker
 488213,/football/player/sc-488213/tolu-arokodare,23 novembre 2000,25.0,Wolves,Nigeria,Attacker
 115556,/football/player/sc-115556/ben-davies,24 avril 1993,32.0,Spurs,Wales,Defender
-437505,/football/player/sc-437505/wilson-isidor,,,,,
 223340,/football/player/sc-223340/bukayo-saka,05 septembre 2001,24.0,Arsenal,England,Attacker
 608181,/football/player/sc-608181/stefanos-tzimas,06 janvier 2006,20.0,Brighton,Greece,Attacker
 201658,/football/player/sc-201658/marcus-tavernier,22 mars 1999,26.0,Bournemouth,England,Midfielder
@@ -1336,7 +1186,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 494595,/football/player/sc-494595/florian-wirtz,03 mai 2003,22.0,Liverpool,Germany,Midfielder
 430871,/football/player/sc-430871/matheus-cunha,27 mai 1999,26.0,Man Utd,Brazil,Attacker
 209289,/football/player/sc-209289/emile-smith-rowe,28 juillet 2000,25.0,Fulham,England,Midfielder
-230376,/football/player/sc-230376/jhon-arias,,,,,
 215439,/football/player/sc-215439/tomas-soucek,27 février 1995,31.0,West Ham,Czechia,Midfielder
 493105,/football/player/sc-493105/alejandro-garnacho,01 juillet 2004,21.0,Chelsea,Argentina,Attacker
 116216,/football/player/sc-116216/leandro-trossard,04 décembre 1994,31.0,Arsenal,Belgium,Attacker
@@ -1386,7 +1235,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 444180,/football/player/sc-444180/jaidon-anthony,01 décembre 1999,26.0,Burnley,England,Attacker
 472769,/football/player/sc-472769/nico-o-reilly,21 mars 2005,21.0,Man City,England,Midfielder
 466052,/football/player/sc-466052/rayan-cherki,17 août 2003,22.0,Man City,France,Midfielder
-224024,/football/player/sc-224024/lucas-paqueta,,,,,
 184754,/football/player/sc-184754/hwang-hee-chan,26 janvier 1996,30.0,Wolves,Korea Republic,Attacker
 184341,/football/player/sc-184341/mason-mount,10 janvier 1999,27.0,Man Utd,England,Midfielder
 577725,/football/player/sc-577725/josh-king,03 janvier 2007,19.0,Fulham,England,Midfielder
@@ -1460,7 +1308,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 481655,/football/player/sc-481655/martin-zubimendi,02 février 1999,27.0,Arsenal,Spain,Midfielder
 221399,/football/player/sc-221399/jack-harrison,20 novembre 1996,29.0,Fiorentina,England,Attacker
 602903,/football/player/sc-602903/ezra-mayers,16 janvier 2007,19.0,West Ham,England,Defender
-647671,/football/player/sc-647671/mateus-mane,,,,,
 222694,/football/player/sc-222694/pascal-struijk,11 août 1999,26.0,Leeds,Netherlands,Defender
 491279,/football/player/sc-491279/micky-van-de-ven,19 avril 2001,24.0,Spurs,Netherlands,Defender
 577016,/football/player/sc-577016/josh-acheampong,05 mai 2006,19.0,Chelsea,England,Defender
@@ -1537,7 +1384,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 220566,/football/player/sc-220566/rodri,22 juin 1996,29.0,Man City,Spain,Midfielder
 172567,/football/player/sc-172567/josh-cullen,07 avril 1996,29.0,Burnley,Republic of Ireland,Midfielder
 480455,/football/player/sc-480455/jarrad-branthwaite,27 juin 2002,23.0,Everton,England,Defender
-577114,/football/player/sc-577114/luis-guilherme,,,,,
 508395,/football/player/sc-508395/yehor-yarmoliuk,01 mars 2004,22.0,Brentford,Ukraine,Midfielder
 126184,/football/player/sc-126184/nathan-ake,18 février 1995,31.0,Man City,Netherlands,Defender
 496661,/football/player/sc-496661/tyler-dibling,17 février 2006,20.0,Everton,England,Midfielder
@@ -1557,7 +1403,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 578153,/football/player/sc-578153/abdukodir-khusanov,29 février 2004,22.0,Man City,Uzbekistan,Defender
 551226,/football/player/sc-551226/mateus-fernandes,10 juillet 2004,21.0,West Ham,Portugal,Midfielder
 207189,/football/player/sc-207189/sander-berge,14 février 1998,28.0,Fulham,Norway,Midfielder
-516939,/football/player/sc-516939/emmanuel-agbadou,,,,,
 180736,/football/player/sc-180736/trevoh-chalobah,05 juillet 1999,26.0,Chelsea,England,Defender
 448089,/football/player/sc-448089/joao-gomes,12 février 2001,25.0,Wolves,Brazil,Midfielder
 214225,/football/player/sc-214225/joe-rodon,22 octobre 1997,28.0,Leeds,Wales,Defender
@@ -1608,7 +1453,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 171314,/football/player/sc-171314/ruben-dias,14 mai 1997,28.0,Man City,Portugal,Defender
 461195,/football/player/sc-461195/dennis-cirkin,06 avril 2002,23.0,Sunderland,Latvia,Defender
 492777,/football/player/sc-492777/conor-bradley,09 juillet 2003,22.0,Liverpool,Northern Ireland,Defender
-490721,/football/player/sc-490721/hugo-bueno,,,,,
 607464,/football/player/sc-607464/michael-kayode,10 juillet 2004,21.0,Brentford,Italy,Defender
 516895,/football/player/sc-516895/kobbie-mainoo,19 avril 2005,20.0,Man Utd,England,Midfielder
 158983,/football/player/sc-158983/wataru-endo,09 février 1993,33.0,Liverpool,Japan,Midfielder
@@ -1712,7 +1556,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 235084,/football/player/sc-235084/lois-openda,16 février 2000,26.0,Juventus,Belgium,Attacker
 67977,/football/player/sc-67977/leonardo-pavoletti,26 novembre 1988,37.0,Cagliari,Italy,Attacker
 61366,/football/player/sc-61366/kevin-de-bruyne,28 juin 1991,34.0,Napoli,Belgium,Midfielder
-433634,/football/player/sc-433634/tasos-douvikas,,,,,
 584295,/football/player/sc-584295/gift-orban,17 juillet 2002,23.0,Verona,Nigeria,Attacker
 221239,/football/player/sc-221239/keinan-davis,13 février 1998,28.0,Udinese,England,Attacker
 205880,/football/player/sc-205880/marcus-thuram,06 août 1997,28.0,Inter,France,Attacker
@@ -1734,7 +1577,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 166016,/football/player/sc-166016/giovanni-simeone,05 juillet 1995,30.0,Torino,Argentina,Attacker
 450025,/football/player/sc-450025/lorenzo-colombo,08 mars 2002,24.0,Genoa,Italy,Attacker
 235453,/football/player/sc-235453/davide-frattesi,22 septembre 1999,26.0,Inter,Italy,Midfielder
-116796,/football/player/sc-116796/domenico-berardi,,,,,
 482301,/football/player/sc-482301/zito-luvumbo,09 mars 2002,24.0,Mallorca,Angola,Attacker
 432070,/football/player/sc-432070/junior-messias,13 mai 1991,34.0,Genoa,Brazil,Attacker
 152905,/football/player/sc-152905/caleb-ekuban,23 mars 1994,31.0,Genoa,Ghana,Attacker
@@ -1742,21 +1584,16 @@ player_id,player_href,dob,age,current_club,affiliation,position
 487117,/football/player/sc-487117/evan-ferguson,19 octobre 2004,21.0,Roma,Republic of Ireland,Attacker
 465630,/football/player/sc-465630/francisco-conceicao,14 décembre 2002,23.0,Juventus,Portugal,Attacker
 216040,/football/player/sc-216040/andrea-pinamonti,19 mai 1999,26.0,Sassuolo,Italy,Attacker
-161932,/football/player/sc-161932/federico-bonazzoli,,,,,
 49579,/football/player/sc-49579/pedro,28 juillet 1987,38.0,Lazio,Spain,Attacker
 606408,/football/player/sc-606408/jeff-ekhator,11 novembre 2006,19.0,Genoa,Italy,Attacker
 547103,/football/player/sc-547103/kenan-yildiz,04 mai 2005,20.0,Juventus,Türkiye,Attacker
 551493,/football/player/sc-551493/nico-paz,08 septembre 2004,21.0,Como,Argentina,Midfielder
 524463,/football/player/sc-524463/mateo-pellegrino,22 octobre 2001,24.0,Parma,Argentina,Attacker
-463781,/football/player/sc-463781/luca-moro,,,,,
 126187,/football/player/sc-126187/ruben-loftus-cheek,23 janvier 1996,30.0,Milan,England,Midfielder
 195851,/football/player/sc-195851/scott-mctominay,08 décembre 1996,29.0,Napoli,Scotland,Midfielder
 210464,/football/player/sc-210464/vakoun-bayo,10 janvier 1997,29.0,Udinese,Côte d'Ivoire,Attacker
 518908,/football/player/sc-518908/tommaso-baldanzi,23 mars 2003,22.0,Genoa,Italy,Midfielder
 477529,/football/player/sc-477529/lazar-samardzic,24 février 2002,24.0,Atalanta,Serbia,Midfielder
-446786,/football/player/sc-446786/adrian-benedyczak,,,,,
-209353,/football/player/sc-209353/patrick-cutrone,,,,,
-193206,/football/player/sc-193206/stefano-moreo,,,,,
 221781,/football/player/sc-221781/david-okereke,29 août 1997,28.0,Cremonese,Nigeria,Attacker
 488253,/football/player/sc-488253/daniel-maldini,11 octobre 2001,24.0,Lazio,Italy,Attacker
 522479,/football/player/sc-522479/vitinha,15 mars 2000,26.0,Genoa,Portugal,Attacker
@@ -1766,10 +1603,8 @@ player_id,player_href,dob,age,current_club,affiliation,position
 486797,/football/player/sc-486797/juan-cabal,08 janvier 2001,25.0,Juventus,Colombia,Defender
 633952,/football/player/sc-633952/francesco-camarda,10 mars 2008,18.0,Lecce,Italy,Attacker
 147297,/football/player/sc-147297/federico-bernardeschi,16 février 1994,32.0,Bologna,Italy,Attacker
-100731,/football/player/sc-100731/franco-vazquez,,,,,
 553986,/football/player/sc-553986/henrik-meister,13 novembre 2003,22.0,Pisa,Denmark,Attacker
 245414,/football/player/sc-245414/nicolo-zaniolo,02 juillet 1999,26.0,Udinese,Italy,Midfielder
-221800,/football/player/sc-221800/nicholas-pierini,,,,,
 483365,/football/player/sc-483365/jonathan-rowe,30 avril 2003,22.0,Bologna,England,Attacker
 241519,/football/player/sc-241519/weston-mckennie,28 août 1998,27.0,Juventus,USA,Midfielder
 588753,/football/player/sc-588753/ibrahim-sulemana,22 mai 2003,22.0,Cagliari,Ghana,Midfielder
@@ -1777,7 +1612,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 550095,/football/player/sc-550095/jacopo-fazzini,16 mars 2003,23.0,Fiorentina,Italy,Midfielder
 638374,/football/player/sc-638374/jesus-rodriguez,21 novembre 2005,20.0,Como,Spain,Attacker
 465628,/football/player/sc-465628/gaetano-oristanio,28 septembre 2002,23.0,Parma,Italy,Midfielder
-445043,/football/player/sc-445043/kristian-thorstvedt,,,,,
 101668,/football/player/sc-101668/jamie-vardy,11 janvier 1987,39.0,Cremonese,England,Attacker
 490738,/football/player/sc-490738/walid-cheddira,22 janvier 1998,28.0,Lecce,Morocco,Attacker
 215147,/football/player/sc-215147/albert-gudmundsson,15 juin 1997,28.0,Fiorentina,Iceland,Attacker
@@ -1791,7 +1625,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 49203,/football/player/sc-49203/milan-djuric,22 mai 1990,35.0,Cremonese,Bosnia and Herzegovina,Attacker
 511444,/football/player/sc-511444/giovanni-fabbian,14 janvier 2003,23.0,Fiorentina,Italy,Midfielder
 199432,/football/player/sc-199432/denzel-dumfries,18 avril 1996,29.0,Inter,Netherlands,Defender
-429453,/football/player/sc-429453/matteo-tramoni,,,,,
 203325,/football/player/sc-203325/frank-anguissa,16 novembre 1995,30.0,Napoli,Cameroon,Midfielder
 220238,/football/player/sc-220238/jurgen-ekkelenkamp,05 avril 2000,25.0,Udinese,Netherlands,Midfielder
 182514,/football/player/sc-182514/rolando-mandragora,29 juin 1997,28.0,Fiorentina,Italy,Midfielder
@@ -1805,21 +1638,17 @@ player_id,player_href,dob,age,current_club,affiliation,position
 576812,/football/player/sc-576812/giovane,24 novembre 2003,22.0,Napoli,Brazil,Attacker
 86157,/football/player/sc-86157/sergi-roberto,07 février 1992,34.0,Como,Spain,Midfielder
 223332,/football/player/sc-223332/tino-anjorin,23 novembre 2001,24.0,Torino,England,Midfielder
-546127,/football/player/sc-546127/gabriele-piccinini,,,,,
 161919,/football/player/sc-161919/federico-dimarco,10 novembre 1997,28.0,Inter,Italy,Defender
 551300,/football/player/sc-551300/semih-kilicsoy,15 août 2005,20.0,Cagliari,Türkiye,Attacker
 511505,/football/player/sc-511505/matias-soule,15 avril 2003,22.0,Roma,Argentina,Attacker
 216615,/football/player/sc-216615/suat-serdar,11 avril 1997,28.0,Verona,Germany,Midfielder
 551286,/football/player/sc-551286/emirhan-ilkhan,01 juin 2004,21.0,Torino,Türkiye,Midfielder
-513353,/football/player/sc-513353/edoardo-iannoni,,,,,
 461913,/football/player/sc-461913/youssouf-fofana,10 janvier 1999,27.0,Milan,France,Midfielder
 179296,/football/player/sc-179296/morten-thorsby,05 mai 1996,29.0,Cremonese,Norway,Midfielder
 463184,/football/player/sc-463184/ederson,07 juillet 1999,26.0,Atalanta,Brazil,Midfielder
 219117,/football/player/sc-219117/jens-odgaard,31 mars 1999,26.0,Bologna,Denmark,Attacker
 629450,/football/player/sc-629450/alieu-njie,14 mai 2005,20.0,Torino,Sweden,Attacker
-547658,/football/player/sc-547658/ismael-kone,,,,,
 505187,/football/player/sc-505187/cesare-casadei,10 janvier 2003,23.0,Torino,Italy,Midfielder
-430724,/football/player/sc-430724/daniel-boloca,,,,,
 465716,/football/player/sc-465716/charles-de-ketelaere,10 mars 2001,25.0,Atalanta,Belgium,Attacker
 519394,/football/player/sc-519394/giorgio-scalvini,11 décembre 2003,22.0,Atalanta,Italy,Defender
 431128,/football/player/sc-431128/edon-zhegrova,31 mars 1999,26.0,Juventus,Kosovo,Attacker
@@ -1837,9 +1666,7 @@ player_id,player_href,dob,age,current_club,affiliation,position
 605972,/football/player/sc-605972/honest-ahanor,23 février 2008,18.0,Atalanta,Italy,Defender
 483264,/football/player/sc-483264/nicolo-cambiaghi,28 décembre 2000,25.0,Bologna,Italy,Attacker
 120670,/football/player/sc-120670/marc-kempf,28 janvier 1995,31.0,Como,Germany,Defender
-462026,/football/player/sc-462026/leo-ostigard,,,,,
 225807,/football/player/sc-225807/eljif-elmas,24 septembre 1999,26.0,Napoli,North Macedonia,Midfielder
-704944,/football/player/sc-704944/fallou-cham,,,,,
 476933,/football/player/sc-476933/mattia-felici,17 avril 2001,24.0,Cagliari,Italy,Attacker
 438261,/football/player/sc-438261/yann-bisseck,29 novembre 2000,25.0,Inter,Germany,Defender
 157008,/football/player/sc-157008/mattia-zaccagni,16 juin 1995,30.0,Lazio,Italy,Midfielder
@@ -1855,7 +1682,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 171384,/football/player/sc-171384/nicolo-barella,07 février 1997,29.0,Inter,Italy,Midfielder
 219155,/football/player/sc-219155/jakub-piotrowski,04 octobre 1997,28.0,Udinese,Poland,Midfielder
 465661,/football/player/sc-465661/sebastiano-esposito,02 juillet 2002,23.0,Cagliari,Italy,Attacker
-449431,/football/player/sc-449431/armand-lauriente,,,,,
 126440,/football/player/sc-126440/piotr-zielinski,20 mai 1994,31.0,Inter,Poland,Midfielder
 479401,/football/player/sc-479401/emil-holm,13 mai 2000,25.0,Juventus,Sweden,Defender
 592991,/football/player/sc-592991/jacobo-ramon,06 janvier 2005,21.0,Como,Spain,Defender
@@ -1872,24 +1698,18 @@ player_id,player_href,dob,age,current_club,affiliation,position
 647210,/football/player/sc-647210/tiago-gabriel,26 décembre 2004,21.0,Lecce,Portugal,Defender
 515759,/football/player/sc-515759/andrea-cambiaso,20 février 2000,26.0,Juventus,Italy,Defender
 428585,/football/player/sc-428585/bremer,18 mars 1997,29.0,Juventus,Brazil,Defender
-556111,/football/player/sc-556111/valentin-carboni,,,,,
 503696,/football/player/sc-503696/andy-diouf,17 mai 2003,22.0,Inter,France,Midfielder
-517997,/football/player/sc-517997/kristjan-asllani,,,,,
 487606,/football/player/sc-487606/strahinja-pavlovic,24 mai 2001,24.0,Milan,Serbia,Defender
 502779,/football/player/sc-502779/daniel-mosquera,20 octobre 1999,26.0,Verona,Colombia,Attacker
 242887,/football/player/sc-242887/khephren-thuram,26 mars 2001,24.0,Juventus,France,Midfielder
 437746,/football/player/sc-437746/alexis-saelemaekers,27 juin 1999,26.0,Milan,Belgium,Attacker
-554650,/football/player/sc-554650/iker-bravo,,,,,
 100059,/football/player/sc-100059/alberto-moreno,05 juillet 1992,33.0,Como,Spain,Defender
 482466,/football/player/sc-482466/santiago-pierotti,03 avril 2001,24.0,Lecce,Argentina,Attacker
 244847,/football/player/sc-244847/yunus-musah,29 novembre 2002,23.0,Atalanta,USA,Midfielder
 432649,/football/player/sc-432649/oumar-solet,07 février 2000,26.0,Udinese,France,Defender
 437780,/football/player/sc-437780/gianluca-gaetano,05 mai 2000,25.0,Cagliari,Italy,Midfielder
 588118,/football/player/sc-588118/patrizio-masini,27 janvier 2001,25.0,Genoa,Italy,Midfielder
-246875,/football/player/sc-246875/dennis-johnsen,,,,,
-423768,/football/player/sc-423768/mehdi-leris,,,,,
 581229,/football/player/sc-581229/petar-sucic,25 octobre 2003,22.0,Inter,Croatia,Midfielder
-558973,/football/player/sc-558973/cristian-volpato,,,,,
 449122,/football/player/sc-449122/thorir-helgason,28 septembre 2000,25.0,Lecce,Iceland,Midfielder
 247099,/football/player/sc-247099/alessio-zerbin,03 mars 1999,27.0,Cremonese,Italy,Attacker
 153776,/football/player/sc-153776/matteo-politano,03 août 1993,32.0,Napoli,Italy,Attacker
@@ -1898,7 +1718,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 215047,/football/player/sc-215047/lassana-coulibaly,10 avril 1996,29.0,Lecce,Mali,Midfielder
 536474,/football/player/sc-536474/cher-ndour,27 juillet 2004,21.0,Fiorentina,Italy,Midfielder
 160852,/football/player/sc-160852/luca-mazzitelli,15 novembre 1995,30.0,Cagliari,Italy,Midfielder
-224336,/football/player/sc-224336/idrissa-toure,,,,,
 226270,/football/player/sc-226270/nicolo-fagioli,12 février 2001,25.0,Fiorentina,Italy,Midfielder
 191794,/football/player/sc-191794/sandi-lovric,28 mars 1998,27.0,Verona,Slovenia,Midfielder
 212851,/football/player/sc-212851/toma-basic,25 novembre 1996,29.0,Lazio,Croatia,Midfielder
@@ -1906,7 +1725,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 243568,/football/player/sc-243568/billy-gilmour,11 juin 2001,24.0,Napoli,Scotland,Midfielder
 93661,/football/player/sc-93661/giovanni-di-lorenzo,04 août 1993,32.0,Napoli,Italy,Defender
 488006,/football/player/sc-488006/mikael-ellertsson,11 mars 2002,24.0,Genoa,Iceland,Midfielder
-578990,/football/player/sc-578990/luca-lipani,,,,,
 249864,/football/player/sc-249864/martin-frese,04 janvier 1998,28.0,Verona,Denmark,Defender
 475767,/football/player/sc-475767/manu-kone,17 mai 2001,24.0,Roma,France,Midfielder
 230843,/football/player/sc-230843/carlos-augusto,07 janvier 1999,27.0,Inter,Brazil,Defender
@@ -1922,15 +1740,12 @@ player_id,player_href,dob,age,current_club,affiliation,position
 449470,/football/player/sc-449470/michel-adopo,19 juillet 2000,25.0,Cagliari,France,Midfielder
 218445,/football/player/sc-218445/dodo,17 novembre 1998,27.0,Fiorentina,Brazil,Defender
 449321,/football/player/sc-449321/enrico-delprato,10 novembre 1999,26.0,Parma,Italy,Defender
-80931,/football/player/sc-80931/antonio-caracciolo,,,,,
-493699,/football/player/sc-493699/malthe-hojholt,,,,,
 104359,/football/player/sc-104359/jean-daniel-akpa-akpro,11 octobre 1992,33.0,Verona,Côte d'Ivoire,Midfielder
 78140,/football/player/sc-78140/stefan-de-vrij,05 février 1992,34.0,Inter,Netherlands,Defender
 155335,/football/player/sc-155335/guillermo-maripan,06 mai 1994,31.0,Torino,Chile,Defender
 218373,/football/player/sc-218373/nikola-moro,12 mars 1998,28.0,Bologna,Croatia,Midfielder
 588222,/football/player/sc-588222/matteo-prati,28 décembre 2003,22.0,Torino,Italy,Midfielder
 211975,/football/player/sc-211975/manuel-akanji,19 juillet 1995,30.0,Inter,Switzerland,Defender
-569702,/football/player/sc-569702/giovanni-bonfanti,,,,,
 109511,/football/player/sc-109511/bryan-cristante,03 mars 1995,31.0,Roma,Italy,Midfielder
 248498,/football/player/sc-248498/miguel-gutierrez,27 juillet 2001,24.0,Napoli,Spain,Defender
 420879,/football/player/sc-420879/gabriel-strefezza,18 avril 1997,28.0,Parma,Brazil,Attacker
@@ -1941,7 +1756,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 105700,/football/player/sc-105700/davide-zappacosta,11 juin 1992,33.0,Atalanta,Italy,Defender
 628413,/football/player/sc-628413/pietro-comuzzo,20 février 2005,21.0,Fiorentina,Italy,Defender
 85624,/football/player/sc-85624/christian-kabasele,24 février 1991,35.0,Udinese,Belgium,Defender
-660646,/football/player/sc-660646/riyad-idrissi,,,,,
 482769,/football/player/sc-482769/maximo-perrone,07 janvier 2003,23.0,Como,Argentina,Midfielder
 215979,/football/player/sc-215979/matteo-gabbia,21 octobre 1999,26.0,Milan,Italy,Defender
 219263,/football/player/sc-219263/zakaria-aboukhlal,18 février 2000,26.0,Torino,Morocco,Attacker
@@ -1995,7 +1809,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 106461,/football/player/sc-106461/patric,17 avril 1993,32.0,Lazio,Spain,Defender
 164511,/football/player/sc-164511/yerry-mina,23 septembre 1994,31.0,Cagliari,Colombia,Defender
 447932,/football/player/sc-447932/jordan-zemura,14 novembre 1999,26.0,Udinese,Zimbabwe,Defender
-495228,/football/player/sc-495228/tommaso-barbieri,,,,,
 208540,/football/player/sc-208540/odilon-kossounou,04 janvier 2001,25.0,Atalanta,Côte d'Ivoire,Defender
 204214,/football/player/sc-204214/pervis-estupinan,21 janvier 1998,28.0,Milan,Ecuador,Defender
 482975,/football/player/sc-482975/fali-cande,24 janvier 1998,28.0,Sassuolo,Guinea-Bissau,Defender
@@ -2003,10 +1816,8 @@ player_id,player_href,dob,age,current_club,affiliation,position
 466064,/football/player/sc-466064/mario-gila,29 août 2000,25.0,Lazio,Spain,Defender
 213431,/football/player/sc-213431/mario-hermoso,18 juin 1995,30.0,Roma,Spain,Defender
 215981,/football/player/sc-215981/luca-pellegrini,07 mars 1999,27.0,Lazio,Italy,Defender
-90557,/football/player/sc-90557/federico-ceccherini,,,,,
 514410,/football/player/sc-514410/jamil-siebert,02 avril 2002,23.0,Lecce,Germany,Defender
 209330,/football/player/sc-209330/raoul-bellanova,17 mai 2000,25.0,Atalanta,Italy,Defender
-440297,/football/player/sc-440297/simone-canestrelli,,,,,
 145235,/football/player/sc-145235/angelino,04 janvier 1997,29.0,Roma,Spain,Defender
 437784,/football/player/sc-437784/hans-nicolussi-caviglia,18 juin 2000,25.0,Parma,Italy,Midfielder
 244453,/football/player/sc-244453/nicolo-casale,14 février 1998,28.0,Bologna,Italy,Defender
@@ -2014,10 +1825,8 @@ player_id,player_href,dob,age,current_club,affiliation,position
 82428,/football/player/sc-82428/marten-de-roon,29 mars 1991,34.0,Atalanta,Netherlands,Midfielder
 84178,/football/player/sc-84178/francesco-acerbi,10 février 1988,38.0,Inter,Italy,Defender
 497908,/football/player/sc-497908/alessandro-circati,10 octobre 2003,22.0,Parma,Australia,Defender
-487997,/football/player/sc-487997/josh-doig,,,,,
 536665,/football/player/sc-536665/nicolas-valentini,06 avril 2001,24.0,Verona,Argentina,Defender
 458681,/football/player/sc-458681/domagoj-bradaric,10 décembre 1999,26.0,Verona,Croatia,Defender
-631392,/football/player/sc-631392/mateus-lusuardi,,,,,
 495542,/football/player/sc-495542/niels-nkounkou,01 novembre 2000,25.0,Torino,France,Defender
 171099,/football/player/sc-171099/hassane-kamara,05 mars 1994,32.0,Udinese,Côte d'Ivoire,Defender
 451565,/football/player/sc-451565/saul-coco,09 février 1999,27.0,Torino,Equatorial Guinea,Defender
@@ -2026,12 +1835,10 @@ player_id,player_href,dob,age,current_club,affiliation,position
 559042,/football/player/sc-559042/tobias-slotsager,01 janvier 2006,20.0,Verona,Denmark,Defender
 162330,/football/player/sc-162330/alessandro-deiola,01 août 1995,30.0,Cagliari,Italy,Midfielder
 111515,/football/player/sc-111515/charalampos-lykogiannis,22 octobre 1993,32.0,Bologna,Greece,Defender
-477553,/football/player/sc-477553/mathias-lovik,,,,,
 243428,/football/player/sc-243428/al-musrati,06 avril 1996,29.0,Verona,Libya,Midfielder
 466002,/football/player/sc-466002/devyne-rensch,18 janvier 2003,23.0,Roma,Netherlands,Defender
 437626,/football/player/sc-437626/nuno-tavares,26 janvier 2000,26.0,Lazio,Portugal,Defender
 622748,/football/player/sc-622748/zachary-athekame,13 décembre 2004,21.0,Milan,Switzerland,Defender
-546853,/football/player/sc-546853/samuele-angori,,,,,
 246265,/football/player/sc-246265/corrie-ndaba,25 décembre 1999,26.0,Lecce,Republic of Ireland,Defender
 494779,/football/player/sc-494779/albert-gronbaek,23 mai 2001,24.0,Hamburg,Denmark,Midfielder
 561003,/football/player/sc-561003/gvidas-gineitis,15 avril 2004,21.0,Torino,Lithuania,Midfielder
@@ -2060,21 +1867,15 @@ player_id,player_href,dob,age,current_club,affiliation,position
 91990,/football/player/sc-91990/juan-jesus,10 juin 1991,34.0,Napoli,Brazil,Defender
 428237,/football/player/sc-428237/pasquale-mazzocchi,27 juillet 1995,30.0,Napoli,Italy,Defender
 160602,/football/player/sc-160602/jesper-karlstrom,21 juin 1995,30.0,Udinese,Sweden,Midfielder
-103063,/football/player/sc-103063/matteo-bianchetti,,,,,
 234369,/football/player/sc-234369/aaron-martin,22 avril 1997,28.0,Genoa,Spain,Defender
-454646,/football/player/sc-454646/michele-collocolo,,,,,
 462484,/football/player/sc-462484/antonino-gallo,05 janvier 2000,26.0,Lecce,Italy,Defender
 235865,/football/player/sc-235865/michel-aebischer,06 janvier 1997,29.0,Pisa,Switzerland,Midfielder
 229912,/football/player/sc-229912/ardian-ismajli,30 septembre 1996,29.0,Torino,Albania,Defender
-155895,/football/player/sc-155895/arturo-calabresi,,,,,
-659946,/football/player/sc-659946/francesco-folino,,,,,
 490209,/football/player/sc-490209/cheikh-niasse,19 janvier 2000,26.0,Verona,Senegal,Midfielder
 488439,/football/player/sc-488439/woyo-coulibaly,26 mai 1999,26.0,Sassuolo,Mali,Defender
-519809,/football/player/sc-519809/rui-modesto,,,,,
 18003,/football/player/sc-18003/raul-albiol,04 septembre 1985,40.0,Pisa,Spain,Defender
 482438,/football/player/sc-482438/mikayil-faye,14 juillet 2004,21.0,Cremonese,Senegal,Defender
 545932,/football/player/sc-545932/ze-pedro,06 juin 1997,28.0,Cagliari,Portugal,Defender
-171390,/football/player/sc-171390/filippo-romagna,,,,,
 232018,/football/player/sc-232018/victor-nelsson,14 octobre 1998,27.0,Verona,Denmark,Defender
 445733,/football/player/sc-445733/morten-frendrup,07 avril 2001,24.0,Genoa,Denmark,Midfielder
 541690,/football/player/sc-541690/benjamin-cremaschi,02 mars 2005,21.0,Parma,USA,Midfielder
@@ -2086,10 +1887,8 @@ player_id,player_href,dob,age,current_club,affiliation,position
 503566,/football/player/sc-503566/danilo-veiga,25 septembre 2002,23.0,Lecce,Portugal,Defender
 198081,/football/player/sc-198081/kingsley-ehizibue,25 mai 1995,30.0,Udinese,Netherlands,Defender
 208554,/football/player/sc-208554/enzo-ebosse,11 mars 1999,27.0,Torino,Cameroon,Defender
-243783,/football/player/sc-243783/marius-marin,,,,,
 248882,/football/player/sc-248882/ignace-van-der-brempt,01 avril 2002,23.0,Como,Belgium,Defender
 450024,/football/player/sc-450024/nicolo-rovella,04 décembre 2001,24.0,Lazio,Italy,Midfielder
-477386,/football/player/sc-477386/armel-bella-kotchap,,,,,
 89076,/football/player/sc-89076/remo-freuler,15 avril 1992,33.0,Bologna,Switzerland,Midfielder
 624931,/football/player/sc-624931/alessandro-marcandalli,25 octobre 2002,23.0,Genoa,Italy,Defender
 444251,/football/player/sc-444251/alessandro-zanoli,03 octobre 2000,25.0,Udinese,Italy,Defender
@@ -2102,15 +1901,11 @@ player_id,player_href,dob,age,current_club,affiliation,position
 150710,/football/player/sc-150710/daniele-rugani,29 juillet 1994,31.0,Fiorentina,Italy,Defender
 107363,/football/player/sc-107363/elseid-hysaj,02 février 1994,32.0,Lazio,Albania,Defender
 609659,/football/player/sc-609659/jan-ziolkowski,05 juin 2005,20.0,Roma,Poland,Defender
-618927,/football/player/sc-618927/joseph-liteta,,,,,
 21125,/football/player/sc-21125/lorenzo-de-silvestri,23 mai 1988,37.0,Bologna,Italy,Defender
 216791,/football/player/sc-216791/pol-lirola,13 août 1997,28.0,Verona,Spain,Defender
 430848,/football/player/sc-430848/ivan-ilic,17 mars 2001,25.0,Torino,Serbia,Midfielder
-664900,/football/player/sc-664900/owen-kouassi,,,,,
-647151,/football/player/sc-647151/matteo-palma,,,,,
 666657,/football/player/sc-666657/daniel-denoon,28 janvier 2004,22.0,Pisa,Switzerland,Defender
 499156,/football/player/sc-499156/mattia-viti,24 janvier 2002,24.0,Sampdoria,Italy,Defender
-155651,/football/player/sc-155651/adam-masina,,,,,
 129487,/football/player/sc-129487/mike-maignan,03 juillet 1995,30.0,Milan,France,Goalkeeper
 462537,/football/player/sc-462537/marco-carnesecchi,01 juillet 2000,25.0,Atalanta,Italy,Goalkeeper
 126486,/football/player/sc-126486/wladimiro-falcone,12 avril 1995,30.0,Lecce,Italy,Goalkeeper
@@ -2132,7 +1927,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 193773,/football/player/sc-193773/vanja-milinkovic-savic,20 février 1997,29.0,Napoli,Serbia,Goalkeeper
 56486,/football/player/sc-56486/marco-silvestri,02 mars 1991,35.0,Cremonese,Italy,Goalkeeper
 235879,/football/player/sc-235879/federico-ravaglia,11 novembre 1999,26.0,Bologna,Italy,Goalkeeper
-218362,/football/player/sc-218362/adrian-semper,,,,,
 85288,/football/player/sc-85288/lukasz-skorupski,05 mai 1991,34.0,Bologna,Poland,Goalkeeper
 34683,/football/player/sc-34683/yann-sommer,17 décembre 1988,37.0,Inter,Switzerland,Goalkeeper
 51940,/football/player/sc-51940/david-de-gea,07 novembre 1990,35.0,Fiorentina,Spain,Goalkeeper
@@ -2144,6 +1938,248 @@ player_id,player_href,dob,age,current_club,affiliation,position
 195561,/football/player/sc-195561/daniele-sommariva,18 juillet 1997,28.0,Genoa,Italy,Goalkeeper
 161060,/football/player/sc-161060/simone-perilli,07 janvier 1995,31.0,Verona,Italy,Goalkeeper
 503520,/football/player/sc-503520/razvan-sava,21 juin 2002,23.0,Udinese,Romania,Goalkeeper
+536916,/football/player/sc-536916/facundo-buonanotte,23 décembre 2004,21.0,Leeds,Argentina,Midfielder
+491287,/football/player/sc-491287/enzo-barrenechea,22 mai 2001,24.0,Benfica,Argentina,Midfielder
+57410,/football/player/sc-57410/nicolas-otamendi,05 octobre 2001,24.0,Reading,Germany,Midfielder
+463726,/football/player/sc-463726/amar-dedic,18 août 2002,23.0,Benfica,Bosnia and Herzegovina,Defender
+128295,/football/player/sc-128295/christian-norgaard,10 mars 1994,32.0,Arsenal,Denmark,Midfielder
+206255,/football/player/sc-206255/ferland-mendy,08 juin 1995,30.0,Real Madrid,France,Defender
+224965,/football/player/sc-224965/andrii-lunin,11 février 1999,27.0,Real Madrid,Ukraine,Goalkeeper
+55083,/football/player/sc-55083/marco-sportiello,10 mai 1992,33.0,Atalanta,Italy,Goalkeeper
+185126,/football/player/sc-185126/cyle-larin,17 avril 1995,30.0,Southampton,Canada,Attacker
+173515,/football/player/sc-173515/kelechi-iheanacho,03 octobre 1996,29.0,Celtic,Nigeria,Attacker
+103123,/football/player/sc-103123/sebastien-haller,22 juin 1994,31.0,Utrecht,Côte d'Ivoire,Attacker
+593271,/football/player/sc-593271/kerim-sam-alajbegovic,21 septembre 2007,18.0,Salzburg,Bosnia and Herzegovina,Attacker
+484403,/football/player/sc-484403/armin-gigovic,06 avril 2002,23.0,Young Boys,Bosnia and Herzegovina,Midfielder
+163526,/football/player/sc-163526/edimilson-fernandes,15 avril 1996,29.0,Young Boys,Switzerland,Midfielder
+587477,/football/player/sc-587477/tim-oermann,06 octobre 2003,22.0,Leverkusen,Germany,Defender
+112065,/football/player/sc-112065/milan-skriniar,11 février 1995,31.0,Fenerbahçe,Slovakia,Defender
+617127,/football/player/sc-617127/gabriel-moscardo,28 septembre 2005,20.0,Braga,Brazil,Midfielder
+198534,/football/player/sc-198534/dominik-livakovic,09 janvier 1995,31.0,Dinamo Zagreb,Croatia,Goalkeeper
+234580,/football/player/sc-234580/ivan-villar,09 juillet 1997,28.0,Celta,Spain,Goalkeeper
+582634,/football/player/sc-582634/mileta-rajovic,17 juillet 1999,26.0,Legia,Denmark,Attacker
+590760,/football/player/sc-590760/daniel-adu-adjei,21 juin 2005,20.0,Rijeka,England,Attacker
+606921,/football/player/sc-606921/romain-esse,13 mai 2005,20.0,Coventry,England,Midfielder
+218364,/football/player/sc-218364/borna-sosa,21 janvier 1998,28.0,Crystal Palace,Croatia,Defender
+538055,/football/player/sc-538055/samuele-vignato,24 février 2004,22.0,Rijeka,Italy,Attacker
+228439,/football/player/sc-228439/veljko-birmancevic,05 mars 1998,28.0,Getafe,Serbia,Midfielder
+465676,/football/player/sc-465676/adil-aouchiche,15 juillet 2002,23.0,Schalke 04,France,Midfielder
+40721,/football/player/sc-40721/oscar-trejo,26 avril 1988,37.0,Rayo,Argentina,Midfielder
+654936,/football/player/sc-654936/eddy-kouadio,07 mai 2006,19.0,Fiorentina,Italy,Defender
+91047,/football/player/sc-91047/stuart-armstrong,30 mars 1992,33.0,Aberdeen,Scotland,Midfielder
+519321,/football/player/sc-519321/alfie-dorrington,20 avril 2005,20.0,Salford,England,Defender
+116627,/football/player/sc-116627/florent-mollet,19 novembre 1991,34.0,Lausanne,France,Midfielder
+473389,/football/player/sc-473389/jim-allevinah,,,,,
+634376,/football/player/sc-634376/rayan-fofana,,,,,
+669409,/football/player/sc-669409/soriba-diaoune,,,,,
+652151,/football/player/sc-652151/mohamed-meite,,,,,
+532104,/football/player/sc-532104/sambou-soumano,,,,,
+250182,/football/player/sc-250182/aiyegun-tosin,,,,,
+696404,/football/player/sc-696404/lanroy-machine,,,,,
+551976,/football/player/sc-551976/pablo-pagis,,,,,
+695695,/football/player/sc-695695/prosper-peter,,,,,
+608176,/football/player/sc-608176/george-ilenikhena,,,,,
+626970,/football/player/sc-626970/mohamed-bamba,,,,,
+520295,/football/player/sc-520295/david-datro-fofana,"December 22, 2002",23.0,Strasbourg,Côte d'Ivoire,Attacker
+232182,/football/player/sc-232182/gauthier-hein,,,,,
+219727,/football/player/sc-219727/joel-asoro,,,,,
+424920,/football/player/sc-424920/jean-philippe-krasso,,,,,
+511182,/football/player/sc-511182/ilan-kebbal,,,,,
+209874,/football/player/sc-209874/vincent-marchetti,,,,,
+511603,/football/player/sc-511603/morgan-guilavogui,,,,,
+564918,/football/player/sc-564918/lohann-doucet,,,,,
+544830,/football/player/sc-544830/julien-le-cardinal,,,,,
+229225,/football/player/sc-229225/alimami-gory,,,,,
+624764,/football/player/sc-624764/panos-katseris,,,,,
+579916,/football/player/sc-579916/kenny-quetant,,,,,
+217597,/football/player/sc-217597/mathieu-cafaro,,,,,
+458345,/football/player/sc-458345/cheikh-sabaly,,,,,
+199666,/football/player/sc-199666/jean-victor-makengo,,,,,
+446441,/football/player/sc-446441/hyun-seok-hong,,,,,
+482380,/football/player/sc-482380/samir-chergui,,,,,
+681609,/football/player/sc-681609/bernard-nguene,,,,,
+647560,/football/player/sc-647560/morgan-bokele,,,,,
+725063,/football/player/sc-725063/everton-pereira-da-silva,,,,,
+624926,/football/player/sc-624926/adama-camara,,,,,
+547430,/football/player/sc-547430/joel-mvuka,,,,,
+424032,/football/player/sc-424032/koffi-kouao,,,,,
+647907,/football/player/sc-647907/bahmed-deuff,,,,,
+641216,/football/player/sc-641216/alpha-toure,,,,,
+616227,/football/player/sc-616227/alexis-vossah,,,,,
+612579,/football/player/sc-612579/ibou-sane,,,,,
+606371,/football/player/sc-606371/arthur-avom,,,,,
+634871,/football/player/sc-634871/kyllian-antonio,,,,,
+202127,/football/player/sc-202127/younes-namli,,,,,
+711491,/football/player/sc-711491/enzo-koffi,,,,,
+607126,/football/player/sc-607126/malick-mbaye,,,,,
+493900,/football/player/sc-493900/darlin-yongwa,,,,,
+107258,/football/player/sc-107258/laurent-abergel,,,,,
+177020,/football/player/sc-177020/igor-silva,,,,,
+98826,/football/player/sc-98826/thomas-delaine,,,,,
+511600,/football/player/sc-511600/yassine-benhattab,,,,,
+80710,/football/player/sc-80710/benjamin-stambouli,,,,,
+86132,/football/player/sc-86132/maxime-colin,,,,,
+476404,/football/player/sc-476404/moustapha-mbow,,,,,
+422480,/football/player/sc-422480/montassar-talbi,,,,,
+530635,/football/player/sc-530635/tuomas-ollila,,,,,
+213965,/football/player/sc-213965/maxime-lopez,,,,,
+57136,/football/player/sc-57136/timothee-kolodziejczak,,,,,
+641036,/football/player/sc-641036/hamidou-makalou,,,,,
+703929,/football/player/sc-703929/tylel-tati,,,,,
+691225,/football/player/sc-691225/stephan-zagadou,,,,,
+612589,/football/player/sc-612589/sadibou-sane,,,,,
+560247,/football/player/sc-560247/nhoa-sangui,,,,,
+491844,/football/player/sc-491844/kwon-hyeok-kyu,,,,,
+695285,/football/player/sc-695285/telli-siwe,,,,,
+632582,/football/player/sc-632582/seny-koumbassa,"June 20, 2007",18.0,Toulouse,France,Defender
+476391,/football/player/sc-476391/nathaniel-adjei,,,,,
+658062,/football/player/sc-658062/marius-louar,"March 11, 2007",19.0,Angers,France,Defender
+607132,/football/player/sc-607132/pape-sy,,,,,
+100952,/football/player/sc-100952/yvon-mvogo,,,,,
+502436,/football/player/sc-502436/obed-nkambadio,,,,,
+168143,/football/player/sc-168143/luca-waldschmidt,,,,,
+233325,/football/player/sc-233325/ragnar-ache,,,,,
+515180,/football/player/sc-515180/grant-leon-ranos,,,,,
+225904,/football/player/sc-225904/samuel-essende,,,,,
+170318,/football/player/sc-170318/robert-glatzel,,,,,
+648252,/football/player/sc-648252/montrell-culbreath,,,,,
+477539,/football/player/sc-477539/ransford-konigsdorffer,,,,,
+679296,/football/player/sc-679296/wael-mohya,,,,,
+193423,/football/player/sc-193423/jean-luc-dompe,,,,,
+219846,/football/player/sc-219846/linton-maina,,,,,
+470311,/football/player/sc-470311/jan-thielmann,,,,,
+545664,/football/player/sc-545664/elias-saad,,,,,
+576786,/football/player/sc-576786/fabio-balde,,,,,
+442340,/football/player/sc-442340/cameron-puertas,,,,,
+430368,/football/player/sc-430368/andreas-skov-olsen,,,,,
+479342,/football/player/sc-479342/isak-bergmann-johannesson,,,,,
+531075,/football/player/sc-531075/william-mikelbrencis,,,,,
+487868,/football/player/sc-487868/eric-martel,,,,,
+513451,/football/player/sc-513451/umut-tohumcu,,,,,
+584627,/football/player/sc-584627/denis-huseinbasic,,,,,
+228316,/football/player/sc-228316/bakery-jatta,,,,,
+198230,/football/player/sc-198230/miro-muheim,,,,,
+512843,/football/player/sc-512843/nicolai-remberg,,,,,
+628995,/football/player/sc-628995/karim-coulibaly,,,,,
+584649,/football/player/sc-584649/daniel-elfadli,,,,,
+589895,/football/player/sc-589895/jan-burger,,,,,
+487142,/football/player/sc-487142/thomas-keller,,,,,
+657978,/football/player/sc-657978/alexander-rossing-lelesiit,,,,,
+512524,/football/player/sc-512524/joel-schmied,,,,,
+503732,/football/player/sc-503732/warmed-omari,,,,,
+561092,/football/player/sc-561092/sael-kumbedi,,,,,
+107590,/football/player/sc-107590/dominique-heintz,,,,,
+218751,/football/player/sc-218751/emir-sahiti,,,,,
+146358,/football/player/sc-146358/jonas-meffert,,,,,
+651875,/football/player/sc-651875/aboubaka-soumahoro,,,,,
+228528,/football/player/sc-228528/timo-hubers,,,,,
+141021,/football/player/sc-141021/daniel-heuer-fernandes,,,,,
+183095,/football/player/sc-183095/marvin-schwabe,,,,,
+165375,/football/player/sc-165375/jose-luis-morales,,,,,
+645745,/football/player/sc-645745/carlos-espi,,,,,
+484432,/football/player/sc-484432/urko-izeta,,,,,
+492872,/football/player/sc-492872/federico-vinas,,,,,
+521508,/football/player/sc-521508/ivan-romero,,,,,
+561098,/football/player/sc-561098/roony-bardghji,,,,,
+57134,/football/player/sc-57134/salomon-rondon,,,,,
+439878,/football/player/sc-439878/roger-brugue,,,,,
+494921,/football/player/sc-494921/carlos-alvarez,,,,,
+445998,/football/player/sc-445998/pablo-martinez,,,,,
+646190,/football/player/sc-646190/selton-sanchez,,,,,
+669962,/football/player/sc-669962/jan-virgili,,,,,
+637705,/football/player/sc-637705/oso,,,,,
+437808,/football/player/sc-437808/adrian-de-la-fuente,,,,,
+521845,/football/player/sc-521845/yaser-asprilla,,,,,
+199332,/football/player/sc-199332/lucas-ahijado,,,,,
+458310,/football/player/sc-458310/haissem-hassan,,,,,
+594611,/football/player/sc-594611/coba-da-costa,,,,,
+522785,/football/player/sc-522785/john-donald,,,,,
+230598,/football/player/sc-230598/nacho-vidal,,,,,
+199250,/football/player/sc-199250/aleix-febas,,,,,
+219885,/football/player/sc-219885/unai-elgezabal,,,,,
+218368,/football/player/sc-218368/josip-brekalo,,,,,
+435712,/football/player/sc-435712/diego-pampin,,,,,
+631382,/football/player/sc-631382/ali-houary,,,,,
+199195,/football/player/sc-199195/josan,,,,,
+665346,/football/player/sc-665346/marc-domenech,,,,,
+19524,/football/player/sc-19524/santi-cazorla,,,,,
+169205,/football/player/sc-169205/david-costas,,,,,
+91393,/football/player/sc-91393/pedro-bigas,,,,,
+546812,/football/player/sc-546812/jon-gorrotxategi,,,,,
+242310,/football/player/sc-242310/oriol-rey,,,,,
+218298,/football/player/sc-218298/santiago-colombatto,,,,,
+438339,/football/player/sc-438339/kwasi-sibo,,,,,
+442299,/football/player/sc-442299/david-affengruber,,,,,
+235421,/football/player/sc-235421/oier-luengo,,,,,
+664920,/football/player/sc-664920/ismael-bekhoucha,,,,,
+484741,/football/player/sc-484741/marc-aguado,,,,,
+562061,/football/player/sc-562061/rahim-alhassane,,,,,
+646149,/football/player/sc-646149/inigo-arguibide,,,,,
+185650,/football/player/sc-185650/dani-calvo,,,,,
+562941,/football/player/sc-562941/ramon-martinez,,,,,
+648762,/football/player/sc-648762/jorge-cabello,,,,,
+485098,/football/player/sc-485098/moussa-diarra,,,,,
+176278,/football/player/sc-176278/aaron-escandell,,,,,
+98448,/football/player/sc-98448/matias-dituro,,,,,
+60689,/football/player/sc-60689/chris-wood,,,,,
+437505,/football/player/sc-437505/wilson-isidor,,,,,
+230376,/football/player/sc-230376/jhon-arias,,,,,
+224024,/football/player/sc-224024/lucas-paqueta,,,,,
+647671,/football/player/sc-647671/mateus-mane,,,,,
+577114,/football/player/sc-577114/luis-guilherme,,,,,
+516939,/football/player/sc-516939/emmanuel-agbadou,,,,,
+490721,/football/player/sc-490721/hugo-bueno,,,,,
+433634,/football/player/sc-433634/tasos-douvikas,,,,,
+116796,/football/player/sc-116796/domenico-berardi,,,,,
+161932,/football/player/sc-161932/federico-bonazzoli,,,,,
+193206,/football/player/sc-193206/stefano-moreo,,,,,
+445043,/football/player/sc-445043/kristian-thorstvedt,,,,,
+463781,/football/player/sc-463781/luca-moro,,,,,
+446786,/football/player/sc-446786/adrian-benedyczak,,,,,
+209353,/football/player/sc-209353/patrick-cutrone,,,,,
+100731,/football/player/sc-100731/franco-vazquez,,,,,
+221800,/football/player/sc-221800/nicholas-pierini,,,,,
+429453,/football/player/sc-429453/matteo-tramoni,,,,,
+546127,/football/player/sc-546127/gabriele-piccinini,,,,,
+513353,/football/player/sc-513353/edoardo-iannoni,,,,,
+430724,/football/player/sc-430724/daniel-boloca,,,,,
+547658,/football/player/sc-547658/ismael-kone,,,,,
+704944,/football/player/sc-704944/fallou-cham,,,,,
+462026,/football/player/sc-462026/leo-ostigard,,,,,
+449431,/football/player/sc-449431/armand-lauriente,,,,,
+556111,/football/player/sc-556111/valentin-carboni,,,,,
+517997,/football/player/sc-517997/kristjan-asllani,,,,,
+554650,/football/player/sc-554650/iker-bravo,,,,,
+246875,/football/player/sc-246875/dennis-johnsen,,,,,
+423768,/football/player/sc-423768/mehdi-leris,,,,,
+558973,/football/player/sc-558973/cristian-volpato,,,,,
+224336,/football/player/sc-224336/idrissa-toure,,,,,
+578990,/football/player/sc-578990/luca-lipani,,,,,
+80931,/football/player/sc-80931/antonio-caracciolo,,,,,
+569702,/football/player/sc-569702/giovanni-bonfanti,,,,,
+660646,/football/player/sc-660646/riyad-idrissi,,,,,
+493699,/football/player/sc-493699/malthe-hojholt,,,,,
+495228,/football/player/sc-495228/tommaso-barbieri,,,,,
+90557,/football/player/sc-90557/federico-ceccherini,,,,,
+440297,/football/player/sc-440297/simone-canestrelli,,,,,
+487997,/football/player/sc-487997/josh-doig,,,,,
+631392,/football/player/sc-631392/mateus-lusuardi,,,,,
+477553,/football/player/sc-477553/mathias-lovik,,,,,
+546853,/football/player/sc-546853/samuele-angori,,,,,
+103063,/football/player/sc-103063/matteo-bianchetti,,,,,
+454646,/football/player/sc-454646/michele-collocolo,,,,,
+155895,/football/player/sc-155895/arturo-calabresi,,,,,
+659946,/football/player/sc-659946/francesco-folino,,,,,
+519809,/football/player/sc-519809/rui-modesto,,,,,
+171390,/football/player/sc-171390/filippo-romagna,,,,,
+243783,/football/player/sc-243783/marius-marin,,,,,
+477386,/football/player/sc-477386/armel-bella-kotchap,,,,,
+469247,/football/player/sc-469247/samuel-iling-junior,"October 04, 2003",22.0,Pisa,England,Attacker
+618927,/football/player/sc-618927/joseph-liteta,,,,,
+664900,/football/player/sc-664900/owen-kouassi,,,,,
+647151,/football/player/sc-647151/matteo-palma,,,,,
+155651,/football/player/sc-155651/adam-masina,,,,,
+218362,/football/player/sc-218362/adrian-semper,,,,,
 439742,/football/player/sc-439742/ricardo-pepi,,,,,
 209914,/football/player/sc-209914/kasper-dolberg,,,,,
 171356,/football/player/sc-171356/aurelio-buta,,,,,
@@ -2169,18 +2205,14 @@ player_id,player_href,dob,age,current_club,affiliation,position
 173904,/football/player/sc-173904/davinson-sanchez,,,,,
 235905,/football/player/sc-235905/dennis-man,,,,,
 592883,/football/player/sc-592883/quentin-ndjantou,,,,,
-536916,/football/player/sc-536916/facundo-buonanotte,23 décembre 2004,21.0,Leeds,Argentina,Midfielder
 631986,/football/player/sc-631986/alejandro-rego,,,,,
 151086,/football/player/sc-151086/mario-lemina,,,,,
 200600,/football/player/sc-200600/daniel-podence,,,,,
 532091,/football/player/sc-532091/zeno-debast,,,,,
-491287,/football/player/sc-491287/enzo-barrenechea,22 mai 2001,24.0,Benfica,Argentina,Midfielder
 465911,/football/player/sc-465911/heorhii-sudakov,,,,,
 546410,/football/player/sc-546410/paul-wanner,,,,,
 446467,/football/player/sc-446467/david-doudera,,,,,
 182156,/football/player/sc-182156/leroy-sane,,,,,
-57410,/football/player/sc-57410/nicolas-otamendi,05 octobre 2001,24.0,Reading,Germany,Midfielder
-463726,/football/player/sc-463726/amar-dedic,18 août 2002,23.0,Benfica,Bosnia and Herzegovina,Defender
 166050,/football/player/sc-166050/abdulkerim-bardakci,,,,,
 509111,/football/player/sc-509111/goncalo-inacio,,,,,
 499441,/football/player/sc-499441/yoram-zague,,,,,
@@ -2188,7 +2220,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 209293,/football/player/sc-209293/daiki-hashioka,,,,,
 231653,/football/player/sc-231653/joey-veerman,,,,,
 220549,/football/player/sc-220549/joni-montiel,,,,,
-128295,/football/player/sc-128295/christian-norgaard,10 mars 1994,32.0,Arsenal,Denmark,Midfielder
 478960,/football/player/sc-478960/wilfried-singo,,,,,
 473215,/football/player/sc-473215/maximiliano-araujo,,,,,
 508878,/football/player/sc-508878/lorenzo-bernasconi,,,,,
@@ -2202,7 +2233,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 441574,/football/player/sc-441574/ismail-jakobs,,,,,
 230152,/football/player/sc-230152/jerdy-schouten,,,,,
 441279,/football/player/sc-441279/anass-salah-eddine,,,,,
-206255,/football/player/sc-206255/ferland-mendy,08 juin 1995,30.0,Real Madrid,France,Defender
 483067,/football/player/sc-483067/antonio-silva,,,,,
 477625,/football/player/sc-477625/lucas-rosa,,,,,
 220246,/football/player/sc-220246/pantelis-hatzidiakos,,,,,
@@ -2212,11 +2242,8 @@ player_id,player_href,dob,age,current_club,affiliation,position
 179100,/football/player/sc-179100/jindrich-stanek,,,,,
 465900,/football/player/sc-465900/anatolii-trubin,,,,,
 124097,/football/player/sc-124097/rui-silva,,,,,
-224965,/football/player/sc-224965/andrii-lunin,11 février 1999,27.0,Real Madrid,Ukraine,Goalkeeper
 446189,/football/player/sc-446189/matej-kovar,,,,,
 432987,/football/player/sc-432987/vitezslav-jaros,,,,,
-55083,/football/player/sc-55083/marco-sportiello,10 mai 1992,33.0,Atalanta,Italy,Goalkeeper
-185126,/football/player/sc-185126/cyle-larin,17 avril 1995,30.0,Southampton,Canada,Attacker
 449875,/football/player/sc-449875/yorbe-vertessen,,,,,
 173182,/football/player/sc-173182/chris-bedia,,,,,
 240804,/football/player/sc-240804/barnabas-varga,,,,,
@@ -2226,14 +2253,12 @@ player_id,player_href,dob,age,current_club,affiliation,position
 68312,/football/player/sc-68312/xherdan-shaqiri,,,,,
 229237,/football/player/sc-229237/christian-fassnacht,,,,,
 41464,/football/player/sc-41464/marko-arnautovic,,,,,
-173515,/football/player/sc-173515/kelechi-iheanacho,03 octobre 1996,29.0,Celtic,Nigeria,Attacker
 438398,/football/player/sc-438398/terem-moffi,,,,,
 452114,/football/player/sc-452114/moritz-broschinski,,,,,
 436454,/football/player/sc-436454/junior-adamu,,,,,
 556187,/football/player/sc-556187/leo-sauer,,,,,
 228760,/football/player/sc-228760/derek-cornelius,,,,,
 493167,/football/player/sc-493167/arne-engels,,,,,
-103123,/football/player/sc-103123/sebastien-haller,22 juin 1994,31.0,Utrecht,Côte d'Ivoire,Attacker
 164654,/football/player/sc-164654/andrija-zivkovic,,,,,
 204631,/football/player/sc-204631/martin-erlic,,,,,
 477682,/football/player/sc-477682/casper-tengstedt,,,,,
@@ -2259,8 +2284,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 168763,/football/player/sc-168763/cameron-carter-vickers,,,,,
 204651,/football/player/sc-204651/dani-de-wit,,,,,
 207553,/football/player/sc-207553/kwadwo-duah,,,,,
-593271,/football/player/sc-593271/kerim-sam-alajbegovic,21 septembre 2007,18.0,Salzburg,Bosnia and Herzegovina,Attacker
-484403,/football/player/sc-484403/armin-gigovic,06 avril 2002,23.0,Young Boys,Bosnia and Herzegovina,Midfielder
 627221,/football/player/sc-627221/sidiki-cherif,,,,,
 218378,/football/player/sc-218378/luka-ivanusec,,,,,
 511783,/football/player/sc-511783/anass-zaroury,,,,,
@@ -2290,7 +2313,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 171771,/football/player/sc-171771/jan-bednarek,,,,,
 227533,/football/player/sc-227533/arber-hoxha,,,,,
 622116,/football/player/sc-622116/jeyland-mitchell,,,,,
-163526,/football/player/sc-163526/edimilson-fernandes,15 avril 1996,29.0,Young Boys,Switzerland,Midfielder
 234809,/football/player/sc-234809/adam-gnezda-cerin,,,,,
 200402,/football/player/sc-200402/nelson-semedo,,,,,
 192895,/football/player/sc-192895/kieran-tierney,,,,,
@@ -2305,11 +2327,9 @@ player_id,player_href,dob,age,current_club,affiliation,position
 165299,/football/player/sc-165299/stefan-lainer,,,,,
 508347,/football/player/sc-508347/gabriel-vidovic,,,,,
 153265,/football/player/sc-153265/milos-veljkovic,,,,,
-587477,/football/player/sc-587477/tim-oermann,06 octobre 2003,22.0,Leverkusen,Germany,Defender
 149933,/football/player/sc-149933/callum-o-dowda,,,,,
 174254,/football/player/sc-174254/pedro-chirivella,,,,,
 215372,/football/player/sc-215372/anthony-ralston,,,,,
-112065,/football/player/sc-112065/milan-skriniar,11 février 1995,31.0,Fenerbahçe,Slovakia,Defender
 499717,/football/player/sc-499717/jayden-meghoma,,,,,
 168281,/football/player/sc-168281/scott-mckenna,,,,,
 213999,/football/player/sc-213999/edson-alvarez,,,,,
@@ -2319,7 +2339,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 586843,/football/player/sc-586843/alberto-costa,,,,,
 51090,/football/player/sc-51090/thiago-silva,,,,,
 463163,/football/player/sc-463163/javi-hernandez,,,,,
-617127,/football/player/sc-617127/gabriel-moscardo,28 septembre 2005,20.0,Braga,Brazil,Midfielder
 242166,/football/player/sc-242166/matteo-guendouzi,,,,,
 116594,/football/player/sc-116594/n-golo-kante,,,,,
 436806,/football/player/sc-436806/stephen-eustaquio,,,,,
@@ -2328,25 +2347,19 @@ player_id,player_href,dob,age,current_club,affiliation,position
 111782,/football/player/sc-111782/robin-olsen,,,,,
 121160,/football/player/sc-121160/ederson,,,,,
 204739,/football/player/sc-204739/alban-lafont,,,,,
-198534,/football/player/sc-198534/dominik-livakovic,09 janvier 1995,31.0,Dinamo Zagreb,Croatia,Goalkeeper
 216050,/football/player/sc-216050/diogo-costa,,,,,
-234580,/football/player/sc-234580/ivan-villar,09 juillet 1997,28.0,Celta,Spain,Goalkeeper
 17745,/football/player/sc-17745/kasper-schmeichel,,,,,
 185533,/football/player/sc-185533/luka-jovic,,,,,
-582634,/football/player/sc-582634/mileta-rajovic,17 juillet 1999,26.0,Legia,Denmark,Attacker
 162310,/football/player/sc-162310/mijat-gacinovic,,,,,
 210339,/football/player/sc-210339/ryan-mmaee,,,,,
 421350,/football/player/sc-421350/theo-bair,,,,,
 42544,/football/player/sc-42544/edin-dzeko,,,,,
-590760,/football/player/sc-590760/daniel-adu-adjei,21 juin 2005,20.0,Rijeka,England,Attacker
 205582,/football/player/sc-205582/kevin-nisbet,,,,,
 173131,/football/player/sc-173131/lukas-haraslin,,,,,
 480364,/football/player/sc-480364/anthony-musaba,,,,,
-606921,/football/player/sc-606921/romain-esse,13 mai 2005,20.0,Coventry,England,Midfielder
 500922,/football/player/sc-500922/kacper-urbanski,,,,,
 421891,/football/player/sc-421891/eduardo-guerrero,,,,,
 56377,/football/player/sc-56377/andrii-yarmolenko,,,,,
-218364,/football/player/sc-218364/borna-sosa,21 janvier 1998,28.0,Crystal Palace,Croatia,Defender
 163632,/football/player/sc-163632/razvan-marin,,,,,
 621935,/football/player/sc-621935/omar-janneh,,,,,
 546374,/football/player/sc-546374/felix-lemarechal,,,,,
@@ -2354,46 +2367,38 @@ player_id,player_href,dob,age,current_club,affiliation,position
 507365,/football/player/sc-507365/anzor-mekvabishvili,,,,,
 461025,/football/player/sc-461025/nathan-butler-oyedeji,,,,,
 205110,/football/player/sc-205110/jesper-karlsson,,,,,
-538055,/football/player/sc-538055/samuele-vignato,24 février 2004,22.0,Rijeka,Italy,Attacker
 57304,/football/player/sc-57304/guram-kashia,,,,,
 523672,/football/player/sc-523672/sivert-mannsverk,,,,,
-519895,/football/player/sc-519895/oliver-sonne,,,,,
 107798,/football/player/sc-107798/andraz-sporar,,,,,
-228439,/football/player/sc-228439/veljko-birmancevic,05 mars 1998,28.0,Getafe,Serbia,Midfielder
 240529,/football/player/sc-240529/jan-kuchta,,,,,
+519895,/football/player/sc-519895/oliver-sonne,,,,,
 193439,/football/player/sc-193439/orbelin-pineda,,,,,
 208371,/football/player/sc-208371/mykola-shaparenko,,,,,
 626249,/football/player/sc-626249/rabby-nzingoula,,,,,
 192767,/football/player/sc-192767/taras-romanczuk,,,,,
-465676,/football/player/sc-465676/adil-aouchiche,15 juillet 2002,23.0,Schalke 04,France,Midfielder
+627675,/football/player/sc-627675/kacper-potulski,,,,,
 465700,/football/player/sc-465700/tanguy-coulibaly,,,,,
 512111,/football/player/sc-512111/bogdan-racovitan,,,,,
 223239,/football/player/sc-223239/alexandru-cicaldau,,,,,
 92371,/football/player/sc-92371/pablo-mari,,,,,
 248046,/football/player/sc-248046/cesar-blackman,,,,,
-627675,/football/player/sc-627675/kacper-potulski,,,,,
 229384,/football/player/sc-229384/andy-irving,,,,,
 477586,/football/player/sc-477586/volodymyr-brazhko,,,,,
 538786,/football/player/sc-538786/amir-richardson,,,,,
 423667,/football/player/sc-423667/angelo-preciado,,,,,
 153814,/football/player/sc-153814/petar-stojanovic,,,,,
-40721,/football/player/sc-40721/oscar-trejo,26 avril 1988,37.0,Rayo,Argentina,Midfielder
 515392,/football/player/sc-515392/ben-bobzien,,,,,
 192152,/football/player/sc-192152/nicusor-bancu,,,,,
 431960,/football/player/sc-431960/bendeguz-bolla,,,,,
 457317,/football/player/sc-457317/zan-karnicnik,,,,,
-654936,/football/player/sc-654936/eddy-kouadio,07 mai 2006,19.0,Fiorentina,Italy,Defender
 116546,/football/player/sc-116546/jure-balkovec,,,,,
 213365,/football/player/sc-213365/vasile-mogos,,,,,
-91047,/football/player/sc-91047/stuart-armstrong,30 mars 1992,33.0,Aberdeen,Scotland,Midfielder
 243357,/football/player/sc-243357/oleksandr-tymchyk,,,,,
 224325,/football/player/sc-224325/robert-gumny,,,,,
 442821,/football/player/sc-442821/antoine-makoumbou,,,,,
-519321,/football/player/sc-519321/alfie-dorrington,20 avril 2005,20.0,Salford,England,Defender
 216096,/football/player/sc-216096/mykola-matviienko,,,,,
 437869,/football/player/sc-437869/yukhym-konoplia,,,,,
 88169,/football/player/sc-88169/pavel-kaderabek,,,,,
-116627,/football/player/sc-116627/florent-mollet,19 novembre 1991,34.0,Lausanne,France,Midfielder
 437501,/football/player/sc-437501/andy-pelmard,,,,,
 514307,/football/player/sc-514307/jack-henry-francis,,,,,
 487352,/football/player/sc-487352/saad-agouzoul,,,,,
