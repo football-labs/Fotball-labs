@@ -1969,6 +1969,10 @@ player_id,player_href,dob,age,current_club,affiliation,position
 91047,/football/player/sc-91047/stuart-armstrong,30 mars 1992,33.0,Aberdeen,Scotland,Midfielder
 519321,/football/player/sc-519321/alfie-dorrington,20 avril 2005,20.0,Salford,England,Defender
 116627,/football/player/sc-116627/florent-mollet,19 novembre 1991,34.0,Lausanne,France,Midfielder
+520295,/football/player/sc-520295/david-datro-fofana,"December 22, 2002",23.0,Strasbourg,Côte d'Ivoire,Attacker
+632582,/football/player/sc-632582/seny-koumbassa,"June 20, 2007",18.0,Toulouse,France,Defender
+658062,/football/player/sc-658062/marius-louar,"March 11, 2007",19.0,Angers,France,Defender
+469247,/football/player/sc-469247/samuel-iling-junior,"October 04, 2003",22.0,Pisa,England,Attacker
 473389,/football/player/sc-473389/jim-allevinah,,,,,
 634376,/football/player/sc-634376/rayan-fofana,,,,,
 669409,/football/player/sc-669409/soriba-diaoune,,,,,
@@ -1980,7 +1984,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 695695,/football/player/sc-695695/prosper-peter,,,,,
 608176,/football/player/sc-608176/george-ilenikhena,,,,,
 626970,/football/player/sc-626970/mohamed-bamba,,,,,
-520295,/football/player/sc-520295/david-datro-fofana,"December 22, 2002",23.0,Strasbourg,Côte d'Ivoire,Attacker
 232182,/football/player/sc-232182/gauthier-hein,,,,,
 219727,/football/player/sc-219727/joel-asoro,,,,,
 424920,/football/player/sc-424920/jean-philippe-krasso,,,,,
@@ -2031,9 +2034,7 @@ player_id,player_href,dob,age,current_club,affiliation,position
 560247,/football/player/sc-560247/nhoa-sangui,,,,,
 491844,/football/player/sc-491844/kwon-hyeok-kyu,,,,,
 695285,/football/player/sc-695285/telli-siwe,,,,,
-632582,/football/player/sc-632582/seny-koumbassa,"June 20, 2007",18.0,Toulouse,France,Defender
 476391,/football/player/sc-476391/nathaniel-adjei,,,,,
-658062,/football/player/sc-658062/marius-louar,"March 11, 2007",19.0,Angers,France,Defender
 607132,/football/player/sc-607132/pape-sy,,,,,
 100952,/football/player/sc-100952/yvon-mvogo,,,,,
 502436,/football/player/sc-502436/obed-nkambadio,,,,,
@@ -2132,13 +2133,13 @@ player_id,player_href,dob,age,current_club,affiliation,position
 433634,/football/player/sc-433634/tasos-douvikas,,,,,
 116796,/football/player/sc-116796/domenico-berardi,,,,,
 161932,/football/player/sc-161932/federico-bonazzoli,,,,,
-193206,/football/player/sc-193206/stefano-moreo,,,,,
-445043,/football/player/sc-445043/kristian-thorstvedt,,,,,
 463781,/football/player/sc-463781/luca-moro,,,,,
 446786,/football/player/sc-446786/adrian-benedyczak,,,,,
 209353,/football/player/sc-209353/patrick-cutrone,,,,,
+193206,/football/player/sc-193206/stefano-moreo,,,,,
 100731,/football/player/sc-100731/franco-vazquez,,,,,
 221800,/football/player/sc-221800/nicholas-pierini,,,,,
+445043,/football/player/sc-445043/kristian-thorstvedt,,,,,
 429453,/football/player/sc-429453/matteo-tramoni,,,,,
 546127,/football/player/sc-546127/gabriele-piccinini,,,,,
 513353,/football/player/sc-513353/edoardo-iannoni,,,,,
@@ -2174,7 +2175,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 171390,/football/player/sc-171390/filippo-romagna,,,,,
 243783,/football/player/sc-243783/marius-marin,,,,,
 477386,/football/player/sc-477386/armel-bella-kotchap,,,,,
-469247,/football/player/sc-469247/samuel-iling-junior,"October 04, 2003",22.0,Pisa,England,Attacker
 618927,/football/player/sc-618927/joseph-liteta,,,,,
 664900,/football/player/sc-664900/owen-kouassi,,,,,
 647151,/football/player/sc-647151/matteo-palma,,,,,
