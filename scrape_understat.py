@@ -17,8 +17,8 @@ Team stats:   matches, wins, draws, losses, goals, goals_against, pts,
               deep, deep_allowed
 
 Output:
-    data/players/understat_players.csv
-    data/teams/understat_teams.csv
+    data/player/understat_players.csv
+    data/team/understat_teams.csv
 
 Usage:
     py scrape_understat.py
@@ -31,8 +31,8 @@ import pandas as pd
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-OUT_PLAYERS = os.path.join(os.path.dirname(__file__), 'data', 'players', 'understat_players.csv')
-OUT_TEAMS   = os.path.join(os.path.dirname(__file__), 'data', 'teams',   'understat_teams.csv')
+OUT_PLAYERS = os.path.join(os.path.dirname(__file__), 'data', 'player', 'understat_players.csv')
+OUT_TEAMS   = os.path.join(os.path.dirname(__file__), 'data', 'team',   'understat_teams.csv')
 os.makedirs(os.path.dirname(OUT_PLAYERS), exist_ok=True)
 os.makedirs(os.path.dirname(OUT_TEAMS),   exist_ok=True)
 
