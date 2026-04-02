@@ -163,6 +163,7 @@ def build_teams_df(teams_data, league_name, season):
         npxGA        = sum_f('npxGA')
         deep         = sum_f('deep')
         deep_allowed = sum_f('deep_allowed')
+        xpts         = sum_f('xpts')
 
         ppda_att  = sum(_float(m.get('ppda', {}).get('att', 0)) or 0         for m in history if isinstance(m.get('ppda'), dict))
         ppda_def  = sum(_float(m.get('ppda', {}).get('def', 0)) or 0         for m in history if isinstance(m.get('ppda'), dict))
@@ -193,6 +194,7 @@ def build_teams_df(teams_data, league_name, season):
             'oppda':         oppda,
             'deep':          deep,
             'deep_allowed':  deep_allowed,
+            'xpts':          xpts,
         })
 
     df = pd.DataFrame(rows)
