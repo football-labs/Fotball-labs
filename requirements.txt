@@ -1,0 +1,27 @@
+# Web scraping
+beautifulsoup4
+lxml
+html5lib
+selenium>=4.21
+cloudscraper
+requests
+unidecode
+
+# Data
+pandas
+numpy
+scipy
+scikit-learn
+rapidfuzz
+
+# Viz
+matplotlib
+seaborn
+plotly
+mplsoccer
+
+# App
+streamlit-option-menu
+streamlit>=1.50.0
+altair>=5.0.0
+pandas>=2.0.0
