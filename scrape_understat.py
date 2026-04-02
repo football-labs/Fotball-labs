@@ -1,8 +1,9 @@
 """
 scrape_understat.py — Understat players + teams stats scraper.
 
-Data is embedded in the HTML source inside <script> tags as JSON.parse()
-calls — no browser needed, uses plain requests + regex.
+Data is fetched from the internal JSON API endpoint:
+    GET /getLeagueData/{league}/{season}
+Returns { teams: {...}, players: [...], dates: [...] }
 
 Leagues: EPL, La Liga, Bundesliga, Serie A, Ligue 1, RFPL
 
@@ -24,8 +25,7 @@ Usage:
     py scrape_understat.py --season 2023
 """
 
-import os, sys, re, json, time, argparse
-from urllib.parse import unquote
+import os, sys, time, argparse
 import requests
 import pandas as pd
 
@@ -45,15 +45,16 @@ LEAGUES = [
     {'slug': 'RFPL',       'name': 'Russian Premier League'},
 ]
 
-HEADERS = {
+SESSION = requests.Session()
+SESSION.headers.update({
     'User-Agent': (
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
         'AppleWebKit/537.36 (KHTML, like Gecko) '
         'Chrome/124.0.0.0 Safari/537.36'
     ),
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-}
+    'X-Requested-With': 'XMLHttpRequest',
+    'Accept-Encoding': 'gzip, deflate',
+})
 
 
 # ── Type helpers ───────────────────────────────────────────────────────────────
@@ -67,29 +68,17 @@ def _float(v):
     except: return None
 
 
-# ── HTML extraction ────────────────────────────────────────────────────────────
-def extract_js_var(html, var_name):
-    """
-    Extract a JS variable embedded in Understat HTML like:
-        var playersData = JSON.parse('...(url-encoded JSON)...')
-    Returns parsed Python object, or None if not found.
-    """
-    pattern = rf"var {re.escape(var_name)}\s*=\s*JSON\.parse\('(.+?)'\)"
-    match = re.search(pattern, html, re.DOTALL)
-    if not match:
-        return None
-    raw = unquote(match.group(1))
-    return json.loads(raw)
-
-
-def fetch_html(url, retries=3):
+# ── Fetch ──────────────────────────────────────────────────────────────────────
+def fetch_league(slug, season, retries=3):
+    url = f"https://understat.com/getLeagueData/{slug}/{season}"
+    headers = {'Referer': f"https://understat.com/league/{slug}/{season}"}
     for attempt in range(retries):
         try:
-            r = requests.get(url, headers=HEADERS, timeout=30)
+            r = SESSION.get(url, headers=headers, timeout=30)
             r.raise_for_status()
-            return r.text
+            return r.json()
         except Exception as e:
-            print(f"  Attempt {attempt+1} failed: {e}")
+            print(f"  Attempt {attempt + 1} failed: {e}")
             time.sleep(3)
     return None
 
@@ -149,10 +138,6 @@ def build_players_df(players, league_name, season):
 
 # ── Teams ──────────────────────────────────────────────────────────────────────
 def build_teams_df(teams_data, league_name, season):
-    """
-    teams_data: dict keyed by team name, each value has 'title', 'id',
-    and 'history' (list of match dicts). Aggregated to season totals.
-    """
     rows = []
     for team_key, team in teams_data.items():
         history = team.get('history', [])
@@ -179,9 +164,8 @@ def build_teams_df(teams_data, league_name, season):
         deep         = sum_f('deep')
         deep_allowed = sum_f('deep_allowed')
 
-        # ppda: aggregate att/def counts across matches then divide
-        ppda_att  = sum(_float(m.get('ppda', {}).get('att', 0)) or 0     for m in history if isinstance(m.get('ppda'), dict))
-        ppda_def  = sum(_float(m.get('ppda', {}).get('def', 0)) or 0     for m in history if isinstance(m.get('ppda'), dict))
+        ppda_att  = sum(_float(m.get('ppda', {}).get('att', 0)) or 0         for m in history if isinstance(m.get('ppda'), dict))
+        ppda_def  = sum(_float(m.get('ppda', {}).get('def', 0)) or 0         for m in history if isinstance(m.get('ppda'), dict))
         oppda_att = sum(_float(m.get('ppda_allowed', {}).get('att', 0)) or 0 for m in history if isinstance(m.get('ppda_allowed'), dict))
         oppda_def = sum(_float(m.get('ppda_allowed', {}).get('def', 0)) or 0 for m in history if isinstance(m.get('ppda_allowed'), dict))
 
@@ -228,31 +212,27 @@ def main():
     all_teams   = []
 
     for league in LEAGUES:
-        url = f"https://understat.com/league/{league['slug']}/{args.season}"
-        print(f"\n[{league['name']}] {url}")
+        print(f"\n[{league['name']}] season {args.season}")
+        data = fetch_league(league['slug'], args.season)
 
-        html = fetch_html(url)
-        if not html:
-            print("  Failed to fetch page, skipping")
+        if not data:
+            print("  Failed to fetch, skipping")
             continue
 
-        # Players
-        players = extract_js_var(html, 'playersData')
+        players = data.get('players', [])
+        teams   = data.get('teams', {})
+
         if players:
             print(f"  {len(players)} players")
-            df_p = build_players_df(players, league['name'], args.season)
-            all_players.append(df_p)
+            all_players.append(build_players_df(players, league['name'], args.season))
         else:
-            print("  playersData not found in HTML")
+            print("  No players in response")
 
-        # Teams
-        teams = extract_js_var(html, 'teamsData')
         if teams:
             print(f"  {len(teams)} teams")
-            df_t = build_teams_df(teams, league['name'], args.season)
-            all_teams.append(df_t)
+            all_teams.append(build_teams_df(teams, league['name'], args.season))
         else:
-            print("  teamsData not found in HTML")
+            print("  No teams in response")
 
         # Save incrementally
         if all_players:
@@ -262,7 +242,7 @@ def main():
             pd.concat(all_teams, ignore_index=True).to_csv(
                 OUT_TEAMS, index=False, encoding='utf-8-sig')
 
-        time.sleep(2)  # polite delay between leagues
+        time.sleep(2)
 
     print("\n=== DONE ===")
     if all_players:
