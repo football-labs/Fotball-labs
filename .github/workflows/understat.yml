@@ -27,10 +27,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install seleniumbase pandas
-
-      - name: Install ChromeDriver
-        run: seleniumbase install chromedriver
+        run: pip install requests pandas
 
       - name: Run scraper
         run: |
