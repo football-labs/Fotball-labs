@@ -3,7 +3,7 @@ name: Run Players Stats Opta
 on:
   schedule:
     # Every Wednesday at 07:00 UTC
-    - cron: '0 7 * * 3'
+    - cron: '0 11 * * 3'
   workflow_dispatch:
 
 jobs:
