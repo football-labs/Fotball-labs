@@ -1973,6 +1973,15 @@ player_id,player_href,dob,age,current_club,affiliation,position
 632582,/football/player/sc-632582/seny-koumbassa,"June 20, 2007",18.0,Toulouse,France,Defender
 658062,/football/player/sc-658062/marius-louar,"March 11, 2007",19.0,Angers,France,Defender
 469247,/football/player/sc-469247/samuel-iling-junior,"October 04, 2003",22.0,Pisa,England,Attacker
+218244,/football/player/sc-218244/amadou-haidara,"January 31, 1998",28.0,Lens,Mali,Midfielder
+203368,/football/player/sc-203368/frederic-guilbert,"December 24, 1994",31.0,Nantes,France,Defender
+449300,/football/player/sc-449300/randy-nteka,"December 06, 1997",28.0,Rayo,Angola,Midfielder
+227165,/football/player/sc-227165/abel-ruiz,"January 28, 2000",26.0,Girona,Spain,Attacker
+550781,/football/player/sc-550781/manu-bueno,"July 27, 2004",21.0,Sevilla,Spain,Midfielder
+60689,/football/player/sc-60689/chris-wood,"December 07, 1991",34.0,Nottm Forest,New Zealand,Attacker
+502251,/football/player/sc-502251/tomas-suslov,"June 07, 2002",23.0,Verona,Slovakia,Midfielder
+634416,/football/player/sc-634416/darryl-bakola,"November 30, 2007",18.0,Sassuolo,France,Midfielder
+40002,/football/player/sc-40002/matteo-darmian,"December 02, 1989",36.0,Inter,Italy,Defender
 473389,/football/player/sc-473389/jim-allevinah,,,,,
 634376,/football/player/sc-634376/rayan-fofana,,,,,
 669409,/football/player/sc-669409/soriba-diaoune,,,,,
@@ -2003,7 +2012,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 681609,/football/player/sc-681609/bernard-nguene,,,,,
 647560,/football/player/sc-647560/morgan-bokele,,,,,
 725063,/football/player/sc-725063/everton-pereira-da-silva,,,,,
-218244,/football/player/sc-218244/amadou-haidara,"January 31, 1998",28.0,Lens,Mali,Midfielder
 624926,/football/player/sc-624926/adama-camara,,,,,
 547430,/football/player/sc-547430/joel-mvuka,,,,,
 647907,/football/player/sc-647907/bahmed-deuff,,,,,
@@ -2035,7 +2043,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 691225,/football/player/sc-691225/stephan-zagadou,,,,,
 491844,/football/player/sc-491844/kwon-hyeok-kyu,,,,,
 695285,/football/player/sc-695285/telli-siwe,,,,,
-203368,/football/player/sc-203368/frederic-guilbert,"December 24, 1994",31.0,Nantes,France,Defender
 476391,/football/player/sc-476391/nathaniel-adjei,,,,,
 607132,/football/player/sc-607132/pape-sy,,,,,
 100952,/football/player/sc-100952/yvon-mvogo,,,,,
@@ -2085,9 +2092,7 @@ player_id,player_href,dob,age,current_club,affiliation,position
 521508,/football/player/sc-521508/ivan-romero,,,,,
 561098,/football/player/sc-561098/roony-bardghji,,,,,
 57134,/football/player/sc-57134/salomon-rondon,,,,,
-449300,/football/player/sc-449300/randy-nteka,"December 06, 1997",28.0,Rayo,Angola,Midfielder
 439878,/football/player/sc-439878/roger-brugue,,,,,
-227165,/football/player/sc-227165/abel-ruiz,"January 28, 2000",26.0,Girona,Spain,Attacker
 494921,/football/player/sc-494921/carlos-alvarez,,,,,
 646190,/football/player/sc-646190/selton-sanchez,,,,,
 445998,/football/player/sc-445998/pablo-martinez,,,,,
@@ -2114,7 +2119,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 242310,/football/player/sc-242310/oriol-rey,,,,,
 218298,/football/player/sc-218298/santiago-colombatto,,,,,
 438339,/football/player/sc-438339/kwasi-sibo,,,,,
-550781,/football/player/sc-550781/manu-bueno,"July 27, 2004",21.0,Sevilla,Spain,Midfielder
 442299,/football/player/sc-442299/david-affengruber,,,,,
 235421,/football/player/sc-235421/oier-luengo,,,,,
 664920,/football/player/sc-664920/ismael-bekhoucha,,,,,
@@ -2127,7 +2131,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 485098,/football/player/sc-485098/moussa-diarra,,,,,
 176278,/football/player/sc-176278/aaron-escandell,,,,,
 98448,/football/player/sc-98448/matias-dituro,,,,,
-60689,/football/player/sc-60689/chris-wood,"December 07, 1991",34.0,Nottm Forest,New Zealand,Attacker
 437505,/football/player/sc-437505/wilson-isidor,,,,,
 230376,/football/player/sc-230376/jhon-arias,,,,,
 224024,/football/player/sc-224024/lucas-paqueta,,,,,
@@ -2156,7 +2159,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 556111,/football/player/sc-556111/valentin-carboni,,,,,
 517997,/football/player/sc-517997/kristjan-asllani,,,,,
 554650,/football/player/sc-554650/iker-bravo,,,,,
-502251,/football/player/sc-502251/tomas-suslov,"June 07, 2002",23.0,Verona,Slovakia,Midfielder
 246875,/football/player/sc-246875/dennis-johnsen,,,,,
 224336,/football/player/sc-224336/idrissa-toure,,,,,
 423768,/football/player/sc-423768/mehdi-leris,,,,,
@@ -2168,7 +2170,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 493699,/football/player/sc-493699/malthe-hojholt,,,,,
 495228,/football/player/sc-495228/tommaso-barbieri,,,,,
 90557,/football/player/sc-90557/federico-ceccherini,,,,,
-634416,/football/player/sc-634416/darryl-bakola,"November 30, 2007",18.0,Sassuolo,France,Midfielder
 440297,/football/player/sc-440297/simone-canestrelli,,,,,
 487997,/football/player/sc-487997/josh-doig,,,,,
 631392,/football/player/sc-631392/mateus-lusuardi,,,,,
@@ -2182,7 +2183,6 @@ player_id,player_href,dob,age,current_club,affiliation,position
 171390,/football/player/sc-171390/filippo-romagna,,,,,
 243783,/football/player/sc-243783/marius-marin,,,,,
 477386,/football/player/sc-477386/armel-bella-kotchap,,,,,
-40002,/football/player/sc-40002/matteo-darmian,"December 02, 1989",36.0,Inter,Italy,Defender
 618927,/football/player/sc-618927/joseph-liteta,,,,,
 664900,/football/player/sc-664900/owen-kouassi,,,,,
 647151,/football/player/sc-647151/matteo-palma,,,,,
