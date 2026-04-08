@@ -672,7 +672,6 @@ def extract_passing(driver, from_label: str = "Attacking"):
         pass
     
     # On met les bons paramètres / We set the good parameters / Establecemos los parámetros correctos
-    enable_per_match(driver)
     set_players_filter_min(driver)
     # On scrape les sections de notre choix / We scrape the sections of our choice / Escrapeamos las secciones de nuestro choice
     sections = ["OVERALL","CHANCE CREATION"]
@@ -720,7 +719,6 @@ def extract_defending(driver, from_label: str = "Passing"):
         pass
 
     # On met les bons paramètres / We set the good parameters / Establecemos los parámetros correctos
-    enable_per_match(driver)
     set_players_filter_min(driver)
     # On scrape les sections de notre choix / We scrape the sections of our choice / Escrapeamos las secciones de nuestro choice
     sections = ["OVERALL","DISCIPLINE"]
@@ -768,7 +766,6 @@ def extract_table_for_category(driver, category_label: str = "Carrying", from_la
         pass
     
     # On met les bons paramètres / We set the good parameters / Establecemos los parámetros correctos
-    enable_per_match(driver)
     set_players_filter_min(driver)
 
     # Scraping du tableau / Scraping the table / Escrapeando la tabla
@@ -1179,7 +1176,8 @@ def run_scrape_the_analyst(headed: bool = True, all_seasons: bool = True):
                     # On fait la liste des colonnes à enlever, et on les supprime / We make the list of the columns to remove, and we remove them 
                     # Hacemos la lista de las columnas a eliminar, y las eliminamos
                     drop_cols = ["attacking_non_penalty__apps","attacking_non_penalty__mins","passing_overall__apps","passing_overall__mins",
-                    "defending_overall__apps","defending_overall__mins", "carrying__apps","carrying__mins", "goalkeeping__apps","goalkeeping__mins"]
+                    "defending_overall__apps","defending_overall__mins", "carrying__apps","carrying__mins", "goalkeeping__apps","goalkeeping__mins",
+                    "passing_chance_creation__apps", "passing_chance_creation__mins", "defending_discipline__apps", "defending_discipline__mins"]
                     
                     df_agg = df_agg.drop(columns=drop_cols, errors="ignore")
                     out_path = PLAYER_DIR / "players_stats.csv" # Chemin du fichier de sortie / Path of the output file / Ruta del archivo de salida
